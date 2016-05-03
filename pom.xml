@@ -9,7 +9,6 @@
 	<properties>
 		<java.target.version>1.8</java.target.version>
 		<java.source.version>1.8</java.source.version>
-
 		<spring.core>4.2.5.RELEASE</spring.core>
 		<spring.data>1.10.1.RELEASE</spring.data>
 		<spring.security>4.0.4.RELEASE</spring.security>
@@ -17,11 +16,8 @@
 		<hibernate.annotation>1.0.0.Draft-16</hibernate.annotation>
 		<servlet.api>3.1.0</servlet.api>
 		<jsp.api>2.0</jsp.api>
-
 		<jstl.version>1.2</jstl.version>
-
 		<mysql>6.0.2</mysql>
-
 	</properties>
 
 	<dependencies>
@@ -68,6 +64,12 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.core}</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>${hibernate.core}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>postgresql</groupId>
