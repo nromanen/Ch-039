@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -14,6 +15,10 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 @Configuration
 @EnableWebMvc
@@ -27,14 +32,28 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     }
 
     @Bean
-    public InternalResourceViewResolver viewResolver(){
-        return new InternalResourceViewResolver(){{
-            setPrefix("/WEB-INF/pages/");
-            setSuffix(".jsp");
-            setViewClass(JstlView.class);
+    public SpringResourceTemplateResolver templateResolver(){
+        return new SpringResourceTemplateResolver(){{
+        	setTemplateMode("HTML5");
+        	setPrefix("/WEB-INF/pages/");
+        	setSuffix(".html");
         }};
     }
-
+    
+    @Bean
+    public SpringTemplateEngine templateEngine(){
+    	return new SpringTemplateEngine(){{
+    		setTemplateResolver(templateResolver());
+    	}};
+    }
+    
+    @Bean
+    public ViewResolver themeleafViewResolver(){
+    	return new ThymeleafViewResolver(){{
+    		setTemplateEngine(templateEngine());
+    		setCharacterEncoding("UTF-8");
+    	}};
+    }
     
     @Bean
     public LocaleResolver LocaleResolver(){

@@ -70,5 +70,4 @@ public class SpringRootConfig {
 		return props;
 	}
 
-
 }
