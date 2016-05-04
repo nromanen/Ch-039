@@ -14,4 +14,6 @@ public class PatientCard {
 	   private User patient;
 	   
 	   
+	   
+	   
 }

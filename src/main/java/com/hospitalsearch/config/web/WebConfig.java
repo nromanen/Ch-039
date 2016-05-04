@@ -25,12 +25,12 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
-        return new SpringResourceTemplateResolver(){{
+        return new SpringResourceTemplateResolver() {{
         	setTemplateMode("HTML5");
         	setPrefix("/WEB-INF/pages/");
         	setSuffix(".html");
@@ -57,7 +57,6 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     	CookieLocaleResolver resolver = new CookieLocaleResolver();
     	resolver.setDefaultLocale(new Locale("en"));
     	resolver.setCookieMaxAge(100000);
-    	
     	return resolver;
     }
     

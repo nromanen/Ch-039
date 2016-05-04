@@ -20,7 +20,7 @@ public class Department implements Serializable{
 	private Long id;
 	private String name;
 	@ManyToMany
-	@JoinTable(name="DEPARTMENT_USER",joinColumns=@JoinColumn(name="DEPARTMENT_ID"),inverseJoinColumns=@JoinColumn(name="USER_ID"))
+	@JoinTable(name="DEPARTMENT_USERS",joinColumns=@JoinColumn(name="DEPARTMENT_ID"),inverseJoinColumns=@JoinColumn(name="USERS_ID"))
 	private List<User> doctors;
 	@ManyToOne
 	private Hospital hospital;

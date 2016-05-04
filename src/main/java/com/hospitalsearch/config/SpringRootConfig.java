@@ -53,6 +53,7 @@ public class SpringRootConfig {
 		sessionFactoryBean.setDataSource(dataSource());
 		sessionFactoryBean.setHibernateProperties(hibernateProperties());
 		sessionFactoryBean.setPackagesToScan(new String[]{"com.hospitalsearch.entities"});
+		
 		return sessionFactoryBean;
 	}
 	@Bean
@@ -61,7 +62,8 @@ public class SpringRootConfig {
 		transactionManager.setSessionFactory(sessionFactoryBean().getObject());
 		return transactionManager;
 	}
-
+	
+	
 	public Properties hibernateProperties(){
 		Properties props = new Properties();
 		props.put(PROP_HIBERNATE_DIALECT,properties.getRequiredProperty(PROP_HIBERNATE_DIALECT));

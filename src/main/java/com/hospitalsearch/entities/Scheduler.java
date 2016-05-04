@@ -35,7 +35,6 @@ public class Scheduler implements Serializable{
 	public User getDoctor() {
 		return doctor;
 	}
-
 	public void setDoctor(User doctor) {
 		this.doctor = doctor;
 	}
@@ -43,7 +42,6 @@ public class Scheduler implements Serializable{
 	public LocalDateTime getStart() {
 		return start;
 	}
-
 	public void setStart(LocalDateTime start) {
 		this.start = start;
 	}
@@ -51,15 +49,13 @@ public class Scheduler implements Serializable{
 	public LocalDateTime getEnd() {
 		return end;
 	}
-
 	public void setEnd(LocalDateTime end) {
 		this.end = end;
 	}
-
+	
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
