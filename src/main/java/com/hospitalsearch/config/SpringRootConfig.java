@@ -8,13 +8,20 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.hospitalsearch.config.security.SecurityConfig;
+import com.hospitalsearch.config.security.SecurityInitializer;
+import com.hospitalsearch.config.web.WebApplicationInitializer;
+import com.hospitalsearch.config.web.WebConfig;
 
 /**
  * Created by speedfire on 4/28/16.
@@ -24,7 +31,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = "classpath:app.properties")
-@ComponentScan(basePackages="com.hospitalsearch")
+@ComponentScan(basePackages="com.hospitalsearch",excludeFilters={
+		@Filter(classes={SecurityInitializer.class,WebApplicationInitializer.class,SecurityConfig.class,WebConfig.class},type=FilterType.ASSIGNABLE_TYPE)
+		})
 public class SpringRootConfig {
 	@Resource
 	Environment properties;
