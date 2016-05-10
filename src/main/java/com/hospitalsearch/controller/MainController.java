@@ -18,7 +18,7 @@ public class MainController {
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(Map<String,Object> model){
  
-        return  "index";
+        return  "layout";
     }
 
     @RequestMapping(value = "/next",method = RequestMethod.GET)
