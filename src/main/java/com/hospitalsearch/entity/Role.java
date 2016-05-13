@@ -9,7 +9,7 @@ import javax.persistence.Id;
 @Entity
 public class Role implements Serializable {
 
-	private static final long serialVersionUID = 6882428284905479070L;
+
 	@Id
 	@GeneratedValue
 	private Long id;

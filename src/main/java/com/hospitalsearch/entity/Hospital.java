@@ -18,23 +18,13 @@ public class Hospital implements Serializable {
 	private Double longitude;
 	private String address; 
 	private String description; 
-	private String placeId;
+	private String imagePath;
 	
 	public Hospital() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Hospital(Long id, String title, Double latitude, Double longitude, String address, String description,
-			String placeId) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.address = address;
-		this.description = description;
-		this.placeId = placeId;
-	}
+
 
 	public Long getId() {
 		return id;
@@ -85,13 +75,11 @@ public class Hospital implements Serializable {
 		this.title = title;
 	}
 
-	public String getPlaceId() {
-		return placeId;
+	public String getImagePath() {
+		return imagePath;
 	}
 
-	public void setPlaceId(String placeId) {
-		this.placeId = placeId;
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
-		
-	
 }

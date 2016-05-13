@@ -2,8 +2,11 @@ package com.hospitalsearch.config.web;
 
 
 
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import com.hospitalsearch.config.SpringRootConfig;
+
+import javax.servlet.Filter;
 
 /**
  * Created by speedfire on 4/28/16.
@@ -25,6 +28,11 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
 		return new String[]{"/"};
 	}
 
+	@Override
+	protected Filter[] getServletFilters() {
+		CharacterEncodingFilter filter = new CharacterEncodingFilter();
+		filter.setEncoding("UTF-8");
+		return new Filter[]{filter};
 
-
+	}
 }

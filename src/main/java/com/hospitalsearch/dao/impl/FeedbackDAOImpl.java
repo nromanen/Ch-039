@@ -12,7 +12,6 @@ public class FeedbackDAOImpl extends GenericDAOImpl<Feedback, Long> implements F
  
 	@Autowired
 	public FeedbackDAOImpl(SessionFactory factory) {
-		super();
 		this.setSessionFactory(factory);
 	}
 

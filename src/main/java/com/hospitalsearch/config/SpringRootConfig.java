@@ -31,9 +31,7 @@ import com.hospitalsearch.config.web.WebConfig;
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = "classpath:app.properties")
-@ComponentScan(basePackages="com.hospitalsearch",excludeFilters={
-		@Filter(classes={SecurityInitializer.class,WebApplicationInitializer.class,SecurityConfig.class,WebConfig.class},type=FilterType.ASSIGNABLE_TYPE)
-		})
+@ComponentScan(basePackages="com.hospitalsearch")
 public class SpringRootConfig {
 	@Resource
 	Environment properties;
@@ -45,6 +43,8 @@ public class SpringRootConfig {
 	private static final String PROP_HIBERNATE_DIALECT = "hibernate.dialect";
 	private static final String PROP_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
 	private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
+	private static final String PROP_HIBERNATE_ENTITY_PACKAGE = "hibernate.entity.package";
+
 
 	@Bean
 	public DataSource dataSource(){
@@ -61,7 +61,7 @@ public class SpringRootConfig {
 		LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
 		sessionFactoryBean.setDataSource(dataSource());
 		sessionFactoryBean.setHibernateProperties(hibernateProperties());
-		sessionFactoryBean.setPackagesToScan(new String[]{"com.hospitalsearch.entities"});
+		sessionFactoryBean.setPackagesToScan(new String[]{properties.getRequiredProperty(PROP_HIBERNATE_ENTITY_PACKAGE)});
 		
 		return sessionFactoryBean;
 	}

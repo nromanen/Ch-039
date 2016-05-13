@@ -9,9 +9,6 @@ import javax.persistence.Id;
 @Entity
 public class Scheduler implements Serializable{
 
-	
-	private static final long serialVersionUID = 3651612154395466309L;
-	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -59,6 +56,4 @@ public class Scheduler implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
 }

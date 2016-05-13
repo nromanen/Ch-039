@@ -3,13 +3,7 @@ package com.hospitalsearch.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Department implements Serializable{
@@ -19,11 +13,13 @@ public class Department implements Serializable{
 	@GeneratedValue
 	private Long id;
 	private String name;
-	@ManyToMany
-	@JoinTable(name="DEPARTMENT_USERS",joinColumns=@JoinColumn(name="DEPARTMENT_ID"),inverseJoinColumns=@JoinColumn(name="USERS_ID"))
-	private List<User> doctors;
-	@ManyToOne
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<DoctorInfo> doctors;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Hospital hospital;
+	private String imagePath;
 	
 	public Department() {
 		// TODO Auto-generated constructor stub
@@ -46,11 +42,11 @@ public class Department implements Serializable{
 		this.name = name;
 	}
 
-	public List<User> getDoctors() {
+	public List<DoctorInfo> getDoctors() {
 		return doctors;
 	}
 
-	public void setDoctors(List<User> doctors) {
+	public void setDoctors(List<DoctorInfo> doctors) {
 		this.doctors = doctors;
 	}
 
@@ -61,6 +57,12 @@ public class Department implements Serializable{
 	public void setHospital(Hospital hospital) {
 		this.hospital = hospital;
 	}
-	
-	
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
 }

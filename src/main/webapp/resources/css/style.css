@@ -37,12 +37,7 @@ h2 {
     width: 100%;
     z-index: 99999;
 }
-.header-backup {
-    width: 20px;
-    height: 119px;
-    background: transparent;
-    margin: auto;
-}
+
 .top-header img.logo {
     margin-bottom: 25px;
     margin-top: -15px;

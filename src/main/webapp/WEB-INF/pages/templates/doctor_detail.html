@@ -1,0 +1,6 @@
+<div class="person-detail" th:fragment="doctor-detail(arrow,name,surname,details)">
+    <div th:class="${arrow}"/>
+    <h3 th:text="${name + ' ' + surname}"/>
+    <p th:text="${details.specialization}"></p>
+    
+</div>

@@ -20,13 +20,15 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
+import com.hospitalsearch.config.SpringRootConfig;
+
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.hospitalsearch"})
+@ComponentScan(basePackages = {"com.hospitalsearch"},basePackageClasses={SpringRootConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter{
 
 	@Override
