@@ -45,7 +45,6 @@ public class SpringRootConfig {
 	private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
 	private static final String PROP_HIBERNATE_ENTITY_PACKAGE = "hibernate.entity.package";
 
-
 	@Bean
 	public DataSource dataSource(){
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
