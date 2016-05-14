@@ -43,7 +43,7 @@ public class WorkInterval implements Serializable{
 		return doctorInfo;
 	}
 
-	public void setDoctorInfo(DoctorInfo doctor) {
+	public void setDoctorInfo(DoctorInfo doctorInfo) {
 		this.doctorInfo = doctorInfo;
 	}
 

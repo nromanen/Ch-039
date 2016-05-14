@@ -32,8 +32,6 @@ public class WorkIntervalServiceImpl implements WorkIntervalService {
 
         DoctorInfo doctorInfo = doctorInfoDAO.getById(doctorId);
 
-        System.out.println(doctorInfo.getId());
-
         WorkIntervalDto workIntervalDto = WorkIntervalDtoService.createWorkintervalDto(workIntervalParams, doctorInfo);
 
         WorkInterval workInterval = workIntervalDto.getWorkInterval();
