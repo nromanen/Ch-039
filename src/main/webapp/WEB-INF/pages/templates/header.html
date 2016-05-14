@@ -2,12 +2,12 @@
 	<header class="top-header" th:fragment="page-header">
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-5 header-logo">
+				<div class="col-xs-5 col-md-3 col-lg-3 header-logo">
 					<br/>
 					<a href="@{/}"><img th:src="@{/img/logo.png}" alt="" class="img-responsive logo"/></a>
 				</div>
 
-				<div class="col-md-7">
+				<div class="col-md-9  col-lg-9">
 					<nav class="navbar navbar-default">
 					  <div class="container-fluid nav-bar">
 					    <!-- Brand and toggle get grouped for better mobile display -->
@@ -29,6 +29,7 @@
 					        <li><a class="menu" th:href="@{#service}">our services </a></li>
 					        <li><a class="menu" th:href="@{#team}">our team</a></li>
 					        <li><a class="menu" th:href="@{#contact}"> contact us</a></li>
+					        
 					      </ul>
 					    </div><!-- /navbar-collapse -->
 					  </div><!-- / .container-fluid -->

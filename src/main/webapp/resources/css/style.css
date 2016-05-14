@@ -15,6 +15,10 @@ body {
     padding: 0;
     font-family: 'BenchNine', sans-serif;
 }
+.content {
+	height: 100%;
+	padding-top: 150px;
+}
 li {
     list-style: none;
 }
@@ -28,6 +32,11 @@ h2 {
     text-transform: uppercase;
     font-weight: bold;
 }
+
+#profile-photo{
+    margin: 0 auto;
+}
+	
 
 /*header area*/
 

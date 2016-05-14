@@ -245,9 +245,9 @@ window.dhtmlXScheduler = window.scheduler = {version: "4.3.1"}, window.dhtmlx ||
     return r
 }, _dhtmlxError.prototype.catchError = function (e, t) {
     this.catches[e] = t
-}, _dhtmlxError.prototype.throwError = function (e, t, i) {
+}/*, _dhtmlxError.prototype.throwError = function (e, t, i) {
     return this.catches[e] ? this.catches[e](e, t, i) : this.catches.ALL ? this.catches.ALL(e, t, i) : (window.alert("Error type: " + arguments[0] + "\nDescription: " + arguments[1]), null)
-}, window.dhtmlxError = new _dhtmlxError,
+}, */window.dhtmlxError = new _dhtmlxError,
     dtmlXMLLoaderObject.prototype.doXPathOpera = function (e, t) {
         var i = e.replace(/[\/]+/gi, "/").split("/"), s = null, a = 1;
         if (!i.length)return [];
