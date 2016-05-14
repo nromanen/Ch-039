@@ -2,10 +2,9 @@ package com.hospitalsearch.controller;
 
 import com.hospitalsearch.entity.*;
 import com.hospitalsearch.service.DepartmentService;
-import com.hospitalsearch.service.DoctorService;
+import com.hospitalsearch.service.DoctorInfoService;
 import com.hospitalsearch.service.HospitalService;
 import com.hospitalsearch.service.UserService;
-import groovy.ui.SystemOutputInterceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +29,7 @@ public class HospitalController {
     private UserService userService;
 
     @Autowired(required = true)
-    private DoctorService doctorService;
+    private DoctorInfoService doctorInfoService;
 
     @RequestMapping("/hos")
     public String renderHospitals2(Map<String,Object> model){
@@ -64,7 +63,7 @@ public class HospitalController {
                               
                                     
     ){
-        model.put("doctors",doctorService.findByDepartmentId(id));
+        model.put("doctors", doctorInfoService.findByDepartmentId(id));
         model.put("hid",hid);
         model.put("id",id);
         
@@ -141,9 +140,6 @@ public class HospitalController {
         DoctorInfo info5 = new DoctorInfo();
         info5.setUserDetails((UserDetail)user5);
         info5.setSpecialization("Brain");
-        
-        
-        
         
         department.setDoctors(Arrays.asList(info,info2,info3,info4,info5));
         this.departmentService.save(department);

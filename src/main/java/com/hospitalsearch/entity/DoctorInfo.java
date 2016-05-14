@@ -19,6 +19,9 @@ public class DoctorInfo implements Serializable {
     @ManyToMany(mappedBy = "doctors",cascade = CascadeType.ALL)
     private List<Department> departments;
 
+    @OneToMany(mappedBy = "doctorInfo")
+    private List<WorkInterval> workIntervals;
+
     public DoctorInfo() {}
 
     public Long getId() {
@@ -49,5 +52,13 @@ public class DoctorInfo implements Serializable {
 	public void setUserDetails(UserDetail userDetails) {
 		this.userDetails = userDetails;
 	}
+
+    public List<WorkInterval> getWorkIntervals() {
+        return workIntervals;
+    }
+
+    public void setWorkIntervals(List<WorkInterval> workIntervals) {
+        this.workIntervals = workIntervals;
+    }
     
 }
