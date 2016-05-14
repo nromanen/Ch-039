@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="webjars/jquery/3.0.0-alpha1/jquery.js"></script>
+    <script src="webjars/bootstrap/3.3.6/js/bootstrap.js"></script>
+    <link href="/webjars/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="/resources/app.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/font-awesome.min.css"/>
+    <script type="javascript" th:src="resources/js/jquery-2.1.1.js"></script>
+    <script type="javascript" th:src="resources/js/bootstrap.min.css"></script>
+    <meta charset="UTF-8"/>
+    <title>Denied</title>
+
+
+</head>
+<body >
+
+
+
+<div class="col-md-12">
+
+    <center>
+        <div class="page-404 animated flipInX">
+            <img src="/resources/img/403.png" class="img-responsive"/>
+            Dear <strong><span th:text = "${user}"> </span> </strong>
+            <p> You are not authorized to access this page</p>
+            <a th:href="@{/home}">Go to Home</a> OR  <a th:href="@{/logout}">Logout</a>
+
+            <span class="icons icon-arrow-down"></span>
+
+            <input type="button" id="btnRedirect" value="Redirect" />
+            <br />
+            <br />
+
+            <div id="dvCountDown" style="display: none">
+                You will be redirected after <span id="lblCount"></span>&nbsp;seconds.
+            </div>
+
+        </div>
+    </center>
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnRedirect").click(function () {
+            var seconds = 5;
+            $("#dvCountDown").show();
+            $("#lblCount").html(seconds);
+            setInterval(function () {
+                seconds--;
+                $("#lblCount").html(seconds);
+                if (seconds == 0) {
+                    $("#dvCountDown").hide();
+                    window.location = "http://www.aspsnippets.com/";
+                }
+            }, 1000);
+        });
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

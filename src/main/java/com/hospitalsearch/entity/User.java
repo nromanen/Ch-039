@@ -1,8 +1,13 @@
 package com.hospitalsearch.entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -11,11 +16,11 @@ public class User extends UserDetail implements Serializable {
 	private String email;
 	private String password;
 	private Boolean enabled;
-	
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name="ROLE_USERS", joinColumns=@JoinColumn(name="ROLE_ID"),inverseJoinColumns=@JoinColumn(name="USERS_ID"))
-	private List<Role> roles;
 
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name="ROLE_USERS", joinColumns=@JoinColumn(name="USERS_ID"),inverseJoinColumns=@JoinColumn(name="ROLE_ID"))
+	@Fetch(FetchMode.SELECT)
+	private Set<Role> userRoles = new HashSet<Role>();
 	public User() {
 		
 	}
@@ -41,13 +46,21 @@ public class User extends UserDetail implements Serializable {
 		this.enabled = enabled;
 	}
 
-
-
-	public List<Role> getRoles() {
-		return roles;
+	public Set<Role> getUserRoles() {
+		return userRoles;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setUserRoles(Set<Role> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", enabled=" + enabled +
+				", userRoles=" + userRoles +
+				'}';
 	}
 }

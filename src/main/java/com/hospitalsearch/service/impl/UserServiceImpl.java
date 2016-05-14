@@ -4,6 +4,7 @@ import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +17,12 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserDAO dao;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public void save(User newUser) {
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         dao.save(newUser);
     }
 
@@ -39,5 +44,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> getAll() {
         return dao.getAll();
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return dao.getByEmail(email);
     }
 }

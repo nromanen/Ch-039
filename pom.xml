@@ -21,6 +21,7 @@
 		<thymeleaf.core>2.1.2.RELEASE</thymeleaf.core>
 		<thymeleaf.layout>1.4.0</thymeleaf.layout>
 		<groovy.lang>2.4.5</groovy.lang>
+		<thymeleafspringsecurity4.version>2.1.2.RELEASE</thymeleafspringsecurity4.version>
 	</properties>
 
 	<dependencies>
@@ -154,6 +155,14 @@
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 			<version>${thymeleaf.layout}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+			<version>${thymeleafspringsecurity4.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
 
 		<!-- WebJAR libs -->
 

@@ -18,4 +18,6 @@ public interface UserService {
     User getById(Long id);
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     List<User> getAll();
+    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
+    User getByEmail(String email);
 }

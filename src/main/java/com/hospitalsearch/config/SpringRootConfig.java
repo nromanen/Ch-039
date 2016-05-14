@@ -8,20 +8,13 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import com.hospitalsearch.config.security.SecurityConfig;
-import com.hospitalsearch.config.security.SecurityInitializer;
-import com.hospitalsearch.config.web.WebApplicationInitializer;
-import com.hospitalsearch.config.web.WebConfig;
 
 /**
  * Created by speedfire on 4/28/16.
@@ -44,6 +37,7 @@ public class SpringRootConfig {
 	private static final String PROP_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
 	private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
 	private static final String PROP_HIBERNATE_ENTITY_PACKAGE = "hibernate.entity.package";
+	private static final String PROP_HIBERNATE_IMPORT_FILE = "hibernate.hbm2ddl.import_files";
 
 	@Bean
 	public DataSource dataSource(){
@@ -77,6 +71,7 @@ public class SpringRootConfig {
 		props.put(PROP_HIBERNATE_DIALECT,properties.getRequiredProperty(PROP_HIBERNATE_DIALECT));
 		props.put(PROP_HIBERNATE_HBM2DDL_AUTO,properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
 		props.put(PROP_HIBERNATE_SHOW_SQL,properties.getRequiredProperty(PROP_HIBERNATE_SHOW_SQL));
+		props.put(PROP_HIBERNATE_IMPORT_FILE,properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
 		return props;
 	}
 

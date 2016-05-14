@@ -2,12 +2,12 @@
 	<header class="top-header" th:fragment="page-header">
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-5 col-md-3 col-lg-3 header-logo">
+				<div class="col-xs-3 col-md-3 col-lg-3 header-logo">
 					<br/>
-					<a href="@{/}"><img th:src="@{/img/logo.png}" alt="" class="img-responsive logo"/></a>
+					<a th:href="@{/}"><img th:src="@{/img/logo.png}" alt="" class="img-responsive logo"/></a>
 				</div>
 
-				<div class="col-md-9  col-lg-9">
+				<div class="col-md-9 col-lg-9">
 					<nav class="navbar navbar-default">
 					  <div class="container-fluid nav-bar">
 					    <!-- Brand and toggle get grouped for better mobile display -->
@@ -29,6 +29,104 @@
 					        <li><a class="menu" th:href="@{#service}">our services </a></li>
 					        <li><a class="menu" th:href="@{#team}">our team</a></li>
 					        <li><a class="menu" th:href="@{#contact}"> contact us</a></li>
+
+							  <li sec:authorize="isAnonymous()" class="menu dropdown" style="cursor: pointer;">
+
+								  <a class="dropdown-toggle menu" data-toggle="dropdown">Register </a>
+								  <ul class="dropdown-menu dropdown-lr animated flipInX" role="menu">
+									  <div class="col-lg-12">
+										  <div class="text-center"><h3><b>Register</b></h3></div>
+										  <form id="ajax-register-form" action="http://phpoll.com/register/process" method="post" role="form" autocomplete="off">
+											  <div class="form-group">
+												  <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value=""/>
+											  </div>
+											  <div class="form-group">
+												  <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value=""/>
+											  </div>
+											  <div class="form-group">
+												  <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password"/>
+											  </div>
+											  <div class="form-group">
+												  <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password"/>
+											  </div>
+											  <div class="form-group">
+												  <div class="row">
+													  <div class="col-xs-6 col-xs-offset-3">
+														  <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-info" value="Register Now"/>
+													  </div>
+												  </div>
+											  </div>
+											  <input type="hidden" class="hide" name="token" id="token" value="7c6f19960d63f53fcd05c3e0cbc434c0"/>
+										  </form>
+									  </div>
+								  </ul>
+
+							  </li>
+
+							  <!--login-->
+							  <li sec:authorize="isAnonymous()" class="menu dropdown" style="cursor: pointer;">
+
+								  <a class="dropdown-toggle menu" data-toggle="dropdown">Log In <span class="caret"></span></a>
+								  <ul class="dropdown-menu dropdown-lr animated slideInRight" role="menu">
+									  <div class="col-lg-12">
+										  <div class="text-center"><h3><b>Log In</b></h3></div>
+										  <form id="ajax-login-form" th:action="@{/login}" method="post" role="form" autocomplete="off">
+
+											  <div class="alert alert-danger" th:if="${param.error!= null}" >
+												  <p >Invalid username and password.</p>
+											  </div>
+
+											  <div class="form-group">
+												  <label for="username">Email</label>
+												  <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="email" value="" autocomplete="off"/>
+											  </div>
+
+											  <div class="form-group">
+												  <label for="password">Password</label>
+												  <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" autocomplete="off"/>
+											  </div>
+
+											  <div class="form-group">
+												  <div class="row">
+													  <div class="col-xs-7">
+														  <input type="checkbox" tabindex="3" name="remember-me" id="remember"/>
+														  <label for="remember"> Remember Me</label>
+													  </div>
+
+													  <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+
+													  <div class="col-xs-5 pull-right">
+														  <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-success" value="Log In"/>
+													  </div>
+												  </div>
+											  </div>
+											  <!--<div class="form-group">
+                                                  <div class="row">
+                                                      <div class="col-lg-12">
+                                                          <div class="text-center">
+                                                              <a href="http://phpoll.com/recover" tabindex="5" class="forgot-password">Forgot Password?</a>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>-->
+										  </form>
+									  </div>
+								  </ul>
+							  </li>
+
+							  <!--autorize user-->
+							  <li sec:authorize="isAuthenticated()" style="cursor: pointer;">
+
+								  <a class="dropdown-toggle" th:href="@{/logout}">Log out</a>
+							  </li>
+
+							  <li sec:authorize="isAuthenticated()" class="center">
+
+								  <div>
+									  <h4 sec:authentication="principal.username"></h4>
+								  </div>
+
+							  </li>
 					        
 					      </ul>
 					    </div><!-- /navbar-collapse -->

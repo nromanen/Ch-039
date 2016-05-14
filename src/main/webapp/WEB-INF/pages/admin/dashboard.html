@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<head>
+    <meta charset="ISO-8859-1"/>
+    <meta charset="UTF-8"/>
+    <title>Admin Dashboard</title>
+
+</head>
+<body>
+
+<section layout:fragment="content" class="dashboard">
+
+<h1 class="all"> All Users </h1>
+    <div class="box-content">
+        <table class="responstable" >
+            <thead>
+            <tr>
+                <th>#ID</th>
+                <th>@Email</th>
+                <th>Status</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+
+            <td th:value="${user.id}" th:text="${user.id}"></td>
+            <td th:value="${user.email}" th:text="${user.email}"></td>
+            <td class="text-center">
+                <input th:value="${user.enabled}" type="button" class="btn btn-sm" th:classappend="${user.enabled}? btn-success : btn-danger"/></td>
+
+            <td th:value="${user.userRoles}">
+                <span th:each=" role : ${user.userRoles}" th:value="${role.type}" th:text="${role.type}"></span>
+
+                <!--th:each="role : ${user.userRoles}"-->
+            </td>
+
+            <td class="center">
+                <a class="btn button_user" href="#">
+                    <i class="glyphicon glyphicon-zoom-in icon-white"></i>
+                    View
+                </a>
+                <a class="btn button_user" href="#">
+                    <i class="glyphicon glyphicon-edit icon-white"></i>
+                    Edit
+                </a>
+                <a class="btn button_user" href="#">
+                    <i class="glyphicon glyphicon-trash icon-white"></i>
+                    Delete
+                </a>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>
