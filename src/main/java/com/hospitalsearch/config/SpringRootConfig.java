@@ -8,13 +8,20 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.hospitalsearch.config.security.SecurityConfig;
+import com.hospitalsearch.config.security.SecurityInitializer;
+import com.hospitalsearch.config.web.WebApplicationInitializer;
+import com.hospitalsearch.config.web.WebConfig;
 
 /**
  * Created by speedfire on 4/28/16.
@@ -36,6 +43,7 @@ public class SpringRootConfig {
 	private static final String PROP_HIBERNATE_DIALECT = "hibernate.dialect";
 	private static final String PROP_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
 	private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
+	private static final String PROP_HIBERNATE_ENTITY_PACKAGE = "hibernate.entity.package";
 
 	@Bean
 	public DataSource dataSource(){
@@ -52,7 +60,7 @@ public class SpringRootConfig {
 		LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
 		sessionFactoryBean.setDataSource(dataSource());
 		sessionFactoryBean.setHibernateProperties(hibernateProperties());
-		sessionFactoryBean.setPackagesToScan(new String[]{"com.hospitalsearch.entities"});
+		sessionFactoryBean.setPackagesToScan(new String[]{properties.getRequiredProperty(PROP_HIBERNATE_ENTITY_PACKAGE)});
 		
 		return sessionFactoryBean;
 	}

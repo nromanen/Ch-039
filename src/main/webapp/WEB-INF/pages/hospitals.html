@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout">
+<head></head>
+<body>
+
+	<div layout:fragment="content">
+		<br /> <br /> <br />
+		<div class="about text-center container">
+			<div class="row">
+				<div class="col-md-4 col-sm-6" th:each="hospital:${hospitals}"
+					th:object="${hospital}">
+					<div class="single-about-detail">
+						<div class="about-img">
+							<a href="#" th:href="@{|/hospital/${hospital.id}|}"> <img
+								class="img-responsive" src="/"
+								th:src="@{|/img/hospitals/${hospital.imagePath}|}" />
+							</a>
+						</div>
+						<div class="about-details" href="#"
+							th:href="@{|/hospital/${hospital.id}|}">
+							<div class="pentagon-text">
+								<h1 th:text="${#strings.substring(hospital.title,0,1)} " />
+							</div>
+							<h3 th:text="*{title}" />
+							<p th:text="*{description}" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
