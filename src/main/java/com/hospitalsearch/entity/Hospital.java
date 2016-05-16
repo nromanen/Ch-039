@@ -29,9 +29,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 		@NamedQuery(name = Hospital.GET_LIST_BY_BOUNDS, query = Hospital.GET_LIST_BY_BOUNDS_QUERY)
 	}
 )
-public class Hospital implements Serializable {
-	
-	private static final long serialVersionUID = 8874100249877394394L;
+public class Hospital{
 	
 	static final String GET_LIST_BY_BOUNDS_QUERY = "from Hospital h where "
 			+ "(latitude < :nelat) and "
@@ -114,10 +112,6 @@ public class Hospital implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public String getImagePath() {
