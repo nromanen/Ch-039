@@ -4,25 +4,34 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
 
 @Entity
 @Table(name="users")
 @PrimaryKeyJoinColumn(name = "id")
+
+@org.hibernate.annotations.NamedQueries
+        (
+                {
+                        @org.hibernate.annotations.NamedQuery(name = User.SELECT_BY_ROLE, query = User.SELECT),
+                }
+        )
+
 public class User extends UserDetail implements Serializable {
 	private String email;
 	private String password;
 	private Boolean enabled;
+
+    static final String SELECT = "SELECT u FROM User u JOIN  u.userRoles r WHERE r.id = :id";
+    public static final String SELECT_BY_ROLE = "SELECT_BY_ROLE";
+
+    @OneToOne
+    private PatientCard patientCard;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="ROLE_USERS", joinColumns=@JoinColumn(name="USERS_ID"),inverseJoinColumns=@JoinColumn(name="ROLE_ID"))
@@ -61,7 +70,15 @@ public class User extends UserDetail implements Serializable {
 		this.userRoles = userRoles;
 	}
 
-	@Override
+    public PatientCard getPatientCard() {
+        return patientCard;
+    }
+
+    public void setPatientCard(PatientCard patientCard) {
+        this.patientCard = patientCard;
+    }
+
+    @Override
 	public String toString() {
 		return "User{" +
 				"email='" + email + '\'' +

@@ -32,6 +32,8 @@
 								</a></li>
 								<li><a class="menu" th:href="@{#team}">our team</a></li>
 								<li><a class="menu" th:href="@{#contact}"> contact us</a></li>
+                                <li sec:authorize="hasRole('ROLE_PATIENT')" ><a class="menu" th:href="@{/card}">Card</a></li>
+                                <li sec:authorize="hasRole('ROLE_DOCTOR')" ><a class="menu" th:href="@{/patients}">Patients</a></li>
 
 								<li sec:authorize="isAnonymous()" class="menu dropdown"
 									style="cursor: pointer;"><a class="dropdown-toggle menu"

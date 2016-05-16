@@ -3,10 +3,13 @@ package com.hospitalsearch.dao.impl;
 import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.entity.User;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by deplague on 5/11/16.
@@ -28,4 +31,11 @@ public class UserDAOImpl extends GenericDAOImpl<User,Long> implements UserDAO{
         user.setEnabled(false);
         update(user);
     }
+
+    @Override
+    public List<User> getByRole(long id) {
+        Query query = this.currentSession().getNamedQuery(User.SELECT_BY_ROLE).setParameter("id",id);
+        return query.list();
+    }
+
 }

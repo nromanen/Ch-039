@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<meta charset="UTF-8"/>
+
+<head lang="en">
+    <title>Card</title>
+</head>
+
+<body>
+<section layout:fragment="content">
+
+            <div class="content">
+             <div class="container">
+                    <h1>Patient card:</h1>
+                 <a sec:authorize="hasRole('ROLE_DOCTOR')" th:href="@{/new/record(userId=${userId})}"  class="btn btn-info" style="display: inherit; margin-bottom: 12px;">New record</a>
+                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                     <div th:each="item:${cardItems}" class="panel panel-default">
+                         <div class="panel-heading" role="tab" id="headingOne">
+                             <h4 class="panel-title">
+                                 <a class="collapsed" role="button" th:text="${item.date}" data-toggle="collapse"  data-parent="#accordion2" th:href="${'#'+item.id}" aria-expanded="false" aria-controls="collapseOne">
+                                 </a>
+                                 <span th:text="'Doctor: '+${item.doctor.email}" style="margin-left: 20px;">Doctor:</span>
+                                 <a sec:authorize="hasRole('ROLE_DOCTOR')"  th:href="@{/edit(id=${item.id},userId=${userId})}" style="float:right">Edit</a>
+                             </h4>
+                         </div>
+                         <div th:id="${item.id}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                             <div class="panel-body">
+                                 <div id="item-dm">
+                                     <h4>Complaint</h4>
+                                     <pre class="well well-sm" th:text="${item.complaint}"></pre>
+                                     <h4>Result</h4>
+                                     <pre class="well well-sm" th:text="${item.result}"></pre>
+                                     <h4>Prescription</h4>
+                                     <pre class="well well-sm" th:text="${item.prescription}"></pre>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+            </div>
+</section>
+</body>
+</html>

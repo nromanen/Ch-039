@@ -1,15 +1,12 @@
 package com.hospitalsearch.entity;
 
+import com.hospitalsearch.service.annotation.OneDay;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 
 @Entity
@@ -17,89 +14,101 @@ public class CardItem implements Serializable {
 	
 	
 	private static final long serialVersionUID = -1407036211724471026L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	private LocalDate date;
-	@ManyToOne
-	PatientCard patientCard;
-	@OneToMany
-	private List<Examination> examinationList;
-	private String result;
-	private String prescription;
-	@ManyToOne
-	private User doctor;
-	@ManyToOne
-	private PatientCard card;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @OneDay(message = " Edit time is over")
+    private LocalDate date;
+    @ManyToOne
+    PatientCard patientCard;
+    @NotNull
+    @Size(min = 5, message = "min size = 5")
+    private String result;
+    @NotNull
+    @Size(min = 5, message = "min size = 5")
+    private String prescription;
+    @NotNull
+    @Size(min = 5, message = "min size = 5")
+    private String complaint;
+    @ManyToOne
+    private User doctor;
 
-	public CardItem() {
+    public CardItem() {
 
-	}
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public CardItem(LocalDate date, PatientCard patientCard, String result, String prescription, User doctor) {
+        this.date = date;
+        this.patientCard = patientCard;
+        this.result = result;
+        this.prescription = prescription;
+        this.doctor = doctor;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public LocalDate getDate() {
-		return date;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
+    public LocalDate getDate() {
+        return date;
+    }
 
-	public PatientCard getPatientCard() {
-		return patientCard;
-	}
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
-	public void setPatientCard(PatientCard patientCard) {
-		this.patientCard = patientCard;
-	}
+    public PatientCard getPatientCard() {
+        return patientCard;
+    }
 
-	public List<Examination> getExaminationList() {
-		return examinationList;
-	}
+    public void setPatientCard(PatientCard patientCard) {
+        this.patientCard = patientCard;
+    }
 
-	public void setExaminationList(List<Examination> examinationList) {
-		this.examinationList = examinationList;
-	}
+    public String getPrescription() {
+        return prescription;
+    }
 
-	public String getPrescription() {
-		return prescription;
-	}
+    public void setPrescription(String prescription) {
+        this.prescription = prescription;
+    }
 
-	public void setPrescription(String prescription) {
-		this.prescription = prescription;
-	}
+    public User getDoctor() {
+        return doctor;
+    }
 
-	public User getDoctor() {
-		return doctor;
-	}
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
+    }
 
-	public void setDoctor(User doctor) {
-		this.doctor = doctor;
-	}
+    public String getResult() {
+        return result;
+    }
 
-	public PatientCard getCard() {
-		return card;
-	}
+    public void setResult(String result) {
+        this.result = result;
+    }
 
-	public void setCard(PatientCard card) {
-		this.card = card;
-	}
+    public String getComplaint() {
+        return complaint;
+    }
 
-	public String getResult() {
-		return result;
-	}
+    public void setComplaint(String complaint) {
+        this.complaint = complaint;
+    }
 
-	public void setResult(String result) {
-		this.result = result;
-	}
-	
-	
+    @Override
+    public String toString() {
+        return "CardItem{" +
+                "date=" + date +
+                ", result='" + result + '\'' +
+                ", prescription='" + prescription + '\'' +
+                ", doctor=" + doctor +
+                '}';
+    }
 	
 }

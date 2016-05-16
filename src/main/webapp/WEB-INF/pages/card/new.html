@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<meta charset="UTF-8"/>
+
+<head lang="en">
+    <title>Card</title>
+</head>
+
+<body>
+<section layout:fragment="content">
+    <div class="content">
+    <div class="container">
+
+                <h1 th:if="${cardItem.id==null}">Create new card record</h1>
+                <h1 th:if="${cardItem.id!=null}">Edit record</h1>
+
+            <form th:action="@{/persist(userId=${userId})}" th:object="${cardItem}" role="form" action="#" method="post">
+                <span th:if="${cardItem.id!=null}"><input type="hidden" th:field="${cardItem.id}"/></span>
+                <span th:if="${cardItem.id!=null}"><input type="hidden" th:field="${cardItem.date}" id="date"/></span>
+                <div>
+                    <p th:text="'Date: '+${#dates.format(#dates.createNow(), 'MM-dd-yyyy')}" style="display: inline-block; margin-left: 10px;"></p>
+                    <p class="error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="complaint">Complaint:</label>
+                    <input type="text" th:field="*{complaint}" class="form-control" id="complaint"/>
+                    <p class="error" th:if="${#fields.hasErrors('complaint')}" th:errors="*{complaint}"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="result">Result:</label>
+                    <textarea name="text" class="form-control" id="result" th:field="*{result}" rows="5"></textarea>
+                    <p class="error" th:if="${#fields.hasErrors('result')}" th:errors="*{result}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="prescription">Prescription:</label>
+                    <textarea name="text" class="form-control" id="prescription" th:field="*{prescription}" rows="5"></textarea>
+                    <p class="error" th:if="${#fields.hasErrors('prescription')}" th:errors="*{prescription}"></p>
+                </div>
+                <button class="btn btn-danger" onclick="history.back()">Back</button>
+                <button type="submit" class="btn btn-default" style="float: right;">Submit</button>
+            </form>
+    </div>
+    </div>
+</section>
+
+</body>
+</html>

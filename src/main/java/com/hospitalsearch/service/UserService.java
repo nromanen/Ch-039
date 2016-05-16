@@ -20,4 +20,6 @@ public interface UserService {
     List<User> getAll();
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     User getByEmail(String email);
+    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
+    List<User> getByRole(long id);
 }

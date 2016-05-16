@@ -677,6 +677,11 @@ li a.active {
 .contact-caption {
 	margin-top: 120px;
 }
+.error{
+    color: #F73D3D;
+    font-style: italic;
+    display: inline-block;
+}
 
 /*footer*/
 .footer-para {
@@ -985,4 +990,5 @@ responsive area
 	.footer p {
 		font-size: 10px;
 	}
+
 }

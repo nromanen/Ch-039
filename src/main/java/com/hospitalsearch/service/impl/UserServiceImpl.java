@@ -1,7 +1,9 @@
 package com.hospitalsearch.service.impl;
 
 import com.hospitalsearch.dao.UserDAO;
+import com.hospitalsearch.entity.PatientCard;
 import com.hospitalsearch.entity.User;
+import com.hospitalsearch.service.PatientCardService;
 import com.hospitalsearch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,9 +22,14 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private PatientCardService patientCardService;
+
     @Override
     public void save(User newUser) {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        PatientCard patientCard = patientCardService.add(new PatientCard());
+        newUser.setPatientCard(patientCard);
         dao.save(newUser);
     }
 
@@ -49,5 +56,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getByEmail(String email) {
         return dao.getByEmail(email);
+    }
+
+    @Override
+    public List<User> getByRole(long id) {
+        return dao.getByRole(id);
     }
 }
