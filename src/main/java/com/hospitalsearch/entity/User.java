@@ -17,7 +17,7 @@ public class User extends UserDetail implements Serializable {
 	private String password;
 	private Boolean enabled;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE})
 	@JoinTable(name="ROLE_USERS", joinColumns=@JoinColumn(name="USERS_ID"),inverseJoinColumns=@JoinColumn(name="ROLE_ID"))
 	@Fetch(FetchMode.SELECT)
 	private Set<Role> userRoles = new HashSet<Role>();

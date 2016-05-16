@@ -1,7 +1,9 @@
 package com.hospitalsearch.entity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,17 +11,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 public class Feedback {
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
 	private Long id;
-
+	
 	private String message;
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE},fetch=FetchType.EAGER)
+	@Fetch(FetchMode.JOIN)
 	private User producer;
-	@ManyToOne(fetch=FetchType.LAZY)
+	
+	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE},fetch=FetchType.EAGER)
+	@Fetch(FetchMode.JOIN)
 	private User consumer;
 	private LocalDateTime date;
 	
@@ -44,6 +53,7 @@ public class Feedback {
 	}
 
 	public User getProducer() {
+		
 		return producer;
 	}
 
@@ -60,6 +70,7 @@ public class Feedback {
 	}
 
 	public LocalDateTime getDate() {
+		
 		return date;
 	}
 

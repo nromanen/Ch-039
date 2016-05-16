@@ -1,4 +1,3 @@
 /target/
 HospitalSeeker.iml
 .gitignore
-/src/main/resources/app.properties

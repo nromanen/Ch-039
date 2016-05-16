@@ -27,11 +27,11 @@ public class UserDetail implements Serializable{
 	private Gender gender;
 	private String address;
 
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy="userDetails")
+	@OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE},fetch = FetchType.EAGER,mappedBy="userDetails")
 	@Fetch(FetchMode.SELECT)
 	private DoctorInfo doctorsDetails;
 
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE},fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	private PatientInfo patientsDetails;
 

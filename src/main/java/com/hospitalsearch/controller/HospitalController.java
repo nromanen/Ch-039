@@ -34,6 +34,7 @@ public class HospitalController {
     @RequestMapping("/hos")
     public String renderHospitals2(Map<String,Object> model){
         save();
+        
         return "layout";
     }
     
@@ -48,8 +49,9 @@ public class HospitalController {
     public String renderDepartments(Map<String,Object> model,
                                     @PathVariable Long id
     ){
-    	List<Department> lst = departmentService.findByHospitalId(id);
+    	List<Department> lst = departmentService.findByHospitalId(id); 
     	model.put("departments",lst);
+    	model.put("hospital",lst.get(0).getHospital());
     	model.put("hid",id);
     	
         return "departments";
@@ -63,7 +65,12 @@ public class HospitalController {
                               
                                     
     ){
+    	
+    	Department d =departmentService.getById(id);
         model.put("doctors", doctorInfoService.findByDepartmentId(id));
+        model.put("department", d);
+        model.put("hospital", d.getHospital());
+
         model.put("hid",hid);
         model.put("id",id);
         
@@ -79,12 +86,13 @@ public class HospitalController {
 
     public void save(){
         Hospital hospital = new Hospital();
-        hospital.setTitle("Fastivska");
+        hospital.setName("Fastivska");
 
         hospital.setAddress("Chernivci");
         hospital.setLatitude(12.3);
         hospital.setLatitude(12.4);
         hospital.setImagePath("item1.jpg");
+        hospital.setDescription("Some hosptials with some stuff");
         Department department = new Department();
         department.setHospital(hospital);
         department.setName("Heart");
@@ -113,7 +121,7 @@ public class HospitalController {
         
         User user3 = new User();
         user3.setEmail("qwe");
-        user3.setFirstName("Petkin");
+        user3.setFirstName("Kolia");
         user3.setLastName("Kuz");
         user3.setImagePath("member3.jpg");
         
@@ -124,7 +132,7 @@ public class HospitalController {
         User user4 = new User();
         user4.setEmail("sasha");
         user4.setFirstName("Vasia");
-        user4.setLastName("Kuz");
+        user4.setLastName("Pupkin");
         user4.setImagePath("member4.jpg");
         
         DoctorInfo info4 = new DoctorInfo();

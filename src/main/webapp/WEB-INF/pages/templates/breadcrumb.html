@@ -1,0 +1,15 @@
+<div th:fragment="breadcrumbs(hospitals,hospital,department,doctor)">
+	<ol class="breadcrumb" th:remove="${hospitals}? none : all">
+		<li><a th:href="@{/hospitals}" th:class="${hospital}?:'active'"
+			th:text="'Hospitals'" /></li>
+		<li th:remove="${hospital}? none : all"><a
+			th:href="@{|/hospital/${hospital.id}|}" th:class="${department}?:'active'"
+			th:text="${hospital.name}" /></li>
+		<li th:remove="${department}? none : all"><a
+			th:href="@{|/hospital/${hospital.id}/department/${department.id}|}"
+			th:class="${doctor}?:'active'" th:text="${department.name}" /></li>
+		<li th:remove="${doctor}? none : all"><a
+			th:href="@{/start(id=${doctor.id},did=${id})}" th:class="'active'"
+			th:text="|${doctor.firstName} ${doctor.lastName}|" /></li>
+	</ol>
+</div>

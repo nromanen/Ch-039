@@ -8,6 +8,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,7 +25,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final Integer TIME = 21600;
@@ -93,6 +94,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return authenticationProvider;
 	}
 
+	@Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/supplyIntervals");
+    }
 
 	//remember me
 	@Bean
@@ -106,4 +111,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public SpringSecurityDialect springSecurityDialect(){
 		return new SpringSecurityDialect();
 	}
+	
+	
 }

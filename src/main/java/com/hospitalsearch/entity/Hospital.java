@@ -13,7 +13,7 @@ public class Hospital implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private String title;
+	private String name;
 	private Double latitude;
 	private Double longitude;
 	private String address; 
@@ -67,12 +67,12 @@ public class Hospital implements Serializable {
 	}
 
 
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getImagePath() {

@@ -7,29 +7,28 @@
 <body>
 	<section layout:fragment="content">
 		<div class="content">
-			<div class="team container">
-				<div class="row">
-					<div class="team-heading text-center">
-						<h2>our team</h2>
-						<h4>Lorem Ipsum has been the industry's standard dummy text
-							ever since the 1500s, when an unknown printer took a galley of
-							type and scrambled</h4>
-					</div>
-					<div class="col-md-2 single-member col-sm-4"
-						th:each="doctor:${doctors}">
 
+			<div class="team container">
+				<div class="row team-heading text-center">
+					<h2>our team</h2>
+					
+				</div>
+				<div class="row" >
+					<div th:each="doctor:${doctors}" class="col-md-2 single-member col-sm-4">
 						<div th:if="${doctors.indexOf(doctor)%2 == 0}">
-							<a th:href="@{/start(id=${doctor.id})}">
+							<a th:href="@{/dashboard(id=${doctor.id},did=${id})}">
 								<div
 									th:replace="templates/doctor_detail::doctor-detail('arrow-top',${doctor.firstName},${doctor.lastName},${doctor.doctorsDetails})" />
+
+								<div
+									th:replace="templates/doctor_photo::doctor-photo(${doctor.imagePath})" />
 							</a>
-							<div
-								th:replace="templates/doctor_photo::doctor-photo(${doctor.imagePath})" />
 						</div>
 						<div th:if="${doctors.indexOf(doctor)%2 == 1}">
-							<div
-								th:replace="templates/doctor_photo::doctor-photo(${doctor.imagePath})" />
-							<a th:href="@{/start(id=${doctor.id})}">
+							<a th:href="@{/dashboard(id=${doctor.id},did=${id})}">
+								<div
+									th:replace="templates/doctor_photo::doctor-photo(${doctor.imagePath})" />
+
 								<div
 									th:replace="templates/doctor_detail::doctor-detail('arrow-bottom',${doctor.firstName},${doctor.lastName},${doctor.doctorsDetails})" />
 							</a>

@@ -1,0 +1,62 @@
+<div th:fragment="feedback-panel(feedbacks)">
+
+	<div class="chat-panel panel panel-default">
+		<div class="panel-heading">
+			<i class="fa fa-rss fa-fw"></i> Feedback
+		</div>
+		<!-- /.panel-heading -->
+		<div class="panel-body chat-pane">
+			<ul class="chat">
+				<th:block th:each="feedback:${feedbacks}">
+					<li th:if="${feedbacks.indexOf(feedback)%2==0}"
+						class="left clearfix"><span class="chat-img pull-left">
+							<img  th:src="@{'http://placehold.it/50/55C1E7/fff'}"
+							 alt="User Avatar"
+							class="img-circle" />
+					</span>
+						<div class="chat-body clearfix">
+							<div class="header">
+								<strong class="primary-font" th:text="${feedback.producer.email}" /> <small
+									class="pull-right text-muted"> <i
+									class="fa fa-clock-o fa-fw"></i>
+									<div th:text="${feedback.date.format(formatter)}" th:remove="tag" />
+								</small>
+							</div>
+							<p th:text="${feedback.message}" />
+						</div></li>
+					<li class="right clearfix"
+						th:if="${feedbacks.indexOf(feedback)%2==1}"><span
+						class="chat-img pull-right"> <img
+							th:src="@{'http://placehold.it/50/FA6F57/fff'}"
+							alt="User Avatar"
+							class="img-circle" />
+					</span>
+						<div class="chat-body clearfix">
+							<div class="header">
+								<small class=" text-muted"> <i
+									class="fa fa-clock-o fa-fw"></i>
+									<div th:text="${feedback.date.format(formatter)}" th:remove="tag" /></small>
+								<strong class="pull-right primary-font" th:text="${feedback.producer.email}" />
+							</div>
+							<p th:text="${feedback.message}" />
+						</div></li>
+				</th:block>
+			</ul>
+		</div>
+		<div class="panel-footer" sec:authorize="hasAnyRole('MANAGER','PATIENT','DOCTOR','ADMIN')">
+			<div class="input-group">
+				<input id="feedback" required="required" 
+					pattern="[\w\W\d_]" title="Attention..."
+					type="text" class="form-control input-sm" placeholder="Type your message here..." data-container="body"
+					data-toggle="popover" data-placement="bottom"
+					data-content="Enter some text and try again" /> <span class="input-group-btn">
+					<button onclick="sendFeedback(event)"
+						class="btn btn-warning btn-sm" id="btn-chat">Send</button>
+				</span>
+			</div>
+
+		</div>
+		<!-- /.panel-footer -->
+	</div>
+	<!-- /.panel .chat-panel -->
+</div>
