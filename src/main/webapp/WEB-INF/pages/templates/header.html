@@ -1,6 +1,6 @@
 
 <header class="top-header" th:fragment="page-header">
-	<div class="container">
+	<div class="">
 		<div class="row">
 			<div class="col-xs-3 col-md-3 col-lg-3 header-logo">
 				<br /> <a th:href="@{/}"><img th:src="@{/img/logo.png}" alt=""
@@ -26,14 +26,27 @@
 							id="bs-example-navbar-collapse-1">
 
 							<ul class="nav navbar-nav navbar-right">
-								<li><a class="menu active" th:href="@{#home}">Home</a></li>
-								<li><a class="menu" th:href="@{/hospitals}">Hospitals</a></li>
-								<li><a class="menu" th:href="@{/mapsearch}">Find nearest
-								</a></li>
-								<li><a class="menu" th:href="@{#team}">our team</a></li>
-								<li><a class="menu" th:href="@{#contact}"> contact us</a></li>
-                                <li sec:authorize="hasRole('ROLE_PATIENT')" ><a class="menu" th:href="@{/card}">Card</a></li>
-                                <li sec:authorize="hasRole('ROLE_DOCTOR')" ><a class="menu" th:href="@{/patients}">Patients</a></li>
+								<li><a th:class="menu"
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*HospitalSeeker/?$')}?'active':''"
+									th:href="@{/}">Home</a></li>
+								<li><a th:class="menu"
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*HospitalSeeker/hospitals.*')}?'active':''"
+									th:href="@{/hospitals}">Hospitals</a></li>
+								<li><a th:class="menu"
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*HospitalSeeker/mapsearch.*')}?'active':''"
+									th:href="@{/mapsearch}">Find</a></li>
+								<li><a th:class="menu"
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*HospitalSeeker/contacts.*')}?'active':''"
+									th:href="@{#team}">our team</a></li>
+								<li><a th:class="menu" th:href="@{#}"> contact us</a></li>
+								<li sec:authorize="hasRole('ROLE_PATIENT')"><a
+									th:class="menu"
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*HospitalSeeker/card.*')}?'active':''"
+									th:href="@{/card}">Card</a></li>
+								<li sec:authorize="hasRole('ROLE_DOCTOR')"><a
+									th:class="menu"
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*HospitalSeeker/patients.*')}?'active':''"
+									th:href="@{/patients}">Patients</a></li>
 
 								<li sec:authorize="isAnonymous()" class="menu dropdown"
 									style="cursor: pointer;"><a class="dropdown-toggle menu"
