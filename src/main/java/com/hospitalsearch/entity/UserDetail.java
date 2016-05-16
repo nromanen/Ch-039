@@ -1,13 +1,25 @@
 package com.hospitalsearch.entity;
 
-import com.hospitalsearch.util.Gender;
+import java.io.Serializable;
+import java.time.LocalDate;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
+import com.hospitalsearch.util.Gender;
 
 
 @Entity
@@ -27,11 +39,11 @@ public class UserDetail implements Serializable{
 	private Gender gender;
 	private String address;
 
-	@OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE},fetch = FetchType.EAGER,mappedBy="userDetails")
+	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
 	@Fetch(FetchMode.SELECT)
 	private DoctorInfo doctorsDetails;
 
-	@OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE},fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	@Fetch(FetchMode.SELECT)
 	private PatientInfo patientsDetails;
 

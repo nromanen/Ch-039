@@ -23,11 +23,11 @@ public class Feedback {
 	private Long id;
 	
 	private String message;
-	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE},fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@Fetch(FetchMode.JOIN)
 	private User producer;
 	
-	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE},fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@Fetch(FetchMode.JOIN)
 	private User consumer;
 	private LocalDateTime date;

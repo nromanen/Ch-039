@@ -3,9 +3,12 @@ package com.hospitalsearch.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.*;
-
-import org.hibernate.annotations.Fetch;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Department implements Serializable{
@@ -16,10 +19,10 @@ public class Department implements Serializable{
 	private Long id;
 	private String name;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL)
 	private List<DoctorInfo> doctors;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Hospital hospital;
 	private String imagePath;
 	

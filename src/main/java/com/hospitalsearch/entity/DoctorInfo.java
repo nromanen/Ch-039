@@ -14,10 +14,10 @@ public class DoctorInfo implements Serializable {
     
     private String specialization;
 
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE})
+    @OneToOne
     private UserDetail userDetails;
     
-    @ManyToMany(mappedBy = "doctors",cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE})
+    @ManyToMany(mappedBy = "doctors")
     private List<Department> departments;
 
     @OneToMany(mappedBy = "doctorInfo")

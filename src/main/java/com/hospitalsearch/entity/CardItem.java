@@ -23,7 +23,6 @@ public class CardItem implements Serializable {
 	private LocalDate date;
 	@ManyToOne
 	PatientCard patientCard;
-	
 	@OneToMany
 	private List<Examination> examinationList;
 	private String result;

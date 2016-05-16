@@ -1,13 +1,20 @@
 package com.hospitalsearch.entity;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name="users")
@@ -17,7 +24,7 @@ public class User extends UserDetail implements Serializable {
 	private String password;
 	private Boolean enabled;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="ROLE_USERS", joinColumns=@JoinColumn(name="USERS_ID"),inverseJoinColumns=@JoinColumn(name="ROLE_ID"))
 	@Fetch(FetchMode.SELECT)
 	private Set<Role> userRoles = new HashSet<Role>();
