@@ -71,7 +71,7 @@ public class SpringRootConfig {
 		props.put(PROP_HIBERNATE_DIALECT,properties.getRequiredProperty(PROP_HIBERNATE_DIALECT));
 		props.put(PROP_HIBERNATE_HBM2DDL_AUTO,properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
 		props.put(PROP_HIBERNATE_SHOW_SQL,properties.getRequiredProperty(PROP_HIBERNATE_SHOW_SQL));
-	//	props.put(PROP_HIBERNATE_IMPORT_FILE,properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
+		props.put(PROP_HIBERNATE_IMPORT_FILE,properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
 		return props;
 	}
 

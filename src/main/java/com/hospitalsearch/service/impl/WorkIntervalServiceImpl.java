@@ -41,18 +41,18 @@ public class WorkIntervalServiceImpl implements WorkIntervalService {
         switch (workIntervalDto.getStatus()){
             case "inserted":
                 saveWorkInterval(workInterval);
-                System.out.println("inserted!!!");
+                
                 break;
             case "deleted":
                 deleteInterval(workInterval);
-                System.out.println("deleted!!!");
+               
                 break;
             case "updated":
                 updateWorkinterval(workInterval);
-                System.out.println("updated");
+               
                 break;
             default:
-                System.out.println("default");
+               
         }
 
     }
