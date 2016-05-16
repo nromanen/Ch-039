@@ -3,13 +3,17 @@ package com.hospitalsearch.service.impl;
 import com.hospitalsearch.dao.HospitalDAO;
 import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.service.HospitalService;
+import com.hospitalsearch.util.Bounds;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * Created by deplague on 5/11/16.
+ * 
+ * @author Pavlo Kuz
+ * edited by Oleksandr Mukonin
  */
 @Service
 public class HospitalServiceImpl implements HospitalService {
@@ -41,4 +45,14 @@ public class HospitalServiceImpl implements HospitalService {
     public List<Hospital> getAll() {
         return dao.getAll();
     }
+
+	@Override
+	public void deleteById(long id) {
+		dao.deleteById(id);
+	}	
+
+	@Override
+	public List<Hospital> getAllByBounds(Bounds bounds) {
+		return dao.getAllByBounds(bounds);		
+	}
 }

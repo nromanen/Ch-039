@@ -1,10 +1,20 @@
 package com.hospitalsearch.dao;
 
+import java.util.List;
+
 import com.hospitalsearch.entity.Hospital;
+import com.hospitalsearch.util.Bounds;
 
 /**
- * Created by deplague on 5/11/16.
+ * 
+ * @author Oleksandr Mukonin
+ *
  */
 
 public interface HospitalDAO extends  GenericDAO<Hospital,Long> {
+	
+	List<Hospital> getAllByBounds(Bounds bounds);
+	
+	void deleteById(long id);
+
 }

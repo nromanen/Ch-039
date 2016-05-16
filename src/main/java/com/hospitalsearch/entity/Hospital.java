@@ -2,29 +2,71 @@ package com.hospitalsearch.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+import org.hibernate.validator.constraints.NotEmpty;
+
+/**
+ * 
+ * @author Oleksandr Mukonin
+ *
+ */
 @Entity
+@Table(name = "HOSPITAL")
+
+@NamedQueries
+(
+	{
+		@NamedQuery(name = Hospital.DELETE_HOSPITAL_BY_ID, query = Hospital.DELETE_HOSPITAL_BY_ID_QUERY),
+		@NamedQuery(name = Hospital.GET_LIST_BY_BOUNDS, query = Hospital.GET_LIST_BY_BOUNDS_QUERY)
+	}
+)
 public class Hospital implements Serializable {
 	
 	private static final long serialVersionUID = 8874100249877394394L;
-	@Id
-	@GeneratedValue
-	private Long id;
-	private String name;
-	private Double latitude;
-	private Double longitude;
-	private String address; 
-	private String description; 
-	private String imagePath;
 	
-	public Hospital() {
-		// TODO Auto-generated constructor stub
-	}
+	static final String GET_LIST_BY_BOUNDS_QUERY = "from Hospital h where "
+			+ "(latitude < :nelat) and "
+			+ "(latitude > :swlat) and "
+			+ "(longitude < :nelng) and "
+			+ "(longitude > :swlng)";
+	public static final String GET_LIST_BY_BOUNDS = "GET_LIST_BY_BOUNDS";
+	
+	static final String DELETE_HOSPITAL_BY_ID_QUERY = "DELETE Hospital WHERE id = :id";
+	public static final String DELETE_HOSPITAL_BY_ID = "DELETE_HOSPITAL_BY_ID";
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@NotEmpty
+	@Column(name = "NAME", nullable = false)
+	private String name;
 
+	@NotNull
+	@Column(name = "LATITUDE", nullable = false)
+	private Double latitude;
 
+	@NotNull
+	@Column(name = "LONGITUDE", nullable = false)
+	private Double longitude;
+	
+	@NotEmpty
+	@Column(name = "ADDRESS", nullable = false)
+	private String address; 
+	
+	@Column(name = "DESCRIPTION", nullable = false)
+	private String description; 
+	
+	private String imagePath;
 
 	public Long getId() {
 		return id;
@@ -32,6 +74,14 @@ public class Hospital implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Double getLatitude() {
@@ -66,13 +116,8 @@ public class Hospital implements Serializable {
 		this.description = description;
 	}
 
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public String getImagePath() {

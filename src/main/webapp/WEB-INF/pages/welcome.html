@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	layout:decorator="layout">
+<head>
+
+	<meta charset="UTF-8" />
+	<meta th:name="csrf-token" th:content="${_csrf.token}"/>
+
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=places"></script>
+	<script th:src="@{/welcome.js}"></script>
+
+	<title>Find Nearest Hospital</title>
+</head>
+<body>
+	<section layout:fragment="content">
+		<div class="content">
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<input id="pac-input" class="form-control" type="text"
+							placeholder="Enter Address" /> <br />
+						<div id="googleMap" class="col-md-12" style="height: 100vw;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
