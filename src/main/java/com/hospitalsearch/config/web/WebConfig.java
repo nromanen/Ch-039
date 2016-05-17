@@ -28,8 +28,6 @@ import com.hospitalsearch.config.SpringRootConfig;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
-
-
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.hospitalsearch"},basePackageClasses={SpringRootConfig.class})
@@ -82,13 +80,11 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		registry.addConverter(roleConverter);
 	}
 
-
 	//thymeleaf
 	@Bean
 	public SpringTemplateEngine templateEngine(){
 		SpringTemplateEngine engine = new SpringTemplateEngine();
 		engine.setTemplateResolver(templateResolver());
-
 		Set<IDialect> additionalDialects = new HashSet<>();
 		additionalDialects.add(new LayoutDialect());
 		additionalDialects.add(new SpringSecurityDialect());
@@ -100,7 +96,8 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 	public ThymeleafViewResolver viewResolver(){
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(templateEngine());
+		viewResolver.setCharacterEncoding("UTF-8");
 		return viewResolver;
 	}
-    
+
 }

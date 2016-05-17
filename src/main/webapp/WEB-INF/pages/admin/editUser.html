@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<head>
+    <meta charset="ISO-8859-1"/>
+    <meta charset="UTF-8"/>
+    <title>Edit Userr</title>
+    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}" />
+    <link rel="stylesheet" th:href="@{/css/animate.css}" />
+    <script th:src="@{/js/admin.js}"></script>
+</head>
+<body>
+<section layout:fragment="content" class="dashboard center">
+    <div class="content">
+
+        <div class="container">
+            <div class="row">
+                <h4>Edit User <span th:text="${editUser.email}"></span></h4>
+
+                <div class="col-md-6 center-block">
+                    <form method="POST" th:object="${editUser}" class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="enabled">Enabled</label>
+                            <div class="checkbox">
+                                <div class="col-sm-4">
+                                    <input type="checkbox" th:field="*{enabled}" th:value="*{enabled}" id="enabled"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Role</label>
+                            <div class="col-sm-5">
+                                <select th:field="*{userRoles}" multiple="multiple" size="5" class="form-control">
+                                    <option value=""></option>
+                                    <option
+                                            th:each="role : ${roles}"
+                                            th:value="${role.type}"
+                                            th:text="${role.type}">Role
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <input th:field="*{password}" id="password" hidden="hidden"/>
+                        <input th:field="*{email}" id="email" hidden="hidden" />
+                        <div class="row">
+                            <div class="form-actions floatRight">
+                                <input type="submit" value="Edit" class="btn btn-primary btn-sm"/> or <a class="btn btn-default" th:href="@{/admin/dashboard}">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+
+
+
+
+
+
+

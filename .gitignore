@@ -1,3 +1,4 @@
 /target/
-HospitalSeeker.iml
-.gitignore
+.classpath
+.project
+.settings/

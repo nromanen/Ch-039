@@ -14,6 +14,7 @@ public interface UserService {
     void save(User newUser);
     void delete(User user);
     void update(User updatedUser);
+    void changeStatus(User user);
     @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
     User getById(Long id);
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)

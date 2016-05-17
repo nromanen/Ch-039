@@ -38,7 +38,6 @@ public class CardController {
         return "card/full";
     }
 
-
     @RequestMapping(value = { "/cards" }, method = RequestMethod.GET)
     public String patientCard(@RequestParam("userId") String userId, ModelMap model){
         User user = userService.getById(Long.parseLong(userId));
@@ -94,8 +93,5 @@ public class CardController {
         }
         return userName;
     }
-
-
-
 
 }

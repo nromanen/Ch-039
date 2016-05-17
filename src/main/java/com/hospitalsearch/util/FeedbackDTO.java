@@ -4,10 +4,11 @@ import java.time.LocalDateTime;
 
 import com.hospitalsearch.entity.Feedback;
 import com.hospitalsearch.entity.User;
+import com.hospitalsearch.entity.UserDetail;
 import com.hospitalsearch.service.UserDetailService;
 
 public class FeedbackDTO {
-	private User userEmail;
+	private String userEmail;
 	private Long doctorId;
 	private String message;
 
@@ -17,7 +18,7 @@ public class FeedbackDTO {
 	}
 
 	
-	public FeedbackDTO(User userEmail, Long doctorId, String message) {
+	public FeedbackDTO(String userEmail, Long doctorId, String message) {
 		super();
 		this.userEmail = userEmail;
 		this.doctorId = doctorId;
@@ -27,23 +28,23 @@ public class FeedbackDTO {
 	}
 
 
-	public Feedback getFeedback(UserDetailService service){
+	public Feedback buildFeedback(User consumer,User producer){
 		Feedback feedback = new Feedback();
 		feedback.setDate(LocalDateTime.now());
 		feedback.setMessage(message);
-		feedback.setConsumer((User) service.getById(doctorId));
-		feedback.setProducer(userEmail);
+		feedback.setConsumer(consumer);
+		feedback.setProducer(producer);
 		return feedback;
 	}
 
 
 
 
-	public User getUserEmail() {
+	public String getUserEmail() {
 		return userEmail;
 	}
 	
-	public void setUserEmail(User userEmail) {
+	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
 

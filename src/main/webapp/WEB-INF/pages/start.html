@@ -47,6 +47,7 @@ html, body {
 	<section layout:fragment="content">
 
 		<p th:text="${id}" id="1" hidden="hidden"></p>
+		<input id="path" th:value="${#httpServletRequest.getContextPath()}"/>
 		<div class="modal bs-example-modal-sm" id="message_modal"
 			tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			<div class="modal-dialog modal-sm">

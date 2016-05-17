@@ -62,4 +62,9 @@ public class UserServiceImpl implements UserService{
     public List<User> getByRole(long id) {
         return dao.getByRole(id);
     }
+
+    @Override
+    public void changeStatus(User user) {
+        dao.changeStatus(user);
+    }
 }

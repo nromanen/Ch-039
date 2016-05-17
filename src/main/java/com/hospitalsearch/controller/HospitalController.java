@@ -34,7 +34,6 @@ public class HospitalController {
 	@Autowired(required = true)
 	private UserService userService;
 	
-	
 
 	@Autowired(required = true)
 	private DoctorInfoService doctorInfoService;

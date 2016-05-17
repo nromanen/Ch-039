@@ -1,6 +1,5 @@
 package com.hospitalsearch.config.security;
 
-
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +16,6 @@ public class RoleConverter implements Converter<Object, Role> {
     RoleService roleService;
 
     @Override
-   /* public Role convert(Object element) {
-        Long id = Long.parseLong((String) element);
-        Role role = roleService.getById(id);
-        System.out.println("Role " + role);
-        return role;
-    }*/
-
-
-
-
     //get role by type
     public Role convert(Object element) {
         String type =( String) element;
@@ -34,5 +23,4 @@ public class RoleConverter implements Converter<Object, Role> {
         System.out.println("Role " + role);
         return role;
     }
-
 }

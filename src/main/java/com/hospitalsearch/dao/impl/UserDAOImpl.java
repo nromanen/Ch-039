@@ -20,6 +20,12 @@ public class UserDAOImpl extends GenericDAOImpl<User,Long> implements UserDAO{
     public UserDAOImpl(SessionFactory factory){this.setSessionFactory(factory);}
 
     @Override
+    public User getById(Long id) {
+    	
+    	return this.currentSession().get(User.class, id);
+    }
+    
+    @Override
     public User getByEmail(String email) {
         Criteria criteria = this.currentSession().createCriteria(User.class);
         criteria.add(Restrictions.eq("email", email));
