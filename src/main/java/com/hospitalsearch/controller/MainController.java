@@ -1,5 +1,6 @@
 package com.hospitalsearch.controller;
 
+import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.PatientService;
 import com.hospitalsearch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class MainController {
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(Map<String,Object> model){
+        User user = new User();
+        model.put("user", user);
         return  "layout";
     }
 

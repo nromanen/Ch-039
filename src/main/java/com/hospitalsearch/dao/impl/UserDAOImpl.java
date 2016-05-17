@@ -21,7 +21,6 @@ public class UserDAOImpl extends GenericDAOImpl<User,Long> implements UserDAO{
 
     @Override
     public User getById(Long id) {
-    	
     	return this.currentSession().get(User.class, id);
     }
     
@@ -34,7 +33,11 @@ public class UserDAOImpl extends GenericDAOImpl<User,Long> implements UserDAO{
 
     @Override
     public void changeStatus(User user) {
-        user.setEnabled(false);
+        if(user.getEnabled()) {
+            user.setEnabled(false);
+        }else{
+            user.setEnabled(true);
+        }
         update(user);
     }
 

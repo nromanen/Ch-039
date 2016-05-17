@@ -2,6 +2,7 @@ package com.hospitalsearch.service.impl;
 
 import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.entity.PatientCard;
+import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.PatientCardService;
 import com.hospitalsearch.service.UserService;
@@ -35,6 +36,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void delete(User user) {
+        for(Role role : user.getUserRoles()){
+            if(role.getType().equals("ADMIN")){
+                return;
+            }
+        }
         dao.delete(user);
     }
 
