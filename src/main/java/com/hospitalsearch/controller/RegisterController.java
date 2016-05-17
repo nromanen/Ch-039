@@ -33,7 +33,7 @@ public class RegisterController {
             return "layout";
         }
         userService.register(user);
-        model.addAttribute("user", null);
+        model.addAttribute("dto", null);
         return "redirect:/";
     }
 
