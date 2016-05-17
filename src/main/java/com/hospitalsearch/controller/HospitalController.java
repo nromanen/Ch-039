@@ -40,8 +40,23 @@ public class HospitalController {
 
 	@RequestMapping("/hos")
 	public String renderHospitals2(Map<String,Object> model){
-		save();
+		Department d = departmentService.getById(1L);
+		User user2 = new User();
+		user2.setId(2L);
+		user2.setEmail("lcuddy@pplaceboro.com");
+		user2.setFirstName("Lisa");
+		user2.setLastName("Cuddy");
+		user2.setImagePath("member1.jpg");
+		user2.setPassword("$2a$10$KHfIL7Eln25US1XoFsWTquXsvuIbr8LzdlOCBLB..GZv9gFfBVtwe");
+		userService.save(user2);
 
+		DoctorInfo info2 = new DoctorInfo();
+		info2.setUserDetails((UserDetail)user2);
+		info2.setSpecialization("Endocrinologist");
+		doctorInfoService.save(info2);
+		
+		d.setDoctors(Arrays.asList(info2));
+		departmentService.update(d);
 		return "layout";
 	}
 
