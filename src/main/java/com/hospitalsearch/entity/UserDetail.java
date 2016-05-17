@@ -39,6 +39,9 @@ public class UserDetail implements Serializable{
 	private Gender gender;
 	private String address;
 
+	@OneToOne
+	private PatientCard patientCard;
+
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
 	@Fetch(FetchMode.SELECT)
 	private DoctorInfo doctorsDetails;
@@ -119,5 +122,13 @@ public class UserDetail implements Serializable{
 	}
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
+	}
+
+	public PatientCard getPatientCard() {
+		return patientCard;
+	}
+
+	public void setPatientCard(PatientCard patientCard) {
+		this.patientCard = patientCard;
 	}
 }

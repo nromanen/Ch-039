@@ -1,4 +1,8 @@
 /target/
+HospitalSeeker.iml
+.gitignore
+.idea/*
+.DS_Store
 .classpath
 .project
 .settings/

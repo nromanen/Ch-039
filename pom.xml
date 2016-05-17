@@ -18,8 +18,8 @@
 		<jsp.api>2.0</jsp.api>
 		<jstl.version>1.2</jstl.version>
 		<mysql>6.0.2</mysql>
-		<thymeleaf.core>2.1.2.RELEASE</thymeleaf.core>
 		<thymeleaf.layout>1.4.0</thymeleaf.layout>
+		<thymeleaf.core>2.1.4.RELEASE</thymeleaf.core>
 		<groovy.lang>2.4.5</groovy.lang>
 		<thymeleafspringsecurity4.version>2.1.2.RELEASE</thymeleafspringsecurity4.version>
 	</properties>
