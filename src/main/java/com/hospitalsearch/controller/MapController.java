@@ -43,7 +43,7 @@ public class MapController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = { "/getmarkers", "/admin/map/getmarkers"}, method = RequestMethod.POST)
+	@RequestMapping(value = { "/**/getmarkers"}, method = RequestMethod.POST)
 	public List<Hospital> getMarkers(@RequestBody String data) {
 		List<Hospital> result = null;
 		try {
