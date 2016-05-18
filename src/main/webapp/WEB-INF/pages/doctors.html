@@ -16,7 +16,7 @@
 				<div class="row" >
 					<div th:each="doctor:${doctors}" class="col-md-2 single-member col-sm-4">
 						<div th:if="${doctors.indexOf(doctor)%2 == 0}">
-							<a th:href="@{/dashboard(id=${doctor.id},did=${id})}">
+							<a th:href="@{|/hospital/${hid}/department/${id}/doctor/${doctor.id}/dashboard|}">
 								<div
 									th:replace="templates/doctor_detail::doctor-detail('arrow-top',${doctor.firstName},${doctor.lastName},${doctor.doctorsDetails})" />
 
@@ -25,7 +25,7 @@
 							</a>
 						</div>
 						<div th:if="${doctors.indexOf(doctor)%2 == 1}">
-							<a th:href="@{/dashboard(id=${doctor.id},did=${id})}">
+							<a th:href="@{|/hospital/${hid}/department/${id}/doctor/${doctor.id}/dashboard|}">
 								<div
 									th:replace="templates/doctor_photo::doctor-photo(${doctor.imagePath})" />
 

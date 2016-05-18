@@ -50,13 +50,16 @@ li {
     list-style: none;
 }
 
+.chat-header {
+	background: #fff !important;  
+}
 
 
 .chat-pane {
     overflow: auto;
     height: 300px;
     padding: .5rem;
-    -webkit-overflow-scrolling: touch;
+        
     -ms-overflow-style: none;
 }
 

@@ -42,34 +42,36 @@ public class WorkIntervalController {
     @Autowired
     private DepartmentService departmentService;
 
-    @RequestMapping(value = "/getIntervals",method = RequestMethod.GET)
+    @RequestMapping(value = "/**/getIntervals",method = RequestMethod.GET)
     public @ResponseBody
     List<WorkInterval> listAllWorkintervals(@RequestParam("id")String id) {
         return workIntervalService.getAllbyDoctorId(Long.parseLong(id));
     }
 
-    @RequestMapping(value = "/dashboard",method = RequestMethod.GET)
-    String string(@RequestParam("id")String id, 
-    			  @RequestParam("did") Long did,
+    @RequestMapping(value = "/hospital/{*}/department/{dep_id}/doctor/{d_id}/dashboard",method = RequestMethod.GET)
+    String string(
+    		@PathVariable("dep_id") Long departmentId,
+    		@PathVariable("d_id") Long doctorId,
     		ModelMap model){
     	
     	
-    	Department d =departmentService.getById(did);
+    	Department d =departmentService.getById(departmentId);
         model.put("department", d);
         model.put("hospital", d.getHospital());
         model.put("formatter", DateTimeFormatter.ofPattern("d MMM uuuu hh:mm"));
-        model.put("feedbacks", feedbackService.getByDoctorId(Long.parseLong(id)));
+        model.put("feedbacks", feedbackService.getByDoctorId(doctorId));
         
     	
-        UserDetail userDetail = userDetailService.getById(Long.parseLong(id));
+        UserDetail userDetail = userDetailService.getById(doctorId);
         model.addAttribute("id",userDetail.getDoctorsDetails().getId());
-        model.addAttribute("doctor", userDetailService.getById(Long.parseLong(id)));
+        model.addAttribute("doctor", userDetailService.getById(doctorId));
         return "start";
     }
 
-    @RequestMapping(value = "/supplyIntervals", method = RequestMethod.POST)
-    String eventProcessor(HttpServletRequest request, @RequestParam("id")String id){
-        workIntervalService.actionControl(request.getParameterMap(), Long.parseLong(id));
+    @RequestMapping(value = "/**/supplyIntervals", method = RequestMethod.POST)
+    String eventProcessor(HttpServletRequest request, 
+    		@RequestParam("id")Long id){
+        workIntervalService.actionControl(request.getParameterMap(), id);
         return "redirect:/";
 
     }

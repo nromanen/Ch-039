@@ -85,10 +85,7 @@ public class HospitalController {
 	public String renderDoctors(Map<String,Object> model,
 			@PathVariable Long hid,                        
 			@PathVariable Long id
-
-
-			){
-
+	){
 		Department d =departmentService.getById(id);
 		model.put("doctors", doctorInfoService.findByDepartmentId(id));
 		model.put("department", d);

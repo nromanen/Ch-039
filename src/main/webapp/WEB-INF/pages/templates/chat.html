@@ -1,5 +1,4 @@
 <div th:fragment="feedback-panel(feedbacks)">
-
 	<div class="chat-panel panel panel-default">
 		<div class="panel-heading">
 			<i class="fa fa-rss fa-fw"></i> Feedback
@@ -10,12 +9,12 @@
 				<th:block th:each="feedback:${feedbacks}">
 					<li th:if="${feedbacks.indexOf(feedback)%2==0}"
 						class="left clearfix"><span class="chat-img pull-left">
-							<img  th:src="@{'http://placehold.it/50/55C1E7/fff'}"
+						<img  th:src="@{'http://placehold.it/50/55C1E7/fff'}"
 							 alt="User Avatar"
 							class="img-circle" />
 					</span>
 						<div class="chat-body clearfix">
-							<div class="header">
+							<div class="header chat-header" style="backgroud-color:white;">
 								<strong class="primary-font" th:text="${feedback.producer.email}" /> <small
 									class="pull-right text-muted"> <i
 									class="fa fa-clock-o fa-fw"></i>

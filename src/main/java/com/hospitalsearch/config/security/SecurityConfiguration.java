@@ -55,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/supplyIntervals");
+		web.ignoring().antMatchers("/**/supplyIntervals");
 		web.ignoring().antMatchers("/editUser");
 		web.ignoring().antMatchers("/doctor/feedback");
 	}
