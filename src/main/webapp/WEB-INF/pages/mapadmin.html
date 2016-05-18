@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout">
-	<head>
-			
-		<meta charset="UTF-8" />
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<head>
 
-		<script src="http://maps.googleapis.com/maps/api/js"></script>
-		<script th:src="@{/mapadmin.js}"></script>
-		
-		<title>Hospital Add/Edit page</title>
-	</head>
-	<body>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=places"></script>
+<script th:src="@{/js/mapadmin.js}"></script>
+<script th:src="@{/js/gmaps.js}"></script>
+
+<title>Hospital Add/Edit page</title>
+</head>
+<body>
 	<section layout:fragment="content">
 		<div class="content">
 			<div class="container">
+				<input id="pac-input" class="form-control" type="text"
+					placeholder="Enter Address" /> <br />
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div id="googleMap" class="col-md-12" style="height: 50vh;"></div>
