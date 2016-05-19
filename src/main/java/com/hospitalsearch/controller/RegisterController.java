@@ -1,10 +1,9 @@
 package com.hospitalsearch.controller;
 
 
-import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.UserDetailService;
 import com.hospitalsearch.service.UserService;
-import com.hospitalsearch.util.UserDetailRegisterDto;
+import com.hospitalsearch.util.UserDto;
 import com.hospitalsearch.util.UserRegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,11 +27,11 @@ public class RegisterController {
     private UserDetailService userDetailService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public String processRegistration(@Valid @ModelAttribute("user") UserRegisterDto user, BindingResult result, Model model) {
+    public String processRegistration(@Valid @ModelAttribute("dto") UserRegisterDto dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "layout";
         }
-        userService.register(user);
+        userService.register(dto);
         model.addAttribute("dto", null);
         return "redirect:/";
     }
@@ -40,17 +39,13 @@ public class RegisterController {
 
     @RequestMapping(value = "/{email}", method = RequestMethod.GET)
     public String viewUser(@PathVariable("email") String email, Model model) {
-        User user = userService.getByEmail(email);
-        UserDetailRegisterDto dto = new UserDetailRegisterDto();
-        dto.setLastName(user.getLastName());
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("dto", dto);
+        model.addAttribute("dto", userService.getDtoByEmail(email));
         return "registercontinue";
     }
 
     @RequestMapping(value = "/{email}", method = RequestMethod.POST)
     public String updateUser(@PathVariable("email") String email,
-                             @Valid @ModelAttribute UserDetailRegisterDto dto,
+                             @Valid @ModelAttribute UserDto dto,
                              BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "registercontinue";

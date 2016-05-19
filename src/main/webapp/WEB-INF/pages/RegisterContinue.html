@@ -13,7 +13,7 @@
     <div class="content">
         <div class="about text-center container">
 
-            <form name="dto" method="post" th:action="@{|/register/${email}/|}" th:object="${dto}">
+            <form name="dto" method="post" th:action="@{|/register/${dto.email}/|}" th:object="${dto}">
                 <table>
                     <tr>
                         <td>First name</td>

@@ -54,7 +54,7 @@ public class SpringRootConfig {
 		LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
 		sessionFactoryBean.setDataSource(dataSource());
 		sessionFactoryBean.setHibernateProperties(hibernateProperties());
-		sessionFactoryBean.setPackagesToScan(new String[]{properties.getRequiredProperty(PROP_HIBERNATE_ENTITY_PACKAGE)});
+		sessionFactoryBean.setPackagesToScan(properties.getRequiredProperty(PROP_HIBERNATE_ENTITY_PACKAGE));
 
 		return sessionFactoryBean;
 	}

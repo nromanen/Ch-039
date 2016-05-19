@@ -83,15 +83,11 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = {"user/view/{id}"}, method = RequestMethod.GET)
-    @ResponseBody
-    public String viewUser(@PathVariable("id")String id, ModelMap model) {
-        User user = userService.getById(Long.parseLong(id));
-        String tmpUser = String.format ("%d,%s,%s,%s,%s,%s,%s,%s,%s",user.getId(),user.getEmail(),
-                user.getGender(),user.getFirstName(),user.getLastName(),
-                user.getBirthDate(),user.getAddress(),user.getPhone(),
-                user.getPatientsDetails());
-        return tmpUser;
+    // must be viewById
+    @RequestMapping(value = {"user/view/{email}"}, method = RequestMethod.GET)
+    public String viewUser(@PathVariable("email")String email, ModelMap model) {
+        model.addAttribute("dto", userService.getDtoByEmail(email));
+        return "userinfo";
     }
 
 

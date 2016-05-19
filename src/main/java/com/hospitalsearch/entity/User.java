@@ -21,12 +21,7 @@ import java.util.Set;
 @Table(name = "users")
 @PrimaryKeyJoinColumn(name = "id")
 
-@org.hibernate.annotations.NamedQueries
-        (
-                {
-                        @org.hibernate.annotations.NamedQuery(name = User.SELECT_BY_ROLE, query = User.SELECT),
-                }
-        )
+@org.hibernate.annotations.NamedQueries({@org.hibernate.annotations.NamedQuery(name = User.SELECT_BY_ROLE, query = User.SELECT),})
 
 public class User extends UserDetail implements Serializable {
 
@@ -41,9 +36,6 @@ public class User extends UserDetail implements Serializable {
 
     static final String SELECT = "SELECT u FROM User u JOIN  u.userRoles r WHERE r.id = :id";
     public static final String SELECT_BY_ROLE = "SELECT_BY_ROLE";
-
-    @OneToOne
-    private PatientCard patientCard;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ROLE_USERS", joinColumns = @JoinColumn(name = "USERS_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
@@ -84,14 +76,6 @@ public class User extends UserDetail implements Serializable {
 
     public void setUserRoles(Set<Role> userRoles) {
         this.userRoles = userRoles;
-    }
-
-    public PatientCard getPatientCard() {
-        return patientCard;
-    }
-
-    public void setPatientCard(PatientCard patientCard) {
-        this.patientCard = patientCard;
     }
 
     @Override

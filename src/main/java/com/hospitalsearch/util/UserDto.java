@@ -1,55 +1,44 @@
 package com.hospitalsearch.util;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
+/**
+ * user view representation
+ */
+public class UserDto {
 
-public class UserDetailRegisterDto {
-
-
-
-    /**
-     * SHOULD BE REMOVED -> UserDto (validation)
-     */
-
-
-
+    private Long id;
+    private String email;
     @NotEmpty
     @Size(min = 2, max = 25)
     @Pattern(regexp = "[A-Z][a-z]*", message = "Incorrect name")
     private String firstName;
-
-    @NotEmpty
-    @Size(min = 2, max = 25)
-    @Pattern(regexp = "[A-Z][a-z]*", message = "Incorrect name")
     private String lastName;
-
-    @NotEmpty
-    @Digits(message = "wrong phone number", integer = 10, fraction = 0)
     private String phone;
-
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
-//    @NotNull
     private LocalDate birthDate;
-
     private String imagePath;
-
-    @NotNull
     private Gender gender;
-
-    @NotEmpty
     private String address;
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;

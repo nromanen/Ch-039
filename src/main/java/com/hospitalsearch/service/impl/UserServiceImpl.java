@@ -1,18 +1,19 @@
 package com.hospitalsearch.service.impl;
 
 import com.hospitalsearch.dao.UserDAO;
-import com.hospitalsearch.entity.PatientCard;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.RoleService;
 import com.hospitalsearch.service.UserService;
-import com.hospitalsearch.util.UserDetailRegisterDto;
+import com.hospitalsearch.service.mapper.UserBeanMapper;
+import com.hospitalsearch.util.UserDto;
 import com.hospitalsearch.util.UserRegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +22,8 @@ import static java.util.Objects.nonNull;
 
 
 @Service
-public class UserServiceImpl implements UserService{
+@Transactional
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO dao;
 
@@ -30,6 +32,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserBeanMapper userMapper;
 
 
     @Override
@@ -40,8 +45,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void delete(User user) {
-        for(Role role : user.getUserRoles()){
-            if(role.getType().equals("ADMIN")){
+        for (Role role : user.getUserRoles()) {
+            if (role.getType().equals("ADMIN")) {
                 return;
             }
         }
@@ -53,21 +58,25 @@ public class UserServiceImpl implements UserService{
         dao.update(updatedUser);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public User getById(Long id) {
         return dao.getById(id);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<User> getAll() {
         return dao.getAll();
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public User getByEmail(String email) {
         return dao.getByEmail(email);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<User> getByRole(long id) {
         return dao.getByRole(id);
@@ -89,7 +98,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void registerUpdate(UserDetailRegisterDto dto, String email) {
+    public void registerUpdate(UserDto dto, String email) {
         User user = dao.getByEmail(email);
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
@@ -101,5 +110,10 @@ public class UserServiceImpl implements UserService{
             user.setImagePath(dto.getImagePath());
         }
         dao.update(user);
+    }
+
+    @Override
+    public UserDto getDtoByEmail(String email) {
+        return userMapper.convertToBean(getByEmail(email));
     }
 }
