@@ -3,17 +3,17 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout">
-
 <head>
 
-<meta charset="UTF-8" />
-<meta th:name="csrf-token" th:content="${_csrf.token}"/>
-<meta th:name="csrf-name" th:content="${_csrf.parameterName}"/>
+<meta th:name="csrf-token" th:content="${_csrf.token}" />
+<meta th:name="csrf-name" th:content="${_csrf.parameterName}" />
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=places"></script>
-<script th:src="@{/mapvalidation.js}"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=places"></script>
+<script th:src="@{/js/mapvalidation.js}"></script>
+<script th:src="@{/js/gmaps.js}"></script>
 
 <title>HospitalValidation Page</title>
 </head>
@@ -24,6 +24,8 @@
 				<div th:if="${message != null}" class="alert alert-warning fade in">
 					<span th:text="${message}"></span>
 				</div>
+				<input id="pac-input" class="form-control" type="text"
+					placeholder="Enter Address" /> <br />
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div id="googleMap" class="col-md-12" style="height: 50vh;"></div>

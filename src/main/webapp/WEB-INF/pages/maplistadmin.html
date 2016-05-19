@@ -3,14 +3,14 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout">
-
 <head>
 
-<meta charset="UTF-8" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
-<script src="http://maps.googleapis.com/maps/api/js"></script>
-<script th:src="@{/maplistadmin.js}"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=places"></script>
+<script th:src="@{/js/maplistadmin.js}"></script>
+<script th:src="@{/js/gmaps.js}"></script>
 
 <title>Hospital Add/Edit page</title>
 </head>
@@ -21,6 +21,8 @@
 				<div th:if="${message != null}" class="alert alert-warning fade in">
 					<span th:text="${message}"></span>
 				</div>
+				<input id="pac-input" class="form-control" type="text"
+					placeholder="Enter Address" /> <br />
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div id="googleMap" class="col-md-12" style="height: 50vh;"></div>
@@ -47,20 +49,40 @@
 									<td th:text="${hospital.address}"></td>
 									<td class="col-md-2">
 										<form method="POST"
-											th:action="@{'/admin/map/deletehospital' + ${hospital.id}}">
+											th:action="@{'/admin/map/deletehospital/' + ${hospital.id}}">
 											<input type="hidden" th:name="${_csrf.parameterName}"
 												th:value="${_csrf.token}" />
 											<button type="button" class="btn btn-default"
 												th:onclick="'javascript:placeMarker(\'' + ${hospital.latitude} + '\', \'' + ${hospital.longitude} + '\');'">
 												<span class="glyphicon glyphicon-map-marker"></span>
 											</button>
-											<a th:href="@{'/admin/map/edithospital' + ${hospital.id}}"
+											<a th:href="@{'/admin/map/edithospital/' + ${hospital.id}}"
 												class="btn btn-default"> <span
 												class="glyphicon glyphicon-pencil"></span>
 											</a>
-											<button class="btn btn-default" type="submit">
+											<button type="button" class="btn btn-default"
+												th:onclick="'javascript:$(\'#' + ${hospital.id} + '\').modal();'">
 												<span class="glyphicon glyphicon-remove"></span>
 											</button>
+											<div class="modal fade" th:id="${hospital.id}" role="dialog">
+												<div class="modal-dialog modal-sm">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal">&times;</button>
+															<h4 class="modal-title">Confirm action</h4>
+														</div>
+														<div class="modal-body">
+															Confirm deleting of DB entry
+															<div th:text="${hospital.name}"></div>
+														</div>
+														<div class="modal-footer">
+															<button class="btn btn-default" type="submit">Delete</button>
+															<button type="button" class="btn btn-default"
+																data-dismiss="modal">Cancel</button>
+														</div>
+													</div>
+												</div>
+											</div>
 										</form>
 									</td>
 								</tr>

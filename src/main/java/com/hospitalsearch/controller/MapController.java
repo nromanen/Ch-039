@@ -103,7 +103,7 @@ public class MapController {
 		return "redirect:/admin/map/listhospitals";
 	}
 	
-	@RequestMapping(value = { "/admin/map/edithospital{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/admin/map/edithospital/{id}" }, method = RequestMethod.GET)
 	public String editHosital(@PathVariable long id, ModelMap model) {
 		Hospital hospital = service.getById(id);
 		model.addAttribute("hospital", hospital);
@@ -111,7 +111,7 @@ public class MapController {
 	}
 	
 	@PreAuthorize ("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = { "/admin/map/edithospital{id}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/admin/map/edithospital/{id}" }, method = RequestMethod.POST)
 	public String updateHospital(@Valid Hospital hospital, BindingResult result,
 			@PathVariable long id, RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
@@ -124,7 +124,7 @@ public class MapController {
 	}
 	
 	@PreAuthorize ("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = { "/admin/map/deletehospital{id}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/admin/map/deletehospital/{id}" }, method = RequestMethod.POST)
 	public String deleteHospital(@PathVariable long id, RedirectAttributes redirectAttributes) {
 		Hospital hospital = service.getById(id);
 		service.deleteById(id);
