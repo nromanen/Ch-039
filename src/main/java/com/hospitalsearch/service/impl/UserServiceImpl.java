@@ -1,5 +1,6 @@
 package com.hospitalsearch.service.impl;
 
+import com.google.common.collect.ImmutableMap;
 import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
@@ -35,6 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserBeanMapper userMapper;
+
+    @Autowired
+    private MailService mailService;
 
 
     @Override
@@ -95,6 +99,8 @@ public class UserServiceImpl implements UserService {
         user.setLastName(dto.getUserName());
         user.setUserRoles(new HashSet<>(Collections.singletonList(roleService.getByType("PATIENT"))));
         save(user);
+        mailService.createMessage("receiverEmail@gmail.com", "subject", "registerInvite.vm",
+                ImmutableMap.of("user", dto.getUserName()));
     }
 
     @Override
