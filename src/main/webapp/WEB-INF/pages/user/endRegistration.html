@@ -14,20 +14,20 @@
 <section layout:fragment="content" class="container">
     <div class="content">
 
-            <div th:if="${success}!=null">
-                <div class="animated flipInX">
-                    <h3 th:text="${success}" class="text-success text-center menu"></h3>
-                    <img th:src="@{/img/registration_success.jpg}" style="max-width:40%" class="img-responsive center-block"/>
-                </div>
-            </div>
-
-            <div th:if="${registrationError}!=null">
-                <div class="animated flipInX">
-                    <h3 th:text="${registrationError}" class="text-warning text-center menu"></h3>
-                    <img th:src="@{/img/registration_error.png}" style="max-width:50%" class="img-responsive center-block "/>
-                </div>
+        <div th:if="${success}!=null">
+            <div class="animated flipInX">
+                <h3 th:text="${success}" class="text-success text-center menu"></h3>
+                <img th:src="@{/img/registration_success.jpg}" style="max-width:40%" class="img-responsive center-block"/>
             </div>
         </div>
+
+        <div th:if="${registrationError}!=null">
+            <div class="animated flipInX">
+                <h3 th:text="${registrationError}" class="text-warning text-center menu"></h3>
+                <img th:src="@{/img/registration_error.png}" style="max-width:50%" class="img-responsive center-block "/>
+            </div>
+        </div>
+    </div>
 </section>
 </body>
 </html>

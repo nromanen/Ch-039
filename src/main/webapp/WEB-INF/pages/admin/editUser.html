@@ -19,7 +19,7 @@
                 <h4>Edit User <span th:text="${editUser.email}"></span></h4>
 
                 <div class="col-md-6 center-block">
-                    <form method="POST" th:object="${editUser}" class="form-horizontal">
+                    <form method="POST" th:object="${editUser}" class="form-horizontal" th:action="@{/admin/users/edit}">
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="enabled">Enabled</label>
@@ -44,10 +44,12 @@
                             </div>
                         </div>
                         <input th:field="*{password}" id="password" hidden="hidden"/>
-                        <input th:field="*{email}" id="email" hidden="hidden" />
+                        <input th:field="*{email}" id="email" hidden="hidden"/>
+                        <input th:field="*{id}" id="id" hidden="hidden"/>
+                        <input th:field="*{userDetails}"  />
                         <div class="row">
                             <div class="form-actions floatRight">
-                                <input type="submit" value="Edit" class="btn btn-primary btn-sm"/> or <a class="btn btn-default" th:href="@{/admin/dashboard}">Cancel</a>
+                                <input type="submit" value="Edit" class="btn btn-primary btn-sm"/> or <a class="btn btn-default" th:href="@{/admin/users}">Cancel</a>
                             </div>
                         </div>
                     </form>

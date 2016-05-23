@@ -1,5 +1,7 @@
 package com.hospitalsearch.config.security;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -13,11 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by andrew on 11.05.16.
+ * @author Andrew Jasinskiy
  */
 @Component
 public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private final Logger logger = LogManager.getLogger(CustomAuthenticationHandler.class);
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -25,6 +28,7 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
                           HttpServletResponse response, Authentication authentication) throws IOException {
         String target = determineTargetUrl(authentication);
         if (response.isCommitted()) {
+            logger.error("Error redirect");
             return;
         }
         redirectStrategy.sendRedirect(request, response, target);
@@ -32,13 +36,13 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 
     protected String determineTargetUrl(Authentication authentication) {
         String role = authentication.getAuthorities().toString();
-        Map<String, String> roleMapper = new HashMap<String, String>();
-        roleMapper.put("ROLE_MANAGER", "/hospitals");
-        roleMapper.put("ROLE_ADMIN", "/admin/dashboard");
-        roleMapper.put("ROLE_PATIENT", "/");
-        roleMapper.put("ROLE_DOCTOR", "/hospitals");
+        Map<String, String> roleMapper = new HashMap<>();
+        roleMapper.put("MANAGER", "/hospitals");
+        roleMapper.put("ADMIN", "/admin/users");
+        roleMapper.put("PATIENT", "/");
+        roleMapper.put("DOCTOR", "/hospitals");
 
-        if(authentication.getAuthorities().size()>1){
+        if (authentication.getAuthorities().size() > 1) {
             return "/";
         }
 
@@ -47,13 +51,14 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
                 return entry.getValue();
             }
         }
-        return "/Access_Denied";
+        return "/403";
     }
 
+    @Override
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
         this.redirectStrategy = redirectStrategy;
     }
-
+    @Override
     protected RedirectStrategy getRedirectStrategy() {
         return redirectStrategy;
     }

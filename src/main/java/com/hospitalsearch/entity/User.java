@@ -1,5 +1,6 @@
 package com.hospitalsearch.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -7,23 +8,15 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="users")
@@ -36,28 +29,29 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	@NotNull
+
+	@Email
+	@NotEmpty
 	@Column(unique = true, nullable = false)
 	private String email;
+
+	@JsonIgnore
 	@NotNull
 	@Column(nullable = false)
 	private String password;
+
 	@Column(nullable = false)
 	private Boolean enabled= true;
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="ROLE_USERS", joinColumns = @JoinColumn(name="USERS_ID"),
-								  inverseJoinColumns = @JoinColumn(name="ROLE_ID")
-	)
+	@JoinTable(name="ROLE_USERS", joinColumns = @JoinColumn(name="USERS_ID"), inverseJoinColumns = @JoinColumn(name="ROLE_ID"))
 	@Fetch(FetchMode.SELECT)
-	private Set<Role> userRoles = new HashSet<Role>();
+	private Set<Role> userRoles = new HashSet<>();
 
-	@OneToOne
+	@OneToOne(cascade= CascadeType.ALL)
+	@Fetch(FetchMode.SELECT)
 	private UserDetail userDetails;
-
-	public User() {
-
-	}
 
 	public String getEmail() {
 		return email;
@@ -88,8 +82,6 @@ public class User implements Serializable {
 		this.userRoles = userRoles;
 	}
 
-	
-	
 	public Long getId() {
 		return id;
 	}
