@@ -36,7 +36,7 @@ public class UserDetail implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	private String address;
-	
+
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
 	@Fetch(FetchMode.SELECT)
 	private DoctorInfo doctorsDetails;
@@ -116,6 +116,5 @@ public class UserDetail implements Serializable{
 	public void setPatientCard(PatientCard patientCard) {
 		this.patientCard = patientCard;
 	}
-	
-	
+
 }

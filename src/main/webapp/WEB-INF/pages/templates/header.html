@@ -1,4 +1,4 @@
-<header class="top-header" th:fragment="page-header" style="z-index: 1000;">
+<header class="top-header" th:fragment="page-header" style="z-index: 1000;" xmlns:th="http://www.thymeleaf.org">
 	<div class="">
 		<div class="row">
 			<div class="col-xs-3 col-md-3 col-lg-3 header-logo">
@@ -84,6 +84,66 @@
 									</ul>
 								</li>
 
+								<li sec:authorize="isAnonymous()" th:class="${dto ne null} ? 'menu dropdown open' : 'menu dropdown'"
+									style="cursor: pointer;"><a class="dropdown-toggle menu"
+																data-toggle="dropdown">Register </a>
+									<ul class="dropdown-menu dropdown-lr animated flipInX"
+										role="menu">
+										<div class="col-lg-12">
+											<div class="text-center">
+												<h3>
+													<b>Register</b>
+												</h3>
+											</div>
+											<form id="ajax-register-form"
+												  th:action="@{/register}" method="post" th:object="${dto}" role="form" autocomplete="off">
+
+												<div class="form-group">
+													<input type="text" name="userName" id="userName"
+														   tabindex="1" placeholder="Username"
+														   class="form-control"
+													       th:value="${(dto != null) &amp;&amp; (dto.userName !=null)} ? ${dto.userName}:''"/>
+													<span th:if="${(dto != null) &amp;&amp; (#fields.hasErrors('userName'))}"
+														  th:errors="*{userName}" th:class="has-error"></span>
+												</div>
+
+												<div class="form-group">
+													<input type="email" name="email" id="email" tabindex="1"
+														   class="form-control" placeholder="Email Address"
+														   th:value="${(dto != null) &amp;&amp; (dto.email !=null)}
+                                                           ? ${dto.email}:''"/>
+                                                    <span th:if="${(dto ne null) &amp;&amp; (#fields.hasErrors('email'))}"
+														  th:errors="*{email}" class="has-error"></span>
+												</div>
+
+												<div class="form-group">
+													<input type="password" name="password" id="password"
+														   tabindex="2" class="form-control" placeholder="Password"
+														   th:value="${(dto != null) &amp;&amp; (dto.password !=null)}
+                                                           ? ${dto.password}:''"/>
+                                                    <span th:if="${(dto ne null) &amp;&amp; (#fields.hasErrors('password'))}"
+														  th:errors="*{password}" class="has-error"></span>
+												</div>
+												<div class="form-group">
+													<input type="password" name="confirm-password"
+														   id="confirm-password" tabindex="2" class="form-control"
+														   placeholder="Confirm Password"/>
+												</div>
+												<div class="form-group">
+													<div class="row">
+														<div class="col-xs-6 col-xs-offset-3">
+															<input type="submit" name="register-submit"
+																   id="register-submit" tabindex="4"
+																   class="form-control btn btn-info" value="Register Now"/>
+														</div>
+													</div>
+												</div>
+												<input type="hidden" class="hide" name="token" id="token"
+													   value="7c6f19960d63f53fcd05c3e0cbc434c0"/>
+											</form>
+										</div>
+									</ul>
+								</li>
 								<!--login-->
 								<li sec:authorize="isAnonymous()" class="menu dropdown" style="cursor: pointer;">
 									<a class="dropdown-toggle menu" data-toggle="dropdown">Log In <span class="caret"></span></a>
@@ -146,6 +206,9 @@
 									<div>
 										<h4 sec:authentication="principal.username"></h4>
 									</div>
+								</li>
+								<li>
+									<a class="menu" th:href="|@{/register/}mail@a.com/|"> Email</a>
 								</li>
 							</ul>
 						</div><!-- /navbar-collapse -->

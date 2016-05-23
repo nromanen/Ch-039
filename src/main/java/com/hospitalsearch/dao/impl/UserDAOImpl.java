@@ -11,9 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Created by deplague on 5/11/16.
- */
+import static java.util.Objects.nonNull;
+
 @Repository
 public class UserDAOImpl extends GenericDAOImpl<User,Long> implements UserDAO{
     @Autowired
@@ -47,4 +46,8 @@ public class UserDAOImpl extends GenericDAOImpl<User,Long> implements UserDAO{
         return query.list();
     }
 
+    @Override
+    public Boolean emailExists(String email) {
+        return nonNull(getByEmail(email));
+    }
 }

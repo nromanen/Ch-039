@@ -12,6 +12,7 @@ import java.util.List;
 public interface UserDAO extends GenericDAO<User,Long>{
 
     User getByEmail(String email);
+    Boolean emailExists(String email);
     void changeStatus(User user);
     List<User> getByRole(long id);
 }

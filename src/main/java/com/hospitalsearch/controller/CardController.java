@@ -41,7 +41,7 @@ public class CardController {
     @RequestMapping(value = { "/cards" }, method = RequestMethod.GET)
     public String patientCard(@RequestParam("userId") String userId, ModelMap model){
         User user = userService.getById(Long.parseLong(userId));
-        model.addAttribute("cardItems", user.getPatientCard().getCardItems());
+       // model.addAttribute("cardItems", user.getPatientCard().getCardItems());
        // model.addAttribute("userId",userId);
         return "card/full";
     }
@@ -60,7 +60,7 @@ public class CardController {
             return "card/new";
         }
         User user = userService.getByEmail(getPrincipal());
-        PatientCard patientCard = userService.getById(Long.parseLong(userId)).getPatientCard();
+    //    PatientCard patientCard = userService.getById(Long.parseLong(userId)).getPatientCard();
         cardItem.setDoctor(user);
         cardItem.setPatientCard(patientCard);
         cardItemService.persist(cardItem);
