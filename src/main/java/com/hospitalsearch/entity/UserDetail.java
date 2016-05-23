@@ -23,7 +23,6 @@ import com.hospitalsearch.util.Gender;
 
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class UserDetail implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -34,21 +33,19 @@ public class UserDetail implements Serializable{
 	private String phone;
 	private LocalDate birthDate;
 	private String imagePath;
-
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	private String address;
-
+	
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
 	@Fetch(FetchMode.SELECT)
 	private DoctorInfo doctorsDetails;
 
-	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-	@Fetch(FetchMode.SELECT)
-	private PatientInfo patientsDetails;
-
+	@OneToOne
+	private PatientCard patientCard;
+	
 	public UserDetail() {
-
+		
 	}
 
 	public Long getId() {
@@ -64,7 +61,6 @@ public class UserDetail implements Serializable{
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
 	public String getLastName() {
 		return lastName;
 	}
@@ -92,19 +88,11 @@ public class UserDetail implements Serializable{
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public PatientInfo getPatientsDetails() {
-		return patientsDetails;
-	}
-	public void setPatientsDetails(PatientInfo patientsDetails) {
-		this.patientsDetails = patientsDetails;
 	}
 
 	public DoctorInfo getDoctorsDetails() {
@@ -120,4 +108,14 @@ public class UserDetail implements Serializable{
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
+
+	public PatientCard getPatientCard() {
+		return patientCard;
+	}
+
+	public void setPatientCard(PatientCard patientCard) {
+		this.patientCard = patientCard;
+	}
+	
+	
 }

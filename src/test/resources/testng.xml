@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="HospitalSeekerTests">
+<suite allow-return-values="false" name="HospitalSeekerTests">
 	<test name="TestCase1">
 		<classes>
 			<class name="com.hospitalseeker.TestMain">
@@ -11,7 +11,7 @@
 	</test>
 	<groups>
 		<run>
-			<include  />
+			<include name="" />
 		</run>
 	</groups>
 </suite>

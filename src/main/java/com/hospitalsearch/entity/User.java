@@ -4,27 +4,35 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name="users")
-@PrimaryKeyJoinColumn(name = "id")
 
-@org.hibernate.annotations.NamedQueries
-		(
-				{
-						@org.hibernate.annotations.NamedQuery(name = User.SELECT_BY_ROLE, query = User.SELECT),
-				}
-		)
+@NamedQueries({
+	@NamedQuery(name = "SELECT_BY_ROLE", query = "SELECT u FROM User u JOIN  u.userRoles r WHERE r.id = :id"),
+})
+public class User implements Serializable {
 
-public class User extends UserDetail implements Serializable {
-
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
 	@NotNull
 	@Column(unique = true, nullable = false)
 	private String email;
@@ -34,18 +42,16 @@ public class User extends UserDetail implements Serializable {
 	@Column(nullable = false)
 	private Boolean enabled= true;
 
-	static final String SELECT = "SELECT u FROM User u JOIN  u.userRoles r WHERE r.id = :id";
-	public static final String SELECT_BY_ROLE = "SELECT_BY_ROLE";
-
-	
-	
-	@OneToOne
-	private PatientCard patientCard;
-
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="ROLE_USERS", joinColumns=@JoinColumn(name="USERS_ID"),inverseJoinColumns=@JoinColumn(name="ROLE_ID"))
+	@JoinTable(name="ROLE_USERS", joinColumns = @JoinColumn(name="USERS_ID"),
+								  inverseJoinColumns = @JoinColumn(name="ROLE_ID")
+	)
 	@Fetch(FetchMode.SELECT)
 	private Set<Role> userRoles = new HashSet<Role>();
+
+	@OneToOne
+	private UserDetail userDetails;
+
 	public User() {
 
 	}
@@ -79,12 +85,22 @@ public class User extends UserDetail implements Serializable {
 		this.userRoles = userRoles;
 	}
 
-	public PatientCard getPatientCard() {
-		return patientCard;
+	
+	
+	public Long getId() {
+		return id;
 	}
 
-	public void setPatientCard(PatientCard patientCard) {
-		this.patientCard = patientCard;
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public UserDetail getUserDetails() {
+		return userDetails;
+	}
+
+	public void setUserDetails(UserDetail userDetails) {
+		this.userDetails = userDetails;
 	}
 
 	@Override

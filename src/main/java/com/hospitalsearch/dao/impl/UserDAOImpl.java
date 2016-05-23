@@ -43,7 +43,7 @@ public class UserDAOImpl extends GenericDAOImpl<User,Long> implements UserDAO{
 
     @Override
     public List<User> getByRole(long id) {
-        Query query = this.currentSession().getNamedQuery(User.SELECT_BY_ROLE).setParameter("id",id);
+        Query query = this.currentSession().getNamedQuery("SELECT_BY_ROLE").setParameter("id",id);
         return query.list();
     }
 

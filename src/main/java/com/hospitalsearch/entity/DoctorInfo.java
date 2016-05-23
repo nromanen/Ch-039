@@ -11,7 +11,6 @@ public class DoctorInfo implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    
     private String specialization;
 
     @OneToOne
