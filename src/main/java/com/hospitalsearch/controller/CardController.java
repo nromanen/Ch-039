@@ -34,7 +34,7 @@ public class CardController {
     @RequestMapping(value = { "/card" }, method = RequestMethod.GET)
     public String patientCard(ModelMap model){
         User user = userService.getByEmail(getPrincipal());
-        model.addAttribute("cardItems", user.getPatientCard().getCardItems());
+       // model.addAttribute("cardItems", user.getPatientCard().getCardItems());
         return "card/full";
     }
 
@@ -42,7 +42,7 @@ public class CardController {
     public String patientCard(@RequestParam("userId") String userId, ModelMap model){
         User user = userService.getById(Long.parseLong(userId));
         model.addAttribute("cardItems", user.getPatientCard().getCardItems());
-        model.addAttribute("userId",userId);
+       // model.addAttribute("userId",userId);
         return "card/full";
     }
 

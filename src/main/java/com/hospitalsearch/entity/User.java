@@ -37,6 +37,8 @@ public class User extends UserDetail implements Serializable {
 	static final String SELECT = "SELECT u FROM User u JOIN  u.userRoles r WHERE r.id = :id";
 	public static final String SELECT_BY_ROLE = "SELECT_BY_ROLE";
 
+	
+	
 	@OneToOne
 	private PatientCard patientCard;
 

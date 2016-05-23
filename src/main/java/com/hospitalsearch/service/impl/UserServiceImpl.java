@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
     public void save(User newUser) {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         PatientCard patientCard = patientCardService.add(new PatientCard());
-        newUser.setPatientCard(patientCard);
+      //  newUser.setPatientCard(patientCard);
         dao.save(newUser);
     }
 
