@@ -4,14 +4,14 @@
 		<classes>
 			<class name="com.hospitalseeker.TestMain">
 				<methods>
-					<include name="" /> <!-- method with test -->
+					<exclude name="com.hospitalseeker.TestDataDB.*" /> 
 				</methods>
 			</class>
 		</classes>
 	</test>
 	<groups>
 		<run>
-			<include name="db" />
+			<include  />
 		</run>
 	</groups>
 </suite>
