@@ -1,9 +1,9 @@
 package com.hospitalsearch.controller;
 
-import com.hospitalsearch.entity.Role;
-import com.hospitalsearch.entity.User;
-import com.hospitalsearch.service.RoleService;
-import com.hospitalsearch.service.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,11 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
+import com.hospitalsearch.entity.Role;
+import com.hospitalsearch.entity.User;
+import com.hospitalsearch.service.RoleService;
+import com.hospitalsearch.service.UserService;
 
 /**
  * Created by andrew on 16.05.16.
@@ -83,13 +83,14 @@ public class UserController {
     }
 
 
-//    @RequestMapping(value = {"user/view/{id}"}, method = RequestMethod.GET)
-//    @ResponseBody
-//    public String viewUser(@PathVariable("id")String id, ModelMap model) {
-//        User user = userService.getById(Long.parseLong(id));
-//        	
-//        return "lolka;
-//    }
+
+    // must be viewById
+    @RequestMapping(value = {"user/view/{email}"}, method = RequestMethod.GET)
+    public String viewUser(@PathVariable("email")String email, ModelMap model) {
+        model.addAttribute("dto", userService.getDtoByEmail(email));
+        return "userinfo";
+    }
+
 
 
 }

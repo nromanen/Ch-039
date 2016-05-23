@@ -87,7 +87,7 @@
 								<li sec:authorize="isAnonymous()" th:class="${dto ne null} ? 'menu dropdown open' : 'menu dropdown'"
 									style="cursor: pointer;"><a class="dropdown-toggle menu"
 																data-toggle="dropdown">Register </a>
-									<ul class="dropdown-menu dropdown-lr animated flipInX"
+									<ul class="dropdown-menu dropdown-lr animated"
 										role="menu">
 										<div class="col-lg-12">
 											<div class="text-center">
@@ -204,11 +204,9 @@
 								</li>
 								<li sec:authorize="isAuthenticated()" class="center">
 									<div>
-										<h4 sec:authentication="principal.username"></h4>
+                                        <a th:href="@{|user/view/${#authentication.getPrincipal().username}/|}">
+                                        <h4 sec:authentication="principal.username"></h4></a>
 									</div>
-								</li>
-								<li>
-									<a class="menu" th:href="|@{/register/}mail@a.com/|"> Email</a>
 								</li>
 							</ul>
 						</div><!-- /navbar-collapse -->

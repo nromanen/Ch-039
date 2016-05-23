@@ -1,23 +1,21 @@
 package com.hospitalsearch.service.impl;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.hospitalsearch.dao.UserDAO;
-import com.hospitalsearch.entity.PatientCard;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.RoleService;
 import com.hospitalsearch.service.UserService;
 import com.hospitalsearch.util.UserDetailRegisterDto;
+import com.hospitalsearch.util.UserDto;
 import com.hospitalsearch.util.UserRegisterDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
-import static java.util.Objects.nonNull;
 
 
 @Service
@@ -85,7 +83,7 @@ public class UserServiceImpl implements UserService{
 		User user = new User();
 		user.setEmail(dto.getEmail());
 		user.setPassword(dto.getPassword());
-		user.setLastName(dto.getUserName());
+//		user.setLastName(dto.getUserName());
 		user.setUserRoles(new HashSet<>(Collections.singletonList(roleService.getByType("PATIENT"))));
 		save(user);
 	}
@@ -93,16 +91,29 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void registerUpdate(UserDetailRegisterDto dto, String email) {
 		User user = dao.getByEmail(email);
-		
-		user.setFirstName(dto.getFirstName());
-		user.setLastName(dto.getLastName());
-		user.setPhone(dto.getPhone());
-		user.setGender(dto.getGender());
-		user.setAddress(dto.getAddress());
-		user.setBirthDate(dto.getBirthDate());
-		if (nonNull(dto.getImagePath())) {
-			user.setImagePath(dto.getImagePath());
-		}
+//		
+//		user.setFirstName(dto.getFirstName());
+//		user.setLastName(dto.getLastName());
+//		user.setPhone(dto.getPhone());
+//		user.setGender(dto.getGender());
+//		user.setAddress(dto.getAddress());
+//		user.setBirthDate(dto.getBirthDate());
+//		if (nonNull(dto.getImagePath())) {
+//			user.setImagePath(dto.getImagePath());
+//		}
 		dao.update(user);
 	}
-}
+
+	@Override
+	public void registerUpdate(UserDto dto, String email) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public UserDto getDtoByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	}

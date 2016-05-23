@@ -62,7 +62,7 @@ public class CardController {
         User user = userService.getByEmail(getPrincipal());
     //    PatientCard patientCard = userService.getById(Long.parseLong(userId)).getPatientCard();
         cardItem.setDoctor(user);
-        cardItem.setPatientCard(patientCard);
+//        cardItem.setPatientCard(patientCard);
         cardItemService.persist(cardItem);
         model.addAttribute("userId", userId);
         return "redirect:cards";
