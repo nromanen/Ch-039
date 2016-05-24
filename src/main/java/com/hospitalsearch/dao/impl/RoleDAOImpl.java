@@ -2,6 +2,9 @@ package com.hospitalsearch.dao.impl;
 
 import com.hospitalsearch.dao.RoleDAO;
 import com.hospitalsearch.entity.Role;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -9,13 +12,16 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by andrew on 11.05.16.
+ * @author Andrew Jasinskiy
  */
-@Repository("roleDAO")
+@Repository
 public class RoleDAOImpl extends GenericDAOImpl<Role, Long> implements RoleDAO {
+
+    private static Logger logger = LogManager.getLogger(RoleDAOImpl.class);
 
     @Autowired
     public RoleDAOImpl(SessionFactory factory) {
@@ -25,37 +31,29 @@ public class RoleDAOImpl extends GenericDAOImpl<Role, Long> implements RoleDAO {
 
     @Override
     public Role getByType(String type) {
-        Criteria crit = this.currentSession().createCriteria(Role.class);
-        crit.add(Restrictions.eq("type", type));
-        return (Role) crit.uniqueResult();
+        Role role = new Role();
+        try {
+            logger.info("get role by type: " +type);
+            Criteria criteria = this.currentSession().createCriteria(Role.class);
+            criteria.add(Restrictions.eq("type", type));
+            return role = (Role) criteria.uniqueResult();
+        } catch (Exception e) {
+            logger.error("Error get role by email: " + type + e);
+        }
+        return role;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Role> getAll() {
-        Criteria crit = this.currentSession().createCriteria(Role.class);
-        crit.addOrder(Order.asc("type"));
-        return (List<Role>) crit.list();
+        List<Role> roles = new ArrayList<>();
+        try {
+            logger.info("get all roles");
+            Criteria criteria = this.currentSession().createCriteria(Role.class);
+            criteria.addOrder(Order.asc("type"));
+            return roles = criteria.list();
+        } catch (Exception e) {
+            logger.error("Error get all roles " + e);
+        }
+        return roles;
     }
-
-       /* @Override
-    public Role getByKey(Long id) {
-        return super.getByKey(id);
-    }
-
-    @Override
-    public Role getByType(String type) {
-        Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("type", type));
-        return (Role) crit.uniqueResult();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<Role> getAll() {
-        Criteria crit = createEntityCriteria();
-        crit.addOrder(Order.asc("type"));
-        return (List<Role>) crit.list();
-    }*/
-
 }

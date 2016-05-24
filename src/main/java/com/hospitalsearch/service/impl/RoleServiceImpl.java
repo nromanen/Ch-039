@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 /**
- * Created by andrew on 11.05.16.
+ * @author Andrew Jasinskiy
  */
-
-@Service("roleService")
+@Service
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
@@ -25,8 +23,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role getByType(String role) {
-        return dao.getByType(role);
+    public Role getByType(String type) {
+        return dao.getByType(type);
     }
 
     @Override

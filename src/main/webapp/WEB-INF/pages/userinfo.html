@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <script src="/js/jquery-2.1.1.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="content">
+        <div class="about text-center container">
+            <table th:object="${dto}">
+                <thead>
+                <th></th>
+                <th></th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td th:text="${dto.firstName?:' - '}"></td>
+                </tr>
+
+                <tr>
+                    <td>Surname</td>
+                    <td th:text="${dto.lastName} ?: ' - '"></td>
+                </tr>
+
+                <tr>
+                    <td>phone</td>
+                    <td th:text="${dto.phone} ?: ' - '"></td>
+                </tr>
+
+                <tr>
+                    <td>Birthday</td>
+                    <td th:text="${dto.birthDate} ?: ' - '"></td>
+                </tr>
+
+                <tr>
+                    <td>Gender</td>
+                    <td th:text="${dto.gender} ?: ' - '"></td>
+                </tr>
+
+                <tr>
+                    <td>Address</td>
+                    <td th:text="${dto.address} ?: ' - '"></td>
+                </tr>
+                </tbody>
+            </table>
+            <a class="btn btn-danger" th:href="@{|/register/${dto.email}/|}" th:text="'Edit profile'"></a>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

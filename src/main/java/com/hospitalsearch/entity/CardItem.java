@@ -14,12 +14,14 @@ import java.time.LocalDateTime;
 
 
 @Entity
+@Table(name = "carditem")
 public class CardItem implements Serializable {
 	
 	
 	private static final long serialVersionUID = -1407036211724471026L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "carditem_gen")
+	@SequenceGenerator(name = "carditem_gen", sequenceName = "carditem_id_seq")
     private Long id;
     @OneDay(message = " Edit time is over")
     private Timestamp date;

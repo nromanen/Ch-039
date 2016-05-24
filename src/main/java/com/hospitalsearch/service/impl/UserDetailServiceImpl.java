@@ -11,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Created by deplague on 5/11/16.
- */
 @Service
 @Transactional
 public class UserDetailServiceImpl implements UserDetailService {
@@ -25,6 +22,8 @@ public class UserDetailServiceImpl implements UserDetailService {
 
     @Override
     public void save(UserDetail newUserDetail) {
+        PatientCard patientCard = patientCardService.add(new PatientCard());
+        newUserDetail.setPatientCard(patientCard);
         dao.save(newUserDetail);
     }
 

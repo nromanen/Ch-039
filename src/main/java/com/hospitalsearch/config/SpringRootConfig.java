@@ -8,9 +8,8 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -18,10 +17,8 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.hospitalsearch.config.security.SecurityConfiguration;
-import com.hospitalsearch.config.security.SecurityWebApplicationInitializer;
-import com.hospitalsearch.config.web.WebApplicationInitializer;
-import com.hospitalsearch.config.web.WebConfig;
+import liquibase.integration.spring.SpringLiquibase;
+
 
 /**
  * Created by speedfire on 4/28/16.
@@ -31,55 +28,65 @@ import com.hospitalsearch.config.web.WebConfig;
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = "classpath:app.properties")
-@ComponentScan(basePackages="com.hospitalsearch")
+@ComponentScan(basePackages = "com.hospitalsearch")
+@Import({MailConfig.class})
 public class SpringRootConfig {
-	@Resource
-	Environment properties;
+    @Resource
+    Environment properties;
 
-	private static final String PROP_DATABASE_DRIVER = "db.driver";
-	private static final String PROP_DATABASE_PASSWORD = "db.password";
-	private static final String PROP_DATABASE_URL = "db.url";
-	private static final String PROP_DATABASE_USERNAME = "db.username";
-	private static final String PROP_HIBERNATE_DIALECT = "hibernate.dialect";
-	private static final String PROP_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
-	private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
-	private static final String PROP_HIBERNATE_ENTITY_PACKAGE = "hibernate.entity.package";
-	private static final String PROP_HIBERNATE_IMPORT_FILE = "hibernate.hbm2ddl.import_files";
+    private static final String PROP_DATABASE_DRIVER = "db.driver";
+    private static final String PROP_DATABASE_PASSWORD = "db.password";
+    private static final String PROP_DATABASE_URL = "db.url";
+    private static final String PROP_DATABASE_USERNAME = "db.username";
+    private static final String PROP_HIBERNATE_DIALECT = "hibernate.dialect";
+    private static final String PROP_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
+    private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
+    private static final String PROP_HIBERNATE_ENTITY_PACKAGE = "hibernate.entity.package";
+    private static final String PROP_HIBERNATE_IMPORT_FILE = "hibernate.hbm2ddl.import_files";
+
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(properties.getRequiredProperty(PROP_DATABASE_DRIVER));
+        dataSource.setUrl(properties.getRequiredProperty(PROP_DATABASE_URL));
+        dataSource.setUsername(properties.getRequiredProperty(PROP_DATABASE_USERNAME));
+        dataSource.setPassword(properties.getRequiredProperty(PROP_DATABASE_PASSWORD));
+        return dataSource;
+    }
+
+    @Bean
+    public LocalSessionFactoryBean sessionFactoryBean() {
+        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+        sessionFactoryBean.setDataSource(dataSource());
+        sessionFactoryBean.setHibernateProperties(hibernateProperties());
+        sessionFactoryBean.setPackagesToScan(properties.getRequiredProperty(PROP_HIBERNATE_ENTITY_PACKAGE));
+
+        return sessionFactoryBean;
+    }
+
+    @Bean
+    public HibernateTransactionManager hibernateTransactionManager() {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(sessionFactoryBean().getObject());
+        return transactionManager;
+    }
+
+
+    public Properties hibernateProperties() {
+        Properties props = new Properties();
+        props.put(PROP_HIBERNATE_DIALECT, properties.getRequiredProperty(PROP_HIBERNATE_DIALECT));
+        //props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
+        props.put(PROP_HIBERNATE_SHOW_SQL, properties.getRequiredProperty(PROP_HIBERNATE_SHOW_SQL));
+        //props.put(PROP_HIBERNATE_IMPORT_FILE, properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
+        return props;
+    }
 
 	@Bean
-	public DataSource dataSource(){
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(properties.getRequiredProperty(PROP_DATABASE_DRIVER));
-		dataSource.setUrl(properties.getRequiredProperty(PROP_DATABASE_URL));
-		dataSource.setUsername(properties.getRequiredProperty(PROP_DATABASE_USERNAME));
-		dataSource.setPassword(properties.getRequiredProperty(PROP_DATABASE_PASSWORD));
-		return dataSource;
-	}
-
-	@Bean
-	public LocalSessionFactoryBean sessionFactoryBean(){
-		LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-		sessionFactoryBean.setDataSource(dataSource());
-		sessionFactoryBean.setHibernateProperties(hibernateProperties());
-		sessionFactoryBean.setPackagesToScan(new String[]{properties.getRequiredProperty(PROP_HIBERNATE_ENTITY_PACKAGE)});
-
-		return sessionFactoryBean;
-	}
-	@Bean
-	public HibernateTransactionManager hibernateTransactionManager(){
-		HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-		transactionManager.setSessionFactory(sessionFactoryBean().getObject());
-		return transactionManager;
-	}
-
-
-	public Properties hibernateProperties(){
-		Properties props = new Properties();
-		props.put(PROP_HIBERNATE_DIALECT,properties.getRequiredProperty(PROP_HIBERNATE_DIALECT));
-		props.put(PROP_HIBERNATE_HBM2DDL_AUTO,properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
-		props.put(PROP_HIBERNATE_SHOW_SQL,properties.getRequiredProperty(PROP_HIBERNATE_SHOW_SQL));
-		props.put(PROP_HIBERNATE_IMPORT_FILE,properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
-		return props;
+	public SpringLiquibase liquibase() {
+		SpringLiquibase liquibase = new SpringLiquibase();
+		liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
+		liquibase.setDataSource(dataSource());
+		return liquibase;
 	}
 
 }

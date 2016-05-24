@@ -4,30 +4,23 @@ import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.RoleService;
 import com.hospitalsearch.service.UserService;
+import com.hospitalsearch.util.PrincipalConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.validation.Valid;
 import java.util.List;
 
 /**
- * Created by andrew on 10.05.16.
+ * @author Andrew Jasinskiy on 10.05.16
  */
-
+/*@RequestMapping(value = "/admin")*/
 @Controller
-@SessionAttributes("roles")
 public class AdminController {
 
     @Autowired
@@ -36,44 +29,81 @@ public class AdminController {
     @Autowired
     RoleService roleService;
 
-    @RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
-    public String accessDeniedPage(ModelMap model) {
-        model.addAttribute("user", getPrincipal());
-        return "403";
-    }
-
+    //todo refactor after pulling this method into package admin url = admin/users/add
     @RequestMapping(value = "/newUser", method = RequestMethod.GET)
     public String newRegistration(ModelMap model) {
-        User user = new User();
-        model.addAttribute("user", user);
+        model.addAttribute("user", new User());
         return "newuser";
     }
 
+    //todo refactor after pulling this method into package admin url = admin/users/add
     @RequestMapping(value = "/newUser", method = RequestMethod.POST)
-    public String saveRegistration(@Valid User user, BindingResult result, ModelMap model) {
-        try{
+    public String saveUser(@Valid User user, BindingResult result, ModelMap model) {
+        try {
             userService.save(user);
-        }catch (Exception e) {
+        } catch (Exception e) {
             model.addAttribute("registrationError", "User with email " + user.getEmail() + " is already exist!");
             return "/user/endRegistration";
         }
-        if (result.hasErrors()) {
-            System.out.println("There are errors");
-            model.addAttribute("registrationError", "Error registration, please try again!");
-            return "/user/endRegistration";
-        }
-        System.out.println("Email: "+user.getEmail());
-        System.out.println("Password : "+user.getPassword());
-        System.out.println("Status : "+user.getEnabled());
-        System.out.println("Roles  : "+user.getUserRoles());
-        System.out.println("Checking UserRoles....");
-        if(user.getUserRoles()!=null){
-            for(Role userRole : user.getUserRoles()){
-                System.out.println("Role : "+ userRole.getType());
-            }
-        }
         model.addAttribute("success", "User with email " + user.getEmail() + " has been registered successfully");
         return "/user/endRegistration";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
+    public String adminDashboard(ModelMap model) {
+        List<User> users = userService.getAll();
+        model.addAttribute("user", PrincipalConverter.getPrincipal());
+        model.addAttribute("users", users);
+        return "admin/users";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = {"admin/users/{userId}/changeStatus"}, method = RequestMethod.GET)
+    public void changeUserStatus(@PathVariable long userId) {
+        userService.changeStatus(userId);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = {"admin/users/{userId}/delete"}, method = RequestMethod.GET)
+    public String deleteUser(@PathVariable long userId) {
+        userService.delete(userId);
+        return "redirect:/admin/users";
+    }
+
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "admin/users/edit", method = RequestMethod.GET)
+    public String editUser(@RequestParam("id") Long userId, ModelMap model) {
+        User editUser = userService.getById(userId);
+        model.addAttribute("editUser", editUser);
+        return "admin/editUser";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "admin/users/edit", method = RequestMethod.POST)
+    public String editUser(@Valid User editUser, BindingResult result, ModelMap model) {
+        System.out.println(editUser);
+        System.out.println("************");
+        System.out.println(editUser.getUserDetails());
+        System.out.println(result);
+
+        if (result.hasErrors()) {
+            System.out.println("There are errors");
+            model.addAttribute("messageError", "Error updating, please try again!");
+            return "redirect:/admin/users";
+        }
+        try {
+
+            userService.update(editUser);
+            System.out.println("*************");
+            System.out.println(editUser);
+        } catch (Exception e) {
+            model.addAttribute("messageError", "Error updating, please try again!");
+            return "redirect:/admin/users";
+        }
+        model.addAttribute("messageSuccess", "User " + editUser.getEmail() + " successfully updated!");
+        return "redirect:/admin/users";
     }
 
     @ModelAttribute("roles")
@@ -81,68 +111,12 @@ public class AdminController {
         return roleService.getAll();
     }
 
-    private String getPrincipal(){
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }
-        return userName;
+    @RequestMapping(value = {"/loginPopup"}, method = RequestMethod.POST)
+    public String loginPopUp(BindingResult result, RedirectAttributes redirectAttributes) {
+        return "/login";
     }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/admin/dashboard", method = RequestMethod.GET)
-    public String adminDashboard(ModelMap model) {
-        System.out.println("!!!!!!!!!!!!!!!!!!!");
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
-        List<User> users = userService.getAll();
-        model.addAttribute("user", getPrincipal());
-        model.addAttribute("users", users);
-        return "admin/dashboard";
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = { "/changeStatus/{userId}"}, method = RequestMethod.GET)
-    public void changeUserStatus(@PathVariable long userId){
-        User user = userService.getById(userId);
-        userService.changeStatus(user);
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = {"admin/delete/{userId}"}, method = RequestMethod.GET)
-    public String deleteUser(@PathVariable long userId) {
-        User user = userService.getById(userId);
-        System.out.println(user);
-        userService.delete(user);
-        return "redirect:/admin/dashboard";
-    }
-
-
-    @RequestMapping(value = "/editUser", method = RequestMethod.GET)
-    public String editUser(@RequestParam ("id") Long userId, ModelMap model) {
-
-        User editUser = userService.getById(userId);
-        model.addAttribute("editUser", editUser);
-        return "admin/editUser";
-    }
-
-
-    @RequestMapping(value = "/editUser", method = RequestMethod.POST)
-    public String updateUser(@Valid User editUser, BindingResult result, ModelMap model) {
-        if (result.hasErrors()) {
-            System.out.println("There are errors");
-            model.addAttribute("messageError", "Error updating, please try again!");
-            return "redirect:/admin/dashboard";
-        }
-        try{
-            userService.update(editUser);
-        }catch (Exception e) {
-            model.addAttribute("messageError", "Error updating, please try again!");
-            return "redirect:/admin/dashboard";
-        }
-        model.addAttribute("messageSuccess", "User " + editUser.getEmail() + " successfully updated!");
-        return "redirect:/admin/dashboard";
-    }
+    /*"redirect:/admin/users";*/
+/*
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.writeValue(new FileOutputStream("/home/andrew/result.json"),userService.getById(Long.parseLong(id)));*/
 }

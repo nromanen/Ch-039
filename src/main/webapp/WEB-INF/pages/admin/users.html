@@ -15,7 +15,7 @@
     <div class="content">
         <h1 class="all text-center" style="float: right;"> All Users </h1>
 
-        <div th:if="${messageError!=null}" class="alert alert-success alert-dismissible" role="alert">
+        <div th:if="${messageError!=null}" class="alert alert-danger alert-dismissible" role="alert">
             <h4 class="error" th:text="${messageError}"> </h4>
         </div>
 
@@ -23,69 +23,45 @@
             <h4 class="success" th:text="${messageError}"> </h4>
         </div>
 
-        <a id="menu-toggle" href="#" class="btn btn-lg btn-options toggle">Options</a>
-        <nav id="sidebar-wrapper" class="slideInLeft">
-            <ul class="sidebar-nav">
-                <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
-                <li class="sidebar-brand">
-                    <a href="#top">Additional options</a>
-                </li>
 
-                <li>
-                    <a th:href="@{/newUser}">Add new User</a>
-                </li>
-                <li>
-
-                    <a th:href="@{/admin/map/listhospitals}">Hospital List</a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/map/new}">New Hospital</a>
-                </li>
-                <li>
-                    <a th:href="@{/admin/map/validate}">Check Hospitals List With Google Data</a>
-                </li>
-                <li>
-                    <a th:href="@{/}">Go back to the main page</a>
-                </li>
-            </ul>
-        </nav>
         <div class="box-content">
             <table class="responstable" >
                 <thead>
                 <tr>
-                    <th>#ID</th>
+                    <th>#</th>
                     <th>@Email</th>
-                    <th>Status</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Role</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="user : ${users}">
-                    <td th:value="${user.id}" th:text="${user.id}"></td>
+                    <td></td>
                     <td th:value="${user.email}" th:text="${user.email}"></td>
-                    <td class="text-center">
-                        <input th:if="${user.enabled}==true" th:attr="data-id=${user.id}" th:value="Enabled" type="button" class="btn btn-sm btn-success userEnabled"/>
-                        <input th:if="${user.enabled}==false" th:attr="data-id=${user.id}" th:value="Disabled" type="button" class="btn btn-sm btn-danger userEnabled"/>
-                    </td>
+                    <td th:value="${user.userDetails.firstName}" th:text="${user.userDetails.firstName}"></td>
+                    <td th:value="${user.userDetails.lastName}" th:text="${user.userDetails.lastName}"></td>
 
+               <!--     <td th:value="${user.firstName}" th:text="${user.firstName}"></td>
+                    <td th:value="${user.lastName}" th:text="${user.lastName}"></td>
+-->
                     <td th:value="${user.userRoles}">
                         <span th:each=" role : ${user.userRoles}" th:value="${role.type}" th:text="${role.type}"></span>
                     </td>
 
                     <td class="center">
                         <a class="btn button_user" href="#" th:attr="data-id=${user.id}" type="submit"
-                           data-toggle="modal" data-target="#viewModal" id="viewUser"
-                                >
+                           data-toggle="modal" data-target="#viewModal" id="viewUser">
                             <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                             View
                         </a>
-                        <a class="btn button_user" th:href="@{/editUser(id=${user.id})}">
+                        <a class="btn button_user" th:href="@{/admin/users/edit(id=${user.id})}">
                             <i class="glyphicon glyphicon-edit icon-white"></i>
                             Edit
                         </a>
                         <a class="btn button_user" href="#" data-toggle="modal" data-target="#deleteModal"
-                           th:attr="data-values=|delete/,${user.id},${user.email}|" id="deleteUser">
+                           th:attr="data-values=|users/,${user.id},${user.email},/delete|" id="deleteUser">
                             <i class="glyphicon glyphicon-trash icon-white"></i>
                             Delete
                         </a>

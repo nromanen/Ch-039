@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
@@ -25,11 +23,11 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import javax.sql.DataSource;
 
 /**
- * Created by speedfire on 4/28/16.
+ * @author Andrew Jasinskiy
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true )
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final Integer TIME = 21600;
@@ -55,9 +53,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/**/supplyIntervals");
-		web.ignoring().antMatchers("/editUser");
+		web.ignoring().antMatchers("/supplyIntervals");
 		web.ignoring().antMatchers("/doctor/feedback");
+		web.ignoring().antMatchers("resources/**", "webjars/**");
 	}
 
 	@Override
@@ -65,8 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();
 		filter.setEncoding("UTF-8");
 		filter.setForceEncoding(true);
-		http.addFilterBefore(filter,CsrfFilter.class);
-
+		http.addFilterBefore(filter, CsrfFilter.class);
 		http
 				.authorizeRequests()
 				.antMatchers("/", "/home").permitAll()
@@ -74,26 +71,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login").anonymous()
 				.and()
 				.formLogin()
-					.loginPage("/login")
-					.usernameParameter("email")
-					.passwordParameter("password")
-					.successHandler(customHandler)
-					.and().csrf()
-					.and()
+				.loginPage("/login")
+				.usernameParameter("email")
+				.passwordParameter("password")
+				.successHandler(customHandler)
+				.and().csrf()
+				.and()
 				.logout()
-					.logoutSuccessUrl("/login?logout")
-					.invalidateHttpSession(true)
-					.and()
+				.logoutSuccessUrl("/login?logout")
+				.invalidateHttpSession(true)
+				.and()
 				.exceptionHandling()
-					.accessDeniedPage("/Access_Denied")
-					.and()
+				.accessDeniedPage("/403")
+				.and()
 				.rememberMe()
-					.rememberMeParameter("remember-me")
-					.tokenRepository(tokenRepository)
-					.tokenValiditySeconds(TIME);
+				.rememberMeParameter("remember-me")
+				.tokenRepository(tokenRepository)
+				.tokenValiditySeconds(TIME);
+
 	}
 
-	// /password encoder
+	//password encoder
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -107,22 +105,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return authenticationProvider;
 	}
 
-	//remember me
-	/*@Bean
-	public PersistentTokenRepository persistentTokenRepository() {
-		JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
-		tokenRepositoryImpl.setDataSource(dataSource);
-		return tokenRepositoryImpl;
-	}*/
-
 	@Bean
 	public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
-		PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
+		return new PersistentTokenBasedRememberMeServices(
 				"remember-me", userDetailsService, tokenRepository);
-		return tokenBasedservice;
 	}
+
 	@Bean
-	public SpringSecurityDialect springSecurityDialect(){
+	public SpringSecurityDialect springSecurityDialect() {
 		return new SpringSecurityDialect();
 	}
 }

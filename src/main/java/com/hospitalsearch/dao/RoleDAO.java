@@ -1,10 +1,12 @@
 package com.hospitalsearch.dao;
 
 import com.hospitalsearch.entity.Role;
+import org.springframework.stereotype.Component;
 
 /**
- * Created by andrew on 11.05.16.
+ * @author Andrew Jasinskiy
  */
+@Component
 public interface RoleDAO extends GenericDAO<Role, Long> {
 
     Role getByType(String type);

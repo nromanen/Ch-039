@@ -1,24 +1,28 @@
 package com.hospitalsearch.entity;
 
+import com.hospitalsearch.service.RoleService;
+import com.hospitalsearch.service.impl.RoleServiceImpl;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "role")
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = 6882428284905479070L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_gen")
+	@SequenceGenerator(name = "role_gen", sequenceName = "role_id_seq")
 	private Long id;
 
-	/*@Enumerated(EnumType.STRING)*/
 	@Column(name = "type", unique = true, nullable = false)
-	private String type = EnumRole.PATIENT.name();
+	private String type;
 
 	@ManyToMany(mappedBy = "userRoles")
-	private Set<User> user = new HashSet<User>();
+	private Set<User> user = new HashSet<>();
 
 	public Role() {}
 
@@ -63,9 +67,7 @@ public class Role implements Serializable {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-
 		Role role = (Role) o;
-
 		return !(id != null ? !id.equals(role.id) : role.id != null);
 	}
 
@@ -73,19 +75,4 @@ public class Role implements Serializable {
 	public int hashCode() {
 		return id != null ? id.hashCode() : 0;
 	}
-}
-
-//role list
-enum EnumRole {
-	ADMIN, PATIENT, MANAGER, DOCTOR;
-
-	/*String roleType;
-
-	private EnumRole(String roleType){
-		this.roleType = roleType;
-	}*/
-
-	/*public String getEnumRole(){
-		return roleType;
-	}*/
 }
