@@ -103,13 +103,15 @@ public class User implements Serializable {
 		this.userDetails = userDetails;
 	}
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"email='" + email + '\'' +
-				", password='" + password + '\'' +
-				", enabled=" + enabled +
-				", userRoles=" + userRoles +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", userRoles=" + userRoles +
+                ", userDetails=" + userDetails +
+                '}';
+    }
 }

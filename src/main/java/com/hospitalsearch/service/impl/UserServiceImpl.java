@@ -1,7 +1,6 @@
 package com.hospitalsearch.service.impl;
 
 import com.hospitalsearch.dao.UserDAO;
-import com.hospitalsearch.entity.PatientCard;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.PatientCardService;
@@ -29,8 +28,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public void save(User newUser) {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        PatientCard patientCard = patientCardService.add(new PatientCard());
-      //  newUser.setPatientCard(patientCard);
         dao.save(newUser);
     }
 
@@ -73,4 +70,5 @@ public class UserServiceImpl implements UserService{
     public void changeStatus(User user) {
         dao.changeStatus(user);
     }
+
 }

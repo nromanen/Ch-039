@@ -17,12 +17,12 @@
                     <h1>Patient card:</h1>
                  <a sec:authorize="hasRole('ROLE_DOCTOR')" th:href="@{/new/record(userId=${userId})}"  class="btn btn-info" style="display: inherit; margin-bottom: 12px;">New record</a>
                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                     <div th:each="item:${cardItems}" class="panel panel-default">
+                     <div th:if="${cardItems != null}" th:each="item:${cardItems}" class="panel panel-default">
                          <div class="panel-heading" role="tab" id="headingOne">
                              <h4 class="panel-title">
-                                 <a class="collapsed" role="button" th:text="${item.date}" data-toggle="collapse"  data-parent="#accordion2" th:href="${'#'+item.id}" aria-expanded="false" aria-controls="collapseOne">
+                                 <a class="collapsed" role="button" th:text="${#dates.format(item.date,'HH:mm dd-MM-yyyy')}" data-toggle="collapse"  data-parent="#accordion2" th:href="${'#'+item.id}" aria-expanded="false" aria-controls="collapseOne">
                                  </a>
-                                 <span th:text="'Doctor: '+${item.doctor.email}" style="margin-left: 20px;">Doctor:</span>
+                                 <span th:text="'Doctor: '+${item.doctor.userDetails.firstName}+' '+${item.doctor.userDetails.lastName}" style="margin-left: 20px;">Doctor:</span>
                                  <a sec:authorize="hasRole('ROLE_DOCTOR')"  th:href="@{/edit(id=${item.id},userId=${userId})}" style="float:right">Edit</a>
                              </h4>
                          </div>

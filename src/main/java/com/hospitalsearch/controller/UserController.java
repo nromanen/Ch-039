@@ -88,11 +88,9 @@ public class UserController {
     public String viewUser(@PathVariable("id")String id, ModelMap model) {
         User user = userService.getById(Long.parseLong(id));
         String tmpUser = String.format ("%d,%s,%s,%s,%s,%s,%s,%s,%s",user.getId(),user.getEmail(),
-                user.getGender(),user.getFirstName(),user.getLastName(),
-                user.getBirthDate(),user.getAddress(),user.getPhone(),
-                user.getPatientsDetails());
+                user.getUserDetails().getGender(),user.getUserDetails().getFirstName(),user.getUserDetails().getLastName(),
+                user.getUserDetails().getBirthDate(),user.getUserDetails().getAddress(),user.getUserDetails().getPhone());
         return tmpUser;
     }
-
 
 }

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface UserDetailDAO extends GenericDAO<UserDetail,Long>{
+    UserDetail add( UserDetail userDetail);
 }

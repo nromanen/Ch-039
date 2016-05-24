@@ -16,4 +16,9 @@ public class UserDetailDAOImpl extends GenericDAOImpl<UserDetail,Long> implement
         this.setSessionFactory(factory);
     }
 
+    @Override
+    public UserDetail add(UserDetail userDetail) {
+        UserDetail userDetail1 = (UserDetail) this.getSessionFactory().getCurrentSession().merge(userDetail);
+        return userDetail1;
+    }
 }
