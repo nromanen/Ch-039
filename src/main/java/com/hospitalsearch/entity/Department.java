@@ -6,16 +6,21 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "department")
 public class Department implements Serializable{
 	
 	private static final long serialVersionUID = 2488180615002820167L;
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "department_gen")
+	@SequenceGenerator(name = "department_gen", sequenceName = "department_id_seq")
 	private Long id;
 	private String name;
 	

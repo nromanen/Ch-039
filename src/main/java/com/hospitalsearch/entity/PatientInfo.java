@@ -5,9 +5,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "patientinfo")
 public class PatientInfo implements Serializable{
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patientinfo_gen")
+	@SequenceGenerator(name = "patientinfo_gen", sequenceName = "patientinfo_id_seq")
 	private Long id;
 
 	private String cardId;

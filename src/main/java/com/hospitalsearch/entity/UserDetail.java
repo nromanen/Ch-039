@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -23,9 +25,11 @@ import com.hospitalsearch.util.Gender;
 
 
 @Entity
+@Table(name = "userdetail")
 public class UserDetail implements Serializable{
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userdetail_gen")
+	@SequenceGenerator(name = "userdetail_gen", sequenceName = "userdetail_id_seq")
 	@Column(name="id")
 	private Long id;
 	private String firstName;

@@ -9,11 +9,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "role")
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = 6882428284905479070L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_gen")
+	@SequenceGenerator(name = "role_gen", sequenceName = "role_id_seq")
 	private Long id;
 
 	@Column(name = "type", unique = true, nullable = false)

@@ -25,9 +25,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 	@NamedQuery(name = "SELECT_BY_ROLE", query = "SELECT u FROM User u JOIN  u.userRoles r WHERE r.id = :id"),
 })
 public class User implements Serializable {
-
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_gen")
+	@SequenceGenerator(name = "users_gen", sequenceName = "users_id_seq")
 	private Long id;
 
 	@Email
