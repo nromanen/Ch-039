@@ -29,20 +29,26 @@ public class HospitalController {
 
 	@Autowired(required = true)
 	private HospitalService service;
+
 	@Autowired(required = true)
 	private DepartmentService departmentService;
+
 	@Autowired(required = true)
 	private UserService userService;
-	
+
 
 	@Autowired(required = true)
 	private DoctorInfoService doctorInfoService;
 
-	
+	@RequestMapping("/")
+	public String renderIndex(Map<String,Object> model){
+		return "layout";
+	}
+
 	@RequestMapping("/hospitals")
 	public String renderHospitals(Map<String,Object> model){
 		model.put("hospitals", service.getAll());
-		return "hospitals";
+    	return "hospitals";
 	}
 
 
@@ -62,7 +68,7 @@ public class HospitalController {
 
 	@RequestMapping("/hospital/{hid}/department/{id}")
 	public String renderDoctors(Map<String,Object> model,
-			@PathVariable Long hid,                        
+			@PathVariable Long hid,
 			@PathVariable Long id
 	){
 		Department d =departmentService.getById(id);
@@ -82,5 +88,5 @@ public class HospitalController {
 	public List<Hospital> hospitalList(){
 		return this.service.getAll();
 	}
- 
+
 }

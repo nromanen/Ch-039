@@ -68,11 +68,7 @@ public class UserController {
             model.addAttribute("registrationError", "Error registration, please try again!");
             return "/user/endRegistration";
         }
-        System.out.println("Email: "+user.getEmail());
-        System.out.println("Password : "+user.getPassword());
-        System.out.println("Status : "+user.getEnabled());
-        System.out.println("Roles  : "+user.getUserRoles());
-        System.out.println("Checking UserRoles....");
+        
         if(user.getUserRoles()!=null){
             for(Role userRole : user.getUserRoles()){
                 System.out.println("Role : "+ userRole.getType());

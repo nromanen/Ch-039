@@ -26,32 +26,31 @@
 
 							<ul class="nav navbar-nav navbar-right">
 								<li><a th:class="menu"
-									   
-									   th:href="@{/}">Home</a></li>
+									   th:text="#{header.menu.home}"
+									   th:href="@{/}" /></li>
 								<li><a th:class="menu"
 									   th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/hospitals.*')}?'active':''"
-									   th:href="@{/hospitals}">Hospitals</a></li>
+									   th:text="#{header.menu.hospital}"
+									   th:href="@{/hospitals}"/></li>
 								<li><a th:class="menu"
 									   th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/mapsearch.*')}?'active':''"
-									   th:href="@{/mapsearch}">Find</a></li>
-								<li><a th:class="menu"
-									   th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/contacts.*')}?'active':''"
-									   th:href="@{#team}">our team</a></li>
-								<li><a th:class="menu" th:href="@{#}"> contact us</a></li>
+									   th:href="@{/mapsearch}"
+									   th:text="#{header.menu.find}"/></li>
 								<li sec:authorize="hasRole('ROLE_PATIENT')"><a
 										th:class="menu"
 										th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/card.*')}?'active':''"
-										th:href="@{/card}">Card</a></li>
+										th:href="@{/card}"
+										th:text="#{header.menu.card}"/></li>
 								<li sec:authorize="hasRole('ROLE_DOCTOR')"><a
 										th:class="menu"
+										th:text="#{header.menu.patient}"
 										th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/patients.*')}?'active':''"
-										th:href="@{/patients}">Patients</a></li>
-
+										th:href="@{/patients}"/></li>
 
 
 								<li sec:authorize="isAnonymous()" class="menu dropdown" style="cursor: pointer;">
 
-									<a class="dropdown-toggle menu" data-toggle="dropdown">Register</a>
+									<a class="dropdown-toggle menu" data-toggle="dropdown" th:text="#{header.menu.register}"/>
 									<ul class="dropdown-menu dropdown-lr animated fadeIn registration all" role="menu">
 										<div class="col-lg-12">
 											<div class="text-center"><b>Register</b></div>
@@ -84,9 +83,10 @@
 									</ul>
 								</li>
 
-								<li sec:authorize="isAnonymous()" th:class="${dto ne null} ? 'menu dropdown open' : 'menu dropdown'"
+								<li sec:authorize="isAnonymous()" 
+									th:class="${dto ne null} ? 'menu dropdown open' : 'menu dropdown'"
 									style="cursor: pointer;"><a class="dropdown-toggle menu"
-																data-toggle="dropdown">Register </a>
+																data-toggle="dropdown" th:text="#{header.menu.register}"/>
 									<ul class="dropdown-menu dropdown-lr animated"
 										role="menu">
 										<div class="col-lg-12">
@@ -195,12 +195,12 @@
 								</li>
 								<li sec:authorize="hasRole('ROLE_ADMIN')" style="cursor: pointer;">
 
-									<a class="menu" th:href="@{/admin/dashboard}">Admin</a>
+									<a class="menu" th:href="@{/admin/dashboard}" th:text="#{header.menu.admin}"/>
 								</li>
 								<!--autorize user-->
 								<li sec:authorize="isAuthenticated()" style="cursor: pointer;">
 
-									<a class="dropdown-toggle" th:href="@{/logout}">Log out</a>
+									<a class="dropdown-toggle" th:href="@{/logout}" th:text="#{header.menu.logout}"/>
 								</li>
 								<li sec:authorize="isAuthenticated()" class="center">
 									<div>

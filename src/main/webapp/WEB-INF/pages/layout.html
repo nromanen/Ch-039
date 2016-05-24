@@ -66,11 +66,14 @@
 	</script>-->
 </head>
 <body>
+	
+	<p th:text="#{breadcrumb.hospitals}"/>
 	<div th:replace="templates/header::page-header" />
 	<div layout:fragment="content" />
 	<div class="footer" th:replace="templates/footer::page-footer" />
 
-
+	
+	
 	<script th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>
 	<script th:src="@{/js/custom.js}"></script>
 	<script th:src="@{/js/smoothscroll.js}"></script>
