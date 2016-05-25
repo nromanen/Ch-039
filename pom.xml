@@ -297,8 +297,14 @@
 					<propertyFileWillOverride>true</propertyFileWillOverride>
 					<propertyFile>target/classes/liquibase.properties</propertyFile>
 				</configuration>
-				<!-- <executions> <execution> <phase>install</phase> <goals> <goal>update</goal> 
-					</goals> </execution> </executions> -->
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>update</goal> 
+						</goals>
+					</execution>
+				</executions>
 				<dependencies>
 					<dependency>
 						<groupId>org.liquibase.ext</groupId>
