@@ -1,6 +1,5 @@
 package com.hospitalsearch.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hospitalsearch.entity.Department;
-import com.hospitalsearch.entity.DoctorInfo;
 import com.hospitalsearch.entity.Hospital;
-import com.hospitalsearch.entity.User;
-import com.hospitalsearch.entity.UserDetail;
 import com.hospitalsearch.service.DepartmentService;
 import com.hospitalsearch.service.DoctorInfoService;
 import com.hospitalsearch.service.HospitalService;

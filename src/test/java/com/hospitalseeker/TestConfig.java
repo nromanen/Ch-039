@@ -5,9 +5,12 @@ import java.util.Set;
 
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -22,7 +25,9 @@ import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
 @Import(value={SpringRootConfig.class})
-public class TestConfig {
+@EnableWebMvc
+@ComponentScan(basePackages="com.hospitalsearch.controller")
+public class TestConfig extends WebMvcConfigurerAdapter{
 
 	@Bean
 	public SpringResourceTemplateResolver templateResolver(){
@@ -57,4 +62,6 @@ public class TestConfig {
 	public HospitalController hospitalController(){
 		return Mockito.mock(HospitalController.class);
 	} 
+	
+	
 }

@@ -4,6 +4,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -94,24 +95,30 @@ public class TestSpringSecurity extends AbstractTestNGSpringContextTests{
 		.andExpect(authenticated().withUsername("user"));
 	}
 
-	@Test
-	@WithMockUser(roles="USER")
-	public void loginWithUser() throws Exception {
-		webContextMock
-		.perform(post("/login").with(csrf()))
-		.andExpect(status().isBadRequest())
-		.andExpect(authenticated().withUsername("user"));
-	}
+
 
 	@Test
 	@WithMockUser
-	public void requestProtectedUrlWithUserAndCsrfToken() throws Exception {
+	public void requestProtectedFeedbackWithUserAndCsrfToken() throws Exception {
 		webContextMock
 		.perform(post("/doctor/feedback").with(csrf()))
 		.andExpect(status().isBadRequest())
 		.andExpect(authenticated().withUsername("user"));
 	}
+	@WithMockUser(roles="PATIENT")
+	public void requestHospitalListPage() throws Exception {
+		webContextMock
+		.perform(get("/hospitals"))
+		.andExpect(status().isOk())
+		.andExpect(content().contentType("text/html;charset=ISO-8859-1"));
+	}
 
+	
+	public void requestDepartmentListPageByHospitalId() throws Exception {
+		webContextMock
+		.perform(get("/departments"))
+		.andExpect(status().is4xxClientError());
+	}
 
 
 	/**
@@ -148,7 +155,10 @@ public class TestSpringSecurity extends AbstractTestNGSpringContextTests{
 		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 			auth
 			.inMemoryAuthentication()
-			.withUser("user").password("password").roles("USER");
+			.withUser("user").password("password").roles("USER").and()
+			.withUser("patient").password("password").roles("PATIENT").and()
+			.withUser("manager").password("password").roles("MANAGER");
+			
 		}
 	}
 
