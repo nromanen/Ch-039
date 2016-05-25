@@ -18,8 +18,8 @@ public class PatientCardServiceImpl implements PatientCardService {
 
     @Override
     public PatientCard add(PatientCard patientCard) {
-        PatientCard patientCardFromDB = patientCardDAO.add(patientCard);
-        return patientCardFromDB;
+        patientCard = patientCardDAO.add(patientCard);
+        return patientCard;
     }
 
     @Override

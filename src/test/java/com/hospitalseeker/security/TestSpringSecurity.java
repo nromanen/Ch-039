@@ -1,17 +1,18 @@
 package com.hospitalseeker.security;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.testSecurityContext;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-
 import javax.servlet.Filter;
+
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -83,7 +84,7 @@ public class TestSpringSecurity extends AbstractTestNGSpringContextTests{
 		.perform(get("/admin"))
 		.andExpect(authenticated().withUsername("user").withRoles("ADMIN"));
 	}
-	
+
 	@Test
 	@WithMockUser(roles="USER")
 	public void requestProtectedUrlWithUser() throws Exception {
@@ -92,6 +93,16 @@ public class TestSpringSecurity extends AbstractTestNGSpringContextTests{
 		.andExpect(status().isForbidden())
 		.andExpect(authenticated().withUsername("user"));
 	}
+
+	@Test
+	@WithMockUser(roles="USER")
+	public void loginWithUser() throws Exception {
+		webContextMock
+		.perform(post("/login").with(csrf()))
+		.andExpect(status().isBadRequest())
+		.andExpect(authenticated().withUsername("user"));
+	}
+
 	@Test
 	@WithMockUser
 	public void requestProtectedUrlWithUserAndCsrfToken() throws Exception {
@@ -100,7 +111,7 @@ public class TestSpringSecurity extends AbstractTestNGSpringContextTests{
 		.andExpect(status().isBadRequest())
 		.andExpect(authenticated().withUsername("user"));
 	}
-	
+
 
 
 	/**

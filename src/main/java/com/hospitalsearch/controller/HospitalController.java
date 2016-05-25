@@ -21,9 +21,7 @@ import com.hospitalsearch.service.HospitalService;
 import com.hospitalsearch.service.UserService;
 
 
-/**
- * Created by deplague on 5/11/16.
- */
+
 @Controller
 public class HospitalController {
 

@@ -6,10 +6,12 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "doctorinfo")
 public class DoctorInfo implements Serializable {
 
     @Id
-    @GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "doctorinfo_gen")
+	@SequenceGenerator(name = "doctorinfo_gen", sequenceName = "doctorinfo_id_seq")
     private Long id;
     private String specialization;
 

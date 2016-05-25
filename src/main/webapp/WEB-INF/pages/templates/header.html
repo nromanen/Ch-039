@@ -1,9 +1,11 @@
-<header class="top-header" th:fragment="page-header" style="z-index: 1000;" xmlns:th="http://www.thymeleaf.org">
+<header class="top-header" th:fragment="page-header"
+	style="z-index: 1000;" xmlns:th="http://www.thymeleaf.org">
 	<div class="">
+
 		<div class="row">
 			<div class="col-xs-3 col-md-3 col-lg-3 header-logo">
 				<br /> <a th:href="@{/}"><img th:src="@{/img/logo.png}" alt=""
-											  class="img-responsive logo" /></a>
+					class="img-responsive logo" /></a>
 			</div>
 
 			<div class="col-md-9 col-lg-9">
@@ -12,8 +14,8 @@
 						<!-- Brand and toggle get grouped for better mobile display -->
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle collapsed"
-									data-toggle="collapse"
-									data-target="#bs-example-navbar-collapse-1">
+								data-toggle="collapse"
+								data-target="#bs-example-navbar-collapse-1">
 								<span class="sr-only">Toggle navigation</span> <span
 									class="icon-bar"></span> <span class="icon-bar"></span> <span
 									class="icon-bar"></span>
@@ -22,161 +24,141 @@
 
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse"
-							 id="bs-example-navbar-collapse-1">
+							id="bs-example-navbar-collapse-1">
 
 							<ul class="nav navbar-nav navbar-right">
+								<li><a th:class="menu" th:href="@{/}">Home</a></li>
 								<li><a th:class="menu"
-									   th:text="#{header.menu.home}"
-									   th:href="@{/}" /></li>
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/hospitals.*')}?'active':''"
+									th:href="@{/hospitals}">Hospitals</a></li>
 								<li><a th:class="menu"
-									   th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/hospitals.*')}?'active':''"
-									   th:text="#{header.menu.hospital}"
-									   th:href="@{/hospitals}"/></li>
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/mapsearch.*')}?'active':''"
+									th:href="@{/mapsearch}">Find</a></li>
 								<li><a th:class="menu"
-									   th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/mapsearch.*')}?'active':''"
-									   th:href="@{/mapsearch}"
-									   th:text="#{header.menu.find}"/></li>
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/contacts.*')}?'active':''"
+									th:href="@{#team}">our team</a></li>
+								<li><a th:class="menu" th:href="@{#}"> contact us</a></li>
 								<li sec:authorize="hasRole('ROLE_PATIENT')"><a
-										th:class="menu"
-										th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/card.*')}?'active':''"
-										th:href="@{/card}"
-										th:text="#{header.menu.card}"/></li>
+									th:class="menu"
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/card.*')}?'active':''"
+									th:href="@{/card}">Card</a></li>
 								<li sec:authorize="hasRole('ROLE_DOCTOR')"><a
-										th:class="menu"
-										th:text="#{header.menu.patient}"
-										th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/patients.*')}?'active':''"
-										th:href="@{/patients}"/></li>
-
-
-								<li sec:authorize="isAnonymous()" class="menu dropdown" style="cursor: pointer;">
-
-									<a class="dropdown-toggle menu" data-toggle="dropdown" th:text="#{header.menu.register}"/>
-									<ul class="dropdown-menu dropdown-lr animated fadeIn registration all" role="menu">
-										<div class="col-lg-12">
-											<div class="text-center"><b>Register</b></div>
-											<form id="ajax-register-form" th:if="${user}" th:object="${user}" th:action="@{/signUp}" method="post" role="form" autocomplete="off">
-												<div class="alert alert-danger" th:if="${param.error!= null}">
-													<p>Invalid username or password </p>
-												</div>
-												<div class="form-group">
-													<input type="email" name="email" id="email" tabindex="1" th:field="*{email}" class="form-control" placeholder="Email Address"
-														   pattern='^[a-zA-Z0-9_\-.]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$'
-														   title="Email is not correct" required="required"/>
-												</div>
-												<div class="form-group">
-													<input type="password" name="password" id="password" th:field="*{password}" tabindex="2" class="form-control"
-														   pattern='^[a-zA-Z0-9_\-.]{4,}'
-														   required="required" title="Please insert password" placeholder="Password"/>
-												</div>
-												<!--<div class="form-group">
-												  <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password"/>
-											  </div>-->
-												<div class="form-group">
-													<div class="row">
-														<div class="col-xs-6 col-xs-offset-3">
-															<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-info" value="Register Now"/>
-														</div>
-													</div>
-												</div>
-											</form>
-										</div>
-									</ul>
-								</li>
-
-								<li sec:authorize="isAnonymous()" 
+									th:class="menu"
+									th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/patients.*')}?'active':''"
+									th:href="@{/patients}">Patients</a></li>
+								<li sec:authorize="isAnonymous()"
 									th:class="${dto ne null} ? 'menu dropdown open' : 'menu dropdown'"
 									style="cursor: pointer;"><a class="dropdown-toggle menu"
-																data-toggle="dropdown" th:text="#{header.menu.register}"/>
-									<ul class="dropdown-menu dropdown-lr animated"
-										role="menu">
+									data-toggle="dropdown">Register </a>
+									<ul class="dropdown-menu dropdown-lr animated" role="menu">
 										<div class="col-lg-12">
 											<div class="text-center">
 												<h3>
 													<b>Register</b>
 												</h3>
 											</div>
-											<form id="ajax-register-form"
-												  th:action="@{/register}" method="post" th:object="${dto}" role="form" autocomplete="off">
+											<form id="ajax-register-form" th:action="@{/register}"
+												method="post" th:object="${dto}" role="form"
+												autocomplete="off">
 
 												<div class="form-group">
 													<input type="text" name="userName" id="userName"
-														   tabindex="1" placeholder="Username"
-														   class="form-control"
-													       th:value="${(dto != null) &amp;&amp; (dto.userName !=null)} ? ${dto.userName}:''"/>
-													<span th:if="${(dto != null) &amp;&amp; (#fields.hasErrors('userName'))}"
-														  th:errors="*{userName}" th:class="has-error"></span>
+														tabindex="1" placeholder="Username" class="form-control"
+														th:value="${(dto != null) &amp;&amp; (dto.userName !=null)} ? ${dto.userName}:''" />
+													<span
+														th:if="${(dto != null) &amp;&amp; (#fields.hasErrors('userName'))}"
+														th:errors="*{userName}" th:class="has-error"></span>
 												</div>
 
 												<div class="form-group">
 													<input type="email" name="email" id="email" tabindex="1"
-														   class="form-control" placeholder="Email Address"
-														   th:value="${(dto != null) &amp;&amp; (dto.email !=null)}
-                                                           ? ${dto.email}:''"/>
-                                                    <span th:if="${(dto ne null) &amp;&amp; (#fields.hasErrors('email'))}"
-														  th:errors="*{email}" class="has-error"></span>
+														class="form-control" placeholder="Email Address"
+														th:value="${(dto != null) &amp;&amp; (dto.email !=null)}
+
+                                                           ? ${dto.email}:''" />
+													<span
+														th:if="${(dto ne null) &amp;&amp; (#fields.hasErrors('email'))}"
+														th:errors="*{email}" class="has-error"></span>
 												</div>
 
 												<div class="form-group">
 													<input type="password" name="password" id="password"
-														   tabindex="2" class="form-control" placeholder="Password"
-														   th:value="${(dto != null) &amp;&amp; (dto.password !=null)}
-                                                           ? ${dto.password}:''"/>
-                                                    <span th:if="${(dto ne null) &amp;&amp; (#fields.hasErrors('password'))}"
-														  th:errors="*{password}" class="has-error"></span>
+														tabindex="2" class="form-control" placeholder="Password"
+														th:value="${(dto != null) &amp;&amp; (dto.password !=null)}
+                                                           ? ${dto.password}:''" />
+													<span
+														th:if="${(dto ne null) &amp;&amp; (#fields.hasErrors('password'))}"
+														th:errors="*{password}" class="has-error"></span>
 												</div>
 												<div class="form-group">
 													<input type="password" name="confirm-password"
-														   id="confirm-password" tabindex="2" class="form-control"
-														   placeholder="Confirm Password"/>
+														id="confirm-password" tabindex="2" class="form-control"
+														placeholder="Confirm Password" />
 												</div>
 												<div class="form-group">
 													<div class="row">
 														<div class="col-xs-6 col-xs-offset-3">
 															<input type="submit" name="register-submit"
-																   id="register-submit" tabindex="4"
-																   class="form-control btn btn-info" value="Register Now"/>
+																id="register-submit" tabindex="4"
+																class="form-control btn btn-info" value="Register Now" />
 														</div>
 													</div>
 												</div>
 												<input type="hidden" class="hide" name="token" id="token"
-													   value="7c6f19960d63f53fcd05c3e0cbc434c0"/>
+													value="7c6f19960d63f53fcd05c3e0cbc434c0" />
 											</form>
 										</div>
-									</ul>
-								</li>
+									</ul></li>
 								<!--login-->
-								<li sec:authorize="isAnonymous()" class="menu dropdown" style="cursor: pointer;">
-									<a class="dropdown-toggle menu" data-toggle="dropdown">Log In <span class="caret"></span></a>
-									<ul class="dropdown-menu dropdown-lr animated fadeIn all" role="menu">
+
+
+								<li sec:authorize="isAnonymous()" class="menu dropdown"
+									style="cursor: pointer;"><a class="dropdown-toggle menu"
+									data-toggle="dropdown">Log In <span class="caret"></span></a>
+									<ul class="dropdown-menu dropdown-lr animated fadeIn all"
+										role="menu">
 										<div class="col-lg-12">
-											<div class="text-center"><h3><b>Log In</b></h3></div>
-											<form id="ajax-login-form" th:action="@{/login}" method="post" role="form" autocomplete="off">
+											<div class="text-center">
+												<h3>
+													<b>Log In</b>
+												</h3>
+											</div>
+											<form id="ajax-login-form" th:action="@{/login}"
+												method="post" role="form" autocomplete="off">
 
-												<div class="alert alert-danger" th:if="${param.error!= null}" >
-													<p >Invalid username and password.</p>
+												<div class="alert alert-danger"
+													th:if="${param.error!= null}">
+													<p>Invalid username and password.</p>
 												</div>
 
 												<div class="form-group">
-													<label for="email">Email</label>
-													<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="email" value="" autocomplete="off"/>
+													<label for="email">Email</label> <input type="email"
+														name="email" id="email" tabindex="1" class="form-control"
+														placeholder="email" value="" autocomplete="off" />
 												</div>
 
 												<div class="form-group">
-													<label for="password">Password</label>
-													<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" autocomplete="off"/>
+													<label for="password">Password</label> <input
+														type="password" name="password" id="password" tabindex="2"
+														class="form-control" placeholder="Password"
+														autocomplete="off" />
 												</div>
 
 												<div class="form-group">
 													<div class="row">
 														<div class="col-xs-7">
-															<input type="checkbox" tabindex="3" name="remember-me" id="remember"/>
-															<label for="remember"> Remember Me</label>
+															<input type="checkbox" tabindex="3" name="remember-me"
+																id="remember" /> <label for="remember"> Remember
+																Me</label>
 														</div>
 
-														<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+														<input type="hidden" name="${_csrf.parameterName}"
+															value="${_csrf.token}" />
 
 														<div class="col-xs-5 pull-right">
-															<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-success" value="Log In"/>
+															<input type="submit" name="login-submit"
+																id="login-submit" tabindex="4"
+																class="form-control btn btn-success" value="Log In" />
 														</div>
 													</div>
 												</div>
@@ -191,40 +173,51 @@
                                               </div>-->
 											</form>
 										</div>
-									</ul>
-								</li>
-								<li sec:authorize="hasRole('ROLE_ADMIN')" style="cursor: pointer;">
+									</ul></li>
 
-									<a class="menu" th:href="@{/admin/dashboard}" th:text="#{header.menu.admin}"/>
+								<li sec:authorize="hasRole('ADMIN')" style="cursor: pointer;">
+									<a href="#" class="nav navbar-nav dropdown dropdown-toggle"
+									data-toggle="dropdown">Admin<span class="caret"></span></a>
+									<ul class="dropdown-menu" id="dropdawn">
+										<li><a th:href="@{/admin/users}" class="menu">All
+												users</a></li>
+
+										<li><a th:href="@{/newUser}" class="menu">Add new
+												User</a></li>
+
+										<li><a th:href="@{/admin/map/listhospitals}" class="menu">Hospital
+												List</a></li>
+										<li><a th:href="@{/admin/map/new}" class="menu">New
+												Hospital</a></li>
+										<li><a th:href="@{/admin/map/validate}" class="menu">Check
+												Hospitals List With Google Data</a></li>
+									</ul>
 								</li>
 								<!--autorize user-->
 								<li sec:authorize="isAuthenticated()" style="cursor: pointer;">
-
-									<a class="dropdown-toggle" th:href="@{/logout}" th:text="#{header.menu.logout}"/>
+									<a class="dropdown-toggle" th:href="@{/logout}">Log out</a>
 								</li>
 								<li sec:authorize="isAuthenticated()" class="center">
 									<div>
-                                        <a th:href="@{|user/view/${#authentication.getPrincipal().username}/|}">
-                                        <h4 sec:authentication="principal.username"></h4></a>
+										<h4 sec:authentication="principal.username"></h4>
 									</div>
 								</li>
 							</ul>
-						</div><!-- /navbar-collapse -->
-
-
+						</div>
+						<!-- /navbar-collapse -->
 						<h3>
 							<div
-									th:if="${#httpServletRequest.requestURL.toString().contains('/hospitals')}"
-									th:include="templates/breadcrumb::breadcrumbs(${1},${null},${null},${null})" />
+								th:if="${#httpServletRequest.requestURL.toString().contains('/hospitals')}"
+								th:include="templates/breadcrumb::breadcrumbs(${1},${null},${null},${null})" />
 							<div
-									th:if="${#httpServletRequest.requestURL.toString().matches('.*/hospital/[0-9]+$')}"
-									th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${null},${null})" />
+								th:if="${#httpServletRequest.requestURL.toString().matches('.*/hospital/[0-9]+$')}"
+								th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${null},${null})" />
 							<div
-									th:if="${#httpServletRequest.requestURL.toString().matches('.*/department/[0-9]+$')}"
-									th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${department},${null})" />
+								th:if="${#httpServletRequest.requestURL.toString().matches('.*/department/[0-9]+$')}"
+								th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${department},${null})" />
 							<div
-									th:if="${#httpServletRequest.requestURL.toString().matches('.*/dashboard.*$')}"
-									th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${department},${doctor})" />
+								th:if="${#httpServletRequest.requestURL.toString().matches('.*/dashboard.*$')}"
+								th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${department},${doctor})" />
 						</h3>
 						<!-- /navbar-collapse -->
 					</div>

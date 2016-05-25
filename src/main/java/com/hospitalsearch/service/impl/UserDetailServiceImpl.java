@@ -7,10 +7,12 @@ import com.hospitalsearch.service.PatientCardService;
 import com.hospitalsearch.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class UserDetailServiceImpl implements UserDetailService {
     @Autowired
     private UserDetailDAO dao;
@@ -35,6 +37,13 @@ public class UserDetailServiceImpl implements UserDetailService {
         dao.update(updatedUserDetail);
     }
 
+    @Override
+    public UserDetail add(UserDetail userDetail) {
+        PatientCard patientCard = patientCardService.add(new PatientCard());
+        userDetail.setPatientCard(patientCard);
+        userDetail = dao.add(userDetail);
+        return userDetail;
+    }
     @Override
     public UserDetail getById(Long id) {
         return dao.getById(id);

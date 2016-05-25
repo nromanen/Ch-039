@@ -24,8 +24,12 @@
 		<thymeleafspringsecurity4.version>2.1.2.RELEASE</thymeleafspringsecurity4.version>
 		<javax.mail>1.4.7</javax.mail>
 		<apache.velocity>1.7</apache.velocity>
-		
 		<guava>19.0</guava>
+		<liquibase.core>3.4.2</liquibase.core>
+		<liquibase.plugin>3.4.2</liquibase.plugin>
+		<liquibase.hibernate4>3.5</liquibase.hibernate4>
+		<spring.beans>4.2.6.RELEASE</spring.beans>
+		<spring.data.jpa>1.10.1.RELEASE</spring.data.jpa>
 	</properties>
 
 	<dependencies>
@@ -36,6 +40,13 @@
 			<artifactId>spring-core</artifactId>
 			<version>${spring.core}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.core}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -81,7 +92,7 @@
 			<version>${spring.core}</version>
 		</dependency>
 
-		
+
 		<!--Hibernate -->
 
 		<dependency>
@@ -121,7 +132,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<version>${spring.security}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
@@ -240,9 +251,26 @@
 			<artifactId>h2</artifactId>
 			<version>1.4.191</version>
 		</dependency>
+		<!-- Liquibase -->
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.core}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
+		<filters>
+			<filter>src/main/resources/app.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -261,7 +289,36 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>${liquibase.plugin}</version>
+				<configuration>
+					<propertyFileWillOverride>true</propertyFileWillOverride>
+					<propertyFile>target/classes/liquibase.properties</propertyFile>
+				</configuration>
+				<!-- <executions> <execution> <phase>install</phase> <goals> <goal>update</goal> 
+					</goals> </execution> </executions> -->
+				<dependencies>
+					<dependency>
+						<groupId>org.liquibase.ext</groupId>
+						<artifactId>liquibase-hibernate4</artifactId>
+						<version>${liquibase.hibernate4}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-beans</artifactId>
+						<version>${spring.beans}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework.data</groupId>
+						<artifactId>spring-data-jpa</artifactId>
+						<version>${spring.data.jpa}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
+	
 </project>
 

@@ -11,11 +11,11 @@ import java.util.List;
  * Created by deplague on 5/11/16.
  */
 
-@Transactional
 public interface UserDetailService {
     void save(UserDetail newUserDetail);
     void delete(UserDetail userDetail);
     void update(UserDetail updatedUserDetail);
+    UserDetail add(UserDetail userDetail);
     @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
     UserDetail getById(Long id);
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)

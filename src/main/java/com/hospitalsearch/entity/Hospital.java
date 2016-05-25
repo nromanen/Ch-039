@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -21,7 +22,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  */
 @Entity
-@Table(name = "HOSPITAL")
+@Table(name = "hospital")
 
 @NamedQueries
 (
@@ -43,7 +44,8 @@ public class Hospital{
 	public static final String DELETE_HOSPITAL_BY_ID = "DELETE_HOSPITAL_BY_ID";
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hospital_gen")
+	@SequenceGenerator(name = "hospital_gen", sequenceName = "hospital_id_seq")
 	private Long id;
 
 	@NotEmpty

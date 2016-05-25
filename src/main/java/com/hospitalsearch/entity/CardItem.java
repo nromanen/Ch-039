@@ -1,24 +1,30 @@
 package com.hospitalsearch.entity;
 
 import com.hospitalsearch.service.annotation.OneDay;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Entity
+@Table(name = "carditem")
 public class CardItem implements Serializable {
 	
 	
 	private static final long serialVersionUID = -1407036211724471026L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "carditem_gen")
+	@SequenceGenerator(name = "carditem_gen", sequenceName = "carditem_id_seq")
     private Long id;
     @OneDay(message = " Edit time is over")
-    private LocalDate date;
+    private Timestamp date;
     @ManyToOne
     PatientCard patientCard;
     @NotNull
@@ -37,14 +43,6 @@ public class CardItem implements Serializable {
 
     }
 
-    public CardItem(LocalDate date, PatientCard patientCard, String result, String prescription, User doctor) {
-        this.date = date;
-        this.patientCard = patientCard;
-        this.result = result;
-        this.prescription = prescription;
-        this.doctor = doctor;
-    }
-
     public Long getId() {
         return id;
     }
@@ -53,11 +51,11 @@ public class CardItem implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public Timestamp  getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Timestamp  date) {
         this.date = date;
     }
 

@@ -13,15 +13,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import com.hospitalsearch.util.Gender;
 
 
 @Entity
+@Table(name = "userdetail")
 public class UserDetail implements Serializable{
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userdetail_gen")
+	@SequenceGenerator(name = "userdetail_gen", sequenceName = "userdetail_id_seq")
 	@Column(name="id")
 	private Long id;
 	private String firstName;
@@ -33,15 +40,16 @@ public class UserDetail implements Serializable{
 	private Gender gender;
 	private String address;
 
+
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
 	@Fetch(FetchMode.SELECT)
 	private DoctorInfo doctorsDetails;
 
 	@OneToOne
 	private PatientCard patientCard;
-	
+
 	public UserDetail() {
-		
+
 	}
 
 	public Long getId() {
@@ -111,6 +119,15 @@ public class UserDetail implements Serializable{
 
 	public void setPatientCard(PatientCard patientCard) {
 		this.patientCard = patientCard;
+	}
+
+
+	@Override
+	public String toString() {
+		return "UserDetail{" +
+				"firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				'}';
 	}
 
 }

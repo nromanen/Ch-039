@@ -12,6 +12,22 @@
 ****/
 /*@import url(https://fonts.googleapis.com/css?family=Roboto);*/
 
+#dropdawn{
+    font-size: 24px;
+    color: #737373;
+    text-transform: uppercase;
+    transition: all .7s ease 0s;
+    -webkit-transition: all .7s ease 0s;
+    -moz-transition: all .7s ease 0s;
+    -o-transition: all .7s ease 0s;
+    -ms-transition: all .7s ease 0s;
+    padding: 14px 15px;
+    font-weight: bold;
+}
+
+#dropdawn>li>a:hover{
+    color: #42b3e5;
+}
 
 body {
     margin: 0;
@@ -51,7 +67,7 @@ li {
 }
 
 .chat-header {
-	background: #fff !important;  
+    background: #fff !important;
 }
 
 
@@ -59,7 +75,7 @@ li {
     overflow: auto;
     height: 300px;
     padding: .5rem;
-        
+
     -ms-overflow-style: none;
 }
 

@@ -2,28 +2,38 @@ package com.hospitalsearch.service.impl;
 
 import com.hospitalsearch.dao.CardItemDAO;
 import com.hospitalsearch.entity.CardItem;
+import com.hospitalsearch.entity.PatientCard;
+import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.CardItemService;
 import com.hospitalsearch.service.PatientCardService;
+import com.hospitalsearch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @Transactional
 public class CardItemServiceImpl implements CardItemService {
-    
+//    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy");
+
     @Autowired
     private CardItemDAO cardItemDAO;
 
     @Autowired
-    private PatientCardService patientCardService;
+    UserService userService;
 
     @Override
-    public void add(CardItem cardItem) {
-        LocalDate date = LocalDate.now();
+    public void add(CardItem cardItem, String doctorEmail) {
+        User doctor = userService.getByEmail(doctorEmail);
+        LocalDateTime dateTime = LocalDateTime.now();
+        Timestamp date = Timestamp.valueOf(dateTime);
         cardItem.setDate(date);
+        cardItem.setDoctor(doctor);
         cardItemDAO.save(cardItem);
     }
 
@@ -36,9 +46,7 @@ public class CardItemServiceImpl implements CardItemService {
     @Override
     public void update(CardItem cardItem) {
         CardItem entity = cardItemDAO.getById(cardItem.getId());
-        LocalDate date = LocalDate.now();
         if (entity != null) {
-            entity.setDate(date);
             entity.setPrescription(cardItem.getPrescription());
             entity.setResult(cardItem.getResult());
             entity.setComplaint(cardItem.getComplaint());
@@ -46,15 +54,21 @@ public class CardItemServiceImpl implements CardItemService {
     }
 
     @Override
-    public void persist(CardItem cardItem){
+    public boolean persist(CardItem cardItem, String doctorEmail,Long userId) {
 
-        if(cardItem.getId()==null) {
-            add(cardItem);
-        }else{
-            update(cardItem);
+        PatientCard patientCard = userService.getById(userId).getUserDetails().getPatientCard();
+        cardItem.setPatientCard(patientCard);
+        if (cardItem.getId() == null) {
+            add(cardItem, doctorEmail);
+            return true;
         }
+        CardItem cardItemFromDB = cardItemDAO.getById(cardItem.getId());
+        if (cardItemFromDB.getDoctor().getEmail().equals(doctorEmail)) {
+            update(cardItem);
+            return true;
+        }
+        return false;
     }
-
 
 
     @Override

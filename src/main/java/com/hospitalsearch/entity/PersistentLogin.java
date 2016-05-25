@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by andrew on 16.05.16.
+ * @author Andrew Jasinskiy
  */
 @Entity
 @Table(name="PERSISTENT_LOGINS")

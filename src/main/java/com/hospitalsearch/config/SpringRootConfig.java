@@ -17,6 +17,8 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import liquibase.integration.spring.SpringLiquibase;
+
 
 /**
  * Created by speedfire on 4/28/16.
@@ -73,10 +75,18 @@ public class SpringRootConfig {
     public Properties hibernateProperties() {
         Properties props = new Properties();
         props.put(PROP_HIBERNATE_DIALECT, properties.getRequiredProperty(PROP_HIBERNATE_DIALECT));
-        props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
+        //props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
         props.put(PROP_HIBERNATE_SHOW_SQL, properties.getRequiredProperty(PROP_HIBERNATE_SHOW_SQL));
-        props.put(PROP_HIBERNATE_IMPORT_FILE, properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
+        //props.put(PROP_HIBERNATE_IMPORT_FILE, properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
         return props;
     }
+
+	@Bean
+	public SpringLiquibase liquibase() {
+		SpringLiquibase liquibase = new SpringLiquibase();
+		liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
+		liquibase.setDataSource(dataSource());
+		return liquibase;
+	}
 
 }

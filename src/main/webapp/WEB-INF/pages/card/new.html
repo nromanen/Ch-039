@@ -21,9 +21,14 @@
                 <span th:if="${cardItem.id!=null}"><input type="hidden" th:field="${cardItem.id}"/></span>
                 <span th:if="${cardItem.id!=null}"><input type="hidden" th:field="${cardItem.date}" id="date"/></span>
                 <div>
-                    <p th:text="'Date: '+${#dates.format(#dates.createNow(), 'MM-dd-yyyy')}" style="display: inline-block; margin-left: 10px;"></p>
+                    <p th:text="'Current date: '+${#dates.format(#dates.createNow(), 'HH:mm dd-MM-yyyy')}" style="display: inline-block; margin-left: 10px;"></p>
                     <p class="error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></p>
                 </div>
+
+                <div>
+                    <p class="error" th:if="${doctorError!=null}" th:text="${doctorError}"></p>
+                </div>
+
                 <div class="form-group">
                     <label for="complaint">Complaint:</label>
                     <input type="text" th:field="*{complaint}" class="form-control" id="complaint"/>
