@@ -351,20 +351,20 @@
 	</changeSet>
 	<changeSet author="admin (generated)" id="1464102936566-56">
 		<insert tableName="role">
-+			<column name="id" value="1"/>
-+			<column name="type" value="ADMIN"/>
-+		</insert>
-+		<insert tableName="role">
-+			<column name="id" value="2"/>
-+			<column name="type" value="PATIENT"/>
-+		</insert>
-+		<insert tableName="role">
-+			<column name="id" value="3"/>
-+			<column name="type" value="MANAGER"/>
-+		</insert>
-+		<insert tableName="role">
-+			<column name="id" value="4"/>
-+			<column name="type" value="DOCTOR"/>
-+		</insert>
+			<column name="id" value="1"/>
+			<column name="type" value="ADMIN"/>
+		</insert>
+		<insert tableName="role">
+			<column name="id" value="2"/>
+			<column name="type" value="PATIENT"/>
+		</insert>
+		<insert tableName="role">
+			<column name="id" value="3"/>
+			<column name="type" value="MANAGER"/>
+		</insert>
+		<insert tableName="role">
+			<column name="id" value="4"/>
+			<column name="type" value="DOCTOR"/>
+		</insert>
 	</changeSet>
 </databaseChangeLog>
