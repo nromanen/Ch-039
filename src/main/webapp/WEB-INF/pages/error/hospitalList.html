@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout">
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="content">
+			<div class="container">
+				<div class="row">
+					<img class="img-responsive img-rounded animated rotateInDownLeft"
+						th:src="@{/img/cant-find.jpg}" /> <img
+						class="img-responsive img-rounded animated rotateInDownLeft"
+						th:src="@{/img/dont-know.jpg}" />
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

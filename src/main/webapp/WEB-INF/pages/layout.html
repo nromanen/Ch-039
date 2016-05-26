@@ -9,7 +9,7 @@
 <meta name="author" content="" />
 <title>DOCTOR - Responsive HTML &amp; Bootstrap Template</title>
 <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" />
-<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/css/login.css}" />
 <link rel="stylesheet" th:href="@{/css/style.css}" />
 <link rel="stylesheet" th:href="@{/css/animate.css}" />
@@ -21,8 +21,6 @@
 	href='http://fonts.googleapis.com/css?family=BenchNine:300,400,700'
 	rel='stylesheet' type='text/css' />
 <link rel="stylesheet" th:href="@{/css/admin.css}" type="text/css" />
-
-
 
 <link rel="stylesheet" th:href="@{/codebase/dhtmlxscheduler_flat.css}"
 	type="text/css" media="screen" title="no title" charset="utf-8" />
@@ -66,8 +64,6 @@
 	</script>-->
 </head>
 <body>
-	
-	<p th:text="#{breadcrumb.hospitals}"/>
 	<div th:replace="templates/header::page-header" />
 	<div layout:fragment="content" />
 	<div class="footer" th:replace="templates/footer::page-footer" />

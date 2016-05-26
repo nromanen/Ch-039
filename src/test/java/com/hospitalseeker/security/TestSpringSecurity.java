@@ -106,6 +106,7 @@ public class TestSpringSecurity extends AbstractTestNGSpringContextTests{
 		.andExpect(authenticated().withUsername("user"));
 	}
 	@WithMockUser(roles="PATIENT")
+  @Test(enabled=false)
 	public void requestHospitalListPage() throws Exception {
 		webContextMock
 		.perform(get("/hospitals"))
@@ -113,7 +114,7 @@ public class TestSpringSecurity extends AbstractTestNGSpringContextTests{
 		.andExpect(content().contentType("text/html;charset=ISO-8859-1"));
 	}
 
-	
+
 	public void requestDepartmentListPageByHospitalId() throws Exception {
 		webContextMock
 		.perform(get("/departments"))
@@ -158,7 +159,7 @@ public class TestSpringSecurity extends AbstractTestNGSpringContextTests{
 			.withUser("user").password("password").roles("USER").and()
 			.withUser("patient").password("password").roles("PATIENT").and()
 			.withUser("manager").password("password").roles("MANAGER");
-			
+
 		}
 	}
 

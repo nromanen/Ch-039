@@ -39,13 +39,13 @@ import com.hospitalseeker.TestConfig;
 public class TestHospitalService extends AbstractTestNGSpringContextTests{
 
 
-	
+
 	@Mock private HospitalService hospitalService;
-	
-	 
-	
-	
-	
+
+
+
+
+
 
 	@BeforeTest
 	public void suiteSetUp(){ MockitoAnnotations.initMocks(this); }
@@ -55,10 +55,10 @@ public class TestHospitalService extends AbstractTestNGSpringContextTests{
     this method invoke every time before next test method
 	 */
 	@BeforeMethod
-	public void setUp(){ 
-		
+	public void setUp(){
+
 	}
-	
+
 	public void testSaveNewHospitalToDatabase(){
 		Hospital hospital = new Hospital();
 		hospital.setId(1L);
@@ -67,7 +67,7 @@ public class TestHospitalService extends AbstractTestNGSpringContextTests{
 		verify(hospitalService,atLeast(1)).save(hospital);
 		when(hospitalService.getById(1L)).thenReturn(hospital);
 	}
-	
+
 	public void testDeleteHospitalFromDatabase(){
 		Hospital hospital = new Hospital();
 		hospital.setId(1L);
@@ -76,7 +76,7 @@ public class TestHospitalService extends AbstractTestNGSpringContextTests{
 		verify(hospitalService,times(1)).delete(hospital);
 		when(hospitalService.getById(1L)).thenReturn(null);
 	}
-	
+
 	public void testGetAllHospitalsFromDatabase(){
 		Hospital hospital = new Hospital();
 		hospital.setId(1L);
@@ -84,19 +84,19 @@ public class TestHospitalService extends AbstractTestNGSpringContextTests{
 		hospital.setId(2L);
 		hospitalService.save(hospital);
 		hospitalService.save(hospital2);
-		
+
 		verify(hospitalService,atLeast(1)).save(hospital);
 		List<Hospital> hospitals = new ArrayList<>();
 		hospitals.add(hospital);
 		hospitals.add(hospital2);
 		when(hospitalService.getAll()).thenReturn(hospitals);
 	}
-	
+
 	public void testUpdateHospitalInDatabase(){
 		Hospital hospital = new Hospital();
 		hospital.setId(1L);
 		hospitalService.save(hospital);
-		
+
 		doReturn(hospital).when(hospitalService).getById(1L);
 		hospital = hospitalService.getById(1L);
 		hospital.setName("new");
@@ -104,7 +104,7 @@ public class TestHospitalService extends AbstractTestNGSpringContextTests{
 		verify(hospitalService,atLeast(1)).update(hospital);
 		doReturn(hospital).when(hospitalService).getById(1L);
 	}
-	
+
 	/**
 	 * do some dispose behaviour
 	 */

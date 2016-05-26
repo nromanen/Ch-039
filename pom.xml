@@ -41,12 +41,6 @@
 			<version>${spring.core}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.core}</version>
-		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -262,6 +256,7 @@
 	</dependencies>
 
 	<build>
+        <finalName>${project.name}</finalName>
 		<filters>
 			<filter>src/main/resources/app.properties</filter>
 		</filters>
@@ -289,7 +284,7 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!--  <plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>${liquibase.plugin}</version>
@@ -322,7 +317,7 @@
 						<version>${spring.data.jpa}</version>
 					</dependency>
 				</dependencies>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 	

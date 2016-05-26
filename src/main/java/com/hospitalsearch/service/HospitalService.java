@@ -2,6 +2,7 @@ package com.hospitalsearch.service;
 
 import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.util.Bounds;
+import com.hospitalsearch.util.HospitalFilterDTO;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,6 +27,7 @@ public interface HospitalService {
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     List<Hospital> getAll();
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
-	public List<Hospital> getAllByBounds(Bounds bounds);		
-	
+	public List<Hospital> getAllByBounds(Bounds bounds);	
+    
+    public List<Hospital> filterHospitalsByAddress(HospitalFilterDTO filterInfo);	
 }

@@ -75,18 +75,18 @@ public class SpringRootConfig {
     public Properties hibernateProperties() {
         Properties props = new Properties();
         props.put(PROP_HIBERNATE_DIALECT, properties.getRequiredProperty(PROP_HIBERNATE_DIALECT));
-        //props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
+        props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
         props.put(PROP_HIBERNATE_SHOW_SQL, properties.getRequiredProperty(PROP_HIBERNATE_SHOW_SQL));
         //props.put(PROP_HIBERNATE_IMPORT_FILE, properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
         return props;
     }
 
-	@Bean
-	public SpringLiquibase liquibase() {
-		SpringLiquibase liquibase = new SpringLiquibase();
-		liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
-		liquibase.setDataSource(dataSource());
-		return liquibase;
-	}
+//	@Bean
+//	public SpringLiquibase liquibase() {
+//		SpringLiquibase liquibase = new SpringLiquibase();
+//		liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
+//		liquibase.setDataSource(dataSource());
+//		return liquibase;
+//	}
 
 }

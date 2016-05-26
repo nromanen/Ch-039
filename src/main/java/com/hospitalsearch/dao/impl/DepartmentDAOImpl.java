@@ -1,14 +1,15 @@
 package com.hospitalsearch.dao.impl;
 
-import com.hospitalsearch.dao.DepartmentDAO;
-import com.hospitalsearch.entity.Department;
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.hospitalsearch.dao.DepartmentDAO;
+import com.hospitalsearch.entity.Department;
 
 /**
  * Created by deplague on 5/11/16.

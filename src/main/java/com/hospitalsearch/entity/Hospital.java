@@ -1,6 +1,9 @@
 package com.hospitalsearch.entity;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -65,10 +68,13 @@ public class Hospital{
 	@Column(name = "LONGITUDE", nullable = false)
 	private Double longitude;
 
-	@NotEmpty
-	@Size(min = 10, max = 100)
-	@Column(name = "ADDRESS", nullable = false)
-	private String address; 
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride(name="city",column=@Column(name="CITY")),
+		@AttributeOverride(name="country",column=@Column(name="COUNTRY")),
+		@AttributeOverride(name="street",column=@Column(name="STREET"))
+	})
+	private HospitalAddress address;
 
 
 	@Size(max = 150)
@@ -109,14 +115,6 @@ public class Hospital{
 		this.longitude = longitude;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -132,4 +130,14 @@ public class Hospital{
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
+
+	public HospitalAddress getAddress() {
+		return address;
+	}
+
+	public void setAddress(HospitalAddress address) {
+		this.address = address;
+	}
+	
+	
 }
