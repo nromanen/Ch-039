@@ -4,11 +4,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "patientcard")
 public class PatientCard {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patientcard_gen")
+    @SequenceGenerator(name = "patientcard_gen", sequenceName = "patientcard_id_seq")
     private Long id;
+
     @OneToMany(mappedBy = "patientCard", fetch = FetchType.EAGER)
     List<CardItem> cardItems;
 

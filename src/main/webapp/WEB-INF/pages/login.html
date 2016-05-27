@@ -6,54 +6,114 @@
     <meta charset="ISO-8859-1"/>
     <meta charset="UTF-8"/>
     <title>Login</title>
-    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}" />
-    <link rel="stylesheet" th:href="@{/css/animate.css}" />
-    <link rel="stylesheet" th:href="@{/app.css}" />
+    <!--    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/animate.css}"/>
+    <!-- <link rel="stylesheet" th:href="@{/app.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/charisma-app.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
     <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/login.js}"></script>
 </head>
 <body>
 <section layout:fragment="content" class="dashboard center">
+
+   <!-- <div class="content">
+        <div id="mainWrapper">
+            <div class="ch-container">
+                <div class="row">
+                    <div class="row">
+                        <div class="well col-md-5 center login-box">
+                            <div class="alert alert-info"
+                                 th:text="${param.error!= null}?'Invalid username or password': 'Please login with your Email and Password.'">
+                            </div>
+                            <form class="form-horizontal" th:action="@{/login}" method="post">
+                                <fieldset>
+                                    <div class="input-group ">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-user red"></i></span>
+                                        <input type="email" class="form-control" placeholder="Email" id="useremail"
+                                               name="email"/>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <br/>
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-lock red"></i></span>
+                                        <input type="password" class="form-control" id="password" name="password"
+                                               placeholder="Password"/>
+                                    </div>
+                                    <div class="clearfix"></div>
+
+                                    <div class="input-group input-sm">
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" id="rememberme" name="remember-me"/>Remember
+                                                Me</label>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+                                    <div class="form-actions">
+                                        <input type="submit" class="btn btn-block btn-info btn-default" value="Login"/>
+                                    </div>
+                                    <div class="form-actions">
+                                        <input type="submit" class="btn btn-block btn-default" th:href="@{/}"
+                                               value="Back to home page"/>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
     <div class="content">
         <div id="mainWrapper">
-            <div class="login-container">
-                <div class="login-card">
-                    <div class="login-form">
-                        <form method="post" class="form-horizontal" th:action="@{/login}">
+            <div class="container">
+                <div class="row" style="margin-top:20px">
+                    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                        <form role="form" th:action="@{/login}" method="post">
+                            <fieldset>
+                                <h2>Please Log In</h2>
 
-                            <div class="alert alert-danger" th:if="${param.error!= null}" >
-                                <p>Invalid username and password.</p>
-                            </div>
-
-                            <div class="alert alert-success" th:if="${param.logout != null}">
-                                <p>You have been logged out successfully.</p>
-                            </div>
-
-                            <div class="input-group input-sm">
-                                <label class="input-group-addon" for="useremail"><i class="fa fa-user"></i></label>
-                                <input type="email" class="form-control" id="useremail" name="email" placeholder="Enter Email" required="required"/>
-                            </div>
-
-                            <div class="input-group input-sm">
-                                <label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required="required"/>
-                            </div>
-
-                            <div class="input-group input-sm">
-                                <div class="checkbox">
-                                    <label><input type="checkbox" id="rememberme" name="remember-me"/>Remember Me</label>
+                                <div class="alert alert-info" th:if="${param.error!= null}" >
+                                    <p>Invalid username or password.</p>
                                 </div>
-                            </div>
 
-                            <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+                           <!--     <div class="alert alert-info"
+                                     th:text="${param.error!= null}?'Invalid username or password': 'Please login with your Email and Password.'">
+                                </div>
+                                -->
+                                <hr class="colorgraph"/>
 
-                            <div class="form-actions">
-                                <input type="submit" class="btn btn-block btn-primary btn-default" value="Log in"/>
-                            </div>
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address"/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password"/>
+                                </div>
+
+                                <span class="button-checkbox">
+                                    <button type="button" class="btn" data-color="info">Remember Me</button>
+                                    <input type="checkbox" name="remember-me" id="remember-me" class="hidden"/>
+                                    <a href="" class="btn btn-link pull-right">Forgot Password?</a>
+                                </span>
+
+                                <hr class="colorgraph"/>
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <input type="submit" class="btn btn-lg btn-info btn-block" value="Log In"/>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <a th:href="@{/newUser}" class="btn btn-lg btn-primary btn-block">Register</a>
+                                    </div>
+                                </div>
+                            </fieldset>
                         </form>
-
-                        <div class="form-actions">
-                            <input type="submit" class="btn btn-block btn-default btn-default" th:href="@{/}" value="Back to home page"/>
-                        </div>
                     </div>
                 </div>
             </div>

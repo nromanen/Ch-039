@@ -88,14 +88,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void changeStatus(Long id) {
+        dao.changeStatus(id);
+    }
+
+    @Override
+    public List<User> getAllEnabledUsers() {
+        return dao.getAllEnabledUsers();
+    }
+
+    @Override
+    public List<User> getAllDisabledUsers() {
+        return dao.getAllDisabledUsers();
+    }
+
+    @Override
     public List<User> getByRole(long id) {
         return dao.getByRole(id);
     }
 
-    @Override
-    public void changeStatus(Long id) {
-        dao.changeStatus(id);
-    }
     @Override
     public void register(UserRegisterDto dto) {
         User user = new User();

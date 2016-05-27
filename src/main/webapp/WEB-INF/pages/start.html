@@ -43,7 +43,7 @@ html, body {
 				<div class="modal-content">Saved</div>
 			</div>
 		</div>
-		<input sec:authorize="hasRole('ROLE_MANAGER')" value="true"
+		<input sec:authorize="hasRole('MANAGER')" value="true"
 			id="manager" type="text" hidden="hidden" />
 		<p th:id="currentUser" hidden="hidden" sec:authentication="name" />
 		<p th:id="doctorID" hidden="hidden" th:text="${doctor.id}" />

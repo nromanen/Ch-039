@@ -43,7 +43,7 @@ public class RegisterController {
         return "registercontinue";
     }
 
-    @RequestMapping(value = "/{email}", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit/{email}", method = RequestMethod.POST)
     public String updateUser(@PathVariable("email") String email,
                              @Valid @ModelAttribute UserDto dto,
                              BindingResult result, Model model) {

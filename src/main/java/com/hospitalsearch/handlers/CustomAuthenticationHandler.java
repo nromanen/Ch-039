@@ -1,4 +1,4 @@
-package com.hospitalsearch.config.security;
+package com.hospitalsearch.handlers;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -38,7 +38,7 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
         String role = authentication.getAuthorities().toString();
         Map<String, String> roleMapper = new HashMap<>();
         roleMapper.put("MANAGER", "/hospitals");
-        roleMapper.put("ADMIN", "/admin/users");
+        roleMapper.put("ADMIN", "/admin/users/?status=true");
         roleMapper.put("PATIENT", "/");
         roleMapper.put("DOCTOR", "/hospitals");
 

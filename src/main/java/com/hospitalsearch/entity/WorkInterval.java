@@ -9,10 +9,12 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "workinterval")
 public class WorkInterval implements Serializable{
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workinterval_gen")
+	@SequenceGenerator(name = "workinterval_gen", sequenceName = "workinterval_id_seq")
 	private Long id;
 
 	@JsonIgnore

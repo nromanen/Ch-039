@@ -15,7 +15,7 @@
             <div class="content">
              <div class="container">
                     <h1>Patient card:</h1>
-                 <a sec:authorize="hasRole('ROLE_DOCTOR')" th:href="@{/new/record(userId=${userId})}"  class="btn btn-info" style="display: inherit; margin-bottom: 12px;">New record</a>
+                 <a sec:authorize="hasRole('DOCTOR')" th:href="@{/new/record(userId=${userId})}"  class="btn btn-info" style="display: inherit; margin-bottom: 12px;">New record</a>
                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                      <div th:each="item:${cardItems}" class="panel panel-default">
                          <div class="panel-heading" role="tab" id="headingOne">

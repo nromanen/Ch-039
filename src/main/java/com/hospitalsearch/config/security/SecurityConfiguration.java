@@ -1,5 +1,6 @@
 package com.hospitalsearch.config.security;
 
+import com.hospitalsearch.handlers.CustomAuthenticationHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
+		auth.inMemoryAuthentication().withUser("admin@gmail.com").password("admin").roles("ADMIN");
 		auth.authenticationProvider(authenticationProvider());
 	}
 
@@ -55,7 +57,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/supplyIntervals");
 		web.ignoring().antMatchers("/doctor/feedback");
-		web.ignoring().antMatchers("resources/**", "webjars/**");
+/*		web.ignoring().antMatchers("/resources*//**", "/codebase*//**", "/css*//**",
+		 "/font-awesome*//**","/fonts*//**","/img*//**","/js*//**");
+		 */
 	}
 
 	@Override
@@ -88,7 +92,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.rememberMeParameter("remember-me")
 				.tokenRepository(tokenRepository)
 				.tokenValiditySeconds(TIME);
-
 	}
 
 	//password encoder

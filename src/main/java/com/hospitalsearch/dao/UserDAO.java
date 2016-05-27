@@ -15,6 +15,8 @@ public interface UserDAO extends GenericDAO<User,Long>{
     void changeStatus(long id);
     List<User> getByRole(long id);
     Boolean emailExists(String email);
+    List<User> getAllEnabledUsers();
+    List<User> getAllDisabledUsers();
 }
 
 

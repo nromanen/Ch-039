@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<head>
+    <meta charset="ISO-8859-1"/>
+    <meta charset="UTF-8"/>
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}" />
+    <link rel="stylesheet" th:href="@{/css/animate.css}" />
+    <link rel="stylesheet" th:href="@{/app.css}" />
+    <script th:src="@{/js/admin.js}"></script>
+</head>
+<body>
+<section layout:fragment="content" class="dashboard center">
+    <div class="content">
+        <div id="mainWrapper">
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="login-form">
+                        <form method="post" class="form-horizontal" th:action="@{/login}">
+
+                            <div class="alert alert-danger" th:if="${param.error!= null}" >
+                                <p>Invalid username and password.</p>
+                            </div>
+
+                            <div class="alert alert-success" th:if="${param.logout != null}">
+                                <p>You have been logged out successfully.</p>
+                            </div>
+
+                            <div class="input-group input-sm">
+                                <label class="input-group-addon" for="useremail"><i class="fa fa-user"></i></label>
+                                <input type="email" class="form-control" id="useremail" name="email" placeholder="Enter Email" required="required"/>
+                            </div>
+
+                            <div class="input-group input-sm">
+                                <label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required="required"/>
+                            </div>
+
+                            <div class="input-group input-sm">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="rememberme" name="remember-me"/>Remember Me</label>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
+
+                            <div class="form-actions">
+                                <input type="submit" class="btn btn-block btn-primary btn-default" value="Log in"/>
+                            </div>
+                        </form>
+
+                        <div class="form-actions">
+                            <input type="submit" class="btn btn-block btn-default btn-default" th:href="@{/}" value="Back to home page"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+

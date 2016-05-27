@@ -43,13 +43,10 @@
                                 </select>
                             </div>
                         </div>
-                        <input th:field="*{password}" id="password" hidden="hidden"/>
-                        <input th:field="*{email}" id="email" hidden="hidden"/>
-                        <input th:field="*{id}" id="id" hidden="hidden"/>
-                        <input th:field="*{userDetails}"  />
+                        <input hidden="hidden" th:value="*{email}" name="email" />
                         <div class="row">
                             <div class="form-actions floatRight">
-                                <input type="submit" value="Edit" class="btn btn-primary btn-sm"/> or <a class="btn btn-default" th:href="@{/admin/users}">Cancel</a>
+                                <input type="submit" value="Edit" class="btn btn-primary btn-sm"/> or <a class="btn btn-default" th:href="@{/admin/users?status=true}">Cancel</a>
                             </div>
                         </div>
                     </form>

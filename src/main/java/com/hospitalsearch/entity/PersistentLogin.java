@@ -8,10 +8,14 @@ import java.util.Date;
  * @author Andrew Jasinskiy
  */
 @Entity
-@Table(name="PERSISTENT_LOGINS")
+@Table(name="persistent_logins")
 public class PersistentLogin implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(name="series")
     private String series;
 
     @Column(name="USERNAME", unique=true, nullable=false)

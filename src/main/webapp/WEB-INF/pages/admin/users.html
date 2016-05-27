@@ -13,7 +13,9 @@
 <body>
 <section layout:fragment="content" class="dashboard">
     <div class="content">
-        <h1 class="all text-center" style="float: right;"> All Users </h1>
+        <h1 class="all text-center" th:text="${message}"> </h1>
+
+
 
         <div th:if="${messageError!=null}" class="alert alert-danger alert-dismissible" role="alert">
             <h4 class="error" th:text="${messageError}"> </h4>
@@ -23,9 +25,64 @@
             <h4 class="success" th:text="${messageError}"> </h4>
         </div>
 
-
         <div class="box-content">
-            <table class="responstable" >
+
+            <div class="panel">
+                <div class="panel-body">
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+                            <label class="filter-col" style="margin-right:0;" for="pref-perpage">Show users:</label>
+                            <select id="pref-perpage" class="form-control">
+                                <option selected="selected" value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div> <!-- form group [rows] -->
+
+                        <div class="form-group">
+                            <label class="filter-col" style="margin-right:0;" for="pref-roleby">Role:</label>
+                            <select id="pref-roleby" class="form-control">
+                                <option>All</option>
+                                <option>ADMIN</option>
+                                <option>PATIENT</option>
+                                <option>MANAGER</option>
+                                <option>DOCTOR</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="filter-col" style="margin-right:0;" for="searchBy">Search by:</label>
+                            <select id="searchBy" class="form-control">
+                                <option>All</option>
+                                <option>Email</option>
+                                <option>First Name</option>
+                                <option>Last Name</option>
+                            </select>
+                        </div>
+                        <!--<div class="form-group checkbox" style="margin-left:10px; margin-right:10px;">
+                                        <label><input type="checkbox"/>Enabled</label>
+                                    </div>-->
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search"/>
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                        <div class="pull-right btn-group">
+                            <a type="button" th:href="@{/admin/users(status=true)}"
+                               class="btn btn-default"><span class="text-info">Enabled</span></a>
+                            <a type="button" th:href="@{/admin/users(status=false)}"
+                               class="btn btn-default"><span class="text-danger">Disabled</span></a>
+                            <a type="button" th:href="@{/admin/users(status=all)}"
+                               class="btn btn-default"><span class="text-primary">All Users</span></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <table class="responstable">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -43,28 +100,30 @@
                     <td th:value="${user.userDetails.firstName}" th:text="${user.userDetails.firstName}"></td>
                     <td th:value="${user.userDetails.lastName}" th:text="${user.userDetails.lastName}"></td>
 
-               <!--     <td th:value="${user.firstName}" th:text="${user.firstName}"></td>
-                    <td th:value="${user.lastName}" th:text="${user.lastName}"></td>
--->
                     <td th:value="${user.userRoles}">
                         <span th:each=" role : ${user.userRoles}" th:value="${role.type}" th:text="${role.type}"></span>
                     </td>
 
                     <td class="center">
-                        <a class="btn button_user" href="#" th:attr="data-id=${user.id}" type="submit"
-                           data-toggle="modal" data-target="#viewModal" id="viewUser">
-                            <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                            View
-                        </a>
-                        <a class="btn button_user" th:href="@{/admin/users/edit(id=${user.id})}">
-                            <i class="glyphicon glyphicon-edit icon-white"></i>
-                            Edit
-                        </a>
-                        <a class="btn button_user" href="#" data-toggle="modal" data-target="#deleteModal"
-                           th:attr="data-values=|users/,${user.id},${user.email},/delete|" id="deleteUser">
-                            <i class="glyphicon glyphicon-trash icon-white"></i>
-                            Delete
-                        </a>
+                        <span data-placement="top" data-toggle="tooltip" title="View">
+                            <a class="btn button_user" href="#" th:attr="data-id=${user.id}" type="submit"
+                               data-toggle="modal" data-target="#viewModal" id="viewUser">
+                                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
+                            </a>
+                        </span>
+
+                        <span data-placement="top" data-toggle="tooltip" title="Edit">
+                            <a class="btn button_user" th:href="@{/admin/users/edit(id=${user.id})}">
+                                <i class="glyphicon glyphicon-edit icon-white"></i>
+                            </a>
+                        </span>
+
+                        <span data-placement="top" data-toggle="tooltip" title="Delete">
+                            <a class="btn button_user" href="#" data-toggle="modal" data-target="#deleteModal"
+                               th:attr="data-values=|users/,${user.id},${user.email},/delete|" id="deleteUser">
+                                <i class="glyphicon glyphicon-trash icon-white"></i>
+                            </a>
+                        </span>
                     </td>
                 </tr>
                 </tbody>
@@ -77,13 +136,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">X</button>
-                        <h3>View User</h3>
+                        <h3 class="panel-title">View user</h3>
                     </div>
-                    <div class="modal-body">
-
-                        <table class="responstable">
+                    <div class="modal-body panel-body">
+                        <table>
                             <tbody>
-                            <span class="text-success viewDetails"></span>
+                            <div class="all viewDetails table table-user-information"></div>
                             </tbody>
                         </table>
                     </div>

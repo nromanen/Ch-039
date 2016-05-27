@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,8 +53,23 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
-    public String adminDashboard(ModelMap model) {
-        List<User> users = userService.getAll();
+    public String adminAllUsers(ModelMap model,
+                                @RequestParam(value = "status", required = false) String status) {
+        List<User> users;
+        switch (status) {
+            case "false":
+                users = userService.getAllDisabledUsers();
+                model.addAttribute("message", "Disabled users");
+                break;
+            case "true":
+                users = userService.getAllEnabledUsers();
+                model.addAttribute("message", "Enabled users");
+                break;
+            default:
+                users = userService.getAll();
+                model.addAttribute("message", "All users");
+                break;
+        }
         model.addAttribute("user", PrincipalConverter.getPrincipal());
         model.addAttribute("users", users);
         return "admin/users";
@@ -67,37 +84,32 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = {"admin/users/{userId}/delete"}, method = RequestMethod.GET)
     public String deleteUser(@PathVariable long userId) {
-        userService.delete(userId);
+        userService.changeStatus(userId);
         return "redirect:/admin/users";
     }
 
-
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "admin/users/edit", method = RequestMethod.GET)
-    public String editUser(@RequestParam("id") Long userId, ModelMap model) {
-        User editUser = userService.getById(userId);
-        model.addAttribute("editUser", editUser);
-        return "admin/editUser";
+    public ModelAndView editUser(@RequestParam("id") Long userId) {
+        ModelAndView modelAndView = new ModelAndView("admin/editUser");
+        modelAndView.addObject("editUser", userService.getById(userId));
+        return modelAndView;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "admin/users/edit", method = RequestMethod.POST)
-    public String editUser(@Valid User editUser, BindingResult result, ModelMap model) {
-        System.out.println(editUser);
-        System.out.println("************");
-        System.out.println(editUser.getUserDetails());
-        System.out.println(result);
-
+    public String editUser(@ModelAttribute("editUser") User editUser, BindingResult result, ModelMap model,
+                           @RequestParam("email") String email) {
         if (result.hasErrors()) {
             System.out.println("There are errors");
             model.addAttribute("messageError", "Error updating, please try again!");
             return "redirect:/admin/users";
         }
         try {
-
-            userService.update(editUser);
-            System.out.println("*************");
-            System.out.println(editUser);
+            User user = userService.getByEmail(email);
+            user.setUserRoles(editUser.getUserRoles());
+            user.setEnabled(editUser.getEnabled());
+            userService.update(user);
         } catch (Exception e) {
             model.addAttribute("messageError", "Error updating, please try again!");
             return "redirect:/admin/users";
@@ -106,16 +118,19 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+    @RequestMapping(value = {"user/view/{id}"}, method = RequestMethod.GET)
+    public @ResponseBody User viewUser(@PathVariable("id") String id, ModelMap model) throws IOException {
+        return userService.getById(Long.parseLong(id));
+    }
+
+
     @ModelAttribute("roles")
     public List<Role> initializeRoles() {
         return roleService.getAll();
     }
 
-    @RequestMapping(value = {"/loginPopup"}, method = RequestMethod.POST)
-    public String loginPopUp(BindingResult result, RedirectAttributes redirectAttributes) {
-        return "/login";
-    }
-    /*"redirect:/admin/users";*/
+
+
 /*
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.writeValue(new FileOutputStream("/home/andrew/result.json"),userService.getById(Long.parseLong(id)));*/

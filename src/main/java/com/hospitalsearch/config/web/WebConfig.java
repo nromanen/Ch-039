@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import com.hospitalsearch.config.security.RoleConverter;
+import com.hospitalsearch.util.RoleConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,10 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.thymeleaf.dialect.IDialect;
@@ -100,4 +97,15 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		return viewResolver;
 	}
 
+
+//?????
+/*	@Bean
+	public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
+		SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+		resolver.setDefaultErrorView("500");
+		return resolver;
+	}*/
 }
+
+
+
