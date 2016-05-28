@@ -3,6 +3,7 @@ package com.hospitalsearch.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+<<<<<<< HEAD
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
+=======
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+>>>>>>> 8b959c5fd5c98511995338fa6ecad026a0900ed8
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import com.hospitalsearch.util.Gender;
@@ -30,27 +36,29 @@ public class UserDetail implements Serializable{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userdetail_gen")
 	@SequenceGenerator(name = "userdetail_gen", sequenceName = "userdetail_id_seq")
 	@Column(name="id")
+	@JsonIgnore
 	private Long id;
 	private String firstName;
 	private String lastName;
 	private String phone;
 	private LocalDate birthDate;
+	@JsonIgnore
 	private String imagePath;
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	private String address;
 
+	@JsonIgnore
 
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
 	@Fetch(FetchMode.SELECT)
 	private DoctorInfo doctorsDetails;
 
+	@JsonIgnore
 	@OneToOne
 	private PatientCard patientCard;
 
-	public UserDetail() {
-
-	}
+	public UserDetail() {}
 
 	public Long getId() {
 		return id;

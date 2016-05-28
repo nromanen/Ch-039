@@ -10,8 +10,10 @@ import javax.persistence.*;
 public class DoctorInfo implements Serializable {
 
     @Id
+
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "doctorinfo_gen")
 	@SequenceGenerator(name = "doctorinfo_gen", sequenceName = "doctorinfo_id_seq")
+
     private Long id;
     private String specialization;
 

@@ -1,5 +1,5 @@
 
-package com.hospitalsearch.config.security;
+package com.hospitalsearch.util;
 
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.service.RoleService;

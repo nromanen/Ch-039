@@ -26,6 +26,12 @@ public interface UserService {
     List<User> getAll();
 
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
+    List<User> getAllEnabledUsers();
+
+    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
+    List<User> getAllDisabledUsers();
+
+    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     User getByEmail(String email);
 
     List<User> getByRole(long id);
@@ -37,4 +43,7 @@ public interface UserService {
     UserDto getDtoByEmail(String email);
 
 	void registerUpdate(UserDetailRegisterDto dto, String email);
+
+
+
 }

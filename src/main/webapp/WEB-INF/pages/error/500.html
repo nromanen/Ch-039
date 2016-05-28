@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<head>
+    <meta charset="ISO-8859-1"/>
+    <meta charset="UTF-8"/>
+    <title>Page not found</title>
+    <script th:src="@{/js/admin.js}"></script>
+
+</head>
+<body>
+
+<section layout:fragment="content" class="dashboard center">
+    <div class="content">
+        <div class="col-md-12">
+            <center>
+                <div class="page-403 animated flipInX">
+                    <img th:src="@{/img/500.png}" class="img-responsive center-block"/>
+                </div>
+                <br/>
+                <br/>
+                <input type="button" id="btnRedirect" value="Go to the main page" class="btn bnt-primary"/>
+                <br />
+                <div id="dvCountDown" style="display: none">
+                    You will be redirected after <h4><span id="lblCount"></span>&nbsp;seconds.</h4>
+                </div>
+            </center>
+
+            <script type="text/javascript">
+                $(function () {
+                    $("#btnRedirect").click(function () {
+                        var seconds = 5;
+                        $("#dvCountDown").show();
+                        $("#lblCount").html(seconds);
+                        setInterval(function () {
+                            seconds--;
+                            $("#lblCount").html(seconds);
+                            if (seconds == 0) {
+                                $("#dvCountDown").hide();
+                                window.location = "../../../";
+                            }
+                        }, 1000);
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</section>
+</body>
+</html>

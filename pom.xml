@@ -240,6 +240,7 @@
 			<version>1.9.5</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -253,11 +254,15 @@
 			<version>${liquibase.core}</version>
 		</dependency>
 
+		        <dependency>
+		            <groupId>org.aspectj</groupId>
+		            <artifactId>aspectjrt</artifactId>
+		            <version>1.6.10</version>
+		        </dependency>
 	</dependencies>
 
 	<build>
-        <finalName>${project.name}</finalName>
-		<filters>
+        <filters>
 			<filter>src/main/resources/app.properties</filter>
 		</filters>
 		<resources>
@@ -296,7 +301,7 @@
 					<execution>
 						<phase>install</phase>
 						<goals>
-							<goal>update</goal> 
+							<goal>update</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -320,6 +325,5 @@
 			</plugin> -->
 		</plugins>
 	</build>
-	
-</project>
 
+</project>

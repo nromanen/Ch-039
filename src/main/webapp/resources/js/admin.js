@@ -4,7 +4,6 @@
 
 
 $(document).ready(function() {
-
     $(function(){
         $('table td:first-child').each(function (i) {
             $(this).html(i+1);
@@ -29,8 +28,6 @@ $(document).ready(function() {
         var table="";
         $.get(url, function(data){
             $.each(data, function(key, val){
-
-                    console.log(data.userDetails.firstName)
                     if(key=="enabled") {
                         if(val){
                             table +='<tr>' + '<td>' + key + '</td>' +
@@ -45,9 +42,16 @@ $(document).ready(function() {
                         }
                     }
 
-                    if(key!="enabled"){
-                        table +='<tr>' + '<td>' + key + '</td>' +
+                    if((key!="userDetails")){
+                        table +='<tr>' + '<td>' + key +": "+ '</td>' +
                             '<td>' + val + '</td>'+ '</tr>';
+                    }
+
+                    if(key=="userDetails"){
+                        $.each(data.userDetails, function(key, val){
+                            table +='<tr>' + '<td>' + key + ": " + '</td>' +
+                                '<td>' +  val + '</td>'+ '</tr>';
+                        });
                     }
                 }
             );
@@ -66,9 +70,6 @@ $(document).ready(function() {
                     $(this).val('Enabled').removeClass('btn-danger').addClass('btn-success');
                 }
             });
-
-
-
         });
     });
 
@@ -96,13 +97,6 @@ $(document).ready(function() {
             }
         });
     });
-
-    //login
-
-
-
-
-
 
 
 

@@ -9,8 +9,10 @@ import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Objects.nonNull;
@@ -57,6 +59,30 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     @Override
     public Boolean emailExists(String email) {
         return nonNull(getByEmail(email));
+    }
+
+
+    @Override
+    public List<User> getAllEnabledUsers() {
+        Query query =  this.currentSession().getNamedQuery("SELECT_ALL_ENABLED_USERS");
+        List <User> users = query.list();
+        Collections.sort(users);
+        return users;
+    }
+
+    @Override
+    public List<User> getAllDisabledUsers() {
+        Query query =  this.currentSession().getNamedQuery("SELECT_ALL_DISABLED_USERS");
+        List <User> users = query.list();
+        Collections.sort(users);
+        return users;
+    }
+
+    @Override
+    public List<User> getAll() {
+        List <User> users = super.getAll();
+        Collections.sort(users);
+        return users ;
     }
 }
 

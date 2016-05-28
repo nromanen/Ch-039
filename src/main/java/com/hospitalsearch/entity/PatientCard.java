@@ -8,9 +8,15 @@ import java.util.List;
 public class PatientCard {
 
     @Id
+<<<<<<< HEAD
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patientcard_gen")
 	@SequenceGenerator(name = "patientcard_gen", sequenceName = "patientcard_id_seq")
+=======
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patientcard_gen")
+    @SequenceGenerator(name = "patientcard_gen", sequenceName = "patientcard_id_seq")
+>>>>>>> 8b959c5fd5c98511995338fa6ecad026a0900ed8
     private Long id;
+
     @OneToMany(mappedBy = "patientCard", fetch = FetchType.EAGER)
     List<CardItem> cardItems;
     @OneToOne

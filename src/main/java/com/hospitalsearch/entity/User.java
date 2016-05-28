@@ -11,8 +11,6 @@ import java.util.Set;
 import javax.persistence.*;
 
 import javax.validation.constraints.NotNull;
-
-
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.validator.constraints.Email;
@@ -23,9 +21,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @NamedQueries({
 	@NamedQuery(name = "SELECT_BY_ROLE", query = "SELECT u FROM User u JOIN  u.userRoles r WHERE r.id = :id"),
+	@NamedQuery(name = "SELECT_ALL_ENABLED_USERS", query = "SELECT u FROM User u WHERE u.enabled = true"),
+		@NamedQuery(name = "SELECT_ALL_DISABLED_USERS", query = "SELECT u FROM User u WHERE u.enabled = false"),
 })
-public class User implements Serializable {
 	
+public class User implements Serializable, Comparable<User> {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_gen")
 	@SequenceGenerator(name = "users_gen", sequenceName = "users_id_seq")
@@ -112,4 +113,8 @@ public class User implements Serializable {
                 '}';
     }
 
+	@Override
+	public int compareTo(User o) {
+		return this.getId().compareTo(o.getId());
+	}
 }
