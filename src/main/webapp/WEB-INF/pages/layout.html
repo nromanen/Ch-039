@@ -13,15 +13,17 @@
 <link rel="stylesheet" th:href="@{/css/login.css}" />
 <link rel="stylesheet" th:href="@{/css/style.css}" />
 <link rel="stylesheet" th:href="@{/css/animate.css}" />
+<link rel="stylesheet" th:href="@{/css/header.css}" />
 
-<link
+<!-- <link
 	href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300'
 	rel='stylesheet' type='text/css' />
 <link
 	href='http://fonts.googleapis.com/css?family=BenchNine:300,400,700'
-	rel='stylesheet' type='text/css' />
+	rel='stylesheet' type='text/css' /> -->
+	
 <link rel="stylesheet" th:href="@{/css/admin.css}" type="text/css" />
-
+<link rel="stylesheet" th:href="@{/font-awesome/css/font-awesome.min.css}" type="text/css" />
 <link rel="stylesheet" th:href="@{/codebase/dhtmlxscheduler_flat.css}"
 	type="text/css" media="screen" title="no title" charset="utf-8" />
 <script th:src="@{/codebase/dhtmlxscheduler.js}" type="text/javascript"
@@ -41,6 +43,7 @@
 <script th:src="@{/js/jquery-2.1.1.js}"></script>
 <script th:src="@{/js/feedback.js}"></script>
 <script th:src="@{/js/modernizr.js}"></script>
+<script th:src="@{/js/header.js}"></script>
 <!--[if lt IE 9]>
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
@@ -68,8 +71,6 @@
 	<div layout:fragment="content" />
 	<div class="footer" th:replace="templates/footer::page-footer" />
 
-	
-	
 	<script th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>
 	<script th:src="@{/js/custom.js}"></script>
 	<script th:src="@{/js/smoothscroll.js}"></script>

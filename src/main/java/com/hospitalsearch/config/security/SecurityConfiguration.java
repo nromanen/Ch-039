@@ -1,5 +1,7 @@
 package com.hospitalsearch.config.security;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +21,8 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+
+import com.hospitalsearch.handlers.CustomAuthenticationHandler;
 
 /**
  * @author Andrew Jasinskiy

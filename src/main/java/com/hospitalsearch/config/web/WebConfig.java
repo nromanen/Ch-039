@@ -4,10 +4,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-<<<<<<< HEAD
-=======
-import com.hospitalsearch.util.RoleConverter;
->>>>>>> 8b959c5fd5c98511995338fa6ecad026a0900ed8
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +24,7 @@ import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
 import com.hospitalsearch.config.SpringRootConfig;
-import com.hospitalsearch.config.security.RoleConverter;
+import com.hospitalsearch.util.RoleConverter;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
@@ -84,7 +81,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		return viewResolver;
 	}
 
-<<<<<<< HEAD
+
 	@Bean(name="localeResolver")
 	public LocaleResolver localeResolver(){
 		CookieLocaleResolver resolver = new CookieLocaleResolver();

@@ -2,8 +2,6 @@ package com.hospitalsearch.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-
-<<<<<<< HEAD
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,16 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
-=======
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
->>>>>>> 8b959c5fd5c98511995338fa6ecad026a0900ed8
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import com.hospitalsearch.util.Gender;

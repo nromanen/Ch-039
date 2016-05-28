@@ -12,6 +12,17 @@
 ****/
 /*@import url(https://fonts.googleapis.com/css?family=Roboto);*/
 
+
+
+.text-center.container{
+    margin-top:30px;
+}
+
+.filter-col{
+    padding-left:10px;
+    padding-right:10px;
+}
+
 #dropdawn{
     font-size: 24px;
     color: #737373;
@@ -23,6 +34,9 @@
     -ms-transition: all .7s ease 0s;
     padding: 14px 15px;
     font-weight: bold;
+}
+#affixPager{
+	margin-top: 
 }
 
 #dropdawn>li>a:hover{
@@ -37,7 +51,7 @@ body {
 
 .content {
     height: 100%;
-    padding-top: 15%;
+    padding-top: 9%;
 
 }
 
@@ -100,6 +114,8 @@ h1, h2 {
 .breadcrumb {
     font-size: large;
     text-align: justify;
+    background: white;
+    border-radius: 0px;
 }
 
 /*header area*/
