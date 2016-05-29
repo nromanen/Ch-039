@@ -7,7 +7,9 @@ function mapInit(mapId) {
 
 	var mapProp = {
 			zoom:14,
-			mapTypeId:google.maps.MapTypeId.ROADMAP
+			mapTypeId:google.maps.MapTypeId.ROADMAP,
+		    mapTypeControl:false,
+		    streetViewControl:false
 	};
 
 	map = new google.maps.Map(document.getElementById(mapId), mapProp);
@@ -40,6 +42,8 @@ function searchInit(searchId) {
 	var input = document.getElementById(searchId);
 
 	var searchBox = new google.maps.places.SearchBox(input);
+	
+	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
 	searchBox.addListener('places_changed', function() {
 		var places = searchBox.getPlaces();

@@ -5,6 +5,7 @@ function initialize() {
 	searchInit('pac-input');
 
 	google.maps.event.addListener(map, 'idle', getMarkers);
+	
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

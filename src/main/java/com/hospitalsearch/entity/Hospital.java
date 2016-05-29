@@ -23,6 +23,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * 
  * @author Oleksandr Mukonin
+ * edited Pavel Kuz
  *
  */
 @Entity
@@ -71,12 +72,12 @@ public class Hospital{
 
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name="city",column=@Column(name="CITY")),
-		@AttributeOverride(name="country",column=@Column(name="COUNTRY")),
-		@AttributeOverride(name="street",column=@Column(name="STREET"))
+		@AttributeOverride(name="city",column=@Column(name="city")),
+		@AttributeOverride(name="country",column=@Column(name="country")),
+		@AttributeOverride(name="street",column=@Column(name="street")),
+		@AttributeOverride(name="number",column=@Column(name="number"))
 	})
 	private HospitalAddress address;
-
 
 	@Size(max = 150)
 	@Column(name = "DESCRIPTION", nullable = false)
@@ -138,7 +139,6 @@ public class Hospital{
 
 	public void setAddress(HospitalAddress address) {
 		this.address = address;
-	}
-	
+	}	
 	
 }
