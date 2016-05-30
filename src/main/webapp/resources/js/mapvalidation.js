@@ -38,10 +38,10 @@ function callback(results, status) {
 
 function getHospital(lat, lng) {
 	var bounds = new Object();
-	bounds.northEastLat = lat + 0.002;
-	bounds.northEastLon = lng + 0.002;
-	bounds.southWestLat = lat - 0.002;
-	bounds.southWestLon = lng - 0.002;
+	bounds.northEastLat = lat + 0.001;
+	bounds.northEastLon = lng + 0.001;
+	bounds.southWestLat = lat - 0.001;
+	bounds.southWestLon = lng - 0.001;
 
 	$.ajaxSetup({
 		headers: {
