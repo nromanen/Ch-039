@@ -1,7 +1,6 @@
 package com.hospitalsearch.entity;
 
 import javax.persistence.Embeddable;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -23,14 +22,11 @@ public class HospitalAddress {
 	@Size(max = 20)
 	private String city;
 
-	@Size(max = 20)
+	@Size(max = 30)
 	private String street;
 
-	/**
-	 * House number on street
-	 */
 	@Size(max = 5)
-	private String number;
+	private String building;
 
 	public String getCity() {
 		return city;
@@ -56,11 +52,20 @@ public class HospitalAddress {
 		this.street = street;
 	}
 
-	public String getNumber() {
-		return number;
+	public String getBuilding() {
+		return building;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setBuilding(String number) {
+		this.building = number;
 	}
+
+	@Override
+	public String toString() {
+		return  new StringBuilder()
+				.append(street).append(", ")
+				.append(building).append(", ")
+				.append(city).append(", ")
+				.append(country).toString();
+	}	
 }

@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -71,11 +71,12 @@ public class Hospital{
 	private Double longitude;
 
 	@Embedded
+	@Valid
 	@AttributeOverrides({
 		@AttributeOverride(name="city",column=@Column(name="city")),
 		@AttributeOverride(name="country",column=@Column(name="country")),
 		@AttributeOverride(name="street",column=@Column(name="street")),
-		@AttributeOverride(name="number",column=@Column(name="number"))
+		@AttributeOverride(name="building",column=@Column(name="building"))
 	})
 	private HospitalAddress address;
 
@@ -83,6 +84,7 @@ public class Hospital{
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description; 
 
+	@Column(name="imagepath")
 	private String imagePath;
 
 	public Long getId() {
