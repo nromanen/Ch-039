@@ -12,6 +12,7 @@
 <script	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
 <script th:src="@{/js/mapvalidation.js}"></script>
 <script th:src="@{/js/gmaps.js}"></script>
+<link rel="stylesheet" th:href="@{/css/map.css}" />
 
 <title>Hospital Validation Page</title>
 </head>
@@ -27,18 +28,8 @@
 						<button type="button" class="btn btn-default "
 							th:onclick="'javascript:process();'">Validate</button>
 						<br /> <br />
-						<div class=" pre-scrollable" style="max-height: 62vh">
-							<table class="table table-striped table-bordered">
-								<thead>
-									<tr>
-										<th class="col-sm-5">Google</th>
-										<th class="col-sm-2"></th>
-										<th class="col-sm-5">DB</th>
-									</tr>
-								</thead>
-								<tbody id="table-out">
-								</tbody>
-							</table>
+						<div class="pre-scrollable panel panel-default" style="max-height: 62vh" id="table-out">
+							
 						</div>
 					</div>
 					<div class="col-sm-4" style="height: 70vh">
@@ -50,3 +41,15 @@
 	</section>
 </body>
 </html>
+
+<!-- <table class="table table-striped table-bordered">
+								<thead>
+									<tr>
+										<th class="col-sm-5">Google</th>
+										<th class="col-sm-2"></th>
+										<th class="col-sm-5">DB</th>
+									</tr>
+								</thead>
+								<tbody id="table-out">
+								</tbody>
+							</table> -->

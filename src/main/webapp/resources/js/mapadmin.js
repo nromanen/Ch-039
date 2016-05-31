@@ -18,10 +18,14 @@ function initialize() {
 		});
 	}, 5000);
 
+	window.setTimeout(function() {
+		resetAddress();
+	}, 500);
+}
+
+function resetAddress() {
 	if ((document.getElementById('latitude').value !=  "") && (document.getElementById('longitude').value !=  "")) {
-		window.setTimeout(function() {
-			placeMarker(new google.maps.LatLng(parseFloat(document.getElementById('latitude').value), parseFloat(document.getElementById('longitude').value)));
-		}, 500);
+		placeMarker(new google.maps.LatLng(parseFloat(document.getElementById('latitude').value), parseFloat(document.getElementById('longitude').value)));	
 	}
 }
 

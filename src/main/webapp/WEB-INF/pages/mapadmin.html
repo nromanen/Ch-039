@@ -9,6 +9,7 @@
 <script	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
 <script th:src="@{/js/mapadmin.js}"></script>
 <script th:src="@{/js/gmaps.js}"></script>
+<link rel="stylesheet" th:href="@{/css/map.css}" />
 
 <title>Hospital Add/Edit page</title>
 </head>
@@ -31,8 +32,7 @@
 										<input class="form-control" id="addressGeo" /> <span
 											class="input-group-btn">
 											<button type="button" th:onclick="'javascript:check();'"
-												class="btn btn-default" style="border-radius: 0">Find</button>
-										</span> <span class="input-group-btn">
+												class="btn btn-default">Find</button>
 											<button type="button" th:onclick="'javascript:fill();'"
 												class="btn btn-default">Fill</button>
 										</span>
@@ -41,7 +41,7 @@
 										class="removable-geo fade in"></i>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group required">
 								<label class="control-label col-sm-2" for="address.country">Country:</label>
 								<div class="col-sm-4">
 									<input th:field="*{address.country}" class="form-control"
@@ -77,7 +77,7 @@
 										class="removable-i fade in"></i>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group required">
 								<label class="control-label col-sm-2" for="mame">Name:</label>
 								<div class="col-sm-10">
 									<input th:field="*{name}" class="form-control" id="name" /> <i
@@ -119,8 +119,10 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
+								<div class="col-sm-offset-2 col-sm-10 btn-group">
 									<button type="submit" class="col-sm-2 btn btn-default">SAVE</button>
+									<button type="reset" class="col-sm-2 btn btn-default" th:onclick="'javascript:resetAddress();'">RESET</button>
+									<button type="reset" class="col-sm-2 btn btn-default" th:onclick="'javascript:window.history.back();'">BACK</button>
 								</div>
 							</div>
 						</form>

@@ -1,0 +1,9 @@
+.form-group.required .control-label:after {
+	color: RED;
+	content: "*";
+}
+
+th {
+	background-color: #167F92;
+	color: white;
+}
