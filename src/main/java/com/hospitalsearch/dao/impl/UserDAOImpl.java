@@ -1,13 +1,14 @@
 package com.hospitalsearch.dao.impl;
 
 import com.hospitalsearch.dao.UserDAO;
+import com.hospitalsearch.dto.UserSearchDTO;
 import com.hospitalsearch.entity.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -49,6 +50,8 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         user.setEnabled(!user.getEnabled());
     }
 
+
+
     @Override
     public List<User> getByRole(long id) {
        /* Query query = this.currentSession().getNamedQuery("SELECT_BY_ROLE").setParameter("id", id);
@@ -83,6 +86,43 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         List <User> users = super.getAll();
         Collections.sort(users);
         return users ;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<User> searchUser(UserSearchDTO userSearch) {
+        Criteria criteria = this.getSessionFactory()
+                .getCurrentSession()
+                .createCriteria(User.class);
+
+        criteria.createAlias("userRoles", "roles");
+        criteria.createAlias("userDetails", "detail");
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        criteria.add(Restrictions.like("roles.type", userSearch.getRole(), MatchMode.ANYWHERE));
+
+        if(userSearch.getStatus().equals("All")){
+            criteria.add(Restrictions.conjunction());
+        }else{
+            criteria.add(Restrictions.eq("enabled", Boolean.parseBoolean(userSearch.getStatus())));
+        }
+
+        if(userSearch.getAllField()!=null) {
+            criteria.add(searchInAllFields(userSearch.getAllField()));
+            return criteria.list();
+        }
+
+        criteria.add(Restrictions.or(Restrictions.like("email", userSearch.getEmail(), MatchMode.ANYWHERE),
+                        Restrictions.like("detail.firstName", userSearch.getFirstName(), MatchMode.ANYWHERE),
+                        Restrictions.like("detail.lastName", userSearch.getLastName(), MatchMode.ANYWHERE)));
+        return criteria.list();
+    }
+
+    private Disjunction searchInAllFields(String value){
+        Disjunction disjunction = Restrictions.disjunction();
+        disjunction.add(Restrictions.ilike("email", value, MatchMode.ANYWHERE));
+        disjunction.add(Restrictions.ilike("detail.firstName", value, MatchMode.ANYWHERE));
+        disjunction.add(Restrictions.ilike("detail.lastName", value, MatchMode.ANYWHERE));
+        return disjunction;
     }
 }
 

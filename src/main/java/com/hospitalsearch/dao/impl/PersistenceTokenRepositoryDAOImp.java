@@ -18,10 +18,10 @@ import java.util.Date;
 
 @Repository("tokenRepositoryDao")
 @Transactional
-public class HibernateTokenRepositoryImpl extends GenericDAOImpl<PersistentLogin,String> implements PersistentTokenRepository {
+public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentLogin,String> implements PersistentTokenRepository {
 
     @Autowired
-    public HibernateTokenRepositoryImpl(SessionFactory factory) {
+    public PersistenceTokenRepositoryDAOImp(SessionFactory factory) {
         super();
         this.setSessionFactory(factory);
     }

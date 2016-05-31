@@ -1,5 +1,6 @@
 package com.hospitalsearch.dao;
 
+import com.hospitalsearch.dto.UserSearchDTO;
 import com.hospitalsearch.entity.User;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ public interface UserDAO extends GenericDAO<User,Long>{
     Boolean emailExists(String email);
     List<User> getAllEnabledUsers();
     List<User> getAllDisabledUsers();
+    List<User> searchUser(UserSearchDTO userSearch);
 }
 
 

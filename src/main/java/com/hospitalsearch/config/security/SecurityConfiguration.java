@@ -4,6 +4,7 @@ import com.hospitalsearch.handlers.CustomAuthenticationHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,6 +28,7 @@ import javax.sql.DataSource;
  * @author Andrew Jasinskiy
  */
 @Configuration
+@ComponentScan(basePackages = "com.hospitalsearch")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -79,7 +81,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.successHandler(customHandler)
-				.and().csrf()
 				.and()
 				.logout()
 				.logoutSuccessUrl("/login?logout")
@@ -91,7 +92,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.rememberMe()
 				.rememberMeParameter("remember-me")
 				.tokenRepository(tokenRepository)
-				.tokenValiditySeconds(TIME);
+				.tokenValiditySeconds(TIME)
+				.and().csrf();
 	}
 
 	//password encoder
@@ -110,12 +112,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
-		return new PersistentTokenBasedRememberMeServices(
+		PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
 				"remember-me", userDetailsService, tokenRepository);
+		return tokenBasedservice;
 	}
 
 	@Bean
 	public SpringSecurityDialect springSecurityDialect() {
 		return new SpringSecurityDialect();
 	}
+
+
 }

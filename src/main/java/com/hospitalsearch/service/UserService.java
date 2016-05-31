@@ -1,5 +1,7 @@
 package com.hospitalsearch.service;
 
+import com.hospitalsearch.dto.UserSearchDTO;
+import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
@@ -44,6 +46,6 @@ public interface UserService {
 
 	void registerUpdate(UserDetailRegisterDto dto, String email);
 
-
+    public List<User> searchUser(UserSearchDTO userSearch);
 
 }

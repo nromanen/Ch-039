@@ -12,10 +12,6 @@ import java.util.Date;
 public class PersistentLogin implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @Column(name="series")
     private String series;
 
     @Column(name="USERNAME", unique=true, nullable=false)

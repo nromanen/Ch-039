@@ -190,6 +190,7 @@
                                     </ul>
                                 </li>
 
+                              <!--  th:text="${userName.userDetails.firstName} + ' ' + ${user.userDetails.lastName}"-->
                                 <!--autorize user-->
                                 <li style="cursor: pointer;" sec:authorize="isAuthenticated()">
                                     <a href="#" class="nav navbar-nav dropdown dropdown-toggle" data-toggle="dropdown"
@@ -199,6 +200,7 @@
                                             <a class="menu">
                                                 <span class="glyphicon glyphicon-user"></span>Profile</a>
                                         </li>
+
                                         <li>
                                             <a class="menu" th:href="@{/logout}">
                                                 <span class="glyphicon glyphicon-log-out"></span>Log out</a>

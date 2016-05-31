@@ -1,6 +1,7 @@
 package com.hospitalsearch.service.impl;
 
 import com.hospitalsearch.dao.UserDAO;
+import com.hospitalsearch.dto.UserSearchDTO;
 import com.hospitalsearch.entity.PatientCard;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
@@ -72,6 +73,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+    @Override
+    public List<User> searchUser(UserSearchDTO userSearch) {
+        return dao.searchUser(userSearch);
+    }
+
     @Override
     public User getById(Long id) {
         return dao.getById(id);
@@ -132,6 +139,7 @@ public class UserServiceImpl implements UserService {
 //		}
         dao.update(user);
     }
+
 
     @Override
     public void registerUpdate(UserDto dto, String email) {

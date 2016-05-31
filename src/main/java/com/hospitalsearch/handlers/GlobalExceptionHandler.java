@@ -1,3 +1,4 @@
+/*
 package com.hospitalsearch.handlers;
 
 import org.springframework.beans.ConversionNotSupportedException;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+*/
 /**
  * @author Andrew Jasinskiy on 25.05.16
- */
+ *//*
+
 @ControllerAdvice
 @EnableWebMvc
 class GlobalExceptionHandler {
@@ -29,8 +32,10 @@ class GlobalExceptionHandler {
     public static final String ACCESS_DENIED = "403";
 
 
+*/
 /*    @ExceptionHandler({NoHandlerFoundException.class, NoSuchRequestHandlingMethodException.class,
-            NullPointerException.class})*/
+            NullPointerException.class})*//*
+
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -71,3 +76,4 @@ class GlobalExceptionHandler {
         return "404";
     }
 }
+*/

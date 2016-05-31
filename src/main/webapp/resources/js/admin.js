@@ -2,7 +2,6 @@
  * Created by andrew on 14.05.16.
  */
 
-
 $(document).ready(function() {
     $(function(){
         $('table td:first-child').each(function (i) {
@@ -16,15 +15,15 @@ $(document).ready(function() {
         var actionPrefix = Selection[0];
         var id = Selection[1];
         var email = Selection[2];
-        var actionSuffix = Selection[3];
-        $(this).find('#deleteButton').attr('href', actionPrefix+id+actionSuffix);
+        var status = Selection[3];
+        $(this).find('#deleteButton').attr('href', actionPrefix+id+status);
         $('.debug-url').html('Are you really want to delete user <strong>' + email +' ?' + '</strong>');
     });
 
     //modal window for details
     $('#viewModal').on('show.bs.modal', function(e) {
         var id = $(e.relatedTarget).data('id');
-        var url = '/user/view/' + id;
+        var url = 'users/view/' + id;
         var table="";
         $.get(url, function(data){
             $.each(data, function(key, val){
@@ -61,7 +60,7 @@ $(document).ready(function() {
             $('.userEnabled').click(function(event) {
                 var id = $(this).attr("data-id");
                 var status = $(this).val();
-                var url = 'users/' + id +'/changeStatus';
+                var url = 'users/changeStatus/' + id;
                 if(status=='Enabled'){
                     $.get(url);
                     $(this).val('Disabled').removeClass('btn-success').addClass('btn-danger');
@@ -82,10 +81,10 @@ $(document).ready(function() {
         e.preventDefault();
         $("#sidebar-wrapper").toggleClass("active");
     });
+
     $(function() {
         $('a[href*=#]:not([href=#])').click(function() {
             if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
-
                 var target = $(this.hash);
                 target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
                 if (target.length) {
@@ -99,9 +98,22 @@ $(document).ready(function() {
     });
 
 
+    //table sorter
+    $(function(){
+        $("#allUsers").tablesorter(
+            {headers: { 0: { sorter: false},
+                5: {sorter: false}}}
+        );
+    });
+
+
+        //select search
+
+
 
 
 
 });
+
 
 
