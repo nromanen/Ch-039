@@ -71,7 +71,7 @@ function getHospital(lat, lng) {
 }
 
 function buildTable() {
-	var table = '<table class="table table-striped table-bordered"><thead><tr><th class="col-sm-5">Google</th><th class="col-sm-2">Actions</th><th class="col-sm-5">DB</th></tr></thead><tbody>';
+	var table = "";
 	for (var i = 0; i < hospitals.length; i++) {
 		var hospital1 = hospitals[i];
 		getHospital(hospital1.latitude, hospital1.longitude);
@@ -85,11 +85,13 @@ function buildTable() {
 			table += $('meta[name="csrf-token"]').attr('content') + '" />';
 			table += '<input type="hidden" id="hospjs" name="hospjs" value=\'';
 			table += JSON.stringify(hospital1);
-			table += '\'><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>';
+			table += '\'><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus" title="';
+			table += $('meta[name="tooltip-add"]').attr('content') + '"></span>';
 			table += '</button></form></td><td>none</td>';					
 		} else {			
 			table += '<td class="text-center"><button type="button" class="btn btn-default" onclick="javascript:placeMarker(\'';
-			table += hospital2.latitude + '\', \'' + hospital2.longitude + '\');">';
+			table += hospital2.latitude + '\', \'' + hospital2.longitude + '\');"  title="';
+			table += $('meta[name="tooltip-locate"]').attr('content') + '">'
 			table += '<span class="glyphicon glyphicon-map-marker"></span></button></td><td>';
 			table += hospital2.name + ' <br>';
 			table += hospital2.address.street + ', ';	
@@ -100,7 +102,6 @@ function buildTable() {
 		table += '</tr>';
 
 	}
-	table += '</tbody></table>';
 	document.getElementById("table-out").innerHTML = table;
 }
 

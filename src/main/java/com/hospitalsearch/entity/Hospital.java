@@ -50,11 +50,10 @@ public class Hospital{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hospital_gen")
-	@SequenceGenerator(name = "hospital_gen", sequenceName = "hospital_id_seq")
+	@SequenceGenerator(name = "hospital_gen", sequenceName = "hospital_id_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 
-	@NotEmpty
-	@Size(min = 10, max = 50)
+	@Size(min = 8, max = 50)
 	@Column(name = "NAME", nullable = false)
 	private String name;
 

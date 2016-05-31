@@ -7,14 +7,20 @@
 
 <meta th:name="csrf-token" th:content="${_csrf.token}" />
 <meta th:name="csrf-name" th:content="${_csrf.parameterName}" />
+<meta th:name="tooltip-locate"
+	th:content="#{admin.hospital.poi.table.tooltip.locate}" />
+<meta th:name="tooltip-add"
+	th:content="#{admin.hospital.poi.table.tooltip.add}" />
 
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
 <script th:src="@{/js/mapvalidation.js}"></script>
 <script th:src="@{/js/gmaps.js}"></script>
 <link rel="stylesheet" th:href="@{/css/map.css}" />
 
-<title>Hospital Validation Page</title>
+<title th:text="#{admin.hospital.poi.header}"></title>
 </head>
 <body>
 	<section layout:fragment="content">
@@ -26,10 +32,24 @@
 				<div class="row-fluid">
 					<div class="col-sm-8">
 						<button type="button" class="btn btn-default "
-							th:onclick="'javascript:process();'">Validate</button>
+							th:onclick="'javascript:process();'"
+							th:text="#{admin.hospital.poi.button.get}"></button>
 						<br /> <br />
-						<div class="pre-scrollable panel panel-default" style="max-height: 62vh" id="table-out">
-							
+						<div class="pre-scrollable panel panel-default"
+							style="max-height: 62vh">
+							<table class="table table-striped table-bordered">
+								<thead>
+									<tr>
+										<th class="col-sm-5" th:text="#{admin.hospital.poi.table.poi}"></th>
+										<th class="col-sm-2"
+											th:text="#{admin.hospital.poi.table.actions}"></th>
+										<th class="col-sm-5"
+											th:text="#{admin.hospital.poi.table.match}"></th>
+									</tr>
+								</thead>
+								<tbody id="table-out">
+								</tbody>
+							</table>
 						</div>
 					</div>
 					<div class="col-sm-4" style="height: 70vh">
