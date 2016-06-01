@@ -16,7 +16,8 @@
 
             <h1 th:if="${cardItem.id==null}" th:text="#{card.record.create}">Create new record</h1>
             <h1 th:if="${cardItem.id!=null}" th:text="#{card.record.edit}">Edit record</h1>
-            <h2 th:text="#{card.record.date}+' '+ ${#dates.format(cardItem.date, 'HH:mm dd-MM-yyyy')}"></h2>
+            <h2 th:if="${cardItem.date==null}" th:text="#{card.record.now}+' '+ ${#dates.format(#dates.createNow(), 'HH:mm dd-MM-yyyy')}"></h2>
+            <h2 th:if="${cardItem.date!=null}" th:text="#{card.record.date}+' '+ ${#dates.format(cardItem.date, 'HH:mm dd-MM-yyyy')}"></h2>
             <form th:action="@{/persist(userId=${userId})}" th:object="${cardItem}" role="form" action="#" method="post">
                 <span th:if="${cardItem.id!=null}"><input type="hidden" th:field="${cardItem.id}"/></span>
                 <span th:if="${cardItem.id!=null}"><input type="hidden" th:field="${cardItem.date}" id="date"/></span>

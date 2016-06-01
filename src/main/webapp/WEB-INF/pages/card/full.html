@@ -22,6 +22,7 @@
                    class="btn btn-info" style="display: inherit; margin-bottom: 12px;">New record</a>
 
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <h2 th:if="${cardItems.getPageList().size() == 0}" th:text="#{card.full.empty}" style="text-align: center"></h2>
                     <div th:if="${cardItems != null}" th:each="item:${cardItems.getPageList()}"
                          class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingOne">
@@ -33,7 +34,7 @@
                                 </a>
                                 <span th:text="#{card.full.doctor}+' '+${item.doctor.userDetails.firstName}+' '+${item.doctor.userDetails.lastName}"
                                       style="margin-left: 20px;">Doctor:</span>
-                                <span sec:authorize="hasRole('ROLE_DOCTOR')" th:if="${item.doctor.email} == ${doctor}">
+                                <span sec:authorize="hasRole('DOCTOR')" th:if="${item.doctor.email} == ${doctor}">
                                    <a th:if="${#dates.format(item.date,'dd-MM-yyyy')} == ${#dates.format(#dates.createNow(), 'dd-MM-yyyy')}"
                                    th:text="#{card.full.edit}"
                                    th:href="@{/edit(id=${item.id},userId=${userId})}" style="float:right">Edit</a></span>
@@ -56,9 +57,14 @@
                 </div>
                 <div class="col-md-12 text-center">
                     <div class="pagination pagination-centered">
-                        <ul th:if="${pagination}" class="pagination">
+                        <ul sec:authorize="hasRole('DOCTOR')" th:if="${pagination}" class="pagination">
                             <li th:each="i:${#numbers.sequence(1,cardItems.getPageCount())}" th:class="${i-1==cardItems.getPage()? 'active':''}"><a th:text="${i}"
                                                                                                                                                     th:href="@{/card/items/page(userId=${userId}, page=${i})}"></a></li>
+                        </ul>
+
+                        <ul sec:authorize="hasRole('PATIENT')" th:if="${pagination}" class="pagination">
+                            <li th:each="i:${#numbers.sequence(1,cardItems.getPageCount())}" th:class="${i-1==cardItems.getPage()? 'active':''}"><a th:text="${i}"
+                                                                                                                                                    th:href="@{/card/page(userId=${userId}, page=${i})}"></a></li>
                         </ul>
                     </div>
                 </div>

@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 public class CardController {
 
-    private static final Integer ItemsPerPageCount = 3;
+    private static final Integer ItemsPerPageCount = 2;
 
     @Autowired
     CardItemService cardItemService;
@@ -43,7 +43,25 @@ public class CardController {
     @RequestMapping(value = {"/card"}, method = RequestMethod.GET)
     public String patientCard(ModelMap model) {
         User user = userService.getByEmail(PrincipalConverter.getPrincipal());
-        model.addAttribute("cardItems", user.getUserDetails().getPatientCard().getCardItems());
+        pagedListHolder.setSource(cardItemService.getCardItemList(user));
+        Boolean pagination = true;
+        if (pagedListHolder.getPageCount()==1){
+            pagination=false;
+        }
+        model.addAttribute("pagination",pagination);
+        model.addAttribute("cardItems", pagedListHolder);
+        model.addAttribute("name",user.getUserDetails().getFirstName()+" "+user.getUserDetails().getLastName());
+        return "card/full";
+    }
+
+    @RequestMapping(value = {"/card/page"}, method = RequestMethod.GET)
+    public String patientCardPage(@RequestParam ("page") String page, ModelMap model) {
+        User user = userService.getByEmail(PrincipalConverter.getPrincipal());
+        pagedListHolder.setSource(cardItemService.getCardItemList(user));
+        pagedListHolder.setPage(Integer.parseInt(page)-1);
+        model.addAttribute("pagination",true);
+        model.addAttribute("cardItems", pagedListHolder);
+        model.addAttribute("name",user.getUserDetails().getFirstName()+" "+user.getUserDetails().getLastName());
         return "card/full";
     }
 
@@ -67,7 +85,6 @@ public class CardController {
     public String patientCardPage(@RequestParam("userId") String userId, @RequestParam ("page") String page, ModelMap model) {
         User user = userService.getById(Long.parseLong(userId));
         pagedListHolder.setPage(Integer.parseInt(page)-1);
-        boolean b;
         model.addAttribute("doctor",PrincipalConverter.getPrincipal());
         model.addAttribute("pagination",true);
         model.addAttribute("cardItems", pagedListHolder);
