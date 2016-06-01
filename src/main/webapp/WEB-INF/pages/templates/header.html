@@ -42,6 +42,10 @@
                                         th:class="menu"
                                         th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/patients.*')}?'active':''"
                                         th:href="@{/patients}">Patients</a></li>
+                                <li sec:authorize="hasRole('MANAGER')"><a
+                                        th:class="menu"
+                                        th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/manage.*')}?'active':''"
+                                        th:href="@{/hospitalManager}">Manage</a></li>
 
                                 <li sec:authorize="isAnonymous()" style="cursor: pointer;">
                                     <a class="dropdown-toggle" th:href="@{/login}">Login</a>

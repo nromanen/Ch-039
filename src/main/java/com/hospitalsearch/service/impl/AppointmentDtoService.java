@@ -1,9 +1,9 @@
 package com.hospitalsearch.service.impl;
 
+import com.hospitalsearch.entity.Appointment;
 import com.hospitalsearch.entity.DoctorInfo;
-import com.hospitalsearch.entity.WorkInterval;
-import com.hospitalsearch.util.WorkIntervalBuilder;
-import com.hospitalsearch.util.WorkIntervalDto;
+import com.hospitalsearch.util.AppointmentBuilder;
+import com.hospitalsearch.util.AppointmentDto;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,23 +12,23 @@ import java.util.Map;
 /**
  * Created by igortsapyak on 11.05.16.
  */
-public class WorkIntervalDtoService {
+public class AppointmentDtoService {
 
     private static final String REPLACE_PATTERN = "[\\[,\\]]";
 
-    public static WorkIntervalDto createWorkintervalDto(Map<String, String[]> dataMap, DoctorInfo doctorInfo){
+    public static AppointmentDto createAppointmentDto(Map<String, String[]> dataMap, DoctorInfo doctorInfo){
 
         Map<String, String> convertedMap = mapConvert(dataMap);
 
-        WorkIntervalDto workIntervalDto = new WorkIntervalDto();
+        AppointmentDto AppointmentDto = new AppointmentDto();
 
-        workIntervalDto.setDoctorInfo(doctorInfo);
+        AppointmentDto.setDoctorInfo(doctorInfo);
 
-        workIntervalDto.setStatus(convertedMap.get("!nativeeditor_status"));
+        AppointmentDto.setStatus(convertedMap.get("!nativeeditor_status"));
 
-        workIntervalDto.setWorkInterval(create(convertedMap ,doctorInfo, workIntervalDto.getStatus()));
+        AppointmentDto.setAppointment(create(convertedMap ,doctorInfo, AppointmentDto.getStatus()));
 
-        return workIntervalDto;
+        return AppointmentDto;
     }
 
     private static Map<String, String> mapConvert(Map<String, String[]> dataMap){
@@ -40,9 +40,9 @@ public class WorkIntervalDtoService {
         return convertedMap;
     }
 
-    private static WorkInterval create(Map<String, String> convertedMap, DoctorInfo doctorInfo, String status){
+    private static Appointment create(Map<String, String> convertedMap, DoctorInfo doctorInfo, String status){
 
-        WorkInterval workInterval = new WorkIntervalBuilder()
+        Appointment appointment = new AppointmentBuilder()
                 .setDoctorInfo(doctorInfo)
                 .setStart_date(convertedMap.get("start_date"))
                 .setEnd_date(convertedMap.get("end_date"))
@@ -50,10 +50,10 @@ public class WorkIntervalDtoService {
                 .build();
 
         if (status.equals("deleted")||status.equals("updated")){
-            workInterval.setId(Long.parseLong(convertedMap.get("id")));
+            appointment.setId(Long.parseLong(convertedMap.get("id")));
         }
 
-        return workInterval;
+        return appointment;
     }
 
 

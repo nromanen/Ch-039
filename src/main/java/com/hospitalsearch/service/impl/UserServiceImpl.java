@@ -6,6 +6,7 @@ import com.hospitalsearch.entity.PatientCard;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.entity.UserDetail;
+import com.hospitalsearch.service.PatientCardService;
 import com.hospitalsearch.service.RoleService;
 import com.hospitalsearch.service.UserService;
 import com.hospitalsearch.util.UserDetailRegisterDto;
@@ -35,13 +36,18 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    PatientCardService patientCardService;
 
     @Override
     public void save(User newUser) {
         try {
             logger.info("save user: " + newUser);
             newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-            newUser.setUserDetails(new UserDetail());
+            PatientCard patientCard = patientCardService.add(new PatientCard());
+            UserDetail userDetail = new UserDetail();
+            userDetail.setPatientCard(patientCard);
+            newUser.setUserDetails(userDetail);
            /* newUser.getUserRoles().add(roleService.getByType("PATIENT"));*/
             dao.save(newUser);
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.hospitalsearch.service.annotation;
 
 
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.sql.Timestamp;
@@ -26,4 +27,6 @@ public class OneDayValidator implements ConstraintValidator<OneDay, Timestamp> {
         LocalDateTime dateTime = date.toLocalDateTime();
         return dateTime.plus(8, ChronoUnit.HOURS).isAfter(LocalDateTime.now());
     }
+
+
 }

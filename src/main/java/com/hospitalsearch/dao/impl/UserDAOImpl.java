@@ -34,7 +34,9 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     public User getByEmail(String email) {
         try {
             logger.info("getUserByEmail email: " + email);
-            Criteria criteria = this.currentSession().createCriteria(User.class);
+            //fixed by Igor
+//            Criteria criteria = this.currentSession().createCriteria(User.class);
+            Criteria criteria = getSessionFactory().openSession().createCriteria(User.class);
             criteria.add(Restrictions.eq("email", email));
             return (User) criteria.uniqueResult();
         } catch (Exception e) {
@@ -59,6 +61,8 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
                 .createAlias("user.userRoles", "userRoles").add(Restrictions.eq("userRoles.type", role))
                 .createAlias("user.userDetails", "details")
                 .add(Restrictions.isNotNull("details.patientCard"))
+                .add(Restrictions.isNotNull("details.firstName"))
+                .add(Restrictions.isNotNull("details.lastName"))
                 .addOrder(Order.asc("details.firstName"));
         return criteria.list();
     }

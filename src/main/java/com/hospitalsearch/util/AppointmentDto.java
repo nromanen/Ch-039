@@ -1,17 +1,17 @@
 package com.hospitalsearch.util;
 
 
+import com.hospitalsearch.entity.Appointment;
 import com.hospitalsearch.entity.DoctorInfo;
-import com.hospitalsearch.entity.WorkInterval;
 
 /**
  * Created by igortsapyak on 10.05.16.
  */
-public class WorkIntervalDto {
+public class AppointmentDto {
 
     private String status;
 
-    private WorkInterval workInterval;
+    private Appointment appointment;
 
     private DoctorInfo doctorInfo;
 
@@ -23,12 +23,12 @@ public class WorkIntervalDto {
         this.status = status;
     }
 
-    public WorkInterval getWorkInterval() {
-        return workInterval;
+    public Appointment getAppointment() {
+        return appointment;
     }
 
-    public void setWorkInterval(WorkInterval workInterval) {
-        this.workInterval = workInterval;
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 
     public DoctorInfo getDoctorInfo() {

@@ -21,9 +21,6 @@ public class DoctorInfo implements Serializable {
     @ManyToMany(mappedBy = "doctors")
     private List<Department> departments;
 
-    @OneToMany(mappedBy = "doctorInfo")
-    private List<WorkInterval> workIntervals;
-
     public DoctorInfo() {}
 
     public Long getId() {
@@ -55,12 +52,5 @@ public class DoctorInfo implements Serializable {
 		this.userDetails = userDetails;
 	}
 
-    public List<WorkInterval> getWorkIntervals() {
-        return workIntervals;
-    }
-
-    public void setWorkIntervals(List<WorkInterval> workIntervals) {
-        this.workIntervals = workIntervals;
-    }
-    
+   
 }

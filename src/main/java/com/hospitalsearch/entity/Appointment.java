@@ -4,34 +4,36 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hospitalsearch.util.CustomLocalDateTimeSerializer;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+
 @Entity
-@Table(name = "workinterval")
-public class WorkInterval implements Serializable{
+public class Appointment implements Serializable{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workinterval_gen")
-	@SequenceGenerator(name = "workinterval_gen", sequenceName = "workinterval_id_seq")
+	@GeneratedValue
 	private Long id;
 
 	@JsonIgnore
 	@ManyToOne
+	private UserDetail userDetail;
+
+	@JsonIgnore
+	@ManyToOne
 	private DoctorInfo doctorInfo;
+
+
 	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
-//	@Column(name = "start_date", nullable = false)
 	private LocalDateTime start_date;
 	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
-//	@Column(name = "end_date", nullable = false)
 	private LocalDateTime end_date;
-//	@Column(name = "text", nullable = false)
 	private String text;
 
-	public WorkInterval() {
-		// TODO Auto-generated constructor stub
-	}
 
 	public Long getId() {
 		return id;
@@ -39,14 +41,6 @@ public class WorkInterval implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public DoctorInfo getDoctorInfo() {
-		return doctorInfo;
-	}
-
-	public void setDoctorInfo(DoctorInfo doctorInfo) {
-		this.doctorInfo = doctorInfo;
 	}
 
 	public LocalDateTime getStart_date() {
@@ -73,9 +67,26 @@ public class WorkInterval implements Serializable{
 		this.text = text;
 	}
 
+	public UserDetail getUserDetail() {
+		return userDetail;
+	}
+
+	public void setUserDetail(UserDetail userDetail) {
+		this.userDetail = userDetail;
+	}
+
+	public DoctorInfo getDoctorInfo() {
+		return doctorInfo;
+	}
+
+	public void setDoctorInfo(DoctorInfo doctorInfo) {
+		this.doctorInfo = doctorInfo;
+	}
+
+
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder("WorkInterval{");
+		final StringBuilder sb = new StringBuilder("Appointment{");
 		sb.append("id=").append(id);
 		sb.append(", start_date=").append(start_date);
 		sb.append(", end_date=").append(end_date);

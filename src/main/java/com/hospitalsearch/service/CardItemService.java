@@ -4,6 +4,7 @@ import com.hospitalsearch.entity.CardItem;
 import com.hospitalsearch.entity.User;
 import org.springframework.stereotype.Component;
 
+
 import java.util.List;
 
 @Component

@@ -10,6 +10,8 @@ import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import java.util.List;
+
 /**
  * 
  * @author Oleksandr Mukonin
@@ -70,6 +72,18 @@ public class Hospital{
 	private String description; 
 
 	private String imagePath;
+
+	@Column(name = "managers")
+	@ManyToMany
+	private List<User> managers;
+
+	public List<User> getManagers() {
+		return managers;
+	}
+
+	public void setManagers(List<User> managers) {
+		this.managers = managers;
+	}
 
 	public Long getId() {
 		return id;

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorator="layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:h="http://www.w3.org/1999/html" layout:decorator="layout"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <title>Basic initialization</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <meta th:name="csrf-token" th:content="${_csrf.token}" />
+	<script th:src="@{/js/Workintervals.js}"></script>
 
 
 
-<style type="text/css">
+<style type="text/css" media="screen">
 html, body {
 	height: 100%;
 	padding: 0px;
@@ -30,6 +31,25 @@ html, body {
 #scheduler_here {
 	border-radius: 4px;
 }
+
+#my_form {
+	/*position: absolute;*/
+	/*top: 100px;*/
+	/*left: 300px;*/
+	z-index: 10001;
+	/*display: none;*/
+	/*background-color: white;*/
+	/*border: 2px outset gray;*/
+	/*!*padding: 20px;*!*/
+	/*!*font-family: Tahoma;*!*/
+	/*!*font-size: 10pt;*!*/
+}
+
+/*#my_form label {*/
+	/*width: 500px;*/
+/*}*/
+
+
 </style>
 </head>
 <body>
@@ -43,7 +63,7 @@ html, body {
 				<div class="modal-content">Saved</div>
 			</div>
 		</div>
-		<input sec:authorize="hasRole('MANAGER')" value="true"
+		<input sec:authorize="hasRole('ROLE_MANAGER')" value="true"
 			id="manager" type="text" hidden="hidden" />
 		<p th:id="currentUser" hidden="hidden" sec:authentication="name" />
 		<p th:id="doctorID" hidden="hidden" th:text="${doctor.id}" />
@@ -82,6 +102,19 @@ html, body {
 
 					</div>
 					<div class="col-lg-9 col-md-9 col-xs-10">
+						<div id="my_form" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+							<label for="description">Прізвище та ім’я</label><input class="form-control" type="text" name="description" value="" id="description"/><br/>
+							<label for="custom1">Скарга</label><input class="form-control" type="text" name="custom1" value="" id="custom1"/><br/>
+							<label for="custom2">Номер телефону</label><input class="form-control" type="text" name="custom2" value="" id="custom2"/><br/><br/>
+							<input type="button" class="btn" name="save" value="Записатися" id="save" style='width:100px;' onclick="save_form()"/>
+							<input type="button" class="btn" name="close" value="Відмінити" id="close" style='width:100px;' onclick="close_form()"/>
+							<!--<button class="btn" name="delete" value="Відмінити візит" id="delete"onclick="delete_event()"></button>-->
+							<button type="button" class="btn btn-default" onclick="delete_event()">Видалити візит</button>
+								</div>
+								</div>
+								</div>
 						<div class="dhx_cal_container panel" id="scheduler_here">
 							<div class="dhx_cal_navline">
 								<div class="dhx_cal_prev_button">&nbsp;</div>
@@ -122,29 +155,66 @@ html, body {
 			</div>
 
 
-
 			<script type="text/javascript">
-				var manager = $('#manager').val();
-				if (!manager) {
-					scheduler.config.readonly = true;
-				} else {
-					scheduler.config.readonly = false;
-				}
-				var a = document.getElementById("1").textContent;
-				scheduler.config.xml_date = "%Y-%m-%d %H:%i";
-				scheduler.config.first_hour = 7;
-				scheduler.config.last_hour = 21;
-				scheduler.config.limit_time_select = true;
-				scheduler.blockTime([ 1, 2, 3, 4, 5 ], [ 0, 8 * 60, 20 * 60,
-						24 * 60 ]);
-				scheduler.blockTime([ 0, 6 ], "fullday");
-				scheduler.init('scheduler_here', null, "week");
-				scheduler.load("getIntervals?id=" + a, "json");
-				var dp = new dataProcessor("supplyIntervals?id=" + a);
-				dp.init(scheduler);
+
+			var html = function(id) { return document.getElementById(id); };
+
+
+			scheduler.showLightbox = function(id) {
+				$('#my_form').modal('show');
+			var ev = scheduler.getEvent(id);
+			scheduler.startLightbox(id, html("my_form"));
+
+			html("description").focus();
+			html("description").value = ev.text;
+			html("custom1").value = ev.custom1 || "";
+			html("custom2").value = ev.custom2 || "";
+			};
+
+			function save_form() {
+			var ev = scheduler.getEvent(scheduler.getState().lightbox_id);
+			ev.text = html("description").value;
+			ev.custom1 = html("custom1").value;
+			ev.custom2 = html("custom2").value;
+
+			scheduler.endLightbox(true, html("my_form"));
+			}
+			function close_form() {
+			scheduler.endLightbox(false, html("my_form"));
+			}
+
+			function delete_event() {
+			var event_id = scheduler.getState().lightbox_id;
+			scheduler.endLightbox(false, html("my_form"));
+			scheduler.deleteEvent(event_id);
+			}
+
 			</script>
 
+		</div>
 
+		<!-- Trigger the modal with a button -->
+		<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+		<!-- Modal -->
+		<div id="myModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Modal Header</h4>
+					</div>
+					<div class="modal-body">
+						<p>Some text in the modal.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
 		</div>
 	</section>
 </body>
