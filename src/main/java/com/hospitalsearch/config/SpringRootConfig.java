@@ -57,8 +57,7 @@ public class SpringRootConfig {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource());
         sessionFactoryBean.setHibernateProperties(hibernateProperties());
-        sessionFactoryBean.setPackagesToScan(properties.getRequiredProperty(PROP_HIBERNATE_ENTITY_PACKAGE));
-
+        sessionFactoryBean.setPackagesToScan(new String[]{properties.getRequiredProperty(PROP_HIBERNATE_ENTITY_PACKAGE)});
         return sessionFactoryBean;
     }
 
@@ -76,6 +75,7 @@ public class SpringRootConfig {
         props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
         props.put(PROP_HIBERNATE_SHOW_SQL, properties.getRequiredProperty(PROP_HIBERNATE_SHOW_SQL));
         props.put(PROP_HIBERNATE_IMPORT_FILE, properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
+
         return props;
     }
 
