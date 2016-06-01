@@ -37,7 +37,6 @@ public class FeedbackController {
         
     	User producer = feedbackService.getByUserEmail(dto.getUserEmail());
     	User consumer = userService.getById(dto.getDoctorId());
-    		
     	feedbackService.save(dto.buildFeedback(consumer, producer));
     	return "true";
     }
