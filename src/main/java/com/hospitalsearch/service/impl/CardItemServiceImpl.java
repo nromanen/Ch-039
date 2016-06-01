@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional
@@ -73,6 +74,11 @@ public class CardItemServiceImpl implements CardItemService {
     @Override
     public CardItem getById(Long id) {
         return dao.getById(id);
+    }
+
+    @Override
+    public List<CardItem> getCardItemList(User user) {
+        return dao.getCardItemList(user);
     }
 
 }

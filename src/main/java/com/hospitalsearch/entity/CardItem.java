@@ -40,7 +40,6 @@ public class CardItem implements Serializable {
     @Size(min = 5, message = "min size = 5")
     private String complaint;
     @ManyToOne
-
     private User doctor;
 
     public CardItem() {

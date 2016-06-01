@@ -58,7 +58,8 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         Criteria criteria = this.currentSession().createCriteria(User.class, "user")
                 .createAlias("user.userRoles", "userRoles").add(Restrictions.eq("userRoles.type", role))
                 .createAlias("user.userDetails", "details")
-                .add(Restrictions.isNotNull("details.patientCard"));
+                .add(Restrictions.isNotNull("details.patientCard"))
+                .addOrder(Order.asc("details.firstName"));
         return criteria.list();
     }
 
@@ -72,7 +73,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
                                 Restrictions.like("details.firstName", search, MatchMode.ANYWHERE).ignoreCase(),
                                 Restrictions.like("details.lastName", search, MatchMode.ANYWHERE).ignoreCase()
                         )
-                );
+                ).addOrder(Order.asc("details.firstName"));
         return criteria.list();
     }
 

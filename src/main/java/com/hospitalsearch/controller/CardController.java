@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 public class CardController {
 
-    private static final Integer ItemsPerPageCount = 1;
+    private static final Integer ItemsPerPageCount = 3;
 
     @Autowired
     CardItemService cardItemService;
@@ -50,14 +50,16 @@ public class CardController {
     @RequestMapping(value = {"/card/items"}, method = RequestMethod.GET)
     public String patientCard(@RequestParam("userId") String userId, ModelMap model) {
         User user = userService.getById(Long.parseLong(userId));
-        pagedListHolder.setSource(user.getUserDetails().getPatientCard().getCardItems());
+        pagedListHolder.setSource(cardItemService.getCardItemList(user));
         Boolean pagination = true;
         if (pagedListHolder.getPageCount()==1){
             pagination=false;
         }
+        model.addAttribute("doctor",PrincipalConverter.getPrincipal());
         model.addAttribute("pagination",pagination);
         model.addAttribute("cardItems", pagedListHolder);
         model.addAttribute("userId", userId);
+        model.addAttribute("name",user.getUserDetails().getFirstName()+" "+user.getUserDetails().getLastName());
         return "card/full";
     }
 
@@ -65,9 +67,12 @@ public class CardController {
     public String patientCardPage(@RequestParam("userId") String userId, @RequestParam ("page") String page, ModelMap model) {
         User user = userService.getById(Long.parseLong(userId));
         pagedListHolder.setPage(Integer.parseInt(page)-1);
+        boolean b;
+        model.addAttribute("doctor",PrincipalConverter.getPrincipal());
         model.addAttribute("pagination",true);
         model.addAttribute("cardItems", pagedListHolder);
         model.addAttribute("userId", userId);
+        model.addAttribute("name",user.getUserDetails().getFirstName()+" "+user.getUserDetails().getLastName());
         return "card/full";
     }
 
