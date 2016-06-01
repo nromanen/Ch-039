@@ -109,10 +109,17 @@ public class UserServiceImpl implements UserService {
         return dao.getAllDisabledUsers();
     }
 
+    //Illia
     @Override
-    public List<User> getByRole(long id) {
-        return dao.getByRole(id);
+    public List<User> getByRole(String role) {
+        return dao.getByRole(role);
     }
+
+    @Override
+    public List<User> searchByRole(String role, String search) {
+        return dao.searchByRole(role, search);
+    }
+    //Illia
 
     @Override
     public void register(UserRegisterDto dto) {

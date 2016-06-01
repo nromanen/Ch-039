@@ -2,43 +2,50 @@ package com.hospitalsearch.service.impl;
 
 import com.hospitalsearch.dao.CardItemDAO;
 import com.hospitalsearch.entity.CardItem;
+import com.hospitalsearch.entity.PatientCard;
+import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.CardItemService;
-import com.hospitalsearch.service.PatientCardService;
+import com.hospitalsearch.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
 public class CardItemServiceImpl implements CardItemService {
-    
-    @Autowired
-    private CardItemDAO cardItemDAO;
+
+//    final static Logger log = Logger.getLogger(CardItemService.class);
 
     @Autowired
-    private PatientCardService patientCardService;
+    private CardItemDAO dao;
+
+    @Autowired
+    UserService userService;
 
     @Override
-    public void add(CardItem cardItem) {
-        LocalDate date = LocalDate.now();
+    public void add(CardItem cardItem, String doctorEmail) {
+        User doctor = userService.getByEmail(doctorEmail);
+        LocalDateTime dateTime = LocalDateTime.now();
+        Timestamp date = Timestamp.valueOf(dateTime);
         cardItem.setDate(date);
-        cardItemDAO.save(cardItem);
+        cardItem.setDoctor(doctor);
+        dao.save(cardItem);
     }
 
     @Override
     public void remove(Long id) {
-        CardItem cardItem = cardItemDAO.getById(id);
-        cardItemDAO.delete(cardItem);
+        CardItem cardItem = dao.getById(id);
+        dao.delete(cardItem);
     }
 
     @Override
     public void update(CardItem cardItem) {
-        CardItem entity = cardItemDAO.getById(cardItem.getId());
-        LocalDate date = LocalDate.now();
+        CardItem entity = dao.getById(cardItem.getId());
         if (entity != null) {
-            entity.setDate(date);
             entity.setPrescription(cardItem.getPrescription());
             entity.setResult(cardItem.getResult());
             entity.setComplaint(cardItem.getComplaint());
@@ -46,20 +53,26 @@ public class CardItemServiceImpl implements CardItemService {
     }
 
     @Override
-    public void persist(CardItem cardItem){
+    public boolean persist(CardItem cardItem, String doctorEmail,Long userId) {
 
-        if(cardItem.getId()==null) {
-            add(cardItem);
-        }else{
-            update(cardItem);
+        PatientCard patientCard = userService.getById(userId).getUserDetails().getPatientCard();
+        cardItem.setPatientCard(patientCard);
+        if (cardItem.getId() == null) {
+            add(cardItem, doctorEmail);
+            return true;
         }
+        CardItem cardItemFromDB = dao.getById(cardItem.getId());
+        if (cardItemFromDB.getDoctor().getEmail().equals(doctorEmail)) {
+            update(cardItem);
+            return true;
+        }
+        return false;
     }
-
 
 
     @Override
     public CardItem getById(Long id) {
-        return cardItemDAO.getById(id);
+        return dao.getById(id);
     }
 
 }

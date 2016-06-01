@@ -38,6 +38,7 @@ public class UserDetail implements Serializable{
 
 	@JsonIgnore
 	@OneToOne
+    @Fetch(FetchMode.SELECT)
 	private PatientCard patientCard;
 	
 	public UserDetail() {

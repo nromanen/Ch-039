@@ -51,13 +51,32 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     }
 
 
+    //Illia
 
     @Override
-    public List<User> getByRole(long id) {
-       /* Query query = this.currentSession().getNamedQuery("SELECT_BY_ROLE").setParameter("id", id);
-        return query.list();*/
-        return null;
+    public List<User> getByRole(String role) {
+        Criteria criteria = this.currentSession().createCriteria(User.class, "user")
+                .createAlias("user.userRoles", "userRoles").add(Restrictions.eq("userRoles.type", role))
+                .createAlias("user.userDetails", "details")
+                .add(Restrictions.isNotNull("details.patientCard"));
+        return criteria.list();
     }
+
+    @Override
+    public List<User> searchByRole(String role, String search) {
+        Criteria criteria = this.currentSession().createCriteria(User.class, "user").add(Restrictions.isNotNull("user.userDetails"))
+                .createAlias("user.userRoles", "userRoles")
+                .add(Restrictions.eq("userRoles.type", role))
+                .createAlias("user.userDetails", "details").add(Restrictions.or(
+                                Restrictions.like("user.email", search, MatchMode.ANYWHERE).ignoreCase(),
+                                Restrictions.like("details.firstName", search, MatchMode.ANYWHERE).ignoreCase(),
+                                Restrictions.like("details.lastName", search, MatchMode.ANYWHERE).ignoreCase()
+                        )
+                );
+        return criteria.list();
+    }
+
+    //Illia
 
     @Override
     public Boolean emailExists(String email) {

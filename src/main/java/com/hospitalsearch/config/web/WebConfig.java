@@ -6,9 +6,11 @@ import java.util.Set;
 
 import com.hospitalsearch.util.RoleConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -64,12 +66,6 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		return resolver;
 	}
 
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-		interceptor.setParamName("lang");
-		registry.addInterceptor(interceptor);
-	}
 
 	//crypto
 	@Override
@@ -97,6 +93,27 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		return viewResolver;
 	}
 
+    @Bean(name="localeResolver")
+    public LocaleResolver localeResolver(){
+        CookieLocaleResolver resolver = new CookieLocaleResolver();
+        resolver.setDefaultLocale(new Locale("en"));
+        resolver.setCookieMaxAge(100000);
+        return resolver;
+    }
+
+    @Bean
+    public MessageSource messageSource(){
+        return new ReloadableResourceBundleMessageSource(){{
+            setBasename("classpath:i18n/messages");
+        }};
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("lang");
+        registry.addInterceptor(interceptor);
+    }
 
 //?????
 /*	@Bean

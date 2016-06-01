@@ -12,38 +12,44 @@
 <body>
 <section layout:fragment="content">
     <div class="content">
-    <div class="container">
+        <div class="container">
 
-                <h1 th:if="${cardItem.id==null}">Create new card record</h1>
-                <h1 th:if="${cardItem.id!=null}">Edit record</h1>
+            <h1 th:if="${cardItem.id==null}" th:text="#{card.record.create}">Create new record</h1>
+            <h1 th:if="${cardItem.id!=null}" th:text="#{card.record.edit}">Edit record</h1>
 
             <form th:action="@{/persist(userId=${userId})}" th:object="${cardItem}" role="form" action="#" method="post">
                 <span th:if="${cardItem.id!=null}"><input type="hidden" th:field="${cardItem.id}"/></span>
                 <span th:if="${cardItem.id!=null}"><input type="hidden" th:field="${cardItem.date}" id="date"/></span>
                 <div>
-                    <p th:text="'Date: '+${#dates.format(#dates.createNow(), 'MM-dd-yyyy')}" style="display: inline-block; margin-left: 10px;"></p>
+                    <p th:text="#{card.record.date}+${#dates.format(#dates.createNow(), 'HH:mm dd-MM-yyyy')}" style="display: inline-block; margin-left: 10px;"></p>
                     <p class="error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></p>
                 </div>
+
+                <div>
+                    <p class="error" th:if="${doctorError!=null}" th:text="${doctorError}"></p>
+                </div>
+
                 <div class="form-group">
-                    <label for="complaint">Complaint:</label>
+                    <label for="complaint" th:text="#{card.record.complaint}">Complaint:</label>
                     <input type="text" th:field="*{complaint}" class="form-control" id="complaint"/>
                     <p class="error" th:if="${#fields.hasErrors('complaint')}" th:errors="*{complaint}"></p>
                 </div>
 
                 <div class="form-group">
-                    <label for="result">Result:</label>
+                    <label for="result" th:text="#{card.record.result}">Result:</label>
                     <textarea name="text" class="form-control" id="result" th:field="*{result}" rows="5"></textarea>
                     <p class="error" th:if="${#fields.hasErrors('result')}" th:errors="*{result}"></p>
                 </div>
                 <div class="form-group">
-                    <label for="prescription">Prescription:</label>
+                    <label th:text="#{card.record.prescription}" for="prescription">Prescription:</label>
                     <textarea name="text" class="form-control" id="prescription" th:field="*{prescription}" rows="5"></textarea>
                     <p class="error" th:if="${#fields.hasErrors('prescription')}" th:errors="*{prescription}"></p>
                 </div>
-                <button class="btn btn-danger" onclick="history.back()">Back</button>
-                <button type="submit" class="btn btn-default" style="float: right;">Submit</button>
+
+                <button type="submit" class="btn btn-default" style="float: right;" th:text="#{card.record.submit}">Submit</button>
             </form>
-    </div>
+            <a class="btn btn-danger" th:text="#{card.record.back}" th:href="@{/card/items(userId=${userId})}">Back</a>
+        </div>
     </div>
 </section>
 

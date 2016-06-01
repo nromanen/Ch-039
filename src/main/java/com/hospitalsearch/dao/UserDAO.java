@@ -14,11 +14,14 @@ public interface UserDAO extends GenericDAO<User,Long>{
 
     User getByEmail(String email);
     void changeStatus(long id);
-    List<User> getByRole(long id);
     Boolean emailExists(String email);
     List<User> getAllEnabledUsers();
     List<User> getAllDisabledUsers();
     List<User> searchUser(UserSearchDTO userSearch);
+    //Illia
+    List<User> getByRole(String role);
+
+    List<User> searchByRole(String role, String search);
 }
 
 

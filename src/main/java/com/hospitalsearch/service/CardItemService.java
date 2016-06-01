@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface CardItemService {
-    void add(CardItem cardItem);
+    void add(CardItem cardItem, String doctorEmail);
     void remove(Long id);
     void update(CardItem cardItem);
-    void persist(CardItem cardItem);
+    boolean persist(CardItem cardItem, String doctorEmail, Long userId);
     CardItem getById(Long id);
 }
