@@ -8,51 +8,97 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script
-	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=places"></script>
+	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
 <script th:src="@{/js/mapadmin.js}"></script>
 <script th:src="@{/js/gmaps.js}"></script>
+<link rel="stylesheet" th:href="@{/css/map.css}" />
 
-<title>Hospital Add/Edit page</title>
+<title th:text="#{admin.hospital.new.header}"></title>
 </head>
 <body>
 	<section layout:fragment="content">
 		<div class="content">
-			<div class="container">
-				<input id="pac-input" class="form-control" type="text"
-					placeholder="Enter Address" /> <br />
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<div id="googleMap" class="col-md-12" style="height: 50vh;"></div>
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">Hospital Data</div>
-					<div class="panel-body">
-
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="col-sm-8">
+						<h3 class="col-md-offset-2 col-md-10"
+							th:text="#{admin.hospital.new.header}"></h3>
 						<form method="POST" class="form-horizontal"
 							th:object="${hospital}">
 							<input type="hidden" th:field="*{id}" id="id" /> <input
 								type="hidden" th:name="${_csrf.parameterName}"
 								th:value="${_csrf.token}" />
 							<div class="form-group">
-								<label class="control-label col-sm-2" for="address">Address:</label>
+								<label class="control-label col-sm-2"
+									th:text="#{admin.hospital.new.label.address}"></label>
 								<div class="col-sm-10">
-									<input th:field="*{address}" class="form-control" id="address"
-										th:onblur="'javascript:check();'" /> <i
-										th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
-										style="color: red" class="removable-i fade in"></i>
+									<div class="input-group">
+										<input class="form-control" id="addressGeo" /> <span
+											class="input-group-btn">
+											<button type="button" th:onclick="'javascript:check();'"
+												class="btn btn-default"
+												th:text="#{admin.hospital.new.button.find}"></button>
+											<button type="button" th:onclick="'javascript:fill();'"
+												class="btn btn-default"
+												th:text="#{admin.hospital.new.button.fill}"></button>
+										</span>
+									</div>
+									<i id="geo-error" style="color: red"
+										class="removable-geo fade in"></i>
+								</div>
+							</div>
+							<div class="form-group required">
+								<label class="control-label col-sm-2" for="address.country"
+									th:text="#{admin.hospital.new.label.country}"></label>
+								<div class="col-sm-4">
+									<input th:field="*{address.country}" class="form-control"
+										id="address.country" /> <i
+										th:if="${#fields.hasErrors('address.country')}"
+										th:errors="*{address.country}"
+										class="removable-i fade in"></i>
+								</div>
+								<label class="control-label col-sm-2" for="address.city"
+									th:text="#{admin.hospital.new.label.city}"></label>
+								<div class="col-sm-4">
+									<input th:field="*{address.city}" class="form-control"
+										id="address.city" /> <i
+										th:if="${#fields.hasErrors('address.city')}"
+										th:errors="*{address.city}"
+										class="removable-i fade in"></i>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-2" for="mame">Name:</label>
+								<label class="control-label col-sm-2" for="address.street"
+									th:text="#{admin.hospital.new.label.street}"></label>
+								<div class="col-sm-4">
+									<input th:field="*{address.street}" class="form-control"
+										id="address.street" /> <i
+										th:if="${#fields.hasErrors('address.street')}"
+										th:errors="*{address.street}"
+										class="removable-i fade in"></i>
+								</div>
+								<label class="control-label col-sm-2" for="address.building"
+									th:text="#{admin.hospital.new.label.building}"></label>
+								<div class="col-sm-4">
+									<input th:field="*{address.building}" class="form-control"
+										id="address.building" /> <i
+										th:if="${#fields.hasErrors('address.building')}"
+										th:errors="*{address.building}"
+										class="removable-i fade in"></i>
+								</div>
+							</div>
+							<div class="form-group required">
+								<label class="control-label col-sm-2" for="mame"
+									th:text="#{admin.hospital.new.label.name}"></label>
 								<div class="col-sm-10">
 									<input th:field="*{name}" class="form-control" id="name" /> <i
 										th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-										style="color: red" class="removable-i fade in"></i>
+										class="removable-i fade in"></i>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-2" for="description">Description:</label>
+								<label class="control-label col-sm-2" for="description"
+									th:text="#{admin.hospital.new.label.description}"></label>
 								<div class="col-sm-10">
 									<input th:field="*{description}" class="form-control"
 										id="description" />
@@ -67,29 +113,38 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-2" for="latitude">Latitude:</label>
+								<label class="control-label col-sm-2" for="latitude"
+									th:text="#{admin.hospital.new.label.latitude}"></label>
 								<div class="col-sm-4">
 									<input th:field="*{latitude}" class="form-control"
 										id="latitude" readonly="true" /> <i
 										th:if="${#fields.hasErrors('latitude')}"
-										th:errors="*{latitude}" style="color: red"
+										th:errors="*{latitude}"
 										class="removable-i fade in"></i>
 								</div>
-								<label class="control-label col-sm-2" for="longitude">Longitude:</label>
+								<label class="control-label col-sm-2" for="longitude"
+									th:text="#{admin.hospital.new.label.longitude}"></label>
 								<div class="col-sm-4">
 									<input th:field="*{longitude}" class="form-control"
 										id="longitude" readonly="true" /> <i
 										th:if="${#fields.hasErrors('longitude')}"
-										th:errors="*{longitude}" style="color: red"
+										th:errors="*{longitude}"
 										class="removable-i fade in"></i>
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="col-sm-2 btn btn-default">SAVE</button>
+								<div class="col-sm-offset-2 col-sm-10 btn-group">
+									<button type="submit" class="col-sm-2 btn btn-default" th:text="#{admin.hospital.new.button.save}"></button>
+									<button type="reset" class="col-sm-2 btn btn-default"
+										th:onclick="'javascript:resetAddress();'" th:text="#{admin.hospital.new.button.reset}"></button>
+									<button type="reset" class="col-sm-2 btn btn-default"
+										th:onclick="'javascript:window.history.back();'" th:text="#{admin.hospital.new.button.back}"></button>
 								</div>
 							</div>
 						</form>
+					</div>
+					<div class="col-sm-4" style="height: 70vh">
+						<div id="googleMap" style="height: 100%"></div>
 					</div>
 				</div>
 			</div>

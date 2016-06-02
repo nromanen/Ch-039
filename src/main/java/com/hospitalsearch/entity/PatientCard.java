@@ -5,18 +5,15 @@ import java.util.List;
 
 @Entity
 @Table(name = "patientcard")
-public class PatientCard {
+public class PatientCard{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patientcard_gen")
-    @SequenceGenerator(name = "patientcard_gen", sequenceName = "patientcard_id_seq")
+    @SequenceGenerator(name = "patientcard_gen", sequenceName = "patientcard_id_seq", initialValue = 1, allocationSize = 1)
     private Long id;
 
     @OneToMany(mappedBy = "patientCard", fetch = FetchType.EAGER)
     List<CardItem> cardItems;
-
-    public PatientCard() {
-    }
 
     public Long getId() {
         return id;

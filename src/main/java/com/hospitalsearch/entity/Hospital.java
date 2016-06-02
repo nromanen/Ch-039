@@ -1,16 +1,29 @@
 package com.hospitalsearch.entity;
 
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
-import org.hibernate.validator.constraints.NotEmpty;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -20,20 +33,15 @@ import java.util.List;
 @Entity
 @Table(name = "hospital")
 
-@NamedQueries
-(
-		{
-			@NamedQuery(name = Hospital.DELETE_HOSPITAL_BY_ID, query = Hospital.DELETE_HOSPITAL_BY_ID_QUERY),
-			@NamedQuery(name = Hospital.GET_LIST_BY_BOUNDS, query = Hospital.GET_LIST_BY_BOUNDS_QUERY)
-		}
-		)
+@NamedQueries({
+	@NamedQuery(name = Hospital.DELETE_HOSPITAL_BY_ID, query = Hospital.DELETE_HOSPITAL_BY_ID_QUERY),
+	@NamedQuery(name = Hospital.GET_LIST_BY_BOUNDS, query = Hospital.GET_LIST_BY_BOUNDS_QUERY)
+})
 public class Hospital{
 
 	static final String GET_LIST_BY_BOUNDS_QUERY = "from Hospital h where "
-			+ "(latitude < :nelat) and "
-			+ "(latitude > :swlat) and "
-			+ "(longitude < :nelng) and "
-			+ "(longitude > :swlng)";
+			+ "(latitude < :nelat) and (latitude > :swlat) and "
+			+ "(longitude < :nelng) and (longitude > :swlng)";
 	public static final String GET_LIST_BY_BOUNDS = "GET_LIST_BY_BOUNDS";
 
 	static final String DELETE_HOSPITAL_BY_ID_QUERY = "DELETE Hospital WHERE id = :id";
@@ -41,49 +49,45 @@ public class Hospital{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hospital_gen")
-	@SequenceGenerator(name = "hospital_gen", sequenceName = "hospital_id_seq")
+	@SequenceGenerator(name = "hospital_gen", sequenceName = "hospital_id_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 
-	@NotEmpty
-	@Size(min = 10, max = 50)
-	@Column(name = "NAME", nullable = false)
+	@Size(min = 8, max = 50)
+	@Column(nullable = false)
 	private String name;
 
 	@NotNull
 	@Min(-90)
 	@Max(90)
-	@Column(name = "LATITUDE", nullable = false)
+	@Column(nullable = false)
 	private Double latitude;
 
 	@NotNull
 	@Min(-180)
 	@Max(180)
-	@Column(name = "LONGITUDE", nullable = false)
+	@Column(nullable = false)
 	private Double longitude;
 
-	@NotEmpty
-	@Size(min = 10, max = 100)
-	@Column(name = "ADDRESS", nullable = false)
-	private String address; 
-
+	@Embedded
+	@Valid
+	@AttributeOverrides({
+		@AttributeOverride(name="city",column=@Column(name="city")),
+		@AttributeOverride(name="country",column=@Column(name="country")),
+		@AttributeOverride(name="street",column=@Column(name="street")),
+		@AttributeOverride(name="building",column=@Column(name="building"))
+	})
+	private HospitalAddress address;
 
 	@Size(max = 150)
-	@Column(name = "DESCRIPTION", nullable = false)
+	@Column(nullable = false)
 	private String description; 
 
+	@Column(name="imagepath")
 	private String imagePath;
 
-	@Column(name = "managers")
+	@JsonIgnore
 	@ManyToMany
 	private List<User> managers;
-
-	public List<User> getManagers() {
-		return managers;
-	}
-
-	public void setManagers(List<User> managers) {
-		this.managers = managers;
-	}
 
 	public Long getId() {
 		return id;
@@ -117,14 +121,6 @@ public class Hospital{
 		this.longitude = longitude;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -140,4 +136,21 @@ public class Hospital{
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
+
+	public HospitalAddress getAddress() {
+		return address;
+	}
+
+	public void setAddress(HospitalAddress address) {
+		this.address = address;
+	}
+
+	public List<User> getManagers() {
+		return managers;
+	}
+
+	public void setManagers(List<User> managers) {
+		this.managers = managers;
+	}	
+
 }

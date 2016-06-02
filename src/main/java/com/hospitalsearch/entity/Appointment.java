@@ -6,34 +6,42 @@ import com.hospitalsearch.util.CustomLocalDateTimeSerializer;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import java.time.LocalDateTime;
 
 
 @Entity
-public class Appointment implements Serializable{
+@Table(name = "appointment")
+public class Appointment{
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointment_gen")
+	@SequenceGenerator(name = "appointment_gen", sequenceName = "appointment_id_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 
 	@JsonIgnore
 	@ManyToOne
+    @JoinColumn(name="userdetail_id")
 	private UserDetail userDetail;
 
 	@JsonIgnore
 	@ManyToOne
+    @JoinColumn(name="doctorinfo_id")
 	private DoctorInfo doctorInfo;
-
 
 	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
 	private LocalDateTime start_date;
+	
 	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
 	private LocalDateTime end_date;
+	
 	private String text;
-
 
 	public Long getId() {
 		return id;
@@ -83,7 +91,6 @@ public class Appointment implements Serializable{
 		this.doctorInfo = doctorInfo;
 	}
 
-
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder("Appointment{");
@@ -94,6 +101,5 @@ public class Appointment implements Serializable{
 		sb.append('}');
 		return sb.toString();
 	}
-
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hospitalsearch.entity.Hospital;
+import com.hospitalsearch.entity.HospitalAddress;
 import com.hospitalsearch.service.HospitalService;
 import com.hospitalsearch.util.Bounds;
 
@@ -44,32 +45,22 @@ public class MapController {
 
 	@ResponseBody
 	@RequestMapping(value = { "/**/getmarkers"}, method = RequestMethod.POST)
-	public List<Hospital> getMarkers(@RequestBody String data) {
-		List<Hospital> result = null;
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			Bounds bounds = mapper.readValue(data, Bounds.class);
-			result = service.getAllByBounds(bounds);
-		} catch (Exception e) {
-
-		}
-		return result;
+	public List<Hospital> getMarkers(@RequestBody Bounds bounds){
+		System.out.println(service.getAllByBounds(bounds));
+		return service.getAllByBounds(bounds);
 	}
 
 	@PreAuthorize ("hasRole('ADMIN')")
 	@RequestMapping(value = { "/admin/map/validate"}, method = RequestMethod.POST)
-	public String newHospitalFromMap(@RequestParam("hospjs") String data, ModelMap model,
-									 RedirectAttributes redirectAttributes) {
-		Hospital hospital = null;
+	public String newHospitalFromMap(@RequestParam("hospjs") String data,
+			RedirectAttributes redirectAttributes) {		
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			hospital = mapper.readValue(data, Hospital.class);
-		} catch (Exception e) {
-
-		}
-		if (hospital != null) {
+			Hospital hospital = mapper.readValue(data, Hospital.class);
 			redirectAttributes.addFlashAttribute("hospital", hospital);
 			return "redirect:/admin/map/new";
+		} catch (Exception e) {
+
 		}
 		return "redirect:/admin/map/validate";
 	}
@@ -86,6 +77,8 @@ public class MapController {
 	@RequestMapping(value = { "/admin/map/new" }, method = RequestMethod.GET)
 	public String newHospital(ModelMap model) {
 		Hospital hospital = new Hospital();
+		HospitalAddress address = new HospitalAddress();
+		hospital.setAddress(address);
 		model.putIfAbsent("hospital", hospital);
 		return "mapadmin";
 	}
@@ -93,7 +86,7 @@ public class MapController {
 	@PreAuthorize ("hasRole('ADMIN')")
 	@RequestMapping(value = { "/admin/map/new" }, method = RequestMethod.POST)
 	public String saveHospital(@Valid Hospital hospital, BindingResult result,
-							   RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "mapadmin";
 		}
@@ -103,6 +96,7 @@ public class MapController {
 		return "redirect:/admin/map/listhospitals";
 	}
 
+	@PreAuthorize ("hasRole('ADMIN')")
 	@RequestMapping(value = { "/admin/map/edithospital/{id}" }, method = RequestMethod.GET)
 	public String editHosital(@PathVariable long id, ModelMap model) {
 		Hospital hospital = service.getById(id);
@@ -113,7 +107,7 @@ public class MapController {
 	@PreAuthorize ("hasRole('ADMIN')")
 	@RequestMapping(value = { "/admin/map/edithospital/{id}" }, method = RequestMethod.POST)
 	public String updateHospital(@Valid Hospital hospital, BindingResult result,
-								 @PathVariable long id, RedirectAttributes redirectAttributes) {
+			@PathVariable long id, RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "mapadmin";
 		}

@@ -4,7 +4,7 @@ var marker = new google.maps.Marker();
 function initialize() {
 
 	mapInit('googleMap');
-	
+
 	searchInit('pac-input');
 
 	google.maps.event.addListener(map, 'click', function(event) {
@@ -17,12 +17,22 @@ function initialize() {
 			$(this).remove(); 
 		});
 	}, 5000);
+
+	window.setTimeout(function() {
+		resetAddress();
+	}, 500);
+}
+
+function resetAddress() {
+	if ((document.getElementById('latitude').value !=  "") && (document.getElementById('longitude').value !=  "")) {
+		placeMarker(new google.maps.LatLng(parseFloat(document.getElementById('latitude').value), parseFloat(document.getElementById('longitude').value)));	
+	}
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
 function geocodeAddress(geocoder, resultsMap) {
-	var address = document.getElementById('address').value;
+	var address = document.getElementById('addressGeo').value;
 	geocoder.geocode({'address': address}, function(results, status) {
 		if (status === google.maps.GeocoderStatus.OK) {
 			resultsMap.setCenter(results[0].geometry.location);
@@ -33,7 +43,12 @@ function geocodeAddress(geocoder, resultsMap) {
 			document.getElementById("latitude").value = results[0].geometry.location.lat();
 			document.getElementById("longitude").value = results[0].geometry.location.lng();
 		} else {
-			alert('Geocode was not successful for the following reason: ' + status);
+			document.getElementById("geo-error").innerHTML = 'Error: ' + status;
+			window.setTimeout(function() {
+				$(".removable-geo").fadeTo(1500, 0).slideUp(500, function(){
+					$(this).remove(); 
+				});
+			}, 5000);
 		}
 	});
 }
@@ -45,7 +60,7 @@ function placeMarker(location) {
 	});
 	map.setCenter(location);
 	geocoder.geocode({'location': location}, function(results, status) {
-		document.getElementById("address").value = results[0].formatted_address;
+		document.getElementById("addressGeo").value = results[0].formatted_address;
 		document.getElementById("latitude").value = results[0].geometry.location.lat();
 		document.getElementById("longitude").value = results[0].geometry.location.lng();
 	});
@@ -55,3 +70,12 @@ function check() {
 	marker.setMap(null);
 	geocodeAddress(geocoder, map);	
 }
+
+function fill() {
+	var fullAddress = document.getElementById('addressGeo').value.split(',');
+	document.getElementById("address.street").value = fullAddress[0].trim();
+	document.getElementById("address.building").value = fullAddress[1].trim();
+	document.getElementById("address.city").value = fullAddress[2].trim();
+	document.getElementById("address.country").value = fullAddress[4].trim();
+}
+

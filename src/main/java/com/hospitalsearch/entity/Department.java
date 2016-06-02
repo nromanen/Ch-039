@@ -1,19 +1,18 @@
 package com.hospitalsearch.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "department")
-public class Department implements Serializable{
-	
-	private static final long serialVersionUID = 2488180615002820167L;
+public class Department{
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "department_gen")
-	@SequenceGenerator(name = "department_gen", sequenceName = "department_id_seq")
+	@SequenceGenerator(name = "department_gen", sequenceName = "department_id_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
+	
 	private String name;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
@@ -21,12 +20,9 @@ public class Department implements Serializable{
 	
 	@ManyToOne
 	private Hospital hospital;
-	private String imagePath;
 	
-	public Department() {
-		// TODO Auto-generated constructor stub
-	}
-
+	@Column(name="imagepath")
+	private String imagePath;
 
 	public Long getId() {
 		return id;

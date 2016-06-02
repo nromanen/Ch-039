@@ -1,27 +1,26 @@
 package com.hospitalsearch.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "doctorinfo")
-public class DoctorInfo implements Serializable {
+public class DoctorInfo{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "doctorinfo_gen")
-    @SequenceGenerator(name = "doctorinfo_gen", sequenceName = "doctorinfo_id_seq")
+    @SequenceGenerator(name = "doctorinfo_gen", sequenceName = "doctorinfo_id_seq", initialValue = 1, allocationSize = 1)
     private Long id;
+    
     private String specialization;
 
     @OneToOne
+    @JoinColumn(name="userdetails_id")
     private UserDetail userDetails;
     
     @ManyToMany(mappedBy = "doctors")
     private List<Department> departments;
-
-    public DoctorInfo() {}
 
     public Long getId() {
         return id;
@@ -51,6 +50,5 @@ public class DoctorInfo implements Serializable {
 	public void setUserDetails(UserDetail userDetails) {
 		this.userDetails = userDetails;
 	}
-
    
 }

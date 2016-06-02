@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,13 +21,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 @NamedQueries({
 	@NamedQuery(name = "SELECT_BY_ROLE", query = "SELECT u FROM User u JOIN  u.userRoles r WHERE r.id = :id"),
 	@NamedQuery(name = "SELECT_ALL_ENABLED_USERS", query = "SELECT u FROM User u WHERE u.enabled = true"),
-		@NamedQuery(name = "SELECT_ALL_DISABLED_USERS", query = "SELECT u FROM User u WHERE u.enabled = false"),
+	@NamedQuery(name = "SELECT_ALL_DISABLED_USERS", query = "SELECT u FROM User u WHERE u.enabled = false"),
 })
-public class User implements Serializable, Comparable<User> {
+public class User implements Comparable<User> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_gen")
-	@SequenceGenerator(name = "users_gen", sequenceName = "users_id_seq")
+	@SequenceGenerator(name = "users_gen", sequenceName = "users_id_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 
 	@Email
@@ -52,6 +51,7 @@ public class User implements Serializable, Comparable<User> {
 
 	@OneToOne(cascade= CascadeType.ALL)
 	@Fetch(FetchMode.SELECT)
+    @JoinColumn(name="userdetails_id")
 	private UserDetail userDetails;
 
 	public String getEmail() {

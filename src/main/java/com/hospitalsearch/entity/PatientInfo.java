@@ -1,20 +1,18 @@
 package com.hospitalsearch.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.*;
 
 @Entity
-public class PatientInfo implements Serializable{
+@Table(name = "patientinfo")
+public class PatientInfo{
+	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patientinfo_gen")
+	@SequenceGenerator(name = "patientinfo_gen", sequenceName = "patientinfo_id_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 
+	@Column(name="cardid")
 	private String cardId;
-
-	public PatientInfo() {
-
-	}
 
 	public Long getId() {
 		return id;
