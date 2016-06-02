@@ -97,6 +97,8 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		}};
 	}
 	
+	
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();

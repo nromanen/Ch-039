@@ -46,22 +46,13 @@
                       </select>
                     </div> <!-- form group [rows] -->
                     <div class="form-group">
-                      <label class="filter-col" style="margin-right:0;" for="pref-search">Search:</label>
-                      <input type="text" class="form-control input-sm" id="pref-search"/>
-                    </div><!-- form group [search] -->
-                    <div class="form-group">
                       <label class="filter-col" style="margin-right:0;" for="pref-orderby">Order by:</label>
                       <select id="pref-orderby" class="form-control">
+                        <option>Ascendent</option>
                         <option>Descendent</option>
                       </select>
                     </div> <!-- form group [order by] -->
                     <div class="form-group">
-                      <div class="checkbox" style="margin-left:10px; margin-right:10px;">
-                        <label><input type="checkbox"/> Ingested</label>
-                      </div>
-                      <div class="checkbox" style="margin-left:10px; margin-right:10px;">
-                        <label><input type="checkbox"/> Automated</label>
-                      </div>
                       <button type="submit" class="btn btn-default filter-col">
                         <span class="glyphicon glyphicon-record"></span> Save Settings
                       </button>
@@ -71,8 +62,8 @@
               </div>
             </div>
 
-            <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filter-panel">
-              <span class="glyphicon glyphicon-cog"></span> Advanced Search
+            <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filter-panel" >
+              <span class="glyphicon glyphicon-cog"></span> <th:block th:text="#{hospitals.list.page.button}"/>
             </button>
           </div>
           <br/>

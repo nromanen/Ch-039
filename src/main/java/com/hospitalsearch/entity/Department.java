@@ -32,9 +32,7 @@ public class Department implements Serializable{
 	private Hospital hospital;
 	private String imagePath;
 	
-	public Department() {
-		// TODO Auto-generated constructor stub
-	}
+	public Department() { 	}
 
 
 	public Long getId() {

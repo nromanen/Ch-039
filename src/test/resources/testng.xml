@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite allow-return-values="false">
+<suite name="" allow-return-values="false">
 	<test name="ServiceTest">
 		<packages>
 			<package name="com.hospitalseeker.service"/>

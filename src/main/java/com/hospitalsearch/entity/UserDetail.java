@@ -2,6 +2,7 @@ package com.hospitalsearch.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
 import com.hospitalsearch.util.Gender;
 
 
@@ -41,7 +43,6 @@ public class UserDetail implements Serializable{
 	private String address;
 
 	@JsonIgnore
-
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
 	@Fetch(FetchMode.SELECT)
 	private DoctorInfo doctorsDetails;
