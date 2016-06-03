@@ -1,21 +1,31 @@
 package com.hospitalsearch.entity;
 
 import javax.persistence.Embeddable;
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 
+import org.hibernate.search.annotations.Field;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Embeddable
 public class HospitalAddress {
+
 	@NotEmpty
-	@Max(value=100)
-	private String city;
-	@NotEmpty
-	@Max(value=100)
+	@Size(max = 30)
+	@Field
 	private String country;
-	@Max(value=100)
+
+	@NotEmpty
+	@Size(max = 30)
+	@Field
+	private String city;
+
+	@Size(max = 30)
+	@Field
 	private String street;
 
+	@Size(max = 5)
+	private String building;
+	
 	public HospitalAddress(){}
 
 	public String getCity() {
@@ -41,4 +51,14 @@ public class HospitalAddress {
 	public void setStreet(String street) {
 		this.street = street;
 	}
+
+	public String getBuilding() {
+		return building;
+	}
+
+	public void setBuilding(String building) {
+		this.building = building;
+	}
+	
+	 
 }

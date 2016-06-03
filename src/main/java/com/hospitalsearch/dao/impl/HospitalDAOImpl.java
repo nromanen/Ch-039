@@ -2,12 +2,17 @@ package com.hospitalsearch.dao.impl;
 
 import java.util.List;
 
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.Query;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,7 +36,7 @@ public class HospitalDAOImpl extends  GenericDAOImpl<Hospital,Long> implements H
 
 	@SuppressWarnings("unchecked")
 	public List<Hospital> getAllByBounds(Bounds bounds) {
-		Query query = this.currentSession().getNamedQuery(Hospital.GET_LIST_BY_BOUNDS)
+		org.hibernate.Query query = this.currentSession().getNamedQuery(Hospital.GET_LIST_BY_BOUNDS)
 				.setDouble("nelat", bounds.getNorthEastLat())
 				.setDouble("swlat", bounds.getSouthWestLat())
 				.setDouble("nelng", bounds.getNorthEastLon())
@@ -40,7 +45,7 @@ public class HospitalDAOImpl extends  GenericDAOImpl<Hospital,Long> implements H
 	}
 
 	public void deleteById(long id) {
-		Query query = this.currentSession().getNamedQuery(Hospital.DELETE_HOSPITAL_BY_ID);
+		org.hibernate.Query query = this.currentSession().getNamedQuery(Hospital.DELETE_HOSPITAL_BY_ID);
 		query.setLong("id", id)
 		.executeUpdate();		
 	}
@@ -50,11 +55,25 @@ public class HospitalDAOImpl extends  GenericDAOImpl<Hospital,Long> implements H
 	public List<Hospital> filterHospitalsByAddress(HospitalFilterDTO filterInfo) {
 		Criteria criteria = this.getSessionFactory()
 				.getCurrentSession()
-				.createCriteria(Hospital.class);
+				.createCriteria(Hospital.class).createAlias("departments", "dep");
 		Criterion nameCriterion = Restrictions.like("name", filterInfo.getName(),MatchMode.ANYWHERE);
-		Criterion countryCriterion = Restrictions.like("address.country", filterInfo.getCountry(),MatchMode.ANYWHERE);
+		Criterion countryCriterion = Restrictions.like("dep.name", filterInfo.getCountry(),MatchMode.ANYWHERE);
 		Criterion cityCriterion = Restrictions.like("address.city", filterInfo.getCity(),MatchMode.ANYWHERE);
-		
+
 		return criteria.add(Restrictions.and(nameCriterion, countryCriterion,cityCriterion)).list();
+	}
+
+	public static final String [] HOSPITAL_PROJECTION= new String[]{"name","address.city","address.street"};
+	@Override
+	public List<Hospital> advancedHospitalSearch(String args) throws ParseException, InterruptedException {
+		FullTextSession session = Search.getFullTextSession(this.getSessionFactory().getCurrentSession());
+		session.beginTransaction();
+		session.createIndexer(Hospital.class).startAndWait();
+
+		MultiFieldQueryParser  parser = new MultiFieldQueryParser(HOSPITAL_PROJECTION, new StandardAnalyzer()); 
+		Query query = parser.parse(args);
+		
+		List<Hospital> hospitals = session.createFullTextQuery(query,Hospital.class).list();
+		return hospitals;
 	}
 }

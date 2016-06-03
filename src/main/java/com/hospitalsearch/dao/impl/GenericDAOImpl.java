@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
-import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 import com.hospitalsearch.dao.GenericDAO;
 

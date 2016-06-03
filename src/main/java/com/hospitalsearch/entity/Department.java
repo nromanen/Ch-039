@@ -13,23 +13,34 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Boost;
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+
 
 @Entity
+@Indexed
 @Table(name = "department")
 public class Department implements Serializable{
 	
 	private static final long serialVersionUID = 2488180615002820167L;
 	@Id
+	@DocumentId
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "department_gen")
 	@SequenceGenerator(name = "department_gen", sequenceName = "department_id_seq")
 	private Long id;
+	@Field(boost=@Boost(1.2f))
 	private String name;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
 	private List<DoctorInfo> doctors;
 	
 	@ManyToOne
+	@IndexedEmbedded
 	private Hospital hospital;
+	
 	private String imagePath;
 	
 	public Department() { 	}

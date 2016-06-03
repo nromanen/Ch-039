@@ -4,17 +4,24 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.thymeleaf.dialect.IDialect;
@@ -30,6 +37,7 @@ import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
 @EnableWebMvc
+@EnableCaching
 @ComponentScan(basePackages = {"com.hospitalsearch"},basePackageClasses={SpringRootConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter{
 
@@ -51,7 +59,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		}};
 	}
 
-	 
+
 
 
 	//crypto
@@ -96,14 +104,30 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 			setBasename("classpath:i18n/messages");
 		}};
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
 		interceptor.setParamName("lang");
 		registry.addInterceptor(interceptor);
+	}
+
+	@Bean
+	public EhCacheManagerFactoryBean ehCacheManagerFactoryBean(){
+		return new EhCacheManagerFactoryBean(){
+			{
+				setConfigLocation(new ClassPathResource("ehcache.xml"));
+				setShared(true);
+			}
+		};
+
+	}
+
+	@Bean
+	public CacheManager cacheManager(){
+		return new EhCacheCacheManager(ehCacheManagerFactoryBean().getObject());
 	}
 
 

@@ -29,9 +29,7 @@
           </form>
         </li>
         <li><a th:class="menu" th:href="@{/}">Home</a></li>
-        <li><a th:class="menu"
-               th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/hospitals.*')}?'active':''"
-               th:href="@{/hospitals}">Hospitals</a></li>
+        
         <li><a th:class="menu"
                th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/mapsearch.*')}?'active':''"
                th:href="@{/mapsearch}">Find</a></li>
@@ -94,13 +92,15 @@
         </li>
 
 		<!-- Localization changer -->
-		<li style="cursor: pointer;">
-          <a href="#" class="nav navbar-nav dropdown dropdown-toggle"
-             data-toggle="dropdown">Languages<span class="caret"></span></a>
-          <ul class="dropdown-menu" id="dropdawn" >
+		<li  style="cursor: pointer;">
+          <a href="#" class="nav localization-item navbar-nav dropdown dropdown-toggle"
+             data-toggle="dropdown">
+             <img class="localization-flag" th:src="(__${#locale}__ == 'en'? @{/img/en.png}:@{/img/ua.png})"/>
+         </a>
+          <ul class="dropdown-menu localization" id="dropdawn" >
 				<li>
 					<a th:href="@{ |${#httpServletRequest.requestURL.toString()+'?lang=ua'}| }" class="menu"> 
-							<img th:src="@{/img/ua.png}"/> українська
+							<img  th:src="@{/img/ua.png}"/> українська
              		</a>
 				</li>
 				<li>
@@ -132,9 +132,8 @@
   </div>
   <div class="[ bootsnipp-search animate ]">
     <div class="[ container ]">
-      <form action="http://bootsnipp.com/search" method="GET" role="search">
+      <form th:action="@{/hospitals}" method="GET" role="search">
         <div class="[ input-group ]" style="z-index:1000000">
-
           <div class="input-group-btn search-panel">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
               <span id="search_concept">Filter by</span> <span class="caret"></span>
@@ -148,9 +147,9 @@
               <li><a href="#all">Anything</a></li>
             </ul>
           </div>
-          <input type="hidden" name="search_param" value="all" id="search_param"/>
-          <!-- <input  type="text" class="[ form-control ] dropdown-field" name="q" placeholder="Search for snippets and hit enter"/> -->
-          <select  class="[ form-control ] search-data-ajax" id="select_search" name="q" th:placeholder="'Search for snippets and hit enter'"/>
+          <!-- <input type="hidden" name="search_param" value="all" id="search_param"/> -->
+          <input id="select_search"  type="text" class="[ form-control ] dropdown-field" name="q" th:placeholder="#{header.menu.searchbar.placeholder}"/> 
+         
  		 <span class="[ input-group-btn ]">
             <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
           </span>

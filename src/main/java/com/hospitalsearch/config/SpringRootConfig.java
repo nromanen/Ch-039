@@ -6,6 +6,10 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +17,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
@@ -27,6 +31,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @PropertySource(value = "classpath:app.properties")
 @ComponentScan(basePackages = "com.hospitalsearch")
+@EnableCaching
 @Import({MailConfig.class})
 public class SpringRootConfig {
     @Resource
@@ -41,7 +46,14 @@ public class SpringRootConfig {
     private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
     private static final String PROP_HIBERNATE_ENTITY_PACKAGE = "hibernate.entity.package";
     private static final String PROP_HIBERNATE_IMPORT_FILE = "hibernate.hbm2ddl.import_files";
-
+    //private static final String PROP_HIBERNATE_EHCACHE = "hibernate.cache.provider_class";
+    private static final String PROP_HIBERNATE_EHCACHE_LEVEL = "hibernate.cache.use_second_level_cache";
+    private static final String PROP_HIBERNATE_EHCACHE_REGION_FACTORY="hibernate.cache.region.factory_class";
+    private static final String PROP_HIBERNATE_EHCACHE_SHOWSQL = "hibernate.cache.use_query_cache";
+    private static final String PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER= "hibernate.search.default.directory_provider";
+    private static final String PROP_HIBERNATE_SEARCH_INDEX_BASE= "hibernate.search.default.indexBase";
+    
+    
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -69,6 +81,9 @@ public class SpringRootConfig {
         return transactionManager;
     }
 
+     
+
+    
 
     public Properties hibernateProperties() {
         Properties props = new Properties();
@@ -76,6 +91,13 @@ public class SpringRootConfig {
         props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
         props.put(PROP_HIBERNATE_SHOW_SQL, properties.getRequiredProperty(PROP_HIBERNATE_SHOW_SQL));
         props.put(PROP_HIBERNATE_IMPORT_FILE, properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
+        //props.put(PROP_HIBERNATE_EHCACHE, properties.getRequiredProperty(PROP_HIBERNATE_EHCACHE));
+        props.put(PROP_HIBERNATE_EHCACHE_LEVEL, properties.getRequiredProperty(PROP_HIBERNATE_EHCACHE_LEVEL));
+        props.put(PROP_HIBERNATE_EHCACHE_SHOWSQL, properties.getRequiredProperty(PROP_HIBERNATE_EHCACHE_SHOWSQL));
+        props.put(PROP_HIBERNATE_EHCACHE_REGION_FACTORY, properties.getRequiredProperty(PROP_HIBERNATE_EHCACHE_REGION_FACTORY));
+        props.put(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER));
+        props.put(PROP_HIBERNATE_SEARCH_INDEX_BASE, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_INDEX_BASE));
+        
         return props;
     }
 

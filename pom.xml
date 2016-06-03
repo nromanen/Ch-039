@@ -12,8 +12,13 @@
 		<spring.core>4.2.5.RELEASE</spring.core>
 		<spring.data>1.10.1.RELEASE</spring.data>
 		<spring.security>4.0.4.RELEASE</spring.security>
-		<hibernate.core>5.1.0.Final</hibernate.core>
+		<hibernate.core>4.3.10.Final</hibernate.core>
+		<hibernate.validation>4.3.2.Final</hibernate.validation>
 		<hibernate.annotation>1.0.0.Draft-16</hibernate.annotation>
+		<hibernate.search.orm>
+			5.3.0.Final
+		</hibernate.search.orm>
+		<hibernate-encache>4.3.11.Final</hibernate-encache>
 		<servlet.api>3.1.0</servlet.api>
 		<jsp.api>2.0</jsp.api>
 		<jstl.version>1.2</jstl.version>
@@ -103,14 +108,74 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate.core}</version>
+			<version>${hibernate.validation}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-java8</artifactId>
-			<version>${hibernate.core}</version>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>${hibernate-encache}</version>
 		</dependency>
+		<!-- EhCached -->
+
+
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.6.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>4.10.4</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>4.10.4</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
+			<artifactId>ehcache-spring-annotations</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+
+
+		<!-- Hibernate search -->
+
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-orm</artifactId>
+			<version>${hibernate.search.orm}</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>3.2.0.Final</version>
+		</dependency>
+
+
+
 
 		<dependency>
 			<groupId>postgresql</groupId>
@@ -148,6 +213,8 @@
 			<artifactId>spring-security-web</artifactId>
 			<version>${spring.security}</version>
 		</dependency>
+
+
 
 		<!-- Servlet API -->
 		<dependency>
@@ -254,15 +321,15 @@
 			<version>${liquibase.core}</version>
 		</dependency>
 
-		        <dependency>
-		            <groupId>org.aspectj</groupId>
-		            <artifactId>aspectjrt</artifactId>
-		            <version>1.6.10</version>
-		        </dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.10</version>
+		</dependency>
 	</dependencies>
 
 	<build>
-        <filters>
+		<filters>
 			<filter>src/main/resources/app.properties</filter>
 		</filters>
 		<resources>
@@ -289,40 +356,16 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-			<!--  <plugin>
-				<groupId>org.liquibase</groupId>
-				<artifactId>liquibase-maven-plugin</artifactId>
-				<version>${liquibase.plugin}</version>
-				<configuration>
-					<propertyFileWillOverride>true</propertyFileWillOverride>
-					<propertyFile>target/classes/liquibase.properties</propertyFile>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<goals>
-							<goal>update</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.liquibase.ext</groupId>
-						<artifactId>liquibase-hibernate4</artifactId>
-						<version>${liquibase.hibernate4}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-beans</artifactId>
-						<version>${spring.beans}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.springframework.data</groupId>
-						<artifactId>spring-data-jpa</artifactId>
-						<version>${spring.data.jpa}</version>
-					</dependency>
-				</dependencies>
-			</plugin> -->
+			<!-- <plugin> <groupId>org.liquibase</groupId> <artifactId>liquibase-maven-plugin</artifactId> 
+				<version>${liquibase.plugin}</version> <configuration> <propertyFileWillOverride>true</propertyFileWillOverride> 
+				<propertyFile>target/classes/liquibase.properties</propertyFile> </configuration> 
+				<executions> <execution> <phase>install</phase> <goals> <goal>update</goal> 
+				</goals> </execution> </executions> <dependencies> <dependency> <groupId>org.liquibase.ext</groupId> 
+				<artifactId>liquibase-hibernate4</artifactId> <version>${liquibase.hibernate4}</version> 
+				</dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-beans</artifactId> 
+				<version>${spring.beans}</version> </dependency> <dependency> <groupId>org.springframework.data</groupId> 
+				<artifactId>spring-data-jpa</artifactId> <version>${spring.data.jpa}</version> 
+				</dependency> </dependencies> </plugin> -->
 		</plugins>
 	</build>
 

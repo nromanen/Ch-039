@@ -4,6 +4,7 @@ import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.util.Bounds;
 import com.hospitalsearch.util.HospitalFilterDTO;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,8 @@ public interface HospitalService {
     List<Hospital> getAll();
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
 	public List<Hospital> getAllByBounds(Bounds bounds);	
-    
-    public List<Hospital> filterHospitalsByAddress(HospitalFilterDTO filterInfo);	
+    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
+    public List<Hospital> filterHospitalsByAddress(HospitalFilterDTO filterInfo);
+    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
+    public List<Hospital> advancedHospitalSearch(String args) throws ParseException, InterruptedException;
 }

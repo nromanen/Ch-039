@@ -5,7 +5,9 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.SortDefinition;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hospitalsearch.controller.advice.HospitalControllerAdvice;
 import com.hospitalsearch.entity.Department;
@@ -37,11 +40,11 @@ public class HospitalController {
 	@Autowired(required = true)
 	private DepartmentService departmentService;
 
-
-
 	@Autowired(required = true)
 	private DoctorInfoService doctorInfoService;
 	private PagedListHolder<Hospital> pagedListHolder = new PagedListHolder<>();
+
+	private List<Hospital> currentHospitalList;
 
 	public HospitalController() {
 		pagedListHolder.setPageSize(ITEMS_PER_PAGE_COUNT);
@@ -70,32 +73,40 @@ public class HospitalController {
 		return "layout";
 	}
 
+	public void fillBase(){		
+		HospitalAddress [] address = new HospitalAddress[30];
+		for(int i=0;i< 30;i++){
+			address[i] = new HospitalAddress();
+			address[i].setCity("Chernivci "+i);
+			address[i].setCountry("Ukraine");
+			address[i].setStreet("Bogdana,"+i);
+
+		}
+
+		for(int i=0;i<30;i++){
+			Hospital h = new Hospital();
+			h.setAddress(address[i]);
+			h.setName("Fastovska"+i);
+			h.setLatitude(2d);
+			h.setLongitude(3d);
+			h.setImagePath("Hospital_1.jpg");
+			h.setDescription("Very cool");
+			service.save(h);
+		}
+	}
+
 	@RequestMapping("/hospitals")
-	public String renderHospitals(Map<String,Object> model){
-				HospitalAddress [] address = new HospitalAddress[30];
-				for(int i=0;i< 30;i++){
-					address[i] = new HospitalAddress();
-					address[i].setCity("Chernivci "+i);
-					address[i].setCountry("Ukraine");
-					address[i].setStreet("Bogdana,"+i);
+	public String renderHospitals(Map<String,Object> model,
+			@RequestParam(value="q",required=false) String query) throws ParseException, InterruptedException{
 		
-				}
-		
-				for(int i=0;i<30;i++){
-					Hospital h = new Hospital();
-					h.setAddress(address[i]);
-					h.setName("Fastovska"+i);
-					h.setLatitude(2d);
-					h.setLongitude(3d);
-					h.setImagePath("Hospital_1.jpg");
-					h.setDescription("Very cool");
-					service.save(h);
-				}
 		pagedListHolder.setPage(0);
-		List<Hospital> lst =  service.getAll();
-		pagedListHolder.setSource(lst);
-		model.put("pagination", lst.size() > pagedListHolder.getPageSize()?true:false);
+		if(query!= null && !query.isEmpty()){
+			pagedListHolder.setSource(service.advancedHospitalSearch(query));
+		}
+		
+		model.put("pagination", this.pagedListHolder.getSource().size() > pagedListHolder.getPageSize()?true:false);
 		model.put("pagedList", pagedListHolder);
+		
 		return "hospitals";
 	}
 
@@ -121,10 +132,21 @@ public class HospitalController {
 		}
 	}
 
+	@RequestMapping(value="/hospital/page/config",method=RequestMethod.GET)
+	@ResponseBody
+	public String configurePage(@RequestParam("itemPerPage") Integer itemPerPage,
+			@RequestParam("type") String type){
+		this.pagedListHolder.setPageSize(itemPerPage);
+		this.pagedListHolder.setSort(new MutableSortDefinition("name", false, type.startsWith("Asc")));
 
-	@RequestMapping("/hospital/page")
+		System.out.println("fuck ysdjak hadkjldaskadj jkladsjlkadsj jads jkasd jlk " + type);
+		return "true";
+	}
+
+
+	@RequestMapping("/hospital/page/{page}")
 	public String renderHospitalsByPage(Map<String,Object> model,
-			@RequestParam("page") Integer currentPage
+			@PathVariable("page") Integer currentPage
 			){
 
 		this.pagedListHolder.setPage(currentPage-1);
@@ -132,7 +154,6 @@ public class HospitalController {
 		model.put("pagination", true);
 		return "hospitals";
 	}
-
 
 	@RequestMapping("/hospital/{id}")
 	public String renderDepartments(Map<String,Object> model,
@@ -146,7 +167,6 @@ public class HospitalController {
 
 		return "departments";
 	}
-
 
 	@RequestMapping("/hospital/{hid}/department/{id}")
 	public String renderDoctors(Map<String,Object> model,
@@ -163,9 +183,4 @@ public class HospitalController {
 
 		return "doctors";
 	}
-
-
-
-
-
 }

@@ -19,11 +19,15 @@ $(function() {
 			$('a[href="#toggle-search"]').trigger('click');
 		}
 	});
+	
+	
 
 });
 
 $(document).ready(function(e){
-    $('.search-panel .dropdown-menu').find('a').click(function(e) {
+	
+	
+	$('.search-panel .dropdown-menu').find('a').click(function(e) {
 		e.preventDefault();
 		var param = $(this).attr("href").replace("#","");
 		var concept = $(this).text();
