@@ -21,7 +21,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NamedQueries;
@@ -45,10 +45,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 			@NamedQuery(name = Hospital.DELETE_HOSPITAL_BY_ID, query = Hospital.DELETE_HOSPITAL_BY_ID_QUERY),
 			@NamedQuery(name = Hospital.GET_LIST_BY_BOUNDS, query = Hospital.GET_LIST_BY_BOUNDS_QUERY)
 })
-
-
-
-@Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region="entityCache")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE,region="entityCache")
 public class Hospital{
 
 	static final String GET_LIST_BY_BOUNDS_QUERY = "from Hospital h where "
@@ -84,7 +81,6 @@ public class Hospital{
 	private Double longitude;
 
 	@Embedded
-
 	@Valid
 	@IndexedEmbedded
 	@AttributeOverrides({
@@ -95,7 +91,6 @@ public class Hospital{
 	})
 	private HospitalAddress address;
 
-
 	@Size(max = 150)
 	@Column(nullable = false)
 	private String description; 
@@ -103,16 +98,15 @@ public class Hospital{
 	@Column(name="imagepath")
 	private String imagePath;
 
+	@JsonIgnore
 	@OneToMany(mappedBy="hospital",cascade=CascadeType.ALL)
 	@Cache(region="entityCache",usage=CacheConcurrencyStrategy.READ_ONLY)
 	@ContainedIn
 	private List<Department> departments;
 
-
 	@JsonIgnore
 	@ManyToMany
 	private List<User> managers;
-
 
 	public Long getId() {
 		return id;
@@ -176,9 +170,7 @@ public class Hospital{
 
 	public void setDepartments(List<Department> departments) {
 		this.departments = departments;
-	}
-
-	
+	}	
 
 	public List<User> getManagers() {
 		return managers;
@@ -187,6 +179,5 @@ public class Hospital{
 	public void setManagers(List<User> managers) {
 		this.managers = managers;
 	}	
-
 
 }

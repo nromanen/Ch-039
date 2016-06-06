@@ -42,10 +42,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User newUser) {
-
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        dao.save(newUser);
-
         try {
             logger.info("save user: " + newUser);
             newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));

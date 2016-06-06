@@ -9,6 +9,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script
 	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
+<script
+	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
 <script th:src="@{/js/mapadmin.js}"></script>
 <script th:src="@{/js/gmaps.js}"></script>
 <link rel="stylesheet" th:href="@{/css/map.css}" />
@@ -23,7 +25,7 @@
 					<div class="col-sm-8">
 						<h3 class="col-md-offset-2 col-md-10"
 							th:text="#{admin.hospital.new.header}"></h3>
-						<form method="POST" class="form-horizontal"
+						<form method="POST" class="form-horizontal" id="form-hospital"
 							th:object="${hospital}">
 							<input type="hidden" th:field="*{id}" id="id" /> <input
 								type="hidden" th:name="${_csrf.parameterName}"
@@ -52,7 +54,7 @@
 									th:text="#{admin.hospital.new.label.country}"></label>
 								<div class="col-sm-4">
 									<input th:field="*{address.country}" class="form-control"
-										id="address.country" /> <i
+										id="address.country" required="true"/> <i
 										th:if="${#fields.hasErrors('address.country')}"
 										th:errors="*{address.country}"
 										class="removable-i fade in"></i>
@@ -61,7 +63,7 @@
 									th:text="#{admin.hospital.new.label.city}"></label>
 								<div class="col-sm-4">
 									<input th:field="*{address.city}" class="form-control"
-										id="address.city" /> <i
+										id="address.city" required="true"/> <i
 										th:if="${#fields.hasErrors('address.city')}"
 										th:errors="*{address.city}"
 										class="removable-i fade in"></i>
@@ -91,7 +93,8 @@
 								<label class="control-label col-sm-2" for="mame"
 									th:text="#{admin.hospital.new.label.name}"></label>
 								<div class="col-sm-10">
-									<input th:field="*{name}" class="form-control" id="name" /> <i
+									<input th:field="*{name}" class="form-control" id="name"
+										required="true" minlength="8" maxlength="50"/> <i
 										th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
 										class="removable-i fade in"></i>
 								</div>
@@ -117,7 +120,7 @@
 									th:text="#{admin.hospital.new.label.latitude}"></label>
 								<div class="col-sm-4">
 									<input th:field="*{latitude}" class="form-control"
-										id="latitude" readonly="true" /> <i
+										id="latitude" readonly="true" required="true"/> <i
 										th:if="${#fields.hasErrors('latitude')}"
 										th:errors="*{latitude}"
 										class="removable-i fade in"></i>
@@ -126,7 +129,7 @@
 									th:text="#{admin.hospital.new.label.longitude}"></label>
 								<div class="col-sm-4">
 									<input th:field="*{longitude}" class="form-control"
-										id="longitude" readonly="true" /> <i
+										id="longitude" readonly="true" required="true"/> <i
 										th:if="${#fields.hasErrors('longitude')}"
 										th:errors="*{longitude}"
 										class="removable-i fade in"></i>
@@ -134,7 +137,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10 btn-group">
-									<button type="submit" class="col-sm-2 btn btn-default" th:text="#{admin.hospital.new.button.save}"></button>
+									<button type="submit" class="col-sm-2 btn btn-default" th:text="#{admin.hospital.new.button.save}" id="add-hospital"></button>
 									<button type="reset" class="col-sm-2 btn btn-default"
 										th:onclick="'javascript:resetAddress();'" th:text="#{admin.hospital.new.button.reset}"></button>
 									<button type="reset" class="col-sm-2 btn btn-default"
