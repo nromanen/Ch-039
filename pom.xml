@@ -37,9 +37,7 @@
 		<spring.data.jpa>1.10.1.RELEASE</spring.data.jpa>
 
     </properties>
-
     <dependencies>
-
         <!-- Spring core -->
         <dependency>
             <groupId>org.springframework</groupId>
