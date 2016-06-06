@@ -42,10 +42,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User newUser) {
-
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        dao.save(newUser);
-
         try {
             logger.info("save user: " + newUser);
             newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
@@ -53,6 +49,7 @@ public class UserServiceImpl implements UserService {
             UserDetail userDetail = new UserDetail();
             userDetail.setPatientCard(patientCard);
             newUser.setUserDetails(userDetail);
+            //TODO Make registration
            /* newUser.getUserRoles().add(roleService.getByType("PATIENT"));*/
             dao.save(newUser);
         } catch (Exception e) {

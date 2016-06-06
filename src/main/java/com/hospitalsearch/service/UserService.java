@@ -1,15 +1,15 @@
 package com.hospitalsearch.service;
 
+import java.util.List;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.hospitalsearch.dto.UserSearchDTO;
-import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
 import com.hospitalsearch.util.UserRegisterDto;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 @Transactional
 public interface UserService {
 

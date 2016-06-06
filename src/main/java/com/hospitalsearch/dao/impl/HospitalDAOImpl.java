@@ -1,9 +1,9 @@
 package com.hospitalsearch.dao.impl;
 
-import java.util.List;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import java.util.List;
+import java.util.logging.Level;
+
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.Query;
 import org.hibernate.Criteria;
@@ -13,6 +13,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,7 @@ import com.hospitalsearch.dao.HospitalDAO;
 import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.util.Bounds;
 import com.hospitalsearch.util.HospitalFilterDTO;
+import com.sun.istack.internal.logging.Logger;
 
 /**
  * 
@@ -63,17 +65,19 @@ public class HospitalDAOImpl extends  GenericDAOImpl<Hospital,Long> implements H
 		return criteria.add(Restrictions.and(nameCriterion, countryCriterion,cityCriterion)).list();
 	}
 
-	public static final String [] HOSPITAL_PROJECTION= new String[]{"name","address.city","address.street"};
+	public static final String [] HOSPITAL_PROJECTION= new String[]{"name","address.city","address.street","address.building"};
 	@Override
 	public List<Hospital> advancedHospitalSearch(String args) throws ParseException, InterruptedException {
-		FullTextSession session = Search.getFullTextSession(this.getSessionFactory().getCurrentSession());
+        FullTextSession session = Search.getFullTextSession(this.getSessionFactory().getCurrentSession());
 		session.beginTransaction();
 		session.createIndexer(Hospital.class).startAndWait();
-
-		MultiFieldQueryParser  parser = new MultiFieldQueryParser(HOSPITAL_PROJECTION, new StandardAnalyzer()); 
-		Query query = parser.parse(args);
 		
-		List<Hospital> hospitals = session.createFullTextQuery(query,Hospital.class).list();
+        QueryBuilder builder = session.getSearchFactory().buildQueryBuilder().forEntity(Hospital.class).get();
+        Query query = builder.keyword().fuzzy().onFields(HOSPITAL_PROJECTION).matching(args).createQuery();
+        Logger.getLogger(HospitalDAOImpl.class).log(Level.INFO, query.toString());
+		List<Hospital> hospitals = session.createFullTextQuery(query
+				,Hospital.class).list();
+		session.getTransaction().commit();
 		return hospitals;
 	}
 }

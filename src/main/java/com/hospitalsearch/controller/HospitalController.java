@@ -2,10 +2,11 @@ package com.hospitalsearch.controller;
 
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
+
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.SortDefinition;
 import org.springframework.stereotype.Controller;
@@ -26,158 +27,217 @@ import com.hospitalsearch.service.DoctorInfoService;
 import com.hospitalsearch.service.HospitalService;
 import com.hospitalsearch.util.HospitalFilterDTO;
 
-
-
 @Controller
 public class HospitalController {
-	private static final Integer ITEMS_PER_PAGE_COUNT = 15;
 
-	@Autowired(required = true)
-	private HospitalService service;
+    private static final Integer ITEMS_PER_PAGE_COUNT = 15;
 
-	@Autowired(required = true)
-	private DepartmentService departmentService;
+    @Autowired(required = true)
+    private HospitalService service;
 
-	@Autowired(required = true)
-	private DoctorInfoService doctorInfoService;
-	private PagedListHolder<Hospital> pagedListHolder = new PagedListHolder<>();
+    @Autowired(required = true)
+    private DepartmentService departmentService;
 
-	private List<Hospital> currentHospitalList;
+    @Autowired(required = true)
+    private DoctorInfoService doctorInfoService;
+    private PagedListHolder<Hospital> pagedListHolder = new PagedListHolder<>();
 
-	public HospitalController() {
-		pagedListHolder.setPageSize(ITEMS_PER_PAGE_COUNT);
-		pagedListHolder.setSort(new SortDefinition() {
+    private List<Hospital> currentHospitalList;
 
-			@Override
-			public boolean isIgnoreCase() {
-				return true;
-			}
+    public HospitalController() {
+        pagedListHolder.setPageSize(ITEMS_PER_PAGE_COUNT);
+        pagedListHolder.setSort(new SortDefinition() {
 
-			@Override
-			public boolean isAscending() {
-				return false;
-			}
+            @Override
+            public boolean isIgnoreCase() {
+                return true;
+            }
 
-			@Override
-			public String getProperty() {
-				return "name";
-			}
-		});
+            @Override
+            public boolean isAscending() {
+                return false;
+            }
 
-	}
+            @Override
+            public String getProperty() {
+                return "name";
+            }
+        });
 
-	@RequestMapping("/")
-	public String renderIndex(Map<String,Object> model){
-            fillBase();
-            return "layout";
-	}
+    }
 
-	public void fillBase(){		
-		HospitalAddress [] address = new HospitalAddress[30];
-		for(int i=0;i< 30;i++){
-			address[i] = new HospitalAddress();
-			address[i].setCity("Chernivci "+i);
-			address[i].setCountry("Ukraine");
-			address[i].setStreet("Bogdana,"+i);
+    @RequestMapping("/")
+    public String renderIndex(Map<String, Object> model) {
 
-		}
+        return "layout";
+    }
 
-		for(int i=0;i<30;i++){
-			Hospital h = new Hospital();
-			h.setAddress(address[i]);
-			h.setName("Fastovska"+i);
-			h.setLatitude(2d);
-			h.setLongitude(3d);
-			h.setImagePath("Hospital_1.jpg");
-			h.setDescription("Very cool");
-			service.save(h);
-		}
-	}
+    public void fillBase() {
+        HospitalAddress address = new HospitalAddress();
+        
+            address = new HospitalAddress();
+            address.setCity("Brusnitsya");
+            address.setCountry("Ukraine");
+            address.setStreet("Bogdana");
 
-	@RequestMapping("/hospitals")
-	public String renderHospitals(Map<String,Object> model,
-			@RequestParam(value="q",required=false) String query) throws ParseException, InterruptedException{
-		
-		pagedListHolder.setPage(0);
-		if(query!= null && !query.isEmpty()){
-			pagedListHolder.setSource(service.advancedHospitalSearch(query));
-		}
-		model.put("pagination", this.pagedListHolder.getSource().size() > pagedListHolder.getPageSize()?true:false);
-		model.put("pagedList", pagedListHolder);		
-		return "hospitals";
-	}
+       
+            Hospital h = new Hospital();
+            h.setAddress(address);
+            h.setName("Fastovska1");
+            h.setLatitude(2d);
+            h.setLongitude(3d);
+            h.setImagePath("Hospital_1.jpg");
+            h.setDescription("Very cool");
+            service.save(h);
+            
+            address = new HospitalAddress();
+            address.setCity("Chernivtsi");
+            address.setCountry("Ukraine");
+            address.setStreet("Bogdana");
 
-	@RequestMapping(value="/hospitals/filter",method=RequestMethod.POST)
-	public String renderFilteredHospitalsByPage(
-			@Valid 
-			@ModelAttribute("filter") HospitalFilterDTO dto,
-			BindingResult results, 
-			Map<String,Object> model) throws Exception{
+       
+            h = new Hospital();
+            h.setAddress(address);
+            h.setName("nedujesobi");
+            h.setLatitude(2d);
+            h.setLongitude(3d);
+            h.setImagePath("Hospital_1.jpg");
+            h.setDescription("Very cool");
+            service.save(h);
+       
+            address = new HospitalAddress();
+            address.setCity("Vijnica");
+            address.setCountry("Ukraine");
+            address.setStreet("Lol");
 
-		List<Hospital> hospitals = service.filterHospitalsByAddress(dto);
+       
+            h = new Hospital();
+            h.setAddress(address);
+            h.setName("Faynabolnica");
+            h.setLatitude(2d);
+            h.setLongitude(3d);
+            h.setImagePath("Hospital_1.jpg");
+            h.setDescription("Very cool");
+            service.save(h);
+       
+            
+        
+    }
+    @RequestMapping("/hospital/fill")
+    @ResponseBody
+    public String fill(){
+        fillBase();
+        return "good";
+    }
+    @RequestMapping("/hospitals")
+    public String renderHospitals(Map<String, Object> model,
+            @RequestParam(value = "q", required = false) String query) throws ParseException, InterruptedException {
+        //fillBase();
+        pagedListHolder.setPage(0);
+        if (query != null && !query.isEmpty()) {
+            pagedListHolder.setSource(service.advancedHospitalSearch(query));
+        }
+        model.put("pagination", this.pagedListHolder.getSource().size() > pagedListHolder.getPageSize() ? true : false);
+        model.put("pagedList", pagedListHolder);
+        return "hospitals";
+    }
 
-		if(hospitals.isEmpty()) 
-			throw new HospitalControllerAdvice.FilterHospitalListEmptyException("Problem");
-		else {
-			pagedListHolder.setSource(hospitals);
-			model.put("pagedList", pagedListHolder);
-			model.put("pagination", true);
-			if(results.hasErrors()){
-				return "hospitals";
-			}
-			return "hospitals";
-		}
-	}
+    @RequestMapping(value = "/hospitals/filter", method = RequestMethod.POST)
+    public String renderFilteredHospitalsByPage(
+            @Valid
+            @ModelAttribute("filter") HospitalFilterDTO dto,
+            BindingResult results,
+            Map<String, Object> model) throws Exception {
 
-	@RequestMapping(value="/hospital/page/config",method=RequestMethod.GET)
-	@ResponseBody
-	public String configurePage(@RequestParam("itemPerPage") Integer itemPerPage,
-			@RequestParam("type") String type){
-		this.pagedListHolder.setPageSize(itemPerPage);
-		this.pagedListHolder.setSort(new MutableSortDefinition("name", false, type.startsWith("Asc")));
+        List<Hospital> hospitals = service.filterHospitalsByAddress(dto);
 
-		System.out.println("fuck ysdjak hadkjldaskadj jkladsjlkadsj jads jkasd jlk " + type);
-		return "true";
-	}
+        if (hospitals.isEmpty()) {
+            throw new HospitalControllerAdvice.FilterHospitalListEmptyException("Problem");
+        } else {
+            pagedListHolder.setSource(hospitals);
+            model.put("pagedList", pagedListHolder);
+            model.put("pagination", true);
+            if (results.hasErrors()) {
+                return "hospitals";
+            }
+            return "hospitals";
+        }
+    }
 
+    @RequestMapping(value = "/hospital/page/config", method = RequestMethod.GET)
+    @ResponseBody
+    public String configurePage(@RequestParam("itemPerPage") Integer itemPerPage,
+            @RequestParam("type") final String type) {
+        this.pagedListHolder.setPageSize(itemPerPage);
+        this.pagedListHolder.setSort(new MutableSort("name", type.startsWith("Asc")));
+        return "true";
+    }
 
-	@RequestMapping("/hospital/page/{page}")
-	public String renderHospitalsByPage(Map<String,Object> model,
-			@PathVariable("page") Integer currentPage
-			){
+    @RequestMapping("/hospital/page/{page}")
+    public String renderHospitalsByPage(Map<String, Object> model,
+            @PathVariable("page") Integer currentPage
+    ) {
 
-		this.pagedListHolder.setPage(currentPage-1);
-		model.put("pagedList", pagedListHolder);
-		model.put("pagination", true);
-		return "hospitals";
-	}
+        this.pagedListHolder.setPage(currentPage - 1);
+        model.put("pagedList", pagedListHolder);
+        model.put("pagination", true);
+        return "hospitals";
+    }
 
-	@RequestMapping("/hospital/{id}")
-	public String renderDepartments(Map<String,Object> model,
-			@PathVariable Long id
-			){
-		List<Department> lst = departmentService.findByHospitalId(id);
+    @RequestMapping("/hospital/{id}")
+    public String renderDepartments(Map<String, Object> model,
+            @PathVariable Long id
+    ) {
+        List<Department> lst = departmentService.findByHospitalId(id);
 
-		model.put("departments",lst);
-		model.put("hospital",service.getById(id));
-		model.put("hid",id);
+        model.put("departments", lst);
+        model.put("hospital", service.getById(id));
+        model.put("hid", id);
 
-		return "departments";
-	}
+        return "departments";
+    }
 
-	@RequestMapping("/hospital/{hid}/department/{id}")
-	public String renderDoctors(Map<String,Object> model,
-			@PathVariable Long hid,
-			@PathVariable Long id
-			){
-		Department d =departmentService.getById(id);
-		model.put("doctors", doctorInfoService.findByDepartmentId(id));
-		model.put("department", d);
-		model.put("hospital", d.getHospital());
+    @RequestMapping("/hospital/{hid}/department/{id}")
+    public String renderDoctors(Map<String, Object> model,
+            @PathVariable Long hid,
+            @PathVariable Long id
+    ) {
+        Department d = departmentService.getById(id);
+        model.put("doctors", doctorInfoService.findByDepartmentId(id));
+        model.put("department", d);
+        model.put("hospital", d.getHospital());
 
-		model.put("hid",hid);
-		model.put("id",id);
+        model.put("hid", hid);
+        model.put("id", id);
 
-		return "doctors";
-	}
+        return "doctors";
+    }
+    
+    class MutableSort implements SortDefinition{
+
+        private String field;
+        private Boolean sort;
+
+        public MutableSort(String field, Boolean sort) {
+            this.field = field;
+            this.sort = sort;
+        }
+        
+        
+        
+        @Override
+        public String getProperty() {
+            return field;
+        }
+
+        @Override
+        public boolean isIgnoreCase() {
+            return false;
+        }
+
+        @Override
+        public boolean isAscending() {
+            return sort;
+        }
+    }
 }

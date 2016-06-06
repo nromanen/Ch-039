@@ -34,7 +34,6 @@ public class HospitalControllerAdvice {
 	@ModelAttribute(value="filter")
 	public HospitalFilterDTO hospitalFilterDTO(){return new HospitalFilterDTO();}
 	
-	
 	public static class FilterHospitalListEmptyException extends Exception{
 		public FilterHospitalListEmptyException(String message) {
 			super(message);

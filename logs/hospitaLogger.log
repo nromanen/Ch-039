@@ -1,14 +1,14 @@
-2016-06-06 12:15:25 INFO  MockServletContext:443 - Initializing Spring FrameworkServlet ''
-2016-06-06 12:15:25 INFO  TestDispatcherServlet:488 - FrameworkServlet '': initialization started
-2016-06-06 12:15:25 INFO  TestDispatcherServlet:507 - FrameworkServlet '': initialization completed in 39 ms
-2016-06-06 12:15:25 INFO  MockServletContext:443 - Initializing Spring FrameworkServlet ''
-2016-06-06 12:15:25 INFO  TestDispatcherServlet:488 - FrameworkServlet '': initialization started
-2016-06-06 12:15:25 INFO  TestDispatcherServlet:507 - FrameworkServlet '': initialization completed in 2 ms
-2016-06-06 12:15:25 WARN  DefaultHandlerExceptionResolver:377 - Failed to read HTTP message: org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public java.lang.String com.hospitalsearch.controller.FeedbackController.profile(com.hospitalsearch.util.FeedbackDTO)
-2016-06-06 12:15:25 INFO  MockServletContext:443 - Initializing Spring FrameworkServlet ''
-2016-06-06 12:15:25 INFO  TestDispatcherServlet:488 - FrameworkServlet '': initialization started
-2016-06-06 12:15:25 INFO  TestDispatcherServlet:507 - FrameworkServlet '': initialization completed in 6 ms
-2016-06-06 12:15:25 INFO  MockServletContext:443 - Initializing Spring FrameworkServlet ''
-2016-06-06 12:15:25 INFO  TestDispatcherServlet:488 - FrameworkServlet '': initialization started
-2016-06-06 12:15:25 INFO  TestDispatcherServlet:507 - FrameworkServlet '': initialization completed in 3 ms
-2016-06-06 12:15:26 INFO  GenericWebApplicationContext:960 - Closing org.springframework.web.context.support.GenericWebApplicationContext@7920ba90: startup date [Mon Jun 06 12:15:13 EEST 2016]; root of context hierarchy
+2016-06-06 14:09:11 INFO  MockServletContext:443 - Initializing Spring FrameworkServlet ''
+2016-06-06 14:09:11 INFO  TestDispatcherServlet:488 - FrameworkServlet '': initialization started
+2016-06-06 14:09:11 INFO  TestDispatcherServlet:507 - FrameworkServlet '': initialization completed in 51 ms
+2016-06-06 14:09:11 INFO  MockServletContext:443 - Initializing Spring FrameworkServlet ''
+2016-06-06 14:09:11 INFO  TestDispatcherServlet:488 - FrameworkServlet '': initialization started
+2016-06-06 14:09:11 INFO  TestDispatcherServlet:507 - FrameworkServlet '': initialization completed in 2 ms
+2016-06-06 14:09:11 WARN  DefaultHandlerExceptionResolver:377 - Failed to read HTTP message: org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public java.lang.String com.hospitalsearch.controller.FeedbackController.profile(com.hospitalsearch.util.FeedbackDTO)
+2016-06-06 14:09:11 INFO  MockServletContext:443 - Initializing Spring FrameworkServlet ''
+2016-06-06 14:09:11 INFO  TestDispatcherServlet:488 - FrameworkServlet '': initialization started
+2016-06-06 14:09:11 INFO  TestDispatcherServlet:507 - FrameworkServlet '': initialization completed in 2 ms
+2016-06-06 14:09:11 INFO  MockServletContext:443 - Initializing Spring FrameworkServlet ''
+2016-06-06 14:09:11 INFO  TestDispatcherServlet:488 - FrameworkServlet '': initialization started
+2016-06-06 14:09:11 INFO  TestDispatcherServlet:507 - FrameworkServlet '': initialization completed in 2 ms
+2016-06-06 14:09:12 INFO  GenericWebApplicationContext:960 - Closing org.springframework.web.context.support.GenericWebApplicationContext@358c99f5: startup date [Mon Jun 06 14:08:55 EEST 2016]; root of context hierarchy

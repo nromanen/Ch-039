@@ -21,20 +21,30 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.lucene.analysis.core.StopFilterFactory;
+import org.apache.lucene.analysis.ngram.NGramFilterFactory;
+import org.apache.lucene.analysis.standard.StandardFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * 
+ *
  * @author Oleksandr Mukonin
  *
  */
@@ -42,14 +52,21 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "hospital")
 @Indexed
 @NamedQueries({
-			@NamedQuery(name = Hospital.DELETE_HOSPITAL_BY_ID, query = Hospital.DELETE_HOSPITAL_BY_ID_QUERY),
-			@NamedQuery(name = Hospital.GET_LIST_BY_BOUNDS, query = Hospital.GET_LIST_BY_BOUNDS_QUERY)
+	@NamedQuery(name = Hospital.DELETE_HOSPITAL_BY_ID, query = Hospital.DELETE_HOSPITAL_BY_ID_QUERY),
+	@NamedQuery(name = Hospital.GET_LIST_BY_BOUNDS, query = Hospital.GET_LIST_BY_BOUNDS_QUERY)
 })
-
-
-
-@Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region="entityCache")
-public class Hospital{
+@AnalyzerDef(name = "ngram",
+			 tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+			 filters = {
+						@TokenFilterDef(factory = StandardFilterFactory.class),
+						@TokenFilterDef(factory = StopFilterFactory.class),
+						@TokenFilterDef(factory=NGramFilterFactory.class,params={
+								@Parameter(name="minGramSize",value="5"),
+								@Parameter(name="maxGramSize",value="8")						
+						})
+				})
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "entityCache")
+public class Hospital {
 
 	static final String GET_LIST_BY_BOUNDS_QUERY = "from Hospital h where "
 			+ "(latitude < :nelat) and (latitude > :swlat) and "
@@ -66,9 +83,9 @@ public class Hospital{
 	private Long id;
 
 	@NotEmpty
-	@Size(min = 10, max = 50)
+	@Size(min = 5, max = 50)
 	@Column(nullable = false)
-	@Field	
+	@Field(analyze = Analyze.YES, analyzer = @Analyzer(definition = "ngram"))
 	private String name;
 
 	@NotNull
@@ -84,35 +101,31 @@ public class Hospital{
 	private Double longitude;
 
 	@Embedded
-
 	@Valid
 	@IndexedEmbedded
 	@AttributeOverrides({
-		@AttributeOverride(name="city",column=@Column(name="city")),
-		@AttributeOverride(name="country",column=@Column(name="country")),
-		@AttributeOverride(name="street",column=@Column(name="street")),
-		@AttributeOverride(name="building",column=@Column(name="building"))
+		@AttributeOverride(name = "city", column = @Column(name = "city")),
+		@AttributeOverride(name = "country", column = @Column(name = "country")),
+		@AttributeOverride(name = "street", column = @Column(name = "street")),
+		@AttributeOverride(name = "building", column = @Column(name = "building"))
 	})
 	private HospitalAddress address;
 
-
 	@Size(max = 150)
 	@Column(nullable = false)
-	private String description; 
+	private String description;
 
-	@Column(name="imagepath")
+	@Column(name = "imagepath")
 	private String imagePath;
 
-	@OneToMany(mappedBy="hospital",cascade=CascadeType.ALL)
-	@Cache(region="entityCache",usage=CacheConcurrencyStrategy.READ_ONLY)
+	@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
+	@Cache(region = "entityCache", usage = CacheConcurrencyStrategy.READ_ONLY)
 	@ContainedIn
 	private List<Department> departments;
-
 
 	@JsonIgnore
 	@ManyToMany
 	private List<User> managers;
-
 
 	public Long getId() {
 		return id;
@@ -166,7 +179,9 @@ public class Hospital{
 		return address;
 	}
 
+
 	public void setAddress(HospitalAddress address) {
+		
 		this.address = address;
 	}
 
@@ -178,15 +193,12 @@ public class Hospital{
 		this.departments = departments;
 	}
 
-	
-
 	public List<User> getManagers() {
 		return managers;
 	}
 
 	public void setManagers(List<User> managers) {
 		this.managers = managers;
-	}	
-
+	}
 
 }

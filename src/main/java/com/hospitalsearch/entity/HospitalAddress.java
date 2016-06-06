@@ -2,6 +2,8 @@ package com.hospitalsearch.entity;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Analyzer;
 
 import org.hibernate.search.annotations.Field;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -11,19 +13,20 @@ public class HospitalAddress {
 
 	@NotEmpty
 	@Size(max = 30)
-	@Field
+	@Field(analyze = Analyze.YES,analyzer = @Analyzer(definition = "ngram"))	
 	private String country;
 
 	@NotEmpty
 	@Size(max = 30)
-	@Field
+	@Field(analyze = Analyze.YES,analyzer = @Analyzer(definition = "ngram"))	
 	private String city;
 
 	@Size(max = 30)
-	@Field
+	@Field(analyze = Analyze.YES,analyzer = @Analyzer(definition = "ngram"))	
 	private String street;
 
 	@Size(max = 5)
+        @Field(analyze = Analyze.YES,analyzer = @Analyzer(definition = "ngram"))
 	private String building;
 
 	public HospitalAddress(){}
