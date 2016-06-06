@@ -2,9 +2,7 @@ package com.hospitalsearch.controller;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.validation.Valid;
-
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.MutableSortDefinition;
@@ -70,30 +68,31 @@ public class HospitalController {
 
 	@RequestMapping("/")
 	public String renderIndex(Map<String,Object> model){
-		return "layout";
+            fillBase();
+            return "layout";
 	}
 
-//	public void fillBase(){		
-//		HospitalAddress [] address = new HospitalAddress[30];
-//		for(int i=0;i< 30;i++){
-//			address[i] = new HospitalAddress();
-//			address[i].setCity("Chernivci "+i);
-//			address[i].setCountry("Ukraine");
-//			address[i].setStreet("Bogdana,"+i);
-//
-//		}
-//
-//		for(int i=0;i<30;i++){
-//			Hospital h = new Hospital();
-//			h.setAddress(address[i]);
-//			h.setName("Fastovska"+i);
-//			h.setLatitude(2d);
-//			h.setLongitude(3d);
-//			h.setImagePath("Hospital_1.jpg");
-//			h.setDescription("Very cool");
-//			service.save(h);
-//		}
-//	}
+	public void fillBase(){		
+		HospitalAddress [] address = new HospitalAddress[30];
+		for(int i=0;i< 30;i++){
+			address[i] = new HospitalAddress();
+			address[i].setCity("Chernivci "+i);
+			address[i].setCountry("Ukraine");
+			address[i].setStreet("Bogdana,"+i);
+
+		}
+
+		for(int i=0;i<30;i++){
+			Hospital h = new Hospital();
+			h.setAddress(address[i]);
+			h.setName("Fastovska"+i);
+			h.setLatitude(2d);
+			h.setLongitude(3d);
+			h.setImagePath("Hospital_1.jpg");
+			h.setDescription("Very cool");
+			service.save(h);
+		}
+	}
 
 	@RequestMapping("/hospitals")
 	public String renderHospitals(Map<String,Object> model,
@@ -103,10 +102,8 @@ public class HospitalController {
 		if(query!= null && !query.isEmpty()){
 			pagedListHolder.setSource(service.advancedHospitalSearch(query));
 		}
-		
 		model.put("pagination", this.pagedListHolder.getSource().size() > pagedListHolder.getPageSize()?true:false);
-		model.put("pagedList", pagedListHolder);
-		
+		model.put("pagedList", pagedListHolder);		
 		return "hospitals";
 	}
 

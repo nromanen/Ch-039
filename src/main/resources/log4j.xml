@@ -6,7 +6,7 @@
         <param name="maxFileSize" value="10KB" />
         <param name="maxBackupIndex" value="5" />
         <!-- For Tomcat -->
-        <param name="file" value="${CATALINA_HOME}/logs/hospitaLogger.log" />
+        <param name="file" value="logs/hospitaLogger.log" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
                    value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
@@ -18,7 +18,7 @@
         <param name="maxFileSize" value="10KB" />
         <param name="maxBackupIndex" value="5" />
         <!-- For Tomcat -->
-        <param name="file" value="${catalina.home}/logs/serviceLogger.log" />
+        <param name="file" value="logs/serviceLogger.log" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
                    value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />

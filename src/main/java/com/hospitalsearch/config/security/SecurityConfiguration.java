@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
-//		auth.inMemoryAuthentication().withUser("admin@gmail.com").password("admin").roles("ADMIN");
+		auth.inMemoryAuthentication().withUser("admin@gmail.com").password("admin").roles("ADMIN");
 		auth.authenticationProvider(authenticationProvider());
 	}
 
