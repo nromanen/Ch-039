@@ -13,7 +13,7 @@ function initialize() {
 	});
 
 	window.setTimeout(function() {
-		$(".removable-i").fadeTo(1500, 0).slideUp(500, function(){
+		$('.removable-i').fadeTo(1500, 0).slideUp(500, function(){
 			$(this).remove(); 
 		});
 	}, 5000);
@@ -21,10 +21,12 @@ function initialize() {
 	window.setTimeout(function() {
 		resetAddress();
 	}, 500);
+	
+	$("#form-hospital").validate();
 }
 
 function resetAddress() {
-	if ((document.getElementById('latitude').value !=  "") && (document.getElementById('longitude').value !=  "")) {
+	if ((document.getElementById('latitude').value !=  '') && (document.getElementById('longitude').value !=  '')) {
 		placeMarker(new google.maps.LatLng(parseFloat(document.getElementById('latitude').value), parseFloat(document.getElementById('longitude').value)));	
 	}
 }
@@ -40,12 +42,12 @@ function geocodeAddress(geocoder, resultsMap) {
 				map: resultsMap,
 				position: results[0].geometry.location
 			});
-			document.getElementById("latitude").value = results[0].geometry.location.lat();
-			document.getElementById("longitude").value = results[0].geometry.location.lng();
+			document.getElementById('latitude').value = results[0].geometry.location.lat();
+			document.getElementById('longitude').value = results[0].geometry.location.lng();
 		} else {
-			document.getElementById("geo-error").innerHTML = 'Error: ' + status;
+			document.getElementById('geo-error').innerHTML = 'Error: ' + status;
 			window.setTimeout(function() {
-				$(".removable-geo").fadeTo(1500, 0).slideUp(500, function(){
+				$('.removable-geo').fadeTo(1500, 0).slideUp(500, function(){
 					$(this).remove(); 
 				});
 			}, 5000);
@@ -60,9 +62,9 @@ function placeMarker(location) {
 	});
 	map.setCenter(location);
 	geocoder.geocode({'location': location}, function(results, status) {
-		document.getElementById("addressGeo").value = results[0].formatted_address;
-		document.getElementById("latitude").value = results[0].geometry.location.lat();
-		document.getElementById("longitude").value = results[0].geometry.location.lng();
+		document.getElementById('addressGeo').value = results[0].formatted_address;
+		document.getElementById('latitude').value = results[0].geometry.location.lat();
+		document.getElementById('longitude').value = results[0].geometry.location.lng();
 	});
 }
 
@@ -73,9 +75,8 @@ function check() {
 
 function fill() {
 	var fullAddress = document.getElementById('addressGeo').value.split(',');
-	document.getElementById("address.street").value = fullAddress[0].trim();
-	document.getElementById("address.building").value = fullAddress[1].trim();
-	document.getElementById("address.city").value = fullAddress[2].trim();
-	document.getElementById("address.country").value = fullAddress[4].trim();
+	document.getElementById('address.street').value = fullAddress[0].trim();
+	document.getElementById('address.building').value = fullAddress[1].trim();
+	document.getElementById('address.city').value = fullAddress[2].trim();
+	document.getElementById('address.country').value = fullAddress[4].trim();
 }
-

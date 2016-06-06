@@ -46,7 +46,6 @@ public class MapController {
 	@ResponseBody
 	@RequestMapping(value = { "/**/getmarkers"}, method = RequestMethod.POST)
 	public List<Hospital> getMarkers(@RequestBody Bounds bounds){
-		System.out.println(service.getAllByBounds(bounds));
 		return service.getAllByBounds(bounds);
 	}
 

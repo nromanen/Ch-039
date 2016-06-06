@@ -25,7 +25,6 @@ import org.apache.lucene.analysis.core.StopFilterFactory;
 import org.apache.lucene.analysis.ngram.NGramFilterFactory;
 import org.apache.lucene.analysis.standard.StandardFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NamedQueries;
@@ -42,6 +41,8 @@ import org.hibernate.search.annotations.Parameter;
 import org.hibernate.search.annotations.TokenFilterDef;
 import org.hibernate.search.annotations.TokenizerDef;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -67,6 +68,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 				})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "entityCache")
 public class Hospital {
+
 
 	static final String GET_LIST_BY_BOUNDS_QUERY = "from Hospital h where "
 			+ "(latitude < :nelat) and (latitude > :swlat) and "
@@ -118,8 +120,10 @@ public class Hospital {
 	@Column(name = "imagepath")
 	private String imagePath;
 
-	@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL)
-	@Cache(region = "entityCache", usage = CacheConcurrencyStrategy.READ_ONLY)
+
+	@JsonIgnore
+	@OneToMany(mappedBy="hospital",cascade=CascadeType.ALL)
+	@Cache(region="entityCache",usage=CacheConcurrencyStrategy.READ_ONLY)
 	@ContainedIn
 	private List<Department> departments;
 
@@ -192,7 +196,7 @@ public class Hospital {
 	public void setDepartments(List<Department> departments) {
 		this.departments = departments;
 	}
-
+	
 	public List<User> getManagers() {
 		return managers;
 	}
@@ -200,5 +204,4 @@ public class Hospital {
 	public void setManagers(List<User> managers) {
 		this.managers = managers;
 	}
-
 }
