@@ -321,12 +321,7 @@
             <artifactId>aspectjrt</artifactId>
             <version>1.6.10</version>
         </dependency>
-		<!-- Liquibase -->
-		<dependency>
-			<groupId>org.liquibase</groupId>
-			<artifactId>liquibase-core</artifactId>
-			<version>${liquibase.core}</version>
-		</dependency>
+		
     </dependencies>
 
     <build>
