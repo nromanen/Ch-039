@@ -30,11 +30,11 @@
         <javax.mail>1.4.7</javax.mail>
         <apache.velocity>1.7</apache.velocity>
         <guava>19.0</guava>
-		<liquibase.core>3.4.2</liquibase.core>
-		<liquibase.plugin>3.4.2</liquibase.plugin>
-		<liquibase.hibernate4>3.5</liquibase.hibernate4>
-		<spring.beans>4.2.6.RELEASE</spring.beans>
-		<spring.data.jpa>1.10.1.RELEASE</spring.data.jpa>
+        <liquibase.core>3.4.2</liquibase.core>
+        <liquibase.plugin>3.4.2</liquibase.plugin>
+        <liquibase.hibernate4>3.5</liquibase.hibernate4>
+        <spring.beans>4.2.6.RELEASE</spring.beans>
+        <spring.data.jpa>1.10.1.RELEASE</spring.data.jpa>
 
     </properties>
     <dependencies>
@@ -326,14 +326,14 @@
 
     <build>
         <filters>
-			<filter>src/main/resources/app.properties</filter>
-		</filters>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
+            <filter>src/main/resources/app.properties</filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <finalName>HospitalSeeker</finalName>
 
         <plugins>
@@ -354,31 +354,31 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-			<plugin>
-				<groupId>org.liquibase</groupId>
-				<artifactId>liquibase-maven-plugin</artifactId>
-				<version>${liquibase.plugin}</version>
-				<configuration>
-					<propertyFile>target/classes/liquibase.properties</propertyFile>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.liquibase.ext</groupId>
-						<artifactId>liquibase-hibernate4</artifactId>
-						<version>${liquibase.hibernate4}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.springframework</groupId>
-						<artifactId>spring-beans</artifactId>
-						<version>${spring.beans}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.springframework.data</groupId>
-						<artifactId>spring-data-jpa</artifactId>
-						<version>${spring.data.jpa}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.plugin}</version>
+                <configuration>
+                    <propertyFile>target/classes/liquibase.properties</propertyFile>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.liquibase.ext</groupId>
+                        <artifactId>liquibase-hibernate4</artifactId>
+                        <version>${liquibase.hibernate4}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-beans</artifactId>
+                        <version>${spring.beans}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.springframework.data</groupId>
+                        <artifactId>spring-data-jpa</artifactId>
+                        <version>${spring.data.jpa}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 
