@@ -1,6 +1,5 @@
 package com.hospitalsearch.entity;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
@@ -12,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -25,21 +25,32 @@ import com.hospitalsearch.util.Gender;
 
 @Entity
 @Table(name = "userdetail")
-public class UserDetail implements Serializable{
+public class UserDetail{
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userdetail_gen")
-	@SequenceGenerator(name = "userdetail_gen", sequenceName = "userdetail_id_seq")
-	@Column(name="id")
+	@SequenceGenerator(name = "userdetail_gen", sequenceName = "userdetail_id_seq", initialValue = 1, allocationSize = 1)
 	@JsonIgnore
 	private Long id;
+	
+	@Column(name="firstname")
 	private String firstName;
+	
+	@Column(name="lastname")
 	private String lastName;
+	
 	private String phone;
+	
+	@Column(name="birthdate")
 	private LocalDate birthDate;
-	@JsonIgnore
+	
+	@JsonIgnore	
+	@Column(name="imagepath")
 	private String imagePath;
+	
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
+	
 	private String address;
 
 	@JsonIgnore
@@ -49,9 +60,12 @@ public class UserDetail implements Serializable{
 
 	@JsonIgnore
 	@OneToOne
+    @Fetch(FetchMode.SELECT)
+    @JoinColumn(name="patientcard_id")
 	private PatientCard patientCard;
 
 	public UserDetail() {}
+
 
 	public Long getId() {
 		return id;

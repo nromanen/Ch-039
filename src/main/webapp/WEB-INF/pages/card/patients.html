@@ -3,46 +3,64 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.w3.org/1999/xhtml"
       layout:decorator="layout">
+<meta charset="ISO-8859-1"/>
 <meta charset="UTF-8"/>
 
-<head lang="en">
+<head>
     <title>Card</title>
+    <link rel="stylesheet" th:href="@{/css/theme.default.css}"/>
 </head>
 
 <body>
 <section layout:fragment="content">
 
     <div class="content">
-        <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <form th:action="@{/search/user}" th:method="'post'">
+                    <div class="form-group">
+                        <label th:text="#{card.patients.patient}" for="usr">Patient:</label>
+                        <input style="display: inline-block; width: 20%;" type="text" th:name="'request'"
+                               th:placeholder="#{card.patients.search}" class="form-control" id="usr"/>
+                        <button th:text="#{card.record.submit}" type="submit" class="btn btn-default">Search</button>
+                    </div>
+                </form>
 
-                    <form th:action="@{/search/user}" th:method="'post'">
-                        <div class="form-group">
-                            <label for="usr">Patient:</label>
-                            <input style="display: inline-block; width: 20%;" type="text" th:name="'search'" class="form-control" id="usr"/>
-                            <button type="submit" class="btn btn-success">Search</button>
-                        </div>
-                    </form>
+                <table class="tablesorter table table-bordred table-striped responstable">
+                    <thead>
+                    <tr>
+                        <th th:text="#{card.patients.patient}">
+                            Patient
+                        </th>
+                        <th th:text="#{card.patients.firstName}">
+                            First name:
+                        </th>
+                        <th th:text="#{card.patients.lastName}">
+                            Last name:
+                        </th>
+                    </tr>
+                    </thead>
+                    <tr th:each="patient:${patients.getPageList()}">
+                        <td><a th:href="@{/card/items(userId=${patient.id})}" th:text="${patient.email}"></a></td>
+                        <td th:text="${patient.userDetails.firstName}"></td>
+                        <td th:text="${patient.userDetails.lastName}"></td>
+                    </tr>
+                </table>
+                <div class="col-md-12 text-center">
+                    <div class="pagination pagination-centered">
+                        <ul th:if="${pagination}" class="pagination">
+                            <li th:each="i:${#numbers.sequence(1,patients.getPageCount())}"
+                                th:class="${i-1==patients.getPage()? 'active':''}">
+                                <a th:text="${i}" th:if="${search}" th:href="@{/search/user/page(page=${i},request=${request})}"></a>
+                                <a th:text="${i}" th:if="${!search}" th:href="@{/patients/page(page=${i})}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
 
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>
-                        Patient
-                    </th>
-                    <th>
-                        First name
-                    </th>
-                    <th>
-                        Last name
-                    </th>
-                </tr>
-                </thead>
-                <tr th:each="patient:${patients}">
-                    <td th:if="${patient.userDetails != null}" ><a th:href="@{/cards(userId=${patient.id})}" th:text="${patient.email}"></a></td>
-                    <td th:if="${patient.userDetails != null}" th:text="${patient.userDetails.firstName}"></td>
-                    <td th:if="${patient.userDetails != null}" th:text="${patient.userDetails.lastName}"></td>
-                </tr>
-            </table>
         </div>
     </div>
 </section>

@@ -1,15 +1,24 @@
 package com.hospitalsearch.entity;
 
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "patientcard")
-public class PatientCard {
+public class PatientCard{
 
     @Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patientcard_gen")
-	@SequenceGenerator(name = "patientcard_gen", sequenceName = "patientcard_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patientcard_gen")
+    @SequenceGenerator(name = "patientcard_gen", sequenceName = "patientcard_id_seq", initialValue = 1, allocationSize = 1)
 
     private Long id;
 
@@ -17,9 +26,6 @@ public class PatientCard {
     List<CardItem> cardItems;
     @OneToOne
     UserDetail userDetail;
-
-    public PatientCard() {
-    }
 
     public Long getId() {
         return id;

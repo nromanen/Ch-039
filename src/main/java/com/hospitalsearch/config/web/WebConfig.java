@@ -89,30 +89,27 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		return viewResolver;
 	}
 
+    @Bean(name="localeResolver")
+    public LocaleResolver localeResolver(){
+        CookieLocaleResolver resolver = new CookieLocaleResolver();
+        resolver.setDefaultLocale(new Locale("en"));
+        resolver.setCookieMaxAge(100000);
+        return resolver;
+    }
 
-	@Bean(name="localeResolver")
-	public LocaleResolver localeResolver(){
-		CookieLocaleResolver resolver = new CookieLocaleResolver();
-		resolver.setDefaultLocale(new Locale("en"));
-		resolver.setCookieMaxAge(100000);
-		return resolver;
-	}
+    @Bean
+    public MessageSource messageSource(){
+        return new ReloadableResourceBundleMessageSource(){{
+            setBasename("classpath:i18n/messages");
+        }};
+    }
 
-	@Bean
-	public MessageSource messageSource(){
-		return new ReloadableResourceBundleMessageSource(){{
-			setBasename("classpath:i18n/messages");
-		}};
-	}
-
-
-
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-		interceptor.setParamName("lang");
-		registry.addInterceptor(interceptor);
-	}
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("lang");
+        registry.addInterceptor(interceptor);
+    }
 
 	@Bean
 	public EhCacheManagerFactoryBean ehCacheManagerFactoryBean(){

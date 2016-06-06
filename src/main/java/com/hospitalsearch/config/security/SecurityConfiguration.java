@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,6 +29,7 @@ import com.hospitalsearch.handlers.CustomAuthenticationHandler;
  * @author Andrew Jasinskiy
  */
 @Configuration
+@ComponentScan(basePackages = "com.hospitalsearch")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -50,13 +52,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
-		auth.inMemoryAuthentication().withUser("admin@gmail.com").password("admin").roles("ADMIN");
+//		auth.inMemoryAuthentication().withUser("admin@gmail.com").password("admin").roles("ADMIN");
 		auth.authenticationProvider(authenticationProvider());
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/supplyIntervals");
+//		web.ignoring().antMatchers("/supplyIntervals");
 		web.ignoring().antMatchers("/doctor/feedback");
 /*		web.ignoring().antMatchers("/resources*//**", "/codebase*//**", "/css*//**",
 		 "/font-awesome*//**","/fonts*//**","/img*//**","/js*//**");
@@ -73,6 +75,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers("/", "/home").permitAll()
 				.antMatchers("/admin/**").access("hasRole('ADMIN')")
+				.antMatchers("/**/manage").access("hasRole('MANAGER')")
 				.antMatchers("/login").anonymous()
 				.and()
 				.formLogin()
@@ -80,7 +83,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.successHandler(customHandler)
-				.and().csrf()
 				.and()
 				.logout()
 				.logoutSuccessUrl("/login?logout")
@@ -92,7 +94,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.rememberMe()
 				.rememberMeParameter("remember-me")
 				.tokenRepository(tokenRepository)
-				.tokenValiditySeconds(TIME);
+				.tokenValiditySeconds(TIME)
+				.and().csrf();
 	}
 
 	//password encoder
@@ -111,12 +114,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
-		return new PersistentTokenBasedRememberMeServices(
+		PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
 				"remember-me", userDetailsService, tokenRepository);
+		return tokenBasedservice;
 	}
 
 	@Bean
 	public SpringSecurityDialect springSecurityDialect() {
 		return new SpringSecurityDialect();
 	}
+
+
 }

@@ -14,4 +14,6 @@ import java.util.List;
 @Component
 public interface DoctorInfoDAO extends GenericDAO<DoctorInfo,Long>{
     public List<UserDetail> findByDepartmentId(Long id);
+    List<UserDetail> findByManagerId(Long id);
+
 }

@@ -25,8 +25,9 @@ public class HospitalAddress {
 
 	@Size(max = 5)
 	private String building;
-	
+
 	public HospitalAddress(){}
+
 
 	public String getCity() {
 		return city;
@@ -56,9 +57,19 @@ public class HospitalAddress {
 		return building;
 	}
 
+
 	public void setBuilding(String building) {
 		this.building = building;
 	}
-	
-	 
+
+
+	@Override
+	public String toString() {
+		return  new StringBuilder()
+				.append(street).append(", ")
+				.append(building).append(", ")
+				.append(city).append(", ")
+				.append(country).toString();
+	}	
+
 }

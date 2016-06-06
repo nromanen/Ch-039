@@ -1,13 +1,12 @@
 package com.hospitalsearch.controller;
 
-import com.hospitalsearch.entity.CardItem;
-import com.hospitalsearch.entity.PatientCard;
-import com.hospitalsearch.entity.User;
-import com.hospitalsearch.service.CardItemService;
-import com.hospitalsearch.service.PatientCardService;
-import com.hospitalsearch.service.UserService;
-import com.hospitalsearch.util.PrincipalConverter;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,13 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import com.hospitalsearch.entity.CardItem;
+import com.hospitalsearch.entity.User;
+import com.hospitalsearch.service.CardItemService;
+import com.hospitalsearch.service.PatientCardService;
+import com.hospitalsearch.service.UserService;
+import com.hospitalsearch.util.PrincipalConverter;
 
 
 @Controller
 public class CardController {
+
+    private static final Integer ItemsPerPageCount = 2;
 
     @Autowired
     CardItemService cardItemService;
@@ -32,18 +36,63 @@ public class CardController {
     @Autowired
     UserService userService;
 
+    private PagedListHolder pagedListHolder = new PagedListHolder<>();
+
+    CardController(){
+        pagedListHolder.setPageSize(ItemsPerPageCount);
+        pagedListHolder.setPage(0);
+    }
+
     @RequestMapping(value = {"/card"}, method = RequestMethod.GET)
     public String patientCard(ModelMap model) {
         User user = userService.getByEmail(PrincipalConverter.getPrincipal());
-        model.addAttribute("cardItems", user.getUserDetails().getPatientCard().getCardItems());
+        pagedListHolder.setSource(cardItemService.getCardItemList(user));
+        Boolean pagination = true;
+        if (pagedListHolder.getPageCount()==1){
+            pagination=false;
+        }
+        model.addAttribute("pagination",pagination);
+        model.addAttribute("cardItems", pagedListHolder);
+        model.addAttribute("name",user.getUserDetails().getFirstName()+" "+user.getUserDetails().getLastName());
         return "card/full";
     }
 
-    @RequestMapping(value = {"/cards"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/card/page"}, method = RequestMethod.GET)
+    public String patientCardPage(@RequestParam ("page") String page, ModelMap model) {
+        User user = userService.getByEmail(PrincipalConverter.getPrincipal());
+        pagedListHolder.setSource(cardItemService.getCardItemList(user));
+        pagedListHolder.setPage(Integer.parseInt(page)-1);
+        model.addAttribute("pagination",true);
+        model.addAttribute("cardItems", pagedListHolder);
+        model.addAttribute("name",user.getUserDetails().getFirstName()+" "+user.getUserDetails().getLastName());
+        return "card/full";
+    }
+
+    @RequestMapping(value = {"/card/items"}, method = RequestMethod.GET)
     public String patientCard(@RequestParam("userId") String userId, ModelMap model) {
         User user = userService.getById(Long.parseLong(userId));
-        model.addAttribute("cardItems", user.getUserDetails().getPatientCard().getCardItems());
+        pagedListHolder.setSource(cardItemService.getCardItemList(user));
+        Boolean pagination = true;
+        if (pagedListHolder.getPageCount()==1){
+            pagination=false;
+        }
+        model.addAttribute("doctor",PrincipalConverter.getPrincipal());
+        model.addAttribute("pagination",pagination);
+        model.addAttribute("cardItems", pagedListHolder);
         model.addAttribute("userId", userId);
+        model.addAttribute("name",user.getUserDetails().getFirstName()+" "+user.getUserDetails().getLastName());
+        return "card/full";
+    }
+
+    @RequestMapping(value = {"/card/items/page"}, method = RequestMethod.GET)
+    public String patientCardPage(@RequestParam("userId") String userId, @RequestParam ("page") String page, ModelMap model) {
+        User user = userService.getById(Long.parseLong(userId));
+        pagedListHolder.setPage(Integer.parseInt(page)-1);
+        model.addAttribute("doctor",PrincipalConverter.getPrincipal());
+        model.addAttribute("pagination",true);
+        model.addAttribute("cardItems", pagedListHolder);
+        model.addAttribute("userId", userId);
+        model.addAttribute("name",user.getUserDetails().getFirstName()+" "+user.getUserDetails().getLastName());
         return "card/full";
     }
 
@@ -51,23 +100,26 @@ public class CardController {
     public String newCardItem(@RequestParam("userId") String userId, ModelMap model) {
         model.addAttribute("cardItem", new CardItem());
         model.addAttribute("userId", userId);
-        return "card/new";
+        return "card/record";
     }
 
     @RequestMapping(value = {"/persist"}, method = RequestMethod.POST)
     public String addCardItem(@RequestParam("userId") String userId, @Valid CardItem cardItem, BindingResult bindingResult, ModelMap model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("userId", userId);
-            return "card/new";
+            return "card/record";
         }
+
         String doctorEmail = PrincipalConverter.getPrincipal();
         if (!cardItemService.persist(cardItem, doctorEmail, Long.parseLong(userId))) {
             model.addAttribute("doctorError", "You cant edit this record");
             model.addAttribute("userId", userId);
-            return "card/new";
+            return "card/record";
         }
+
+
         model.addAttribute("userId", userId);
-        return "redirect:cards";
+        return "redirect:card/items";
     }
 
 
@@ -76,33 +128,69 @@ public class CardController {
         CardItem cardItem = cardItemService.getById(Long.parseLong(id));
         model.addAttribute("cardItem", cardItem);
         model.addAttribute("userId", userId);
-        return "card/new";
+        return "card/record";
+
     }
 
     @RequestMapping(value = {"/patients"}, method = RequestMethod.GET)
     public String patients(ModelMap model) {
-        model.addAttribute("patients", userService.getByRole(2));
+        List<User> patients = userService.getByRole("PATIENT");
+        Boolean pagination = true;
+        pagedListHolder.setSource(patients);
+        if (pagedListHolder.getPageCount()==1){
+            pagination=false;
+        }
+        model.addAttribute("search",false);
+        model.addAttribute("pagination",pagination);
+        model.addAttribute("patients", pagedListHolder);
         return "card/patients";
     }
+
+    @RequestMapping(value = {"/patients/page"}, method = RequestMethod.GET)
+    public String patientsPage(@RequestParam ("page") String page, ModelMap model) {
+        List<User> patients = userService.getByRole("PATIENT");
+        Boolean pagination = true;
+        pagedListHolder.setPage(Integer.parseInt(page)-1);
+        pagedListHolder.setSource(patients);
+        if (pagedListHolder.getPageCount()==1){
+            pagination=false;
+        }
+        model.addAttribute("search",false);
+        model.addAttribute("pagination",pagination);
+        model.addAttribute("patients", pagedListHolder);
+        return "card/patients";
+    }
+
 
     @RequestMapping(value = {"/search/user"}, method = RequestMethod.POST)
-    public String searchUser(@RequestParam("search") String search, ModelMap model) {
-        model.addAttribute("patients", search(search));
+    public String searchUser(@RequestParam("request") String request, ModelMap model) {
+        List<User> patients = userService.searchByRole("PATIENT",request);
+        Boolean pagination = true;
+        pagedListHolder.setSource(patients);
+        if (pagedListHolder.getPageCount()==1){
+            pagination=false;
+        }
+        model.addAttribute("search",true);
+        model.addAttribute("request",request);
+        model.addAttribute("pagination",pagination);
+        model.addAttribute("patients", pagedListHolder);
         return "card/patients";
     }
 
-
-    private List<User> search(String search) {
-        List<User> userList = userService.getByRole(2);
-        List<User> patients = new ArrayList<>();
-        for (User user : userList) {
-            if (user.getUserDetails() != null) {
-                if ((user.getEmail() + " " + user.getUserDetails().getFirstName() + " " + user.getUserDetails().getLastName()).contains(search)) {
-                    patients.add(user);
-                }
-            }
+    @RequestMapping(value = {"/search/user/page"}, method = RequestMethod.GET)
+    public String searchUserPage(@RequestParam("request") String request, @RequestParam ("page") String page, ModelMap model) {
+        List<User> patients = userService.searchByRole("PATIENT",request);
+        Boolean pagination = true;
+        pagedListHolder.setPage(Integer.parseInt(page)-1);
+        pagedListHolder.setSource(patients);
+        if (pagedListHolder.getPageCount()==1){
+            pagination=false;
         }
-        return patients;
+        model.addAttribute("search",true);
+        model.addAttribute("request",request);
+        model.addAttribute("pagination",pagination);
+        model.addAttribute("patients", pagedListHolder);
+        return "card/patients";
     }
 
 }

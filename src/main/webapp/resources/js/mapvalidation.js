@@ -1,12 +1,18 @@
 var hospitals = [];
 var hospital;
 var marker = new google.maps.Marker();
+var addresses = [];
 
 function initialize() {
 
 	mapInit('googleMap');
-	
-	searchInit('pac-input');
+
+	window.setTimeout(function() {
+		marker = new google.maps.Marker({
+			position: map.getCenter(),
+			map: map
+		});
+	}, 500);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -25,11 +31,11 @@ function callback(results, status) {
 	if (status == google.maps.places.PlacesServiceStatus.OK) {
 		for (var i = 0; i < results.length; i++) {
 			var place = results[i];
+			addresses.push(place.formatted_address.split(','));
 			var hospital = new Object({
 				name: place.name,
 				latitude: parseFloat(place.geometry.location.lat()),
 				longitude:  parseFloat(place.geometry.location.lng()),
-				address: place.formatted_address
 			});
 			hospitals.push(hospital);
 		}
@@ -43,13 +49,15 @@ function getHospital(lat, lng) {
 	bounds.northEastLon = lng + 0.002;
 	bounds.southWestLat = lat - 0.002;
 	bounds.southWestLon = lng - 0.002;
-	
+
 	$.ajaxSetup({
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
 	
+	console.log(bounds);
+
 	$.ajax({
 		type: "POST",
 		url: "getmarkers",
@@ -60,57 +68,44 @@ function getHospital(lat, lng) {
 		async: false,
 		success: function (data) {
 			hospital =  data[0];
+			console.log(data);
 		}
 	})
 }
 
 function buildTable() {
-	var table = '';
+	var table = "";
 	for (var i = 0; i < hospitals.length; i++) {
 		var hospital1 = hospitals[i];
+		var address = addresses[i];
 		getHospital(hospital1.latitude, hospital1.longitude);
+		console.log(hospital1);
 		var hospital2 = hospital;
-		table += '<tr><td>';
-		table += '<p>' + hospital1.name + '</p>';
-		table += '<p>' + hospital1.address + '</p>';		
-		table += '</td>';
+		table += '<tr><td>' + hospital1.name + '<br>' + address + '</td>';
 
 		if (hospital2 == null) {
-			table += '<td class="text-center">';			
-			table += '<form method="post">';
-			table += '<input type="hidden" name="'
-			table += $('meta[name="csrf-name"]').attr('content');
-			table += '" value="';
-			table += $('meta[name="csrf-token"]').attr('content');
-			table += '" />';
+			table += '<td class="text-center"><form method="post"><input type="hidden" name="';
+			table += $('meta[name="csrf-name"]').attr('content') + '" value="';
+			table += $('meta[name="csrf-token"]').attr('content') + '" />';
 			table += '<input type="hidden" id="hospjs" name="hospjs" value=\'';
 			table += JSON.stringify(hospital1);
-			table += '\'>';
-			table += '<button type="submit" class="btn btn-default">';
-			table += '<span class="glyphicon glyphicon-plus"></span>';
-			table += '</button></form>';		
-			table += '</td>';
-			table += '<td>';
-			table += 'none';
-			table += '</td>';					
+			table += '\'><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus" title="';
+			table += $('meta[name="tooltip-add"]').attr('content') + '"></span>';
+			table += '</button></form></td><td>none</td>';					
 		} else {			
-			table += '<td class="text-center">';
-			table += '<button type="button" class="btn btn-default" onclick="javascript:placeMarker(\'';
-			table += hospital2.latitude + '\', \'' + hospital2.longitude + '\');">';
-			table += '<span class="glyphicon glyphicon-map-marker"></span>';
-			table += '</button>';
-			
-			table += '</td>';
-
-			table += '<td>';
-			table += '<p>' + hospital2.name + ' </p>';
-			table += '<p>' + hospital2.address + ' </p>';		
-			table += '</td>';
+			table += '<td class="text-center"><button type="button" class="btn btn-default" onclick="javascript:placeMarker(\'';
+			table += hospital2.latitude + '\', \'' + hospital2.longitude + '\');"  title="';
+			table += $('meta[name="tooltip-locate"]').attr('content') + '">'
+			table += '<span class="glyphicon glyphicon-map-marker"></span></button></td><td>';
+			table += hospital2.name + ' <br>';
+			table += hospital2.address.street + ', ';	
+			table += hospital2.address.building + ', ';	
+			table += hospital2.address.city + ', ';
+			table += hospital2.address.country + '</td>';
 		}
 		table += '</tr>';
-		
+
 	}
-	document.getElementById("table-out").innerHTML = '';
 	document.getElementById("table-out").innerHTML = table;
 }
 

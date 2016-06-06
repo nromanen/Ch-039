@@ -1,23 +1,27 @@
 package com.hospitalsearch.service.impl;
 
-import com.hospitalsearch.dao.UserDAO;
-import com.hospitalsearch.entity.Role;
-import com.hospitalsearch.entity.User;
-import com.hospitalsearch.entity.UserDetail;
-import com.hospitalsearch.service.RoleService;
-import com.hospitalsearch.service.UserService;
-import com.hospitalsearch.util.UserDetailRegisterDto;
-import com.hospitalsearch.util.UserDto;
-import com.hospitalsearch.util.UserRegisterDto;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import com.hospitalsearch.dao.UserDAO;
+import com.hospitalsearch.dto.UserSearchDTO;
+import com.hospitalsearch.entity.PatientCard;
+import com.hospitalsearch.entity.Role;
+import com.hospitalsearch.entity.User;
+import com.hospitalsearch.entity.UserDetail;
+import com.hospitalsearch.service.PatientCardService;
+import com.hospitalsearch.service.RoleService;
+import com.hospitalsearch.service.UserService;
+import com.hospitalsearch.util.UserDetailRegisterDto;
+import com.hospitalsearch.util.UserDto;
+import com.hospitalsearch.util.UserRegisterDto;
 
 
 @Service
@@ -33,6 +37,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    PatientCardService patientCardService;
 
     @Override
     public void save(User newUser) {
@@ -43,7 +49,10 @@ public class UserServiceImpl implements UserService {
         try {
             logger.info("save user: " + newUser);
             newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-            newUser.setUserDetails(new UserDetail());
+            PatientCard patientCard = patientCardService.add(new PatientCard());
+            UserDetail userDetail = new UserDetail();
+            userDetail.setPatientCard(patientCard);
+            newUser.setUserDetails(userDetail);
            /* newUser.getUserRoles().add(roleService.getByType("PATIENT"));*/
             dao.save(newUser);
         } catch (Exception e) {
@@ -76,6 +85,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+    @Override
+    public List<User> searchUser(UserSearchDTO userSearch) {
+        return dao.searchUser(userSearch);
+    }
+
     @Override
     public User getById(Long id) {
         return dao.getById(id);
@@ -106,10 +121,17 @@ public class UserServiceImpl implements UserService {
         return dao.getAllDisabledUsers();
     }
 
+    //Illia
     @Override
-    public List<User> getByRole(long id) {
-        return dao.getByRole(id);
+    public List<User> getByRole(String role) {
+        return dao.getByRole(role);
     }
+
+    @Override
+    public List<User> searchByRole(String role, String search) {
+        return dao.searchByRole(role, search);
+    }
+    //Illia
 
     @Override
     public void register(UserRegisterDto dto) {
@@ -136,6 +158,7 @@ public class UserServiceImpl implements UserService {
 //		}
         dao.update(user);
     }
+
 
     @Override
     public void registerUpdate(UserDto dto, String email) {

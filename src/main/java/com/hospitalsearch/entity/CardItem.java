@@ -1,46 +1,45 @@
 package com.hospitalsearch.entity;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import com.hospitalsearch.service.annotation.OneDay;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 
-import com.hospitalsearch.service.annotation.OneDay;
 
 
 @Entity
 @Table(name = "carditem")
-public class CardItem implements Serializable {
-	
-	
-	private static final long serialVersionUID = -1407036211724471026L;
+public class CardItem{
+
     @Id
 
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "carditem_gen")
-	@SequenceGenerator(name = "carditem_gen", sequenceName = "carditem_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "carditem_gen")
+    @SequenceGenerator(name = "carditem_gen", sequenceName = "carditem_id_seq", initialValue = 1, allocationSize = 1)
 
     private Long id;
+    
     @OneDay(message = " Edit time is over")
     private Timestamp date;
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name="patientcard_id")
     PatientCard patientCard;
+    
     @NotNull
     @Size(min = 5, message = "min size = 5")
     private String result;
+    
     @NotNull
     @Size(min = 5, message = "min size = 5")
     private String prescription;
+    
     @NotNull
     @Size(min = 5, message = "min size = 5")
     private String complaint;
+    
     @ManyToOne
     private User doctor;
 
@@ -113,5 +112,5 @@ public class CardItem implements Serializable {
                 ", doctor=" + doctor +
                 '}';
     }
-	
+
 }

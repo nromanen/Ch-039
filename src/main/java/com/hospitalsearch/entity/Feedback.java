@@ -2,7 +2,6 @@ package com.hospitalsearch.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,14 +16,14 @@ import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "feedback")
-public class Feedback {
+public class Feedback{
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feedback_gen")
-	@SequenceGenerator(name = "feedback_gen", sequenceName = "feedback_id_seq")
-	@Column(name = "id")
+	@SequenceGenerator(name = "feedback_gen", sequenceName = "feedback_id_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 	
 	private String message;
+	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@Fetch(FetchMode.JOIN)
 	private User producer;
@@ -32,11 +31,8 @@ public class Feedback {
 	@ManyToOne(fetch=FetchType.EAGER)
 	@Fetch(FetchMode.JOIN)
 	private User consumer;
-	private LocalDateTime date;
 	
-	public Feedback() {
-		// TODO Auto-generated constructor stub
-	}
+	private LocalDateTime date;
 
 	public Long getId() {
 		return id;
@@ -79,7 +75,5 @@ public class Feedback {
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
-	
-	
 	
 }

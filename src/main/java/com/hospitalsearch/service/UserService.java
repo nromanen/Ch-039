@@ -1,5 +1,7 @@
 package com.hospitalsearch.service;
 
+import com.hospitalsearch.dto.UserSearchDTO;
+import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
@@ -34,8 +36,6 @@ public interface UserService {
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     User getByEmail(String email);
 
-    List<User> getByRole(long id);
-
     void register(UserRegisterDto dto);
 
     void registerUpdate(UserDto dto, String email);
@@ -44,6 +44,10 @@ public interface UserService {
 
 	void registerUpdate(UserDetailRegisterDto dto, String email);
 
+    public List<User> searchUser(UserSearchDTO userSearch);
 
+    //Illia
+    List<User> getByRole(String role);
 
+    List<User> searchByRole(String role, String search);
 }

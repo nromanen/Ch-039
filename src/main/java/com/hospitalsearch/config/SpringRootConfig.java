@@ -6,9 +6,6 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.Search;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -69,7 +66,7 @@ public class SpringRootConfig {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource());
         sessionFactoryBean.setHibernateProperties(hibernateProperties());
-        sessionFactoryBean.setPackagesToScan(properties.getRequiredProperty(PROP_HIBERNATE_ENTITY_PACKAGE));
+        sessionFactoryBean.setPackagesToScan(new String[]{properties.getRequiredProperty(PROP_HIBERNATE_ENTITY_PACKAGE)});
 
         return sessionFactoryBean;
     }

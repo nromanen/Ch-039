@@ -1,9 +1,9 @@
 package com.hospitalsearch.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,15 +23,15 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 @Entity
 @Indexed
 @Table(name = "department")
-public class Department implements Serializable{
-	
-	private static final long serialVersionUID = 2488180615002820167L;
+public class Department{
+
 	@Id
 	@DocumentId
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "department_gen")
-	@SequenceGenerator(name = "department_gen", sequenceName = "department_id_seq")
+	@SequenceGenerator(name = "department_gen", sequenceName = "department_id_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 	@Field(boost=@Boost(1.2f))
+
 	private String name;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
@@ -41,9 +41,12 @@ public class Department implements Serializable{
 	@IndexedEmbedded
 	private Hospital hospital;
 	
-	private String imagePath;
-	
 	public Department() { 	}
+
+
+	
+	@Column(name="imagepath")
+	private String imagePath;
 
 
 	public Long getId() {

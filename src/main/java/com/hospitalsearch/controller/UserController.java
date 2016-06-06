@@ -1,7 +1,8 @@
 package com.hospitalsearch.controller;
 
-import com.hospitalsearch.service.RoleService;
-import com.hospitalsearch.service.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,8 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.hospitalsearch.service.RoleService;
+import com.hospitalsearch.service.UserService;
 
 /**
  * @author Andrew Jasinskiy on 16.05.16
@@ -29,8 +30,9 @@ public class UserController {
     @Autowired
     PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login")
     public String loginPage() {
+      /*  model.addAttribute("j_username", request.getParameter("email"));*/
         return "login";
     }
 
@@ -43,5 +45,5 @@ public class UserController {
         }
         return "redirect:/";
     }
- 
+
 }

@@ -1,7 +1,6 @@
 package com.hospitalsearch.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,13 +8,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name="persistent_logins")
-public class PersistentLogin implements Serializable {
+public class PersistentLogin{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @Column(name="series")
     private String series;
 
     @Column(name="USERNAME", unique=true, nullable=false)

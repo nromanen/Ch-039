@@ -11,14 +11,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NamedQueries;
@@ -38,13 +41,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "hospital")
 @Indexed
-@NamedQueries
-(
-		{
+@NamedQueries({
 			@NamedQuery(name = Hospital.DELETE_HOSPITAL_BY_ID, query = Hospital.DELETE_HOSPITAL_BY_ID_QUERY),
 			@NamedQuery(name = Hospital.GET_LIST_BY_BOUNDS, query = Hospital.GET_LIST_BY_BOUNDS_QUERY)
-		}
-)
+})
 
 
 
@@ -52,10 +52,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Hospital{
 
 	static final String GET_LIST_BY_BOUNDS_QUERY = "from Hospital h where "
-			+ "(latitude < :nelat) and "
-			+ "(latitude > :swlat) and "
-			+ "(longitude < :nelng) and "
-			+ "(longitude > :swlng)";
+			+ "(latitude < :nelat) and (latitude > :swlat) and "
+			+ "(longitude < :nelng) and (longitude > :swlng)";
 	public static final String GET_LIST_BY_BOUNDS = "GET_LIST_BY_BOUNDS";
 
 	static final String DELETE_HOSPITAL_BY_ID_QUERY = "DELETE Hospital WHERE id = :id";
@@ -63,48 +61,58 @@ public class Hospital{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hospital_gen")
-	@SequenceGenerator(name = "hospital_gen", sequenceName = "hospital_id_seq")
+	@SequenceGenerator(name = "hospital_gen", sequenceName = "hospital_id_seq", initialValue = 1, allocationSize = 1)
 	@DocumentId
 	private Long id;
 
 	@NotEmpty
 	@Size(min = 10, max = 50)
-	@Column(name = "NAME", nullable = false)
+	@Column(nullable = false)
 	@Field	
 	private String name;
 
 	@NotNull
 	@Min(-90)
 	@Max(90)
-	@Column(name = "LATITUDE", nullable = false)
+	@Column(nullable = false)
 	private Double latitude;
 
 	@NotNull
 	@Min(-180)
 	@Max(180)
-	@Column(name = "LONGITUDE", nullable = false)
+	@Column(nullable = false)
 	private Double longitude;
 
 	@Embedded
+
+	@Valid
 	@IndexedEmbedded
 	@AttributeOverrides({
-		@AttributeOverride(name="city",column=@Column(name="CITY")),
-		@AttributeOverride(name="country",column=@Column(name="COUNTRY")),
-		@AttributeOverride(name="street",column=@Column(name="STREET"))
+		@AttributeOverride(name="city",column=@Column(name="city")),
+		@AttributeOverride(name="country",column=@Column(name="country")),
+		@AttributeOverride(name="street",column=@Column(name="street")),
+		@AttributeOverride(name="building",column=@Column(name="building"))
 	})
 	private HospitalAddress address;
 
 
 	@Size(max = 150)
-	@Column(name = "DESCRIPTION", nullable = false)
+	@Column(nullable = false)
 	private String description; 
 
+	@Column(name="imagepath")
 	private String imagePath;
 
 	@OneToMany(mappedBy="hospital",cascade=CascadeType.ALL)
 	@Cache(region="entityCache",usage=CacheConcurrencyStrategy.READ_ONLY)
 	@ContainedIn
 	private List<Department> departments;
+
+
+	@JsonIgnore
+	@ManyToMany
+	private List<User> managers;
+
 
 	public Long getId() {
 		return id;
@@ -171,5 +179,14 @@ public class Hospital{
 	}
 
 	
+
+	public List<User> getManagers() {
+		return managers;
+	}
+
+	public void setManagers(List<User> managers) {
+		this.managers = managers;
+	}	
+
 
 }

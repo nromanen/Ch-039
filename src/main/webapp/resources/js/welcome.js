@@ -49,4 +49,6 @@ function getMarkers() {
 			showMarkers();
 		}
 	})
+	
+	document.getElementById('pac-input').focus();
 }

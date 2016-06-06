@@ -4,34 +4,44 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hospitalsearch.util.CustomLocalDateTimeSerializer;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import java.time.LocalDateTime;
 
+
 @Entity
-@Table(name = "workinterval")
-public class WorkInterval implements Serializable{
+@Table(name = "appointment")
+public class Appointment{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workinterval_gen")
-	@SequenceGenerator(name = "workinterval_gen", sequenceName = "workinterval_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointment_gen")
+	@SequenceGenerator(name = "appointment_gen", sequenceName = "appointment_id_seq", initialValue = 1, allocationSize = 1)
 	private Long id;
 
 	@JsonIgnore
 	@ManyToOne
-	private DoctorInfo doctorInfo;
-	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
-//	@Column(name = "start_date", nullable = false)
-	private LocalDateTime start_date;
-	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
-//	@Column(name = "end_date", nullable = false)
-	private LocalDateTime end_date;
-//	@Column(name = "text", nullable = false)
-	private String text;
+    @JoinColumn(name="userdetail_id")
+	private UserDetail userDetail;
 
-	public WorkInterval() {
-		// TODO Auto-generated constructor stub
-	}
+	@JsonIgnore
+	@ManyToOne
+    @JoinColumn(name="doctorinfo_id")
+	private DoctorInfo doctorInfo;
+
+	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
+	private LocalDateTime start_date;
+	
+	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
+	private LocalDateTime end_date;
+	
+	private String text;
 
 	public Long getId() {
 		return id;
@@ -39,14 +49,6 @@ public class WorkInterval implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public DoctorInfo getDoctorInfo() {
-		return doctorInfo;
-	}
-
-	public void setDoctorInfo(DoctorInfo doctorInfo) {
-		this.doctorInfo = doctorInfo;
 	}
 
 	public LocalDateTime getStart_date() {
@@ -73,9 +75,25 @@ public class WorkInterval implements Serializable{
 		this.text = text;
 	}
 
+	public UserDetail getUserDetail() {
+		return userDetail;
+	}
+
+	public void setUserDetail(UserDetail userDetail) {
+		this.userDetail = userDetail;
+	}
+
+	public DoctorInfo getDoctorInfo() {
+		return doctorInfo;
+	}
+
+	public void setDoctorInfo(DoctorInfo doctorInfo) {
+		this.doctorInfo = doctorInfo;
+	}
+
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder("WorkInterval{");
+		final StringBuilder sb = new StringBuilder("Appointment{");
 		sb.append("id=").append(id);
 		sb.append(", start_date=").append(start_date);
 		sb.append(", end_date=").append(end_date);
@@ -83,6 +101,5 @@ public class WorkInterval implements Serializable{
 		sb.append('}');
 		return sb.toString();
 	}
-
 
 }
