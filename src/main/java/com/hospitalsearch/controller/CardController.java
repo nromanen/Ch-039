@@ -23,7 +23,7 @@ import java.util.List;
 @Controller
 public class CardController {
 
-    private static final Integer itemsPerPage = 1;
+    private static final Integer itemsPerPage = 5;
     @Autowired
     CardItemService cardItemService;
 
