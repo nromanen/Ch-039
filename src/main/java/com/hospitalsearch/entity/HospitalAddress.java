@@ -26,7 +26,7 @@ public class HospitalAddress {
 	private String street;
 
 	@Size(max = 5)
-        @Field(analyze = Analyze.YES,analyzer = @Analyzer(definition = "ngram"))
+    @Field(analyze = Analyze.YES,analyzer = @Analyzer(definition = "ngram"))
 	private String building;
 
 	public HospitalAddress(){}

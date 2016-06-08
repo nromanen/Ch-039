@@ -10,6 +10,10 @@
     float: none
 }
 
+.brand-logo {
+	width:170px;
+	float:left;
+}
 .navbar-default {
     background-color: #FFF;
     border-color: #D8D8D8
@@ -94,7 +98,9 @@ a.localization-item{
 .navbar-bootsnipp .navbar-toggle .icon-bar {
     background-color: #5FB0E4
 }
-
+.my-navbar{
+	margin-top:20px;
+}
 .navbar-bootsnipp .navbar-brand {
     color: #5FB0E4;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif

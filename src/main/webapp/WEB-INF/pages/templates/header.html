@@ -1,16 +1,16 @@
 <nav th:fragment="page-header" class="[ navbar navbar-fixed-top ][ navbar-bootsnipp animate ]" role="navigation">
     <div class="[ container ]">
         <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="[ navbar-header ]">
-            <div class="brand-logo col-lg-7">
+        
+            <div class="brand-logo ">
                 <br /> <a th:href="@{/}"><img th:src="@{/img/Logo.png}" alt=""
                                               class="img-responsive logo" /></a>
             </div>
-        </div>
+        
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="[ collapse navbar-collapse ]" id="bs-example-navbar-collapse-1">
-            <ul class="[ nav navbar-nav navbar-right ]">
+            <ul class="[ nav navbar-nav navbar-right ] my-navbar">
                 <li class="[ visible-xs ]">
                     <form action="http://bootsnipp.com/search" method="GET" role="search">
                         <div class="[ input-group ]">
@@ -124,6 +124,7 @@
                                 <img th:src="@{/img/en.png}"/> english
                             </a>
                         </li>
+
                     </ul>
                 </li>
 
@@ -163,27 +164,32 @@
         <div class="[ container ]">
             <form th:action="@{/hospitals}" method="GET" role="search">
                 <div class="[ input-group ]" style="z-index:1000000">
-                    <div class="input-group-btn search-panel">
+
+<!--                    <div class="input-group-btn search-panel">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span id="search_concept">Filter by</span> <span class="caret"></span>
+                            <span id="search_concept" th:inline="text">[[#{header.search.criteria}]] </span> <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#contains">Contains</a></li>
-                            <li><a href="#its_equal">It's equal</a></li>
-                            <li><a href="#greather_than">Greather then ></a></li>
-                            <li><a href="#less_than">Less then </a></li>
+                            <li>
+                                <a href="#contains" th:text="#{header.search.criteria.hospital}"/>
+                            </li>
+                            <li>
+                                <a href="#its_equal" th:text="#{header.search.criteria.doctor}"/>
+                            </li>
+
+                             
                             <li class="divider"></li>
-                            <li><a href="#all">Anything</a></li>
+                            <li><a href="#all">Anything</a></li> 
                         </ul>
-                    </div>
+                    </div>-->
                     <!-- <input type="hidden" name="search_param" value="all" id="search_param"/> -->
-                    <input id="select_search" type="text" class="[ form-control ] dropdown-field" name="q"
+                    <input id="select_search"  type="text" class="[ form-control ] dropdown-field" name="q" 
+                           minlength="5" 
                            th:placeholder="#{header.menu.searchbar.placeholder}"/>
 
-          <span class="[ input-group-btn ]">
-            <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span>
-            </button>
-          </span>
+                    <span class="[ input-group-btn ]">
+                        <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
+                    </span>
                 </div>
             </form>
         </div>

@@ -3,6 +3,7 @@ package com.hospitalsearch.service;
 import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.util.Bounds;
 import com.hospitalsearch.util.HospitalFilterDTO;
+import com.hospitalsearch.util.Page;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.stereotype.Component;
@@ -32,5 +33,5 @@ public interface HospitalService {
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     public List<Hospital> filterHospitalsByAddress(HospitalFilterDTO filterInfo);
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
-    public List<Hospital> advancedHospitalSearch(String args) throws ParseException, InterruptedException;
+    public Page<Hospital> advancedHospitalSearch(String args) throws ParseException, InterruptedException;
 }

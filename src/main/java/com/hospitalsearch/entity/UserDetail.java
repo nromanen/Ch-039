@@ -17,14 +17,21 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import com.hospitalsearch.util.Gender;
 
 
 @Entity
 @Table(name = "userdetail")
+@Indexed
+@Cache(region="entityCache",usage=CacheConcurrencyStrategy.READ_WRITE)
 public class UserDetail{
 	
 	@Id
@@ -34,9 +41,11 @@ public class UserDetail{
 	private Long id;
 	
 	@Column(name="firstname")
+	@Field
 	private String firstName;
 	
 	@Column(name="lastname")
+	@Field
 	private String lastName;
 	
 	private String phone;
@@ -56,6 +65,7 @@ public class UserDetail{
 	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
 	@Fetch(FetchMode.SELECT)
+	@ContainedIn
 	private DoctorInfo doctorsDetails;
 
 	@JsonIgnore
