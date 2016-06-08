@@ -1,6 +1,7 @@
 package com.hospitalsearch.config.security;
 
-import com.hospitalsearch.handlers.CustomAuthenticationHandler;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,7 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-import javax.sql.DataSource;
+import com.hospitalsearch.handlers.CustomAuthenticationHandler;
 
 /**
  * @author Andrew Jasinskiy
@@ -51,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
-//		auth.inMemoryAuthentication().withUser("admin@gmail.com").password("admin").roles("ADMIN");
+		auth.inMemoryAuthentication().withUser("admin@gmail.com").password("admin").roles("ADMIN");
 		auth.authenticationProvider(authenticationProvider());
 	}
 

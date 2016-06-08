@@ -22,6 +22,7 @@
                 <span th:if="${cardItem.id!=null}"><input type="hidden" th:field="${cardItem.id}"/></span>
                 <span th:if="${cardItem.id!=null}"><input type="hidden" th:field="${cardItem.date}" id="date"/></span>
                 <div>
+
                     <p class="error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></p>
                 </div>
 

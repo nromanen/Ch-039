@@ -1,11 +1,10 @@
 package com.hospitalsearch.controller;
 
-import com.hospitalsearch.entity.CardItem;
-import com.hospitalsearch.entity.User;
-import com.hospitalsearch.service.CardItemService;
-import com.hospitalsearch.service.PatientCardService;
-import com.hospitalsearch.service.UserService;
-import com.hospitalsearch.util.PrincipalConverter;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
@@ -15,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
-import java.util.List;
+import com.hospitalsearch.entity.CardItem;
+import com.hospitalsearch.entity.User;
+import com.hospitalsearch.service.CardItemService;
+import com.hospitalsearch.service.PatientCardService;
+import com.hospitalsearch.service.UserService;
+import com.hospitalsearch.util.PrincipalConverter;
 
 
 @Controller
@@ -106,12 +109,14 @@ public class CardController {
             model.addAttribute("userId", userId);
             return "card/record";
         }
+
         String doctorEmail = PrincipalConverter.getPrincipal();
         if (!cardItemService.persist(cardItem, doctorEmail, Long.parseLong(userId))) {
             model.addAttribute("doctorError", "You cant edit this record");
             model.addAttribute("userId", userId);
             return "card/record";
         }
+
 
         model.addAttribute("userId", userId);
         return "redirect:card/items";
@@ -124,6 +129,7 @@ public class CardController {
         model.addAttribute("cardItem", cardItem);
         model.addAttribute("userId", userId);
         return "card/record";
+
     }
 
     @RequestMapping(value = {"/patients"}, method = RequestMethod.GET)

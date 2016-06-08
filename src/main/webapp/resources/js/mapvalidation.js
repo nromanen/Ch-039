@@ -56,8 +56,6 @@ function getHospital(lat, lng) {
 		}
 	});
 	
-	console.log(bounds);
-
 	$.ajax({
 		type: "POST",
 		url: "getmarkers",
@@ -68,7 +66,6 @@ function getHospital(lat, lng) {
 		async: false,
 		success: function (data) {
 			hospital =  data[0];
-			console.log(data);
 		}
 	})
 }
@@ -79,7 +76,6 @@ function buildTable() {
 		var hospital1 = hospitals[i];
 		var address = addresses[i];
 		getHospital(hospital1.latitude, hospital1.longitude);
-		console.log(hospital1);
 		var hospital2 = hospital;
 		table += '<tr><td>' + hospital1.name + '<br>' + address + '</td>';
 

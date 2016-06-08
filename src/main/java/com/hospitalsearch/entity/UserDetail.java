@@ -2,9 +2,21 @@ package com.hospitalsearch.entity;
 
 import java.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -51,6 +63,9 @@ public class UserDetail{
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name="patientcard_id")
 	private PatientCard patientCard;
+
+	public UserDetail() {}
+
 
 	public Long getId() {
 		return id;
@@ -119,6 +134,15 @@ public class UserDetail{
 
 	public void setPatientCard(PatientCard patientCard) {
 		this.patientCard = patientCard;
+	}
+
+
+	@Override
+	public String toString() {
+		return "UserDetail{" +
+				"firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				'}';
 	}
 
 }

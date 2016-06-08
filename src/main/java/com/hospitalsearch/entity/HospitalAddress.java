@@ -2,31 +2,35 @@ package com.hospitalsearch.entity;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.Size;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Analyzer;
 
+import org.hibernate.search.annotations.Field;
 import org.hibernate.validator.constraints.NotEmpty;
 
-/**
- * 
- * @author Pavel Kuz
- * edited Oleksandr Mukonin
- *
- */
 @Embeddable
-public class HospitalAddress{
+public class HospitalAddress {
 
 	@NotEmpty
-	@Size(max = 20)
+	@Size(max = 30)
+	@Field(analyze = Analyze.YES,analyzer = @Analyzer(definition = "ngram"))	
 	private String country;
 
 	@NotEmpty
-	@Size(max = 20)
+	@Size(max = 30)
+	@Field(analyze = Analyze.YES,analyzer = @Analyzer(definition = "ngram"))	
 	private String city;
 
 	@Size(max = 30)
+	@Field(analyze = Analyze.YES,analyzer = @Analyzer(definition = "ngram"))	
 	private String street;
 
 	@Size(max = 5)
+        @Field(analyze = Analyze.YES,analyzer = @Analyzer(definition = "ngram"))
 	private String building;
+
+	public HospitalAddress(){}
+
 
 	public String getCity() {
 		return city;
@@ -56,9 +60,11 @@ public class HospitalAddress{
 		return building;
 	}
 
-	public void setBuilding(String number) {
-		this.building = number;
+
+	public void setBuilding(String building) {
+		this.building = building;
 	}
+
 
 	@Override
 	public String toString() {
@@ -68,4 +74,5 @@ public class HospitalAddress{
 				.append(city).append(", ")
 				.append(country).toString();
 	}	
+
 }

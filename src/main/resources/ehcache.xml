@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="true" 
+         monitoring="autodetect">
+    <cache name="entityCache" 
+           maxEntriesLocalHeap="10000"
+           eternal="false" 
+           overflowToDisk="false" 
+           timeToLiveSeconds="86400" />
+
+    <cache name="org.hibernate.cache.internal.StandardQueryCache"
+           maxElementsInMemory="10000" eternal="false"
+           timeToLiveSeconds="8" 
+           overflowToDisk="false" 
+           memoryStoreEvictionPolicy="LRU" />
+
+    <defaultCache maxElementsInMemory="10000" 
+                  eternal="false"
+                  timeToLiveSeconds="86400" 
+                  overflowToDisk="false"
+                  memoryStoreEvictionPolicy="LRU" />
+</ehcache>
+

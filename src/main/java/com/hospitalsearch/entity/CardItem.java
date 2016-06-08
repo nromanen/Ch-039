@@ -9,18 +9,20 @@ import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 
+
 @Entity
 @Table(name = "carditem")
 public class CardItem{
 
     @Id
+
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "carditem_gen")
     @SequenceGenerator(name = "carditem_gen", sequenceName = "carditem_id_seq", initialValue = 1, allocationSize = 1)
+
     private Long id;
     
     @OneDay(message = " Edit time is over")
     private Timestamp date;
-    
     @ManyToOne
     @Fetch(FetchMode.JOIN)
     @JoinColumn(name="patientcard_id")

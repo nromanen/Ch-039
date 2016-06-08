@@ -1,5 +1,15 @@
 package com.hospitalsearch.service.impl;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.dto.UserSearchDTO;
 import com.hospitalsearch.entity.PatientCard;
@@ -12,15 +22,6 @@ import com.hospitalsearch.service.UserService;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
 import com.hospitalsearch.util.UserRegisterDto;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 
 
 @Service
@@ -48,11 +49,13 @@ public class UserServiceImpl implements UserService {
             UserDetail userDetail = new UserDetail();
             userDetail.setPatientCard(patientCard);
             newUser.setUserDetails(userDetail);
+            //TODO Make registration
            /* newUser.getUserRoles().add(roleService.getByType("PATIENT"));*/
             dao.save(newUser);
         } catch (Exception e) {
             logger.error("Error saving user: " + newUser, e);
         }
+
     }
 
     @Override
@@ -160,10 +163,12 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
     @Override
     public UserDto getDtoByEmail(String email) {
         // TODO Auto-generated method stub
         return null;
     }
+
 
 }

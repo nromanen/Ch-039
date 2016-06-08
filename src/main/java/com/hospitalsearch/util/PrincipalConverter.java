@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class PrincipalConverter {
 
     public static String getPrincipal() {
-        String userName;
+        String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             userName = ((UserDetails) principal).getUsername();
@@ -18,4 +18,5 @@ public class PrincipalConverter {
         }
         return userName;
     }
+
 }

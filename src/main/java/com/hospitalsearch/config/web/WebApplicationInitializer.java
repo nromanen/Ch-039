@@ -1,14 +1,12 @@
 package com.hospitalsearch.config.web;
 
 
-import com.hospitalsearch.config.SpringRootConfig;
-import org.springframework.web.context.WebApplicationContext;
+import javax.servlet.Filter;
+
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.Filter;
-import javax.servlet.ServletRegistration;
+import com.hospitalsearch.config.SpringRootConfig;
 
 public class WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 

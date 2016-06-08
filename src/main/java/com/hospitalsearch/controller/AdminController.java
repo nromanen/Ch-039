@@ -1,26 +1,27 @@
 package com.hospitalsearch.controller;
 
-import com.hospitalsearch.dto.UserSearchDTO;
-import com.hospitalsearch.entity.Hospital;
-import com.hospitalsearch.entity.Role;
-import com.hospitalsearch.entity.User;
-import com.hospitalsearch.service.RoleService;
-import com.hospitalsearch.service.UserService;
-import com.hospitalsearch.util.PrincipalConverter;
-import com.hospitalsearch.util.UserDto;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import com.hospitalsearch.dto.UserSearchDTO;
+import com.hospitalsearch.entity.Role;
+import com.hospitalsearch.entity.User;
+import com.hospitalsearch.service.RoleService;
+import com.hospitalsearch.service.UserService;
 
 /**
  * @author Andrew Jasinskiy on 10.05.16

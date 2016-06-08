@@ -35,7 +35,7 @@ function sendFeedback(event){
 		
 	} else $.ajax({
 		type:'POST',
-		url: path+"/doctor/feedback",
+		url: path + "/doctor/feedback",
 		data: JSON.stringify(sendData),
 		datatype:"json",
 		contentType:"application/json",
@@ -45,7 +45,7 @@ function sendFeedback(event){
 			window.location.reload();
 		},
 		error:function(err){
-			alert(err);
+			alert("Error");
 		}
 	});
 }

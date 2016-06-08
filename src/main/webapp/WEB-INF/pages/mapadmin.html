@@ -5,12 +5,23 @@
 	layout:decorator="layout">
 <head>
 
+<meta th:name="csrf-token" th:content="${_csrf.token}" />
+<meta th:name="csrf-name" th:content="${_csrf.parameterName}" />
+
+<meta th:name="message-filetype" th:content="#{upload.image.filetype}" />
+<meta th:name="message-uploaded" th:content="#{upload.image.uploaded}" />
+<meta th:name="message-dimension" th:content="#{upload.image.dimension}" />
+<meta th:name="message-filesize" th:content="#{upload.image.filesize}" />
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script
 	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
+<script
+	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
 <script th:src="@{/js/mapadmin.js}"></script>
 <script th:src="@{/js/gmaps.js}"></script>
+<script th:src="@{/js/uploader.js}"></script>
 <link rel="stylesheet" th:href="@{/css/map.css}" />
 
 <title th:text="#{admin.hospital.new.header}"></title>
@@ -23,7 +34,7 @@
 					<div class="col-sm-8">
 						<h3 class="col-md-offset-2 col-md-10"
 							th:text="#{admin.hospital.new.header}"></h3>
-						<form method="POST" class="form-horizontal"
+						<form method="POST" class="form-horizontal" id="form-hospital"
 							th:object="${hospital}">
 							<input type="hidden" th:field="*{id}" id="id" /> <input
 								type="hidden" th:name="${_csrf.parameterName}"
@@ -52,19 +63,17 @@
 									th:text="#{admin.hospital.new.label.country}"></label>
 								<div class="col-sm-4">
 									<input th:field="*{address.country}" class="form-control"
-										id="address.country" /> <i
+										id="address.country" required="true" /> <i
 										th:if="${#fields.hasErrors('address.country')}"
-										th:errors="*{address.country}"
-										class="removable-i fade in"></i>
+										th:errors="*{address.country}" class="removable-i fade in"></i>
 								</div>
 								<label class="control-label col-sm-2" for="address.city"
 									th:text="#{admin.hospital.new.label.city}"></label>
 								<div class="col-sm-4">
 									<input th:field="*{address.city}" class="form-control"
-										id="address.city" /> <i
+										id="address.city" required="true" /> <i
 										th:if="${#fields.hasErrors('address.city')}"
-										th:errors="*{address.city}"
-										class="removable-i fade in"></i>
+										th:errors="*{address.city}" class="removable-i fade in"></i>
 								</div>
 							</div>
 							<div class="form-group">
@@ -74,8 +83,7 @@
 									<input th:field="*{address.street}" class="form-control"
 										id="address.street" /> <i
 										th:if="${#fields.hasErrors('address.street')}"
-										th:errors="*{address.street}"
-										class="removable-i fade in"></i>
+										th:errors="*{address.street}" class="removable-i fade in"></i>
 								</div>
 								<label class="control-label col-sm-2" for="address.building"
 									th:text="#{admin.hospital.new.label.building}"></label>
@@ -83,15 +91,15 @@
 									<input th:field="*{address.building}" class="form-control"
 										id="address.building" /> <i
 										th:if="${#fields.hasErrors('address.building')}"
-										th:errors="*{address.building}"
-										class="removable-i fade in"></i>
+										th:errors="*{address.building}" class="removable-i fade in"></i>
 								</div>
 							</div>
 							<div class="form-group required">
 								<label class="control-label col-sm-2" for="mame"
 									th:text="#{admin.hospital.new.label.name}"></label>
 								<div class="col-sm-10">
-									<input th:field="*{name}" class="form-control" id="name" /> <i
+									<input th:field="*{name}" class="form-control" id="name"
+										required="true" minlength="8" maxlength="50" /> <i
 										th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
 										class="removable-i fade in"></i>
 								</div>
@@ -105,40 +113,51 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-2" for="imagePath">Image
-									path:</label>
-								<div class="col-sm-10">
-									<input th:field="*{imagePath}" class="form-control"
-										id="imagePath" />
-								</div>
-							</div>
-							<div class="form-group">
 								<label class="control-label col-sm-2" for="latitude"
 									th:text="#{admin.hospital.new.label.latitude}"></label>
 								<div class="col-sm-4">
 									<input th:field="*{latitude}" class="form-control"
-										id="latitude" readonly="true" /> <i
+										id="latitude" readonly="true" required="true" /> <i
 										th:if="${#fields.hasErrors('latitude')}"
-										th:errors="*{latitude}"
-										class="removable-i fade in"></i>
+										th:errors="*{latitude}" class="removable-i fade in"></i>
 								</div>
 								<label class="control-label col-sm-2" for="longitude"
 									th:text="#{admin.hospital.new.label.longitude}"></label>
 								<div class="col-sm-4">
 									<input th:field="*{longitude}" class="form-control"
-										id="longitude" readonly="true" /> <i
+										id="longitude" readonly="true" required="true" /> <i
 										th:if="${#fields.hasErrors('longitude')}"
-										th:errors="*{longitude}"
-										class="removable-i fade in"></i>
+										th:errors="*{longitude}" class="removable-i fade in"></i>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="imagePath">Image
+									path:</label>
+								<div class="col-sm-10">
+									<div class="input-group">
+										<input id="file-name" type="text" class="form-control"
+											readonly="true" /> <label class="input-group-btn"> <span
+											th:inline="text" class="btn btn-default">
+												[[#{admin.hospital.new.button.upload}]] <input type="file"
+												id="file" style="display: none;"
+												th:onchange="'javascript:upload(\'hospitals\');'" />
+										</span>
+										</label>
+									</div>
+									<input type="hidden" th:field="*{imagePath}"
+										class="form-control" id="imagePath" />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10 btn-group">
-									<button type="submit" class="col-sm-2 btn btn-default" th:text="#{admin.hospital.new.button.save}"></button>
+									<button type="submit" class="col-sm-2 btn btn-default"
+										th:text="#{admin.hospital.new.button.save}" id="add-hospital"></button>
 									<button type="reset" class="col-sm-2 btn btn-default"
-										th:onclick="'javascript:resetAddress();'" th:text="#{admin.hospital.new.button.reset}"></button>
+										th:onclick="'javascript:resetAddress();'"
+										th:text="#{admin.hospital.new.button.reset}"></button>
 									<button type="reset" class="col-sm-2 btn btn-default"
-										th:onclick="'javascript:window.history.back();'" th:text="#{admin.hospital.new.button.back}"></button>
+										th:onclick="'javascript:window.history.back();'"
+										th:text="#{admin.hospital.new.button.back}"></button>
 								</div>
 							</div>
 						</form>
