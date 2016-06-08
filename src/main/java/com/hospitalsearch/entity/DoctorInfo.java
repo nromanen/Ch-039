@@ -12,6 +12,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
+
 @Entity
 @Table(name = "doctorinfo")
 public class DoctorInfo{
@@ -21,7 +24,7 @@ public class DoctorInfo{
     @SequenceGenerator(name = "doctorinfo_gen", sequenceName = "doctorinfo_id_seq", initialValue = 1, allocationSize = 1)
 
     private Long id;
-    
+    @Field
     private String specialization;
 
     @OneToOne
@@ -29,6 +32,7 @@ public class DoctorInfo{
     private UserDetail userDetails;
     
     @ManyToMany(mappedBy = "doctors")
+    @ContainedIn
     private List<Department> departments;
 
     public Long getId() {

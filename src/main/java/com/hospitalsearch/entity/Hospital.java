@@ -61,14 +61,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 			 filters = {
 						@TokenFilterDef(factory = StandardFilterFactory.class),
 						@TokenFilterDef(factory = StopFilterFactory.class),
-						@TokenFilterDef(factory=NGramFilterFactory.class,params={
+						@TokenFilterDef(factory = NGramFilterFactory.class,params={
 								@Parameter(name="minGramSize",value="5"),
 								@Parameter(name="maxGramSize",value="8")						
 						})
-				})
+			})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "entityCache")
 public class Hospital {
-
 
 	static final String GET_LIST_BY_BOUNDS_QUERY = "from Hospital h where "
 			+ "(latitude < :nelat) and (latitude > :swlat) and "
@@ -124,7 +123,7 @@ public class Hospital {
 	@JsonIgnore
 	@OneToMany(mappedBy="hospital",cascade=CascadeType.ALL)
 	@Cache(region="entityCache",usage=CacheConcurrencyStrategy.READ_ONLY)
-	@ContainedIn
+	@IndexedEmbedded
 	private List<Department> departments;
 
 	@JsonIgnore

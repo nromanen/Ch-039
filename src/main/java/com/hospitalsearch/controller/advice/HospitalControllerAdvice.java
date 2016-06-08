@@ -14,6 +14,9 @@ import com.hospitalsearch.controller.HospitalController;
 import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.service.HospitalService;
 import com.hospitalsearch.util.HospitalFilterDTO;
+import com.hospitalsearch.util.PageConfigDTO;
+import org.hibernate.search.exception.EmptyQueryException;
+import org.springframework.ui.ModelMap;
 
 @ControllerAdvice(assignableTypes={HospitalController.class})
 public class HospitalControllerAdvice {
@@ -26,6 +29,13 @@ public class HospitalControllerAdvice {
 		ModelAndView view = new ModelAndView("error/hospitalList");
 		return view;
 	}
+        @ResponseStatus(code=HttpStatus.NOT_FOUND)
+	@ExceptionHandler(value={EmptyQueryException.class})
+	public ModelAndView renderHospitalSearchException(Exception ex){
+		ModelAndView view = new ModelAndView("error/hospitalList");
+		return view;
+	}
+        
 	@ModelAttribute(value = "hospitals")
 	public List<Hospital> hospitalList(){
 		return this.service.getAll();
@@ -34,6 +44,12 @@ public class HospitalControllerAdvice {
 	@ModelAttribute(value="filter")
 	public HospitalFilterDTO hospitalFilterDTO(){return new HospitalFilterDTO();}
 	
+        @ModelAttribute
+	public void hospitalFilterDTO(ModelMap model){
+            model.addAttribute("globalSearch",new PageConfigDTO());
+        }
+	
+        
 	public static class FilterHospitalListEmptyException extends Exception{
 		public FilterHospitalListEmptyException(String message) {
 			super(message);

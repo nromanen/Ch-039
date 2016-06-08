@@ -60,9 +60,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 //		web.ignoring().antMatchers("/supplyIntervals");
 		web.ignoring().antMatchers("/doctor/feedback");
-/*		web.ignoring().antMatchers("/resources*//**", "/codebase*//**", "/css*//**",
-		 "/font-awesome*//**","/fonts*//**","/img*//**","/js*//**");
-		 */
+		web.ignoring().antMatchers("/hospitals/config");
+
 	}
 
 	@Override

@@ -1,160 +1,164 @@
 <nav th:fragment="page-header" class="[ navbar navbar-fixed-top ][ navbar-bootsnipp animate ]" role="navigation">
-  <div class="[ container ]">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="[ navbar-header ]">
-      <button type="button" class="[ navbar-toggle ]" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="[ sr-only ]">Toggle navigation</span>
-        <span class="[ icon-bar ]"></span>
-        <span class="[ icon-bar ]"></span>
-        <span class="[ icon-bar ]"></span>
-      </button>
-      <div class="[ animbrand ]">
-        <i class="[fa] [fa-heartbeat]" aria-hidden="true"></i>
-        <a class="[ navbar-brand ][ animate ]" href="#">HospitalSearch</a>
-      </div>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="[ collapse navbar-collapse ]" id="bs-example-navbar-collapse-1">
-      <ul class="[ nav navbar-nav navbar-right ]">
-        <li class="[ visible-xs ]">
-          <form action="http://bootsnipp.com/search" method="GET" role="search">
-            <div class="[ input-group ]">
-              <input type="text" class="[ form-control ]" name="q" placeholder="Search for snippets"/>
-              <span class="[ input-group-btn ]">
-                <button class="[ btn btn-primary ]" type="submit"><span class="[ glyphicon glyphicon-search ]"></span></button>
-                <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
-              </span>
-            </div>
-          </form>
-        </li>
-        <li><a th:class="menu" th:href="@{/}">Home</a></li>
-
-        <li><a th:class="menu"
-               th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/mapsearch.*')}?'active':''"
-               th:href="@{/mapsearch}">Find</a></li>
-        <li><a th:class="menu"
-               th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/contacts.*')}?'active':''"
-               th:href="@{#team}">our team</a></li>
-        <li><a th:class="menu" th:href="@{#}"> contact us</a></li>
-        <li sec:authorize="hasRole('PATIENT')"><a th:class="menu"
-                                                  th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/card.*')}?'active':''"
-                                                  th:href="@{/card}">Card</a></li>
-        <li sec:authorize="hasRole('DOCTOR')"><a th:class="menu"
-                                                 th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/patients.*')}?'active':''"
-                                                 th:href="@{/patients}">Patients</a></li>
-
-        <li sec:authorize="isAnonymous()" style="cursor: pointer;">
-          <a class="dropdown-toggle" th:href="@{/login}">Login</a>
-        </li>
-
-        <li sec:authorize="hasRole('ADMIN')" style="cursor: pointer;">
-          <a href="#" class="nav navbar-nav dropdown dropdown-toggle"
-             data-toggle="dropdown">Actions<span class="caret"></span></a>
-          <ul class="dropdown-menu" id="dropdawn">
-            <li><a th:href="@{/admin/users(status=true)}"
-                   class="menu"> <span class="glyphicon glyphicon-list"></span>All
-              users
-              </a></li>
-
-            <li><a th:href="@{/newUser}" class="menu"> <span
-                                                             class="glyphicon glyphicon-plus-sign"></span>Add new User
-              </a></li>
-
-            <li><a th:href="@{/admin/map/listhospitals}" class="menu">
-              <span class="glyphicon glyphicon-calendar"></span> Hospital
-              List
-              </a></li>
-            <li><a th:href="@{/admin/map/new}" class="menu"> <span
-                                                                   class="glyphicon glyphicon-plus"></span> New Hospital
-              </a></li>
-            <li><a th:href="@{/admin/map/validate}" class="menu">
-              <span class="glyphicon glyphicon-check"></span> Check
-              Hospitals List With Google Data
-              </a></li>
-          </ul>
-        </li>
-
-        <!--autorize user-->
-        <li style="cursor: pointer;" sec:authorize="isAuthenticated()">
-          <a href="#" class="nav navbar-nav dropdown dropdown-toggle"
-             data-toggle="dropdown" sec:authentication="principal.username">
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" id="dropdawn">
-            <li><a class="menu"> <span
-                                       class="glyphicon glyphicon-user"></span>Profile
-              </a></li>
-            <li><a class="menu" th:href="@{/logout}"> <span
-                                                            class="glyphicon glyphicon-log-out"></span>Log out
-              </a></li>
-          </ul>
-        </li>
-
-        <!-- Localization changer -->
-        <li  style="cursor: pointer;">
-          <a href="#" class="nav localization-item navbar-nav dropdown dropdown-toggle"
-             data-toggle="dropdown">
-            <img class="localization-flag" th:src="(__${#locale}__ == 'en'? @{/img/en.png}:@{/img/ua.png})"/>
-          </a>
-          <ul class="dropdown-menu localization" id="dropdawn" >
-            <li>
-              <a th:href="@{ |${#httpServletRequest.requestURL.toString()+'?lang=ua'}| }" class="menu">
-                <img  th:src="@{/img/ua.png}"/> українська
-              </a>
-            </li>
-            <li>
-              <a th:href="@{ |${#httpServletRequest.requestURL.toString()+'?lang=en'}|}" class="menu">
-                <img th:src="@{/img/en.png}"/> english
-              </a>
-            </li>
-          </ul>
-        </li>
-
-
-        <li class="[ hidden-xs ]"><a href="#toggle-search" class="[ animate ]"><span class="[ glyphicon glyphicon-search ]"></span></a></li>
-      </ul>
-    </div>
-    <h3>
-      <div
-           th:if="${#httpServletRequest.requestURL.toString().contains('/hospitals')}"
-           th:include="templates/breadcrumb::breadcrumbs(${1},${null},${null},${null})" />
-      <div
-           th:if="${#httpServletRequest.requestURL.toString().matches('.*/hospital/[0-9]+$')}"
-           th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${null},${null})" />
-      <div
-           th:if="${#httpServletRequest.requestURL.toString().matches('.*/department/[0-9]+$')}"
-           th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${department},${null})" />
-      <div
-           th:if="${#httpServletRequest.requestURL.toString().matches('.*/dashboard.*$')}"
-           th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${department},${doctor})" />
-    </h3>
-  </div>
-  <div class="[ bootsnipp-search animate ]">
     <div class="[ container ]">
-      <form th:action="@{/hospitals}" method="GET" role="search">
-        <div class="[ input-group ]" style="z-index:1000000">
-          <div class="input-group-btn search-panel">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              <span id="search_concept">Filter by</span> <span class="caret"></span>
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="[ navbar-header ]">
+            <button type="button" class="[ navbar-toggle ]" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="[ sr-only ]">Toggle navigation</span>
+                <span class="[ icon-bar ]"></span>
+                <span class="[ icon-bar ]"></span>
+                <span class="[ icon-bar ]"></span>
             </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#contains">Contains</a></li>
-              <li><a href="#its_equal">It's equal</a></li>
-              <li><a href="#greather_than">Greather then ></a></li>
-              <li><a href="#less_than">Less then </a></li>
-              <li class="divider"></li>
-              <li><a href="#all">Anything</a></li>
-            </ul>
-          </div>
-          <!-- <input type="hidden" name="search_param" value="all" id="search_param"/> -->
-          <input id="select_search"  type="text" class="[ form-control ] dropdown-field" name="q" th:placeholder="#{header.menu.searchbar.placeholder}"/>
-
-          <span class="[ input-group-btn ]">
-            <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
-          </span>
+            <div class="[ animbrand ]">
+                <i class="[fa] [fa-heartbeat]" aria-hidden="true"></i>
+                <a class="[ navbar-brand ][ animate ]" href="#">HospitalSearch</a>
+            </div>
         </div>
-      </form>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="[ collapse navbar-collapse ]" id="bs-example-navbar-collapse-1">
+            <ul class="[ nav navbar-nav navbar-right ]">
+                <li class="[ visible-xs ]">
+                    <form action="http://bootsnipp.com/search" method="GET" role="search">
+                        <div class="[ input-group ]">
+                            <input type="text" class="[ form-control ]" name="q" placeholder="Search for snippets"/>
+                            <span class="[ input-group-btn ]">
+                                <button class="[ btn btn-primary ]" type="submit"><span class="[ glyphicon glyphicon-search ]"></span></button>
+                                <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
+                            </span>
+                        </div>
+                    </form>
+                </li>
+                <li><a th:class="menu" th:href="@{/}" th:text='#{header.menu.home}'></a></li>
+
+                <li><a th:class="menu"
+                       th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/mapsearch.*')}?'active':''"
+                       th:href="@{/mapsearch}">Find</a></li>
+
+                <li sec:authorize="hasRole('PATIENT')"><a th:class="menu" th:text="#{header.menu.card}"
+                                                          th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/card.*')}?'active':''"
+                                                          th:href="@{/card}"></a></li>
+                <li sec:authorize="hasRole('DOCTOR')"><a th:class="menu" 
+                                                         th:text="#{header.menu.patient}"
+                                                         th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/patients.*')}?'active':''"
+                                                         th:href="@{/patients}">Patients</a></li>
+
+                <li sec:authorize="isAnonymous()" style="cursor: pointer;">
+                    <a class="dropdown-toggle" th:text="#{header.menu.login}" th:href="@{/login}">Login</a>
+                </li>
+
+                <li sec:authorize="hasRole('ADMIN')" style="cursor: pointer;">
+                    <a href="#" class="nav navbar-nav dropdown dropdown-toggle" 
+                       data-toggle="dropdown" th:inline="text">[[#{header.menu.actions}]] <span class="caret"></span></a>
+                    <ul class="dropdown-menu" id="dropdawn">
+                        <li><a th:href="@{/admin/users(status=true)}"
+                               class="menu"> <span class="glyphicon glyphicon-list"></span>All
+                                users
+                            </a></li>
+
+                        <li><a th:href="@{/newUser}" class="menu"> <span
+                                    class="glyphicon glyphicon-plus-sign"></span>Add new User
+                            </a></li>
+
+                        <li><a th:href="@{/admin/map/listhospitals}" class="menu">
+                                <span class="glyphicon glyphicon-calendar"></span> Hospital
+                                List
+                            </a></li>
+                        <li><a th:href="@{/admin/map/new}" class="menu"> <span
+                                    class="glyphicon glyphicon-plus"></span> New Hospital
+                            </a></li>
+                        <li><a th:href="@{/admin/map/validate}" class="menu">
+                                <span class="glyphicon glyphicon-check"></span> Check
+                                Hospitals List With Google Data
+                            </a></li>
+                    </ul>
+                </li>
+
+                <!--autorize user-->
+                <li style="cursor: pointer;" sec:authorize="isAuthenticated()">
+                    <a href="#" class="nav navbar-nav dropdown dropdown-toggle"
+                       data-toggle="dropdown" sec:authentication="principal.username">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" id="dropdawn">
+                        <li><a class="menu"> <span
+                                    class="glyphicon glyphicon-user"></span>Profile
+                            </a></li>
+                        <li><a class="menu" th:href="@{/logout}"> <span
+                                    class="glyphicon glyphicon-log-out"></span>Log out
+                            </a></li>
+                    </ul>
+                </li>
+
+                <!-- Localization changer -->
+                <li  style="cursor: pointer;">
+                    <a href="#" class="nav localization-item navbar-nav dropdown dropdown-toggle"
+                       data-toggle="dropdown">
+                        <img class="localization-flag" th:src="(__${#locale}__ == 'en'? @{/img/en.png}:@{/img/ua.png})"/>
+                    </a>
+                    <ul class="dropdown-menu localization" id="dropdawn" >
+                        <li>
+                            <a th:href="@{ |${#httpServletRequest.requestURL.toString()+'?lang=ua'}| }" class="menu">
+                                <img  th:src="@{/img/ua.png}"/> українська
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{ |${#httpServletRequest.requestURL.toString()+'?lang=en'}|}" class="menu">
+                                <img th:src="@{/img/en.png}"/> english
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="[ hidden-xs ]"><a href="#toggle-search" class="[ animate ]"><span class="[ glyphicon glyphicon-search ]"></span></a></li>
+            </ul>
+        </div>
+        <h3>
+            <div
+                th:if="${#httpServletRequest.requestURL.toString().contains('/hospitals')}"
+                th:include="templates/breadcrumb::breadcrumbs(${1},${null},${null},${null})" />
+            <div
+                th:if="${#httpServletRequest.requestURL.toString().matches('.*/hospital/[0-9]+$')}"
+                th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${null},${null})" />
+            <div
+                th:if="${#httpServletRequest.requestURL.toString().matches('.*/department/[0-9]+$')}"
+                th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${department},${null})" />
+            <div
+                th:if="${#httpServletRequest.requestURL.toString().matches('.*/dashboard.*$')}"
+                th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${department},${doctor})" />
+        </h3>
     </div>
-  </div>
+    <div class="[ bootsnipp-search animate ]">
+        <div class="[ container ]">
+            <form th:action="@{/hospitals}" method="GET" role="search">
+                <div class="[ input-group ]" style="z-index:1000000">
+<!--                    <div class="input-group-btn search-panel">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span id="search_concept" th:inline="text">[[#{header.search.criteria}]] </span> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#contains" th:text="#{header.search.criteria.hospital}"/>
+                            </li>
+                            <li>
+                                <a href="#its_equal" th:text="#{header.search.criteria.doctor}"/>
+                            </li>
+
+                             
+                            <li class="divider"></li>
+                            <li><a href="#all">Anything</a></li> 
+                        </ul>
+                    </div>-->
+                    <!-- <input type="hidden" name="search_param" value="all" id="search_param"/> -->
+                    <input id="select_search"  type="text" class="[ form-control ] dropdown-field" name="q" 
+                           minlength="5" 
+                           th:placeholder="#{header.menu.searchbar.placeholder}"/>
+
+                    <span class="[ input-group-btn ]">
+                        <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
 </nav>
