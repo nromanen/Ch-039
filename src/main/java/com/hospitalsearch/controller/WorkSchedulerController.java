@@ -20,15 +20,26 @@ public class WorkSchedulerController {
         return workSchedulerService.getWorkScheduler(Long.parseLong(id));
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/getWorkSchedulerByPrincipal", method = RequestMethod.GET)
+    public String getWorkSchedulerByDoctor(@RequestParam("doctor") String doctor) {
+        return workSchedulerService.getWorkSchedulerByDoctor(doctor);
+    }
 
 
 
     @RequestMapping(value = "/**/supplyWorkScheduler", method = RequestMethod.POST)
-    String supplyScheduler(@RequestBody String data, @RequestParam String doctorId) {
-
-        System.out.println(data);
-                workSchedulerService.updateWorkScheduler(doctorId, data);
+    public String supplyScheduler(@RequestBody String data, @RequestParam String doctorId) {
+        workSchedulerService.updateWorkScheduler(doctorId, data);
         return "redirect:/";
     }
+
+
+    @RequestMapping(value = "/workscheduler", method = RequestMethod.GET)
+    String getAppointments() {
+        return "workscheduler";
+    }
+
+
 
 }

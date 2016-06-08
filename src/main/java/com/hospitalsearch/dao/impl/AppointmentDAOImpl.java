@@ -32,15 +32,20 @@ public class AppointmentDAOImpl extends GenericDAOImpl<Appointment, Long> implem
         return appointments;
     }
 
-//    public String getWorkScheduler(Long doctorId){
-//        Object[] objects =(Object[]) getSessionFactory().openSession().createSQLQuery("SELECT * from workscheduler WHERE doctor_id =:id").setParameter("id",doctorId).uniqueResult();
-//        String string = objects[1].toString();
-//        return string;
-//    }
-//
-//    public void updateWorkScheduler(Long doctorId, String scheduler){
-//        getSessionFactory().openSession().createSQLQuery("UPDATE workscheduler SET workscheduler =:scheduler WHERE doctor_id =:id").setParameter("scheduler",scheduler).setParameter("id",doctorId).executeUpdate();
-//    }
+    @Override
+    public List<Appointment> getAllByPatient(Long userDetailId) {
+        List<Appointment> appointments = getSessionFactory().openSession().createCriteria(Appointment.class)
+                .add(Restrictions.eq("userDetail.id", userDetailId))
+                .list();
+        return appointments;
+    }
 
+    @Override
+    public List<Appointment> getAllByDoctor(Long doctorId) {
+        List<Appointment> appointments = getSessionFactory().openSession().createCriteria(Appointment.class)
+                .add(Restrictions.eq("doctorInfo.id", doctorId))
+                .list();
+        return appointments;
+    }
 
 }

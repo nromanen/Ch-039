@@ -18,6 +18,10 @@ public interface AppointmentService {
 
     void deleteInterval(Appointment appointment);
 
-    void actionControl(Map<String, String[]> Appointment, Long doctorId);
+    void actionControl(Map<String, String[]> Appointment, Long doctorId, String principal);
+
+    List<Appointment> getGetAllByPatient(String patient);
+
+    List<Appointment> getAllByDoctor(String doctor);
     
 }

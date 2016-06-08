@@ -4,21 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hospitalsearch.util.CustomLocalDateTimeSerializer;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
 @Entity
 @Table(name = "appointment")
-public class Appointment{
+public class Appointment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointment_gen")
@@ -42,6 +34,16 @@ public class Appointment{
 	private LocalDateTime end_date;
 	
 	private String text;
+
+	private String color;
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
 
 	public Long getId() {
 		return id;

@@ -13,5 +13,9 @@ public interface AppointmentDAO extends GenericDAO<Appointment, Long> {
 
      List<Appointment> getAllbyDoctorId(Long doctorId);
 
+     List<Appointment> getAllByPatient(Long userDetailId);
+
+     List<Appointment> getAllByDoctor(Long userDetailId);
+
 
 }

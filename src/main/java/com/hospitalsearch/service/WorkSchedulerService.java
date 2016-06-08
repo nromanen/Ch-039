@@ -9,4 +9,6 @@ public interface WorkSchedulerService {
 
     void updateWorkScheduler(String doctorIdAndAppointmentDuration, String workScheduler);
 
+    String getWorkSchedulerByDoctor(String doctor);
+
 }

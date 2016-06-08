@@ -1,12 +1,14 @@
 package com.hospitalsearch.controller;
 
-import com.hospitalsearch.dao.UserDAO;
-import com.hospitalsearch.dao.impl.DoctorInfoDAOImpl;
-import com.hospitalsearch.util.PrincipalConverter;
+import com.hospitalsearch.service.HospitalService;
+import com.hospitalsearch.service.ManagerService;
+import com.hospitalsearch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
@@ -16,18 +18,46 @@ import java.util.Map;
 @Controller
 public class ManagerController {
 
-    @Autowired
-    private UserDAO userDAO;
+    @Autowired(required = true)
+    private HospitalService hospitalService;
 
     @Autowired
-    private DoctorInfoDAOImpl doctorInfoDAO;
+    private UserService userService;
 
 
-    @RequestMapping(value = "/hospitalManager", method = RequestMethod.GET)
-    String eventProcessor(Map<String,Object> model){
-//        System.out.println(doctorInfoDAO.findByManagerId(userDAO.getByEmail(PrincipalConverter.getPrincipal()).getId()));
-        model.put("doctors", doctorInfoDAO.findByManagerId(userDAO.getByEmail(PrincipalConverter.getPrincipal()).getId()));
-        return "manager";
+    @Autowired
+    private ManagerService managerService;
+
+
+    @RequestMapping(value = "/manageDoctors", method = RequestMethod.GET)
+    public String getDoctorsByManager(Map<String, Object> model) {
+        model.put("doctors", managerService.getDoctorsByManager());
+        return "manageDoctors";
     }
+
+    @RequestMapping(value = "/editHospitalsManagers", method = RequestMethod.GET)
+    public String getManagersAndHospitals(Map<String, Object> model) {
+        model.put("hospitals", hospitalService.getAll());
+        model.put("users", userService.getByRole("MANAGER"));
+        return "editHospitalsManagers";
+    }
+
+    @RequestMapping(value = "/applyManager", method = RequestMethod.POST)
+    public String applyManager(@RequestBody Map<String, Long> hospitalData) {
+
+        managerService.applyManager(hospitalData);
+
+        return "redirect:/editHospitalsManagers";
+    }
+
+    @RequestMapping(value = "/deleteManager", method = RequestMethod.POST)
+    public String deleteManager(@RequestParam Long hospitalId) {
+
+        managerService.deleteHospitalManager(hospitalId);
+
+        return "redirect: /editHospitalsManagers";
+
+    }
+
 
 }

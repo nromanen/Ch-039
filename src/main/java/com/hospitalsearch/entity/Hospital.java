@@ -2,19 +2,7 @@ package com.hospitalsearch.entity;
 
 import java.util.List;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -128,7 +116,7 @@ public class Hospital {
 	private List<Department> departments;
 
 	@JsonIgnore
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<User> managers;
 
 	public Long getId() {

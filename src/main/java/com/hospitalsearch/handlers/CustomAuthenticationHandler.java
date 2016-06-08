@@ -38,7 +38,7 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
     protected String determineTargetUrl(Authentication authentication) {
         String role = authentication.getAuthorities().toString();
         Map<String, String> roleMapper = new HashMap<>();
-        roleMapper.put("MANAGER", "/hospitalManager");
+        roleMapper.put("MANAGER", "/manageDoctors");
         roleMapper.put("ADMIN", "/admin/users?status=true");
         roleMapper.put("PATIENT", "/");
         roleMapper.put("DOCTOR", "/hospitals");

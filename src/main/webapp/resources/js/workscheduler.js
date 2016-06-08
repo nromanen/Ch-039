@@ -1,24 +1,18 @@
-/**
- * Created by igortsapyak on 27.05.16.
- */
 
 $(document).ready(function () {
-
     var principal = $('#principal').text();
-    var did = document.getElementById("1").textContent;
+
+
     var begin;
     var end;
     var dayOfAppointment;
     var appTime;
 
-    var blockYear;
-    var blockMonth;
-    var blockDay;
 
     $.ajax({
         type: "GET",
         async: false,
-        url: "getWorkScheduler?id=" + did,
+        url: "getWorkSchedulerByPrincipal?doctor=" + principal,
         datatype: "json",
         contentType: "application/json",
         mimeType: "application/json",
@@ -33,11 +27,6 @@ $(document).ready(function () {
                     24 * 60]);
                 console.log(i + ": " + item.start_date + " " + item.end_date)
             });
-
-            blockYear = new Date(data[data.length-1].start_date.substring(0,10)).getFullYear();
-            blockMonth = new Date(data[data.length-1].start_date.substring(0,10)).getMonth();
-            blockDay = new Date(data[data.length-1].start_date.substring(0,10)).getDate()+1;
-
         }
     });
 
@@ -73,44 +62,16 @@ $(document).ready(function () {
             return true;
     };
 
+    scheduler.attachEvent("onBeforeDrag",function(){return false;})
+    scheduler.attachEvent("onClick",function(){return false;})
+    scheduler.config.details_on_dblclick = true;
+    scheduler.config.dblclick_create = false;
 
-    $.ajax({
-        type: "GET",
-        async: false,
-        url: "getAppointments?id=" +did,
-        datatype: "json",
-        contentType: "application/json",
-        mimeType: "application/json",
-        success: function (data) {
-            data.forEach(function (item, i) {
-                dayOfAppointment = data[i].start_date.substring(0, 10);
-                var start_date_hour = parseInt(data[i].start_date.substring(11, 13));
-                var start_date_minutes = parseInt(data[i].start_date.substring(14, 16));
-                var end_date_hour = parseInt(data[i].end_date.substring(11, 13));
-                var end_date_minutes = parseInt(data[i].end_date.substring(14, 16));
-
-                var minutes = (start_date_hour * 60 + start_date_minutes) / step;
-                var minutes2 = (end_date_hour * 60 + end_date_minutes) / step;
-
-                begin = minutes;
-                end = minutes2;
-
-                scheduler.blockTime(new Date(dayOfAppointment), [begin * step, end * step]);
-            });
-        }
-    });
-
-
-    scheduler.config.readonly = (!$('#patient').val());
     scheduler.config.first_hour = 7;
     scheduler.config.last_hour = 21;
     scheduler.config.limit_time_select = true;
     scheduler.init('scheduler_here', null, "week");
-    scheduler.config.limit_start = new Date(year,month,day);
-    scheduler.config.limit_end = new Date (blockYear,blockMonth,blockDay);
-    //scheduler.load('getAppointmentsByPatient?patient='+principal,'json');
-	    var dp = new dataProcessor("supplyAppointment?id=" + did + "&principal="+principal);
-					dp.init(scheduler);
+    scheduler.load('getAppointmentsByDoctor?doctor='+principal,'json');
 
 
 });

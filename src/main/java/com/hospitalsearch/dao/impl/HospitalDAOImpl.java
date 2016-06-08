@@ -21,7 +21,6 @@ import com.hospitalsearch.dao.HospitalDAO;
 import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.util.Bounds;
 import com.hospitalsearch.util.HospitalFilterDTO;
-import com.sun.istack.internal.logging.Logger;
 
 /**
  * 
@@ -74,7 +73,6 @@ public class HospitalDAOImpl extends  GenericDAOImpl<Hospital,Long> implements H
 		
         QueryBuilder builder = session.getSearchFactory().buildQueryBuilder().forEntity(Hospital.class).get();
         Query query = builder.keyword().fuzzy().onFields(HOSPITAL_PROJECTION).matching(args).createQuery();
-        Logger.getLogger(HospitalDAOImpl.class).log(Level.INFO, query.toString());
 		List<Hospital> hospitals = session.createFullTextQuery(query
 				,Hospital.class).list();
 		session.getTransaction().commit();

@@ -1,16 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="" allow-return-values="false">
-    <test name="ServiceTest">
-        <packages>
-            <package name="com.hospitalseeker.service"/>
-        </packages>
-    </test>
-	
-    <test name="SecurityTest">
-        <packages>
-            <package name="com.hospitalseeker.security"/>
-        </packages>
-    </test>
+
+    <packages>
+
+        <package name="com.hospitalseeker.security">
+            <exclude name="TestSpringSecurity"/>
+        </package>
+    </packages>
     <groups>
         <run>
             <include name="" />

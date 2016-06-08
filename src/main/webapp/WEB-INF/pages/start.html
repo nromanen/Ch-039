@@ -4,14 +4,18 @@
 	  xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:h="http://www.w3.org/1999/html" layout:decorator="layout"
 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-<title>Basic initialization</title>
+<title th:text="${doctor.firstName}+' '+${doctor.lastName}"></title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <meta th:name="csrf-token" th:content="${_csrf.token}" />
 	<script th:src="@{/js/Workintervals.js}"></script>
+	<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_limit.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_serialize.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'" type="text/javascript" charset="utf-8"></script>
 
 
 
-<style type="text/css" media="screen">
+
+	<style type="text/css" media="screen">
 html, body {
 	height: 100%;
 	padding: 0px;
@@ -33,21 +37,20 @@ html, body {
 }
 
 #my_form {
-	/*position: absolute;*/
-	/*top: 100px;*/
-	/*left: 300px;*/
+	position: absolute;
+	top: 100px;
+	left: 300px;
 	z-index: 10001;
-	/*display: none;*/
-	/*background-color: white;*/
-	/*border: 2px outset gray;*/
-	/*!*padding: 20px;*!*/
-	/*!*font-family: Tahoma;*!*/
-	/*!*font-size: 10pt;*!*/
+	display: none;
+	background-color: white;
+	border: 2px outset gray;
+	padding: 20px;
+	font-size: 10pt;
 }
 
-/*#my_form label {*/
-	/*width: 500px;*/
-/*}*/
+#my_form label {
+	width: 50px;
+}
 
 
 </style>
@@ -57,15 +60,14 @@ html, body {
 
 		<p th:text="${id}" id="1" hidden="hidden"></p>
 		<input id="path" th:value="${#httpServletRequest.getContextPath()}"/>
-		
 		<div class="modal bs-example-modal-sm" id="message_modal"
 			tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content">Saved</div>
 			</div>
 		</div>
-		<input sec:authorize="hasRole('ROLE_MANAGER')" value="true"
-			id="manager" type="text" hidden="hidden" />
+		<input sec:authorize="hasRole('PATIENT')" value="true"
+			id="patient" type="text" hidden="hidden" />
 		<p th:id="currentUser" hidden="hidden" sec:authentication="name" />
 		<p th:id="doctorID" hidden="hidden" th:text="${doctor.id}" />
 		<div class="content">
@@ -99,23 +101,15 @@ html, body {
 						<div class="row">
 							<div th:replace="templates/chat::feedback-panel(${feedbacks})" />
 						</div>
-						
+
 
 					</div>
 					<div class="col-lg-9 col-md-9 col-xs-10">
-						<div id="my_form" class="modal fade" role="dialog">
-							<div class="modal-dialog">
-								<div class="modal-content">
-							<label for="description">Прізвище та ім’я</label><input class="form-control" type="text" name="description" value="" id="description"/><br/>
-							<label for="custom1">Скарга</label><input class="form-control" type="text" name="custom1" value="" id="custom1"/><br/>
-							<label for="custom2">Номер телефону</label><input class="form-control" type="text" name="custom2" value="" id="custom2"/><br/><br/>
-							<input type="button" class="btn" name="save" value="Записатися" id="save" style='width:100px;' onclick="save_form()"/>
-							<input type="button" class="btn" name="close" value="Відмінити" id="close" style='width:100px;' onclick="close_form()"/>
-							<!--<button class="btn" name="delete" value="Відмінити візит" id="delete"onclick="delete_event()"></button>-->
-							<button type="button" class="btn btn-default" onclick="delete_event()">Видалити візит</button>
-								</div>
-								</div>
-								</div>
+						<div id="my_form">
+							<label for="description">Appointment</label><input type="text" name="description" hidden="hidden" id="description"/><br/>
+							<button class="btn btn-default" name="save" value="Save" id="save"  onclick="save_form()">Take</button>
+							<button class="btn btn-default" value="Close" id="close"  onclick="close_form()">Cancel</button>
+						</div>
 						<div class="dhx_cal_container panel" id="scheduler_here">
 							<div class="dhx_cal_navline">
 								<div class="dhx_cal_prev_button">&nbsp;</div>
@@ -160,23 +154,19 @@ html, body {
 
 			var html = function(id) { return document.getElementById(id); };
 
-
 			scheduler.showLightbox = function(id) {
-				$('#my_form').modal('show');
-			var ev = scheduler.getEvent(id);
-			scheduler.startLightbox(id, html("my_form"));
+				var ev = scheduler.getEvent(id);
+				scheduler.startLightbox(id, html("my_form"));
 
 			html("description").focus();
 			html("description").value = ev.text;
-			html("custom1").value = ev.custom1 || "";
-			html("custom2").value = ev.custom2 || "";
-			};
+					};
 
 			function save_form() {
+				blockAppointmensAdd();
 			var ev = scheduler.getEvent(scheduler.getState().lightbox_id);
 			ev.text = html("description").value;
-			ev.custom1 = html("custom1").value;
-			ev.custom2 = html("custom2").value;
+
 
 			scheduler.endLightbox(true, html("my_form"));
 			}
@@ -189,34 +179,22 @@ html, body {
 			scheduler.endLightbox(false, html("my_form"));
 			scheduler.deleteEvent(event_id);
 			}
+			function blockAppointmensAdd(){
+				location.reload();
+				scheduler.config.readonly = true;
+			}
+
+			scheduler.attachEvent("onLimitViolation", function  (id, obj){
+				dhtmlx.message('The appointment is not allowed at this time');
+			});
 
 			</script>
 
+			<p id="principal" sec:authorize="isAuthenticated()" sec:authentication="principal.username" hidden="hidden"></p>
 		</div>
 
-		<!-- Trigger the modal with a button -->
-		<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-
-		<!-- Modal -->
-		<div id="myModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Modal Header</h4>
-					</div>
-					<div class="modal-body">
-						<p>Some text in the modal.</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-
-			</div>
-		</div>
 	</section>
 </body>
+
+
 </html>
