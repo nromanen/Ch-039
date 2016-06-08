@@ -65,9 +65,16 @@ public class FileUploadController {
 				.append(newFileName)
 				.toString();
 		byte[] file = multipartFile.getBytes();
-		OutputStream out = new FileOutputStream(path);
+		try (OutputStream out = new FileOutputStream(path)) {
 		out.write(file);
 		out.close();
+		} catch (IOException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		    PrintWriter out = response.getWriter();
+		    out.println(messageSource.getMessage("upload.image.error", null, locale));
+		    out.close();
+		    return null;	
+		}
 		return newFileName;
 	}
 
