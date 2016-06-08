@@ -22,8 +22,8 @@ public class OneDayValidator implements ConstraintValidator<OneDay, Timestamp> {
         if(date==null){
             return true;
         }
-        LocalDateTime dateTime = date.toLocalDateTime();
-        return dateTime.plus(8, ChronoUnit.HOURS).isAfter(LocalDateTime.now());
+        LocalDate dateTime = date.toLocalDateTime().toLocalDate();
+        return dateTime.isEqual(LocalDate.now());
 
     }
 

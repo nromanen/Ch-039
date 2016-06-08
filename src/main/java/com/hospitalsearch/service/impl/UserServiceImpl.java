@@ -1,5 +1,6 @@
 package com.hospitalsearch.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -120,13 +121,48 @@ public class UserServiceImpl implements UserService {
 
     //Illia
     @Override
+    public List<User> getByRole(String role, int pageNumber, int pageSize,String sortBy, Boolean order) {
+        List<User> users=new ArrayList<>();
+        try{
+            users = dao.getByRole(role, pageNumber, pageSize, sortBy, order);
+            logger.info("Get users by role");
+        }catch (Exception e){
+            logger.error("Getting users by role "+e);
+        }
+        return users;
+    }
+
+    @Override
     public List<User> getByRole(String role) {
         return dao.getByRole(role);
     }
 
+
     @Override
-    public List<User> searchByRole(String role, String search) {
-        return dao.searchByRole(role, search);
+    public Long countOfUsersByRole(String role) {
+        return dao.countOfUsersByRole(role);
+    }
+
+    @Override
+    public Long countOfUsersByRole(String role, String search) {
+        return dao.countOfUsersByRole(role, search);
+    }
+
+    @Override
+    public List<User> searchByRole(String role, String search,int pageNumber, int pageSize, String sortBy, Boolean order) {
+        List<User> users=new ArrayList<>();
+        try{
+            users = dao.searchByRole(role, search, pageNumber,pageSize, sortBy, order);
+            logger.info("Search users by role");
+        }catch (Exception e){
+            logger.error("Searching users by role "+e);
+        }
+        return users;
+    }
+
+    @Override
+    public Integer pageCount(Long countOfItems, int itemsPerPage) {
+        return (int) Math.ceil((double)countOfItems/itemsPerPage);
     }
     //Illia
 

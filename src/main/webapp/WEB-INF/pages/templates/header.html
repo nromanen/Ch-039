@@ -2,16 +2,9 @@
     <div class="[ container ]">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="[ navbar-header ]">
-            <button type="button" class="[ navbar-toggle ]" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="[ sr-only ]">Toggle navigation</span>
-                <span class="[ icon-bar ]"></span>
-                <span class="[ icon-bar ]"></span>
-                <span class="[ icon-bar ]"></span>
-            </button>
-            <div class="[ animbrand ]">
-                <i class="[fa] [fa-heartbeat]" aria-hidden="true"></i>
-                <a class="[ navbar-brand ][ animate ]" href="#">HospitalSearch</a>
+            <div class="brand-logo col-lg-7">
+                <br /> <a th:href="@{/}"><img th:src="@{/img/Logo.png}" alt=""
+                                              class="img-responsive logo" /></a>
             </div>
         </div>
 
@@ -40,12 +33,16 @@
                        th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/contacts.*')}?'active':''"
                        th:href="@{#team}">our team</a></li>
                 <li><a th:class="menu" th:href="@{#}"> contact us</a></li>
-                <li sec:authorize="hasRole('PATIENT')"><a th:class="menu"
-                                                          th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/card.*')}?'active':''"
-                                                          th:href="@{/card}">Card</a></li>
-                <li sec:authorize="hasRole('DOCTOR')"><a th:class="menu"
-                                                         th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/patients.*')}?'active':''"
-                                                         th:href="@{/patients}">Patients</a></li>
+                <li sec:authorize="hasRole('PATIENT')"><a
+                        th:class="menu"
+                        th:text="#{header.menu.card}"
+                        th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/card.*')}?'active':''"
+                        th:href="@{/card}">Card</a></li>
+                <li sec:authorize="hasRole('DOCTOR')"><a
+                        th:class="menu"
+                        th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/patients.*')}?'active':''"
+                        th:href="@{/patients}"
+                        th:text="#{header.menu.patient}">Patients</a></li>
                 <li sec:authorize="hasRole('DOCTOR')"><a th:class="menu"
                                                          th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/workscheduler.*')}?'active':''"
                                                          th:href="@{/workscheduler}">workscheduler</a></li>
@@ -136,18 +133,30 @@
             </ul>
         </div>
         <h3>
-            <div
-                    th:if="${#httpServletRequest.requestURL.toString().contains('/hospitals')}"
-                    th:include="templates/breadcrumb::breadcrumbs(${1},${null},${null},${null})"/>
-            <div
-                    th:if="${#httpServletRequest.requestURL.toString().matches('.*/hospital/[0-9]+$')}"
-                    th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${null},${null})"/>
-            <div
-                    th:if="${#httpServletRequest.requestURL.toString().matches('.*/department/[0-9]+$')}"
-                    th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${department},${null})"/>
-            <div
-                    th:if="${#httpServletRequest.requestURL.toString().matches('.*/dashboard.*$')}"
-                    th:include="templates/breadcrumb::breadcrumbs(${1},${hospital},${department},${doctor})"/>
+            <ol class="breadcrumb" th:remove="${patients}? none : all">
+                <li><a th:href="@{/patients(page=1)}" th:class="${hospital}?:'active'"
+                       th:text="#{header.menu.patient}" /></li>
+                <li th:remove="${userId}? none : all"><a
+                        th:href="@{/card/items(userId=${userId},page=1)}" th:class="${department}?:'active'"
+                        th:text="#{header.menu.card}" /></li>
+                <li th:remove="${cardItem}? none : all"><a
+                        th:href="@{/new/record(userId=${userId})}"
+                        th:class="${doctor}?:'active'" th:text="${cardItem.id==null}?#{card.record.create}:#{card.record.edit}" /></li>
+            </ol>
+
+            <ol class="breadcrumb" th:remove="${hospitals }? none : all">
+                <li><a th:href="@{/hospitals}" th:class="${hospital}?:'active'"
+                       th:text="'Hospitals'" /></li>
+                <li th:remove="${hospital}? none : all"><a
+                        th:href="@{|/hospital/${hospital.id}|}" th:class="${department}?:'active'"
+                        th:text="${hospital.name}" /></li>
+                <li th:remove="${department}? none : all"><a
+                        th:href="@{|/hospital/${hospital.id}/department/${department.id}|}"
+                        th:class="${doctor}?:'active'" th:text="${department.name}" /></li>
+                <li th:remove="${doctor}? none : all"><a
+                        th:href="@{/start(id=${doctor.id},did=${id})}" th:class="'active'"
+                        th:text="|${doctor.firstName} ${doctor.lastName}|" /></li>
+            </ol>
         </h3>
     </div>
     <div class="[ bootsnipp-search animate ]">

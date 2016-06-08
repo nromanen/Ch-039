@@ -59,26 +59,58 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     public List<User> getByRole(String role) {
         Criteria criteria = this.currentSession().createCriteria(User.class, "user")
                 .createAlias("user.userRoles", "userRoles").add(Restrictions.eq("userRoles.type", role))
-                .createAlias("user.userDetails", "details")
-                .add(Restrictions.isNotNull("details.patientCard"))
-                .add(Restrictions.isNotNull("details.firstName"))
-                .add(Restrictions.isNotNull("details.lastName"))
-                .addOrder(Order.asc("details.firstName"));
+                .createAlias("user.userDetails", "details");
+
         return criteria.list();
     }
 
     @Override
-    public List<User> searchByRole(String role, String search) {
-        Criteria criteria = this.currentSession().createCriteria(User.class, "user").add(Restrictions.isNotNull("user.userDetails"))
-                .createAlias("user.userRoles", "userRoles")
-                .add(Restrictions.eq("userRoles.type", role))
-                .createAlias("user.userDetails", "details").add(Restrictions.or(
-                                Restrictions.like("user.email", search, MatchMode.ANYWHERE).ignoreCase(),
-                                Restrictions.like("details.firstName", search, MatchMode.ANYWHERE).ignoreCase(),
-                                Restrictions.like("details.lastName", search, MatchMode.ANYWHERE).ignoreCase()
-                        )
-                ).addOrder(Order.asc("details.firstName"));
+    public List<User> getByRole(String role, int pageNumber, int pageSize, String sortBy, Boolean order) {
+        Criteria criteria;
+
+        if (sortBy.equals("firstName")) {
+            criteria = prepareGetByRole(role, pageNumber, pageSize, "details.firstName", order);
+        }
+        if (sortBy.equals("lastName")) {
+            criteria = prepareGetByRole(role, pageNumber, pageSize, "details.lastName", order);
+        } else {
+            criteria = prepareGetByRole(role, pageNumber, pageSize, "user.email", order);
+        }
+
         return criteria.list();
+    }
+
+    @Override
+    public List<User> searchByRole(String role, String search, int pageNumber, int pageSize, String sortBy, Boolean order) {
+
+
+        Criteria criteria;
+        if (sortBy.equals("firstName")) {
+            criteria = prepareSearchByRole(role, search, pageNumber, pageSize, "details.firstName", order);
+        }
+        if (sortBy.equals("lastName")) {
+            criteria = prepareSearchByRole(role, search, pageNumber, pageSize, "details.lastName", order);
+        } else {
+            criteria = prepareSearchByRole(role, search, pageNumber, pageSize, "user.email", order);
+        }
+
+        return criteria.list();
+    }
+
+    @Override
+    public Long countOfUsersByRole(String role) {
+        Criteria criteria = roleCriteria(role);
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long) criteria.uniqueResult();
+        return count;
+    }
+
+    @Override
+    public Long countOfUsersByRole(String role, String search) {
+        Criteria criteria = roleCriteria(role, search);
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long) criteria.uniqueResult();
+        return count;
     }
 
     //Illia
@@ -148,6 +180,77 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         disjunction.add(Restrictions.ilike("detail.lastName", value, MatchMode.ANYWHERE));
         return disjunction;
     }
+
+    //Illia
+    private Criterion notNullCriterion() {
+        Criterion criterion = Restrictions.and()
+                .add(Restrictions.isNotNull("details.patientCard"))
+                .add(Restrictions.isNotNull("details.firstName"))
+                .add(Restrictions.isNotNull("details.lastName"));
+        return criterion;
+    }
+
+    private Criteria roleCriteria(String role, String search) {
+        Criteria criteria = this.currentSession().createCriteria(User.class, "user").add(Restrictions.isNotNull("user.userDetails"))
+                .createAlias("user.userRoles", "userRoles")
+                .add(Restrictions.eq("userRoles.type", role))
+                .add(notNullCriterion())
+                .createAlias("user.userDetails", "details").add(searchCriterion(search));
+        return criteria;
+    }
+
+    private Criterion searchCriterion(String search) {
+        Criterion criterion = Restrictions.or(
+                Restrictions.ilike("user.email", search, MatchMode.ANYWHERE),
+                Restrictions.ilike("details.firstName", search, MatchMode.ANYWHERE),
+                Restrictions.ilike("details.lastName", search, MatchMode.ANYWHERE)
+        );
+        return criterion;
+    }
+
+    private Criteria roleCriteria(String role) {
+        Criteria criteria = this.currentSession().createCriteria(User.class, "user").add(Restrictions.isNotNull("user.userDetails"))
+                .createAlias("user.userRoles", "userRoles")
+                .add(Restrictions.eq("userRoles.type", role))
+                .createAlias("user.userDetails", "details")
+                .add(notNullCriterion());
+        return criteria;
+    }
+
+    private Criteria prepareGetByRole(String role, int pageNumber, int pageSize, String sortBy, Boolean order) {
+        Criteria criteria;
+        if (order) {
+            criteria = roleCriteria(role)
+                    .addOrder(Order.asc(sortBy));
+            criteria.setFirstResult((pageNumber - 1) * pageSize);
+            criteria.setMaxResults(pageSize);
+        } else {
+            criteria = roleCriteria(role)
+                    .addOrder(Order.desc(sortBy));
+            criteria.setFirstResult((pageNumber - 1) * pageSize);
+            criteria.setMaxResults(pageSize);
+        }
+        return criteria;
+    }
+
+    private Criteria prepareSearchByRole(String role, String search, int pageNumber, int pageSize, String sortBy, Boolean order) {
+        Criteria criteria;
+        if (order) {
+            criteria = roleCriteria(role)
+                    .add(searchCriterion(search)
+                    ).addOrder(Order.asc(sortBy));
+            criteria.setFirstResult((pageNumber - 1) * pageSize);
+            criteria.setMaxResults(pageSize);
+        } else {
+            criteria = roleCriteria(role)
+                    .add(searchCriterion(search)
+                    ).addOrder(Order.desc(sortBy));
+            criteria.setFirstResult((pageNumber - 1) * pageSize);
+            criteria.setMaxResults(pageSize);
+        }
+        return criteria;
+    }
+    //Illia
 }
 
 

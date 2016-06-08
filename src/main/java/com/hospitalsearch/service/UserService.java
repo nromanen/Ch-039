@@ -47,7 +47,10 @@ public interface UserService {
     public List<User> searchUser(UserSearchDTO userSearch);
 
     //Illia
+    List<User> getByRole(String role, int pageNumber, int pageSize, String sortBy, Boolean order);
     List<User> getByRole(String role);
-
-    List<User> searchByRole(String role, String search);
+    Long countOfUsersByRole(String role);
+    Long countOfUsersByRole(String role, String search);
+    List<User> searchByRole(String role, String search,int pageNumber, int pageSize, String sortBy, Boolean order);
+    Integer pageCount(Long countOfItems, int itemsPerPage);
 }

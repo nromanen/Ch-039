@@ -18,12 +18,12 @@
 
             <div class="col-md-8">
                 <h1 th:text="#{card.full.name}+' '+ ${name}">Patient card:</h1>
-                <a sec:authorize="hasRole('ROLE_DOCTOR')" th:href="@{/new/record(userId=${userId})}"
+                <a sec:authorize="hasRole('ROLE_DOCTOR')" th:text="#{card.record.new}"  th:href="@{/new/record(userId=${userId})}"
                    class="btn btn-info" style="display: inherit; margin-bottom: 12px;">New record</a>
 
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <h2 th:if="${cardItems.getPageList().size() == 0}" th:text="#{card.full.empty}" style="text-align: center"></h2>
-                    <div th:if="${cardItems != null}" th:each="item:${cardItems.getPageList()}"
+                    <h2 th:if="${cardItems.size() == 0}" th:text="#{card.full.empty}" style="text-align: center"></h2>
+                    <div th:if="${cardItems != null}" th:each="item:${cardItems}"
                          class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingOne">
                             <h4 class="panel-title">
@@ -44,11 +44,11 @@
                              aria-labelledby="headingOne">
                             <div class="panel-body">
                                 <div id="item-dm">
-                                    <h4>Complaint</h4>
+                                    <h4 th:text="#{card.record.complaint}">Complaint</h4>
                                     <pre class="well well-sm" th:text="${item.complaint}"></pre>
-                                    <h4>Result</h4>
+                                    <h4 th:text="#{card.record.result}">Result</h4>
                                     <pre class="well well-sm" th:text="${item.result}"></pre>
-                                    <h4>Prescription</h4>
+                                    <h4 th:text="#{card.record.prescription}">Prescription</h4>
                                     <pre class="well well-sm" th:text="${item.prescription}"></pre>
                                 </div>
                             </div>
@@ -58,17 +58,17 @@
                 <div class="col-md-12 text-center">
                     <div class="pagination pagination-centered">
                         <ul sec:authorize="hasRole('DOCTOR')" th:if="${pagination}" class="pagination">
-                            <li th:each="i:${#numbers.sequence(1,cardItems.getPageCount())}" th:class="${i-1==cardItems.getPage()? 'active':''}"><a th:text="${i}"
-                                                                                                                                                    th:href="@{/card/items/page(userId=${userId}, page=${i})}"></a></li>
+                            <li th:each="i:${#numbers.sequence(1,pageCount)}" th:class="${i==page? 'active':''}"><a th:text="${i}"
+                            th:href="@{/card/items(userId=${userId}, page=${i})}"></a></li>
                         </ul>
-
+                        <span sec:authorize="!hasRole('DOCTOR')">
                         <ul sec:authorize="hasRole('PATIENT')" th:if="${pagination}" class="pagination">
-                            <li th:each="i:${#numbers.sequence(1,cardItems.getPageCount())}" th:class="${i-1==cardItems.getPage()? 'active':''}"><a th:text="${i}"
-                                                                                                                                                    th:href="@{/card/page(userId=${userId}, page=${i})}"></a></li>
+                            <li th:each="i:${#numbers.sequence(1,pageCount)}" th:class="${i==page? 'active':''}"><a th:text="${i}"
+                             th:href="@{/card(userId=${userId}, page=${i})}"></a></li>
                         </ul>
+                        </span>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="col-md-2"></div>

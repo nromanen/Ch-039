@@ -49,6 +49,8 @@ public class AdminController {
         try {
             userService.save(user);
         } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("!!!!!!!!!!!");
             model.addAttribute("registrationError", "User with email " + user.getEmail() + " is already exist!");
             return "/user/endRegistration";
         }

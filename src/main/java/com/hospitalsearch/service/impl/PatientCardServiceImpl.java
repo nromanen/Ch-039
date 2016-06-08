@@ -1,17 +1,19 @@
 package com.hospitalsearch.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.hospitalsearch.dao.PatientCardDAO;
 import com.hospitalsearch.entity.PatientCard;
 import com.hospitalsearch.service.PatientCardService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 @Transactional
 public class PatientCardServiceImpl implements PatientCardService {
+
+    final static Logger log = Logger.getLogger(PatientCardService.class);
 
     @Autowired
     private PatientCardDAO dao;
@@ -19,15 +21,15 @@ public class PatientCardServiceImpl implements PatientCardService {
 
     @Override
     public PatientCard add(PatientCard patientCard) {
-        patientCard = dao.add(patientCard);
-
+        try{
+            patientCard = dao.add(patientCard);
+            log.info("Save patient card" + patientCard);
+        }catch (Exception e){
+            log.error("Saving patient card" + patientCard);
+        }
         return patientCard;
     }
 
-    @Override
-    public void save(PatientCard patientCard) {
-        dao.save(patientCard);
-    }
 
     @Override
     public void remove(PatientCard patientCard) {
