@@ -29,10 +29,7 @@
                 <li><a th:class="menu"
                        th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/mapsearch.*')}?'active':''"
                        th:href="@{/mapsearch}">Find</a></li>
-                <li><a th:class="menu"
-                       th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/contacts.*')}?'active':''"
-                       th:href="@{#team}">our team</a></li>
-                <li><a th:class="menu" th:href="@{#}"> contact us</a></li>
+                
                 <li sec:authorize="hasRole('PATIENT')"><a
                         th:class="menu"
                         th:text="#{header.menu.card}"

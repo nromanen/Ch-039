@@ -170,9 +170,7 @@ public class Hospital {
 		return address;
 	}
 
-
 	public void setAddress(HospitalAddress address) {
-		
 		this.address = address;
 	}
 

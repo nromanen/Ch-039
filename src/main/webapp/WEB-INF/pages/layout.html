@@ -41,7 +41,6 @@
 <script th:src="@{/codebase/messageResource.js}" type="text/javascript"
 	charset="utf-8"></script>
 
-
 <script th:src="@{/js/jquery-2.1.1.js}"></script>
 <script th:src="@{/js/validator.min.js}" type="text/javascript"
 	charset="utf-8"></script>
@@ -55,7 +54,6 @@
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-
 
 <!--<script type="text/javascript">
 		WebFontConfig = {
@@ -75,8 +73,63 @@
 </head>
 <body>
 	<div th:replace="templates/header::page-header" />
-	<div layout:fragment="content" />
-	<div class="footer" th:replace="templates/footer::page-footer" />
+	
+	<div layout:fragment="content" >
+		<div class="content">
+			<div class="container">
+	<div class="row">
+	<div id="carouselHacked" class="carousel slide carousel-fade" data-ride="carousel">
+					<div class="header-backup"></div>
+			         <!-- Wrapper for slides -->
+			        <div class="carousel-inner" role="listbox">
+			            <div class="item">
+			            	<img th:src="@{/img/slide-one.jpg}" alt=""/>
+			                <div class="carousel-caption">
+		               			<h1>providing</h1>
+		               			<p>highquality service for men &amp; women</p>
+		               			
+			                </div>
+			            </div>
+			            <div class="item">
+			            	<img th:src="@{/img/slide-two.jpg}" alt=""/>
+			                <div class="carousel-caption">
+		               			<h1>providing</h1>
+		               			<p>highquality service for men &amp; women</p>
+		               			
+			                </div>
+			            </div>
+			            <div class="item active">
+			            	<img th:src="@{/img/slide-three.jpg}" alt=""/>
+			                <div class="carousel-caption">
+		               			<h1>providing</h1>
+		               			<p>highquality service for men &amp; women</p>
+		               			
+			                </div>
+			            </div>
+			            <div class="item">
+			            	<img th:src="@{/img/slide-four.jpg}" alt=""/>
+			                <div class="carousel-caption">
+		               			<h1>providing</h1>
+		               			<p>highquality service for men &amp; women</p>
+		               			
+			                </div>
+			            </div>
+			        </div>
+			        <!-- Controls -->
+			        <a class="left carousel-control" href="#carouselHacked" role="button" data-slide="prev">
+			            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			            <span class="sr-only">Previous</span>
+			        </a>
+			        <a class="right carousel-control active" href="#carouselHacked" role="button" data-slide="next">
+			            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			            <span class="sr-only">Next</span>
+			        </a>
+			    </div>
+			    </div>
+			    </div>
+		</div>
+	</div>
+	 
 
 	<script th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>
 	<script th:src="@{/js/custom.js}"></script>
