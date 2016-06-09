@@ -6,8 +6,8 @@
     <meta charset="ISO-8859-1"/>
     <meta charset="UTF-8"/>
     <title>Edit Userr</title>
-    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}" />
-    <link rel="stylesheet" th:href="@{/css/animate.css}" />
+    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}"/>
+    <link rel="stylesheet" th:href="@{/css/animate.css}"/>
     <script th:src="@{/js/admin.js}"></script>
 </head>
 <body>
@@ -16,11 +16,10 @@
 
         <div class="container">
             <div class="row">
-                <h4>Edit User <span th:text="${editUser.email}"></span></h4>
-
-                <div class="col-md-6 center-block">
-                    <form method="POST" th:object="${editUser}" class="form-horizontal" th:action="@{/admin/users/edit(status=${status})}">
-
+                <h3 class="all text-center">Edit user <span th:text="${editUser.email}"></span></h3>
+                <div class="col-md-6 col-md-offset-3">
+                    <form method="POST" th:object="${editUser}" class="form-horizontal"
+                          th:action="@{/admin/users/edit(status=${status})}">
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="enabled">Enabled</label>
                             <div class="checkbox">
@@ -32,6 +31,7 @@
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Role</label>
+
                             <div class="col-sm-5">
                                 <select th:field="*{userRoles}" multiple="multiple" size="5" class="form-control">
                                     <option value=""></option>
@@ -43,10 +43,11 @@
                                 </select>
                             </div>
                         </div>
-                        <input hidden="hidden" th:value="*{email}" name="email" />
+                        <input hidden="hidden" th:value="*{email}" name="email"/>
                         <div class="row">
-                            <div class="form-actions floatRight">
-                                <input type="submit" value="Edit" class="btn btn-primary btn-sm"/> or <a class="btn btn-default" th:href="@{/admin/users(status=${status})}">Cancel</a>
+                            <div class="form-actions floatRight col-md-offset-1">
+                                <input type="submit" value="EDIT USER" class="btn btn-primary btn-sm"/> or <a
+                                    class="btn btn-default" th:href="@{/admin/users(status=${status})}">Cancel</a>
                             </div>
                         </div>
                     </form>

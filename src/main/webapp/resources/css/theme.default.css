@@ -1,5 +1,32 @@
+.sorter{
+	background: no-repeat 95% 50%;
+	cursor: pointer;
+	white-space: normal;
+	font-weight: 900;
+	font-size:inherit
+}
+
+.sorter:hover{
+	color: #FFF;
+
+}
+
+.sorter-false {
+	background-image: url(../img/sorter/sort.png);
+}
 
 
+.sorter-asc {
+	background-image: url(../img/sorter/sort-descending.png);
+}
+
+.sorter-desc {
+	background-image: url(../img/sorter/sort-down.png);
+}
+
+
+
+/*
 .tablesorter-default thead .sorter-false {
 	background-image: none;
 }
@@ -26,3 +53,4 @@
 	background-image: url(../img/sorter/sort-down.png);
 
 }
+*/

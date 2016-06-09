@@ -1,7 +1,7 @@
 package com.hospitalsearch.config.security;
 
-import javax.sql.DataSource;
-
+import com.hospitalsearch.handlers.CustomAuthenticationHandler;
+import com.hospitalsearch.handlers.ErrorAuthenticationHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,7 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-import com.hospitalsearch.handlers.CustomAuthenticationHandler;
+import javax.sql.DataSource;
 
 /**
  * @author Andrew Jasinskiy
@@ -50,9 +50,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private CustomAuthenticationHandler customHandler;
 
 	@Autowired
+	private ErrorAuthenticationHandler errorAuthenticationHandler;
+
+	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
-		auth.inMemoryAuthentication().withUser("admin@gmail.com").password("admin").roles("ADMIN");
 		auth.authenticationProvider(authenticationProvider());
 	}
 
@@ -61,8 +63,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/doctor/feedback");
 		web.ignoring().antMatchers("/**/supplyAppointment");
 		web.ignoring().antMatchers("/hospitals/config");
-
-
 	}
 
 	@Override
@@ -76,6 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/home").permitAll()
 				.antMatchers("/admin/**").access("hasRole('ADMIN')")
 				.antMatchers("/manageDoctors").access("hasRole('MANAGER')")
+				.antMatchers("/editHospitalsManagers").access("hasRole('ADMIN')")
 				.antMatchers("/appointments").access("hasRole('PATIENT')")
 				.antMatchers("/workscheduler").access("hasRole('DOCTOR')")
 				.antMatchers("/login").anonymous()
@@ -85,10 +86,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.successHandler(customHandler)
+				.failureHandler(errorAuthenticationHandler)
+				.and().csrf()
 				.and()
 				.logout()
 				.logoutSuccessUrl("/login?logout")
 				.invalidateHttpSession(true)
+				.deleteCookies("remember-me")
 				.and()
 				.exceptionHandling()
 				.accessDeniedPage("/403")
@@ -96,8 +100,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.rememberMe()
 				.rememberMeParameter("remember-me")
 				.tokenRepository(tokenRepository)
-				.tokenValiditySeconds(TIME)
-				.and().csrf();
+				.tokenValiditySeconds(TIME);
 	}
 
 	//password encoder
@@ -122,9 +125,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
+	public ErrorAuthenticationHandler errorAuthenticationHandler() {
+		return new ErrorAuthenticationHandler();
+	}
+
+	@Bean
 	public SpringSecurityDialect springSecurityDialect() {
 		return new SpringSecurityDialect();
 	}
-
 
 }

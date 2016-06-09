@@ -14,7 +14,6 @@ import java.sql.SQLException;
  * Created by igortsapyak on 29.05.16.
  */
 @Repository
-
 public class WorkSchedulerDAOImpl extends GenericDAOImpl<Appointment, Long> implements WorkSchedulerDAO {
 
 
@@ -33,20 +32,18 @@ public class WorkSchedulerDAOImpl extends GenericDAOImpl<Appointment, Long> impl
     @Override
     public String getWorkScheduler(Long doctorId) {
 
-        Session session = getSessionFactory().openSession();
-
+        Session session = getSessionFactory().getCurrentSession();
         return ((Object[]) session
                 .createSQLQuery(GET_WORK_SCHEDULER)
                 .setParameter(0, doctorId)
                 .uniqueResult())[1]
                 .toString();
-
     }
 
     @Override
     public void updateWorkScheduler(Long doctorId, String scheduler) {
 
-        Session session = getSessionFactory().openSession();
+        Session session = getSessionFactory().getCurrentSession();
 
         if (session.createSQLQuery(UPDATE_WORK_SCHEDULER)
                 .setParameter(0, scheduler)
@@ -55,6 +52,7 @@ public class WorkSchedulerDAOImpl extends GenericDAOImpl<Appointment, Long> impl
                     .setParameter(0, doctorId)
                     .setParameter(1, scheduler)
                     .executeUpdate();
+
         }
 
     }

@@ -1,18 +1,23 @@
 package com.hospitalsearch.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.hospitalsearch.entity.Role;
+import com.hospitalsearch.entity.User;
+import com.hospitalsearch.service.RoleService;
+import com.hospitalsearch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.hospitalsearch.service.RoleService;
-import com.hospitalsearch.service.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author Andrew Jasinskiy on 16.05.16
@@ -20,6 +25,9 @@ import com.hospitalsearch.service.UserService;
 
 @Controller
 public class UserController {
+
+    @Autowired
+    private HttpServletRequest request;
 
     @Autowired
     UserService userService;
@@ -30,9 +38,15 @@ public class UserController {
     @Autowired
     PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 
+    @ModelAttribute("roles")
+    public List<Role> initializeRoles() {
+        return roleService.getAll();
+    }
+
     @RequestMapping(value = "/login")
-    public String loginPage() {
-      /*  model.addAttribute("j_username", request.getParameter("email"));*/
+    public String loginPage(ModelMap model) {
+        model.addAttribute("email", request.getParameter("email"));
+        model.addAttribute("error", request.getParameter("error"));
         return "login";
     }
 
@@ -46,4 +60,21 @@ public class UserController {
         return "redirect:/";
     }
 
+    @RequestMapping(value = "/newUser", method = RequestMethod.GET)
+    public String newRegistration(ModelMap model) {
+        model.addAttribute("user", new User());
+        return "newuser";
+    }
+
+    @RequestMapping(value = "/newUser", method = RequestMethod.POST)
+    public String saveUser(@ModelAttribute("user") User user, BindingResult result, ModelMap model) {
+        try {
+            userService.save(user);
+        } catch (Exception e) {
+            model.addAttribute("registrationError", "User with email " + user.getEmail() + " is already exist!");
+            return "/user/endRegistration";
+        }
+        model.addAttribute("success", "User with email " + user.getEmail() + " has been registered successfully");
+        return "/user/endRegistration";
+    }
 }

@@ -1,6 +1,8 @@
 package com.hospitalsearch.dao.impl;
 
 import com.hospitalsearch.entity.PersistentLogin;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -19,6 +21,9 @@ import java.util.Date;
 @Repository("tokenRepositoryDao")
 @Transactional
 public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentLogin,String> implements PersistentTokenRepository {
+
+    private final Logger logger = LogManager.getLogger(PersistenceTokenRepositoryDAOImp.class);
+
 
     @Autowired
     public PersistenceTokenRepositoryDAOImp(SessionFactory factory) {
@@ -54,7 +59,7 @@ public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentL
             return new PersistentRememberMeToken(persistentLogin.getUsername(), persistentLogin.getSeries(),
                     persistentLogin.getToken(), persistentLogin.getLast_used());
         } catch (Exception e) {
-            System.out.println("Token not found...");
+            logger.error("Token not found..." + e);
             return null;
         }
     }
@@ -64,7 +69,7 @@ public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentL
         Criteria criteria = this.currentSession().createCriteria(PersistentLogin.class);
         PersistentLogin persistentLogin = (PersistentLogin) criteria.uniqueResult();
         if (persistentLogin != null) {
-            System.out.println("rememberMe was selected");
+            logger.info("rememberMe was selected");
             delete(persistentLogin);
         }
     }

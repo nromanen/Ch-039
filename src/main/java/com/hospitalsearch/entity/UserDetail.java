@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
@@ -62,20 +62,19 @@ public class UserDetail{
 	
 	private String address;
 
-	@JsonIgnore
 	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
 	@Fetch(FetchMode.SELECT)
 	@ContainedIn
+	@JsonIgnore
 	private DoctorInfo doctorsDetails;
 
-	@JsonIgnore
 	@OneToOne
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name="patientcard_id")
+	@JsonIgnore
 	private PatientCard patientCard;
 
 	public UserDetail() {}
-
 
 	public Long getId() {
 		return id;
@@ -145,7 +144,6 @@ public class UserDetail{
 	public void setPatientCard(PatientCard patientCard) {
 		this.patientCard = patientCard;
 	}
-
 
 	@Override
 	public String toString() {

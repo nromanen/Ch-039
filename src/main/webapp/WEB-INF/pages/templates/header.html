@@ -29,7 +29,7 @@
                 <li><a th:class="menu"
                        th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/mapsearch.*')}?'active':''"
                        th:href="@{/mapsearch}">Find</a></li>
-                
+
                 <li sec:authorize="hasRole('PATIENT')"><a
                         th:class="menu"
                         th:text="#{header.menu.card}"
@@ -42,57 +42,69 @@
                         th:text="#{header.menu.patient}">Patients</a></li>
                 <li sec:authorize="hasRole('DOCTOR')"><a th:class="menu"
                                                          th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/workscheduler.*')}?'active':''"
-                                                         th:href="@{/workscheduler}">workscheduler</a></li>
+                                                         th:href="@{/workscheduler}" th:text="#{header.workscheduler}"></a></li>
                 <li sec:authorize="hasRole('MANAGER')"><a
                         th:class="menu"
                         th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/manageDoctors.*')}?'active':''"
-                        th:href="@{/manageDoctors}">manage</a></li>
+                        th:href="@{/manageDoctors}" th:text="#{header.manage}"></a></li>
                 <li sec:authorize="hasRole('PATIENT')"><a
                         th:class="menu"
                         th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/appointments.*')}?'active':''"
-                        th:href="@{/appointments}">my appointments</a></li>
+                        th:href="@{/appointments}" th:text="#{header.myapp}"></a></li>
 
                 <li sec:authorize="isAnonymous()" style="cursor: pointer;">
                     <a class="dropdown-toggle" th:href="@{/login}">Login</a>
                 </li>
 
                 <li sec:authorize="hasRole('ADMIN')" style="cursor: pointer;">
-                    <a href="#" class="nav navbar-nav dropdown dropdown-toggle"
-                       data-toggle="dropdown">Actions<span class="caret"></span></a>
+                    <a href="#" class="nav navbar-nav dropdown dropdown-toggle" data-toggle="dropdown">Actions<span class="caret"></span></a>
                     <ul class="dropdown-menu" id="dropdawn">
-                        <li><a th:href="@{/admin/users(status=true)}"
-                               class="menu"> <span class="glyphicon glyphicon-list"></span>All
-                            users
-                        </a></li>
+                        <li>
 
-                        <li><a th:href="@{/newUser}" class="menu"> <span
-                                class="glyphicon glyphicon-plus-sign"></span>Add new User
-                        </a></li>
+                            <a th:href="@{/admin/users(status=true)}" class="menu">
+                                <span class="glyphicon glyphicon-list"></span>All users</a>
+                        </li>
 
-                        <li><a th:href="@{/admin/map/listhospitals}" class="menu">
-                            <span class="glyphicon glyphicon-calendar"></span> Hospital
-                            List
-                        </a></li>
-                        <li><a th:href="@{/admin/map/new}" class="menu"> <span
-                                class="glyphicon glyphicon-plus"></span> New Hospital
-                        </a></li>
-                        <li><a th:href="@{/admin/map/validate}" class="menu">
-                            <span class="glyphicon glyphicon-check"></span> Check
-                            Hospitals List With Google Data
-                        </a></li>
+                        <li>
+                            <a th:href="@{/newUser}" class="menu">
+                                <span class="glyphicon glyphicon-plus-sign"></span>Add new User</a>
+                        </li>
+
+                        <li>
+                            <a th:href="@{/admin/map/listhospitals}" class="menu">
+                                <span class="glyphicon glyphicon-calendar"></span> Hospital List</a>
+                        </li>
+                        <li>
+
+                            <a th:href="@{/admin/map/new}" class="menu">
+                                <span class="glyphicon glyphicon-plus"></span> New Hospital</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/map/validate}" class="menu">
+                                <span class="glyphicon glyphicon-check"></span> Check Hospitals List With Google Data</a>
+                        </li>
+
                         <li>
                             <a th:href="@{/editHospitalsManagers}" class="menu">
                                 <span class="glyphicon glyphicon-briefcase"></span> Edit Hospitals Managers</a>
                         </li>
+
+
+
                     </ul>
                 </li>
 
                 <!--autorize user-->
                 <li style="cursor: pointer;" sec:authorize="isAuthenticated()">
-                    <a href="#" class="nav navbar-nav dropdown dropdown-toggle"
-                       data-toggle="dropdown" sec:authentication="principal.username">
-                        <span class="caret"></span>
-                    </a>
+
+                    <a href="#" class="nav navbar-nav dropdown dropdown-toggle" data-toggle="dropdown" th:if="${userName!=null}"
+                       th:text="(${userName.userDetails.firstName!=null}) and (${userName.userDetails.lastName!=null}) ? ${userName.userDetails.firstName + ' ' + userName.userDetails.lastName}:${userName.email}">
+                        <span class="caret"></span> </a>
+
+                    <a href="#" class="nav navbar-nav dropdown dropdown-toggle" data-toggle="dropdown" th:if="${userName==null}"
+                       sec:authentication="principal.username">
+                        <span class="caret"></span> </a>
+
                     <ul class="dropdown-menu" id="dropdawn">
                         <li><a class="menu"> <span
                                 class="glyphicon glyphicon-user"></span>Profile

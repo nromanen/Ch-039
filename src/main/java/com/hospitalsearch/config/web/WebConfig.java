@@ -38,59 +38,56 @@ import nz.net.ultraq.thymeleaf.LayoutDialect;
 @Configuration
 @EnableWebMvc
 @EnableCaching
-@ComponentScan(basePackages = {"com.hospitalsearch"},basePackageClasses={SpringRootConfig.class})
-public class WebConfig extends WebMvcConfigurerAdapter{
+@ComponentScan(basePackages = {"com.hospitalsearch"}, basePackageClasses = {SpringRootConfig.class})
+public class WebConfig extends WebMvcConfigurerAdapter {
 
-	@Autowired
-	RoleConverter roleConverter;
+    @Autowired
+    RoleConverter roleConverter;
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/**").addResourceLocations("/resources/");
-		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-	}
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
 
-	@Bean
-	public SpringResourceTemplateResolver templateResolver(){
-		return new SpringResourceTemplateResolver() {{
-			setTemplateMode("HTML5");
-			setPrefix("/WEB-INF/pages/");
-			setSuffix(".html");
-		}};
-	}
+    @Bean
+    public SpringResourceTemplateResolver templateResolver() {
+        return new SpringResourceTemplateResolver() {{
+            setTemplateMode("HTML5");
+            setPrefix("/WEB-INF/pages/");
+            setSuffix(".html");
+        }};
+    }
 
+    //crypto
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(roleConverter);
+    }
 
+    //thymeleaf
+    @Bean
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setTemplateResolver(templateResolver());
+        engine.setMessageSource(messageSource());
+        Set<IDialect> additionalDialects = new HashSet<>();
+        additionalDialects.add(new LayoutDialect());
+        additionalDialects.add(new SpringSecurityDialect());
+        engine.setAdditionalDialects(additionalDialects);
+        return engine;
+    }
 
+    @Bean
+    public ViewResolver viewResolver() {
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(templateEngine());
+        viewResolver.setCharacterEncoding("UTF-8");
+        return viewResolver;
+    }
 
-	//crypto
-	@Override
-	public void addFormatters(FormatterRegistry registry) {
-		registry.addConverter(roleConverter);
-	}
-
-	//thymeleaf
-	@Bean
-	public SpringTemplateEngine templateEngine(){
-		SpringTemplateEngine engine = new SpringTemplateEngine();
-		engine.setTemplateResolver(templateResolver());
-		engine.setMessageSource(messageSource());
-		Set<IDialect> additionalDialects = new HashSet<>();
-		additionalDialects.add(new LayoutDialect());
-		additionalDialects.add(new SpringSecurityDialect());
-		engine.setAdditionalDialects(additionalDialects);
-		return engine;
-	}
-
-	@Bean
-	public ViewResolver viewResolver(){
-		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-		viewResolver.setTemplateEngine(templateEngine());
-		viewResolver.setCharacterEncoding("UTF-8");
-		return viewResolver;
-	}
-
-    @Bean(name="localeResolver")
-    public LocaleResolver localeResolver(){
+    @Bean(name = "localeResolver")
+    public LocaleResolver localeResolver() {
         CookieLocaleResolver resolver = new CookieLocaleResolver();
         resolver.setDefaultLocale(new Locale("en"));
         resolver.setCookieMaxAge(100000);
@@ -98,8 +95,8 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     }
 
     @Bean
-    public MessageSource messageSource(){
-        return new ReloadableResourceBundleMessageSource(){{
+    public MessageSource messageSource() {
+        return new ReloadableResourceBundleMessageSource() {{
             setBasename("classpath:i18n/messages");
         }};
     }
@@ -111,22 +108,20 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         registry.addInterceptor(interceptor);
     }
 
-	@Bean
-	public EhCacheManagerFactoryBean ehCacheManagerFactoryBean(){
-		return new EhCacheManagerFactoryBean(){
-			{
-				setConfigLocation(new ClassPathResource("ehcache.xml"));
-				setShared(true);
-			}
-		};
+    @Bean
+    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
+        return new EhCacheManagerFactoryBean() {
+            {
+                setConfigLocation(new ClassPathResource("ehcache.xml"));
+                setShared(true);
+            }
+        };
+    }
 
-	}
-
-	@Bean
-	public CacheManager cacheManager(){
-		return new EhCacheCacheManager(ehCacheManagerFactoryBean().getObject());
-	}
-
+    @Bean
+    public CacheManager cacheManager() {
+        return new EhCacheCacheManager(ehCacheManagerFactoryBean().getObject());
+    }
 
 }
 

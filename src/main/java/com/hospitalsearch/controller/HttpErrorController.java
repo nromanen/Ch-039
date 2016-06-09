@@ -1,3 +1,4 @@
+
 package com.hospitalsearch.controller;
 
 import com.hospitalsearch.util.PrincipalConverter;
@@ -7,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Andrew Jasinskiy on 25.05.16
- */
+
+ **/
 @Controller
 public class HttpErrorController {
 
@@ -26,3 +28,4 @@ public class HttpErrorController {
         return "error/500";
     }
 }
+

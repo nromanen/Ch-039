@@ -2,6 +2,8 @@ package com.hospitalsearch.service;
 
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,15 +22,17 @@ import java.util.List;
 @Service("CustomUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService{
 
+    private final Logger logger = LogManager.getLogger(CustomUserDetailsService.class);
+
     @Autowired
     private UserService userService;
 
     @Transactional(readOnly=true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userService.getByEmail(email);
-        System.out.println("User : " + user);
+        logger.info("User : " + user.getEmail());
         if (user == null) {
-            System.out.println("User not found!");
+            logger.warn("User not found!");
             throw new UsernameNotFoundException("User with email " + email + " not found!");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
@@ -41,7 +45,6 @@ public class CustomUserDetailsService implements UserDetailsService{
             System.out.println("UserRole : " + userRole);
             authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole.getType()));
         }
-        System.out.print("authorities :" + authorities);
         return authorities;
     }
 }

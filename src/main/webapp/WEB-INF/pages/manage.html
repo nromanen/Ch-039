@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorator="layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorator="layout"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-<title>Manage</title>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<meta th:name="csrf-token" th:content="${_csrf.token}" />
+	<title>Manage</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta th:name="csrf-token" th:content="${_csrf.token}" />
 	<link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}" />
 	<link rel="stylesheet" th:href="@{/css/animate.css}" />
 	<link rel="stylesheet" th:href="@{/css/theme.default.css}"/>
@@ -15,164 +15,164 @@
 
 
 	<style type="text/css">
-html, body {
-	height: 100%;
-	padding: 0px;
-	margin: 0px;
-}
+		html, body {
+			height: 100%;
+			padding: 0px;
+			margin: 0px;
+		}
 
-.well {
-	text-align: right;
-}
+		.well {
+			text-align: right;
+		}
 
-.container-fluid #scheduler_here {
-	height: 715px;
-	width: 100%;
-	border: 1px solid #cecece;
-}
+		.container-fluid #scheduler_here {
+			height: 715px;
+			width: 100%;
+			border: 1px solid #cecece;
+		}
 
-#scheduler_here {
-	border-radius: 4px;
-}
+		#scheduler_here {
+			border-radius: 4px;
+		}
 
-/* Important !!! */
-.dhx_scale_hour{
-	line-height:normal;
-}
-</style>
+		/* Important !!! */
+		.dhx_scale_hour{
+			line-height:normal;
+		}
+	</style>
 </head>
 <body>
-	<section layout:fragment="content">
-		<p th:text="${id}" id="did" hidden="hidden"></p>
-		<input id="path" th:value="${#httpServletRequest.getContextPath()}"/>
-		<input sec:authorize="hasRole('MANAGER')" value="true"
-			id="manager" type="text" hidden="hidden" />
+<section layout:fragment="content">
+	<p th:text="${id}" id="did" hidden="hidden"></p>
+	<input id="path" th:value="${#httpServletRequest.getContextPath()}"/>
+	<input sec:authorize="hasRole('MANAGER')" value="true"
+		   id="manager" type="text" hidden="hidden" />
 
-		<div class="content">
-			<div class="container-fluid">
-				<div class="row">
-					<div align="center" class="col-lg-12 col-md-12 col-xs-12">
-						<form class="form-inline" role="form">
-							<div class="pull-left btn-group"><button style="width: 135px" class="btn btn-success" onclick="save()">Save</button></div>
-							<div class="form-group">
-								<p  style="font-size: xx-large" th:text="${doctor.firstName + ' ' +doctor.lastName}"></p>
-							</div>
-							<div class="pull-right form-group">
-								<label class="filter-col" style="margin-right:0;" for="appointmentTime">Appointment size:</label>
-								<select id="appointmentTime" class="form-control">
-									<option>15 min</option>
-									<option>20 min</option>
-									<option>30 min</option>
-									<option>60 min</option>
-								</select>
-							</div> <!-- form group [rows] -->
-							</form>
-
-
-						<div class="dhx_cal_container panel" id="scheduler_here">
-							<div class="dhx_cal_navline">
-								<div class="dhx_cal_prev_button">&nbsp;</div>
-								<div class="dhx_cal_next_button">&nbsp;</div>
-								<div class="dhx_cal_today_button"></div>
-								<div class="dhx_cal_date"></div>
-								<div class="dhx_minical_icon" id="dhx_minical_icon"
-									onclick="show_minical()">&nbsp;</div>
-								<script type="text/javascript">
-									function show_minical() {
-										if (scheduler.isCalendarVisible())
-											scheduler.destroyCalendar();
-										else
-											scheduler
-													.renderCalendar({
-														position : "dhx_minical_icon",
-														date : scheduler._date,
-														navigation : true,
-														handler : function(
-																date, calendar) {
-															scheduler
-																	.setCurrentView(date);
-															scheduler
-																	.destroyCalendar()
-														}
-													});
-									}
-								</script>
-								<div class="dhx_cal_tab" name="day_tab"></div>
-								<div class="dhx_cal_tab" name="week_tab"></div>
-								<div class="dhx_cal_tab" name="month_tab"></div>
-							</div>
-							<div class="dhx_cal_header"></div>
-							<div class="dhx_cal_data"></div>
+	<div class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div align="center" class="col-lg-12 col-md-12 col-xs-12">
+					<form class="form-inline" role="form">
+						<div class="pull-left btn-group"><button style="width: 135px" class="btn btn-success" onclick="save()" th:text="#{manager.scheduler.save}"></button></div>
+						<div class="form-group">
+							<p  style="font-size: xx-large" th:text="${doctor.firstName + ' ' +doctor.lastName}"></p>
 						</div>
+						<div class="pull-right form-group">
+							<label class="filter-col" style="margin-right:0;" for="appointmentTime" th:text="#{manager.scheduler.appsize}"></label>
+							<select id="appointmentTime" class="form-control">
+								<option th:text="'15 '+#{manager.scheduler.size}"></option>
+								<option th:text="'20 '+#{manager.scheduler.size}"></option>
+								<option th:text="'30 '+#{manager.scheduler.size}"></option>
+								<option th:text="'60 '+#{manager.scheduler.size}"></option>
+							</select>
+						</div> <!-- form group [rows] -->
+					</form>
+
+
+					<div class="dhx_cal_container panel" id="scheduler_here">
+						<div class="dhx_cal_navline">
+							<div class="dhx_cal_prev_button">&nbsp;</div>
+							<div class="dhx_cal_next_button">&nbsp;</div>
+							<div class="dhx_cal_today_button"></div>
+							<div class="dhx_cal_date"></div>
+							<div class="dhx_minical_icon" id="dhx_minical_icon"
+								 onclick="show_minical()">&nbsp;</div>
+							<script type="text/javascript">
+								function show_minical() {
+									if (scheduler.isCalendarVisible())
+										scheduler.destroyCalendar();
+									else
+										scheduler
+												.renderCalendar({
+													position : "dhx_minical_icon",
+													date : scheduler._date,
+													navigation : true,
+													handler : function(
+															date, calendar) {
+														scheduler
+																.setCurrentView(date);
+														scheduler
+																.destroyCalendar()
+													}
+												});
+								}
+							</script>
+							<div class="dhx_cal_tab" name="day_tab"></div>
+							<div class="dhx_cal_tab" name="week_tab"></div>
+							<div class="dhx_cal_tab" name="month_tab"></div>
+						</div>
+						<div class="dhx_cal_header"></div>
+						<div class="dhx_cal_data"></div>
 					</div>
 				</div>
-
 			</div>
 
-
-
-			<script type="text/javascript">
-				var did = document.getElementById("did").textContent;
-				var sc;
-				var time;
-				$.ajax({
-					type: "GET",
-					async: false,
-					url: "getWorkScheduler?id=" + did,
-					datatype: "json",
-					contentType: "application/json",
-					mimeType: "application/json",
-					success: function (data) {
-						time=data[data.length-1].app;
-						data.splice(data.length-1,1);
-						sc=data;
-					}
-				});
-
-
-				$("#appointmentTime option").each(function(item, i)
-				{
-					if (time == i.value){
-						$("#appointmentTime").val(i.value);
-					}
-
-				});
-
-					scheduler.config.time_step = 60;
-
-					scheduler.config.xml_date = "%Y-%m-%d %H:%i";
-					scheduler.config.limit_time_select = true;
-					scheduler.init('scheduler_here', null, "week");
-					scheduler.parse(sc,"json");
-					function save() {
-
-						$.ajaxSetup({
-							headers: {
-								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-							}
-						});
-
-						var bla = $("#appointmentTime").val();
-						var JsonWorkintervals = scheduler.toJSON();
-						var blaaa = '{"app":"'+bla+'"}';
-						var obj = JSON.parse(blaaa);
-						var objs = JSON.parse(JsonWorkintervals);
-						objs.push(obj);
-
-						var ss = JSON.stringify(objs);
-
-						$.ajax({
-							type: "POST",
-							url: "supplyWorkScheduler?doctorId="+did,
-							data: ss,
-							datatype: "json",
-							contentType: 'application/json',
-							mimeType: 'application/json'
-						})
-					}
-		</script>
 		</div>
 
-	</section>
+
+
+		<script type="text/javascript">
+			var did = document.getElementById("did").textContent;
+			var sc;
+			var time;
+			$.ajax({
+				type: "GET",
+				async: false,
+				url: "getWorkScheduler?id=" + did,
+				datatype: "json",
+				contentType: "application/json",
+				mimeType: "application/json",
+				success: function (data) {
+					time=data[data.length-1].app;
+					data.splice(data.length-1,1);
+					sc=data;
+				}
+			});
+
+
+			$("#appointmentTime option").each(function(item, i)
+			{
+				if (time == i.value){
+					$("#appointmentTime").val(i.value);
+				}
+
+			});
+
+			scheduler.config.time_step = 60;
+
+			scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+			scheduler.config.limit_time_select = true;
+			scheduler.init('scheduler_here', null, "week");
+			scheduler.parse(sc,"json");
+			function save() {
+
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+				});
+
+				var bla = $("#appointmentTime").val();
+				var JsonWorkintervals = scheduler.toJSON();
+				var blaaa = '{"app":"'+bla+'"}';
+				var obj = JSON.parse(blaaa);
+				var objs = JSON.parse(JsonWorkintervals);
+				objs.push(obj);
+
+				var ss = JSON.stringify(objs);
+
+				$.ajax({
+					type: "POST",
+					url: "supplyWorkScheduler?doctorId="+did,
+					data: ss,
+					datatype: "json",
+					contentType: 'application/json',
+					mimeType: 'application/json'
+				})
+			}
+		</script>
+	</div>
+
+</section>
 </body>
 </html>
