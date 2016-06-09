@@ -8,6 +8,9 @@ package com.hospitalsearch.util;
 import java.util.List;
 
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.SortField.Type;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.search.FullTextQuery;
@@ -84,6 +87,7 @@ public final class Page<T>{
             this.paginated = false;
         }
         fullTextQuery.setFirstResult((pageSize*(page-1))).setMaxResults(pageSize);
+        fullTextQuery.setSort(new Sort(new SortField("name", Type.STRING_VAL)));
         List<T> result = (List<T>) fullTextQuery.list();
         
         session.close();

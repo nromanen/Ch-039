@@ -162,7 +162,7 @@
     </div>
     <div class="[ bootsnipp-search animate ]">
         <div class="[ container ]">
-            <form th:action="@{/hospitals}" method="GET" role="search">
+            <form data-toggle="validator" th:action="@{/hospitals}" id="search-form" method="GET" role="search">
                 <div class="[ input-group ]" style="z-index:1000000">
 
 <!--                    <div class="input-group-btn search-panel">
@@ -183,14 +183,22 @@
                         </ul>
                     </div>-->
                     <!-- <input type="hidden" name="search_param" value="all" id="search_param"/> -->
-                    <input id="select_search"  type="text" class="[ form-control ] dropdown-field" name="q" 
-                           minlength="5" 
+                    <div class="form-group">
+                    	<input id="select_search"  type="text" class="[ form-control ] dropdown-field" name="q" 
+                           minlength="5"
+                           length="100"
+                           maxlength="100"
+                           required="required"
+                           data-error="minumum of 5 characters"
                            th:placeholder="#{header.menu.searchbar.placeholder}"/>
-
+ 					    <div class="help-block with-errors"></div>
+                    
+                    </div>
                     <span class="[ input-group-btn ]">
                     	<button type="submit" class="[ btn btn-info ]"><span class="[ glyphicon glyphicon-search ]"></span></button>
                         <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
                     </span>
+                    
                 </div>
             </form>
         </div>

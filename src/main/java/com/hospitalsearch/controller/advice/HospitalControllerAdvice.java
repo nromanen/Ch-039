@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,8 +16,6 @@ import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.service.HospitalService;
 import com.hospitalsearch.util.HospitalFilterDTO;
 import com.hospitalsearch.util.PageConfigDTO;
-import org.hibernate.search.exception.EmptyQueryException;
-import org.springframework.ui.ModelMap;
 
 @ControllerAdvice(assignableTypes={HospitalController.class})
 public class HospitalControllerAdvice {
@@ -29,12 +28,8 @@ public class HospitalControllerAdvice {
 		ModelAndView view = new ModelAndView("error/hospitalList");
 		return view;
 	}
-        @ResponseStatus(code=HttpStatus.NOT_FOUND)
-	@ExceptionHandler(value={EmptyQueryException.class})
-	public ModelAndView renderHospitalSearchException(Exception ex){
-		ModelAndView view = new ModelAndView("error/hospitalList");
-		return view;
-	}
+	
+    
         
 	@ModelAttribute(value = "hospitals")
 	public List<Hospital> hospitalList(){

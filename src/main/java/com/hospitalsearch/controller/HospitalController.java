@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hospitalsearch.controller.advice.HospitalControllerAdvice;
+import com.hospitalsearch.controller.advice.HospitalControllerAdvice.FilterHospitalListEmptyException;
 import com.hospitalsearch.entity.Department;
 import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.service.DepartmentService;
@@ -49,13 +50,14 @@ public class HospitalController {
 
     @RequestMapping("/hospitals")
     public String renderHospitals(Map<String, Object> model,
-            @RequestParam(value = "q", required = false) String query) throws ParseException, InterruptedException {
-        //fillBase();
+            @RequestParam(value = "q", required = false) String query) throws ParseException, InterruptedException, FilterHospitalListEmptyException {
         if (query != null && !query.isEmpty()) {
                 this.pageableContent = service.advancedHospitalSearch(query);
         }
-        
         this.initializeModel(model, 1);
+        if(this.pageableContent.getResultListCount() == 0){
+        	throw new HospitalControllerAdvice.FilterHospitalListEmptyException("Empty list");
+        }
         return "hospitals";
     }
 
@@ -86,7 +88,7 @@ public class HospitalController {
     			PageConfigDTO config
            ) {
     	this.pageableContent.setPageSize(config.getItemsPerPage());
-//    	this.pageableContent.setSortType(config.getType());
+
     	this.initializeModel(model, 1);
         return "hospitals";
     }

@@ -8,6 +8,8 @@ $(document).ready(function(){
 			$(this).attr('selected','selected');
 		}
 	});
+	
+	$("#search-form").validator();
 });
 function sendPageConfig(event){
 		var itemPerPage = $('#pref-perpage option:selected').text();
