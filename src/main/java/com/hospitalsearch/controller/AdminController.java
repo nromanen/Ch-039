@@ -1,32 +1,28 @@
 package com.hospitalsearch.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.hospitalsearch.dto.UserSearchDTO;
+import com.hospitalsearch.dto.UserAdminDTO;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.RoleService;
 import com.hospitalsearch.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.beans.support.SortDefinition;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Andrew Jasinskiy on 10.05.16
  */
-/*@RequestMapping(value = "/admin")*/
+
 @Controller
 public class AdminController {
 
@@ -36,56 +32,25 @@ public class AdminController {
     @Autowired
     RoleService roleService;
 
-    //todo refactor after pulling this method into package admin url = admin/users/add
-    @RequestMapping(value = "/newUser", method = RequestMethod.GET)
-    public String newRegistration(ModelMap model) {
-        model.addAttribute("user", new User());
-        return "newuser";
+    private Integer usersPerPage = 10;
+
+    @ModelAttribute("roles")
+    public List<Role> initializeRoles() {
+        return roleService.getAll();
     }
 
-    //todo refactor after pulling this method into package admin url = admin/users/add
-    @RequestMapping(value = "/newUser", method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute ("user") User user, BindingResult result, ModelMap model) {
-        try {
-            userService.save(user);
-        } catch (Exception e) {
-            System.out.println(e);
-            System.out.println("!!!!!!!!!!!");
-            model.addAttribute("registrationError", "User with email " + user.getEmail() + " is already exist!");
-            return "/user/endRegistration";
-        }
-        model.addAttribute("success", "User with email " + user.getEmail() + " has been registered successfully");
-        return "/user/endRegistration";
-    }
-
+    @ResponseBody
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
-    public String adminAllUsers(ModelMap model,
-                                @RequestParam(value = "status", required = false) String status) {
-        List<User> users;
-        switch (status) {
-            case "false":
-                users = userService.getAllDisabledUsers();
-                model.addAttribute("status", "false");
-                break;
-            case "true":
-                users = userService.getAllEnabledUsers();
-                model.addAttribute("status", "true");
-                break;
-            default:
-                users = userService.getAll();
-                model.addAttribute("status", "All");
-                break;
-        }
-        model.addAttribute("userSearch", new UserSearchDTO());
-        model.addAttribute("users", users);
-        return "admin/users";
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = {"admin/users/changeStatus/{userId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/users/changeStatus/{userId}", method = RequestMethod.GET)
     public void changeUserStatus(@PathVariable long userId) {
         userService.changeStatus(userId);
+    }
+
+    @ResponseBody
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping("/admin/users/view/{id}")
+    public User viewUser(@PathVariable("id") String id) {
+        return userService.getById(Long.parseLong(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -93,13 +58,13 @@ public class AdminController {
     public String deleteUser(@PathVariable long userId,
                              @RequestParam(value = "status", required = false) String status) {
         userService.changeStatus(userId);
-        return "redirect:/admin/users?status="+status;
+        return "redirect:/admin/users?status=" + status;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "admin/users/edit", method = RequestMethod.GET)
     public ModelAndView editUser(@RequestParam("id") Long userId,
-                                 @RequestParam ("status") String status) {
+                                 @RequestParam("status") String status) {
         ModelAndView modelAndView = new ModelAndView("admin/editUser");
         modelAndView.addObject("editUser", userService.getById(userId));
         modelAndView.addObject("status", status);
@@ -110,10 +75,11 @@ public class AdminController {
     @RequestMapping(value = "admin/users/edit", method = RequestMethod.POST)
     public String editUser(@ModelAttribute("editUser") User editUser, BindingResult result, ModelMap model,
                            @RequestParam("email") String email,
-                           @RequestParam ("status") String status) {
+                           @RequestParam("status") String status,
+                           RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("messageError", "Error updating, please try again!");
-            return "redirect:/admin/users?status="+status;
+            redirectAttributes.addFlashAttribute("messageError", "Error updating, please try again!");
+            return "redirect:/admin/users?status=" + status;
         }
         try {
             User user = userService.getByEmail(email);
@@ -121,39 +87,67 @@ public class AdminController {
             user.setEnabled(editUser.getEnabled());
             userService.update(user);
         } catch (Exception e) {
-            model.addAttribute("messageError", "Error updating, please try again!");
-            return "redirect:/admin/users?status="+status;
+            redirectAttributes.addFlashAttribute("messageError", "Error updating, please try again!");
+            return "redirect:/admin/users?status=" + status;
         }
-        model.addAttribute("messageSuccess", "User " + editUser.getEmail() + " successfully updated!");
-
-        return "redirect:/admin/users?status="+status;
+        redirectAttributes.addFlashAttribute("messageSuccess", "User " + editUser.getEmail() + " successfully updated!");
+        return "redirect:/admin/users?status=" + status;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "admin/users/view/{id}", method = RequestMethod.GET)
-    public @ResponseBody User viewUser(@PathVariable("id") String id) {
-        return userService.getById(Long.parseLong(id));
-    }
-
-    @ModelAttribute("roles")
-    public List<Role> initializeRoles() {
-        return roleService.getAll();
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value="admin/users/search",method=RequestMethod.POST)
-    public String renderFilteredHospitalsByPage(
-            @Valid @ModelAttribute("userSearch") UserSearchDTO dto,
-            BindingResult results, @RequestParam("status") String status,
-            ModelMap model) throws Exception{
-        List<User> users = userService.searchUser(dto);
+    @RequestMapping(value = "admin/users", method = RequestMethod.GET)
+    public String allUsers(ModelMap model, @RequestParam(value = "status", required = false) String status,
+                           @ModelAttribute UserAdminDTO dto,
+                           @RequestParam(value = "page", defaultValue = "1") Integer page,
+                           @RequestParam(value = "sort", defaultValue = "email") String sort,
+                           @RequestParam(value = "asc", defaultValue = "true") Boolean asc){
+        dto.setCurrentPage(page);
+        dto.setAsc(asc);
+        dto.setSort(sort);
+        dto.setPageSize(usersPerPage);
+        List users;
+        switch (status) {
+            case "false":
+                users = userService.getAllDisabledUsers(dto);
+                model.addAttribute("status", "false");
+                break;
+            case "true":
+                users = userService.getAllEnabledUsers(dto);
+                model.addAttribute("status", "true");
+                break;
+            default:
+                users = userService.getAllUser(dto);
+                model.addAttribute("status", "All");
+                break;
+        }
+        if(dto.getTotalPage()>1)model.addAttribute("pagination", "pagination");
+        model.addAttribute("userAdminDTO", dto);
+        model.addAttribute("pageSize", dto.getPageSize());
         model.addAttribute("users", users);
+        return "admin/users";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "admin/users/search", method = RequestMethod.GET)
+    public String searchUser(@RequestParam("status") String status,
+                             @RequestParam(value = "page", defaultValue = "1") Integer page,
+                             @ModelAttribute("userAdminDTO") UserAdminDTO dto,
+                             ModelMap model) throws Exception {
+        dto.setPageSize(usersPerPage);
+        List users = userService.searchUser(dto);
+        if(dto.getTotalPage()>1) model.addAttribute("pagination", "pagination");
+        model.addAttribute("search", "search");
+        model.addAttribute("userAdminDTO", dto);
         model.addAttribute("status", status);
-        return "/admin/users";
+        model.addAttribute("users", users);
+        return "admin/users";
+    }
+
+    @ResponseBody
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "admin/users/setItemsPerPage/{value}", method = RequestMethod.GET)
+    public String setItemsPerPage(@PathVariable int value) {
+        usersPerPage = value;
+        return "done";
     }
 }
-
-/*
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.writeValue(new FileOutputStream("/home/andrew/result.json"),userService.getById(Long.parseLong(id)));*/
-

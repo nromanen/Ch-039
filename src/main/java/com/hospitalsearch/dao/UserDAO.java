@@ -1,5 +1,6 @@
 package com.hospitalsearch.dao;
 
+import com.hospitalsearch.dto.UserAdminDTO;
 import com.hospitalsearch.dto.UserSearchDTO;
 import com.hospitalsearch.entity.User;
 import org.springframework.stereotype.Component;
@@ -15,9 +16,10 @@ public interface UserDAO extends GenericDAO<User,Long>{
     User getByEmail(String email);
     void changeStatus(long id);
     Boolean emailExists(String email);
-    List<User> getAllEnabledUsers();
-    List<User> getAllDisabledUsers();
-    List<User> searchUser(UserSearchDTO userSearch);
+    List<User> getAllUser(UserAdminDTO userAdminDTO);
+    List<User> getAllDisabledUsers(UserAdminDTO userAdminDTO);
+    List<User> getAllEnabledUsers(UserAdminDTO userAdminDTO);
+    List<User> searchUser(UserAdminDTO userAdminDTO);
     //Illia
     List<User> getByRole(String role, int pageNumber, int pageSize, String sortBy, Boolean order);
     List<User> getByRole(String role);

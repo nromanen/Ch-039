@@ -1,0 +1,158 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
+
+.blur {
+    box-shadow: 0px 0px 20px 20px rgba(255,255,255,1);
+    text-shadow: 0px 0px 10px rgba(51, 51, 51, 0.9);
+    opacity: 0.6;
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -ms-filter: blur(3px);
+    -o-filter: blur(3px);
+    filter: blur(3px);
+}
+
+
+.table-user-information{
+    height:300px;
+    overflow-x:auto;
+    margin-top: 0px;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+div.table-title {
+    display: block;
+    margin: auto;
+    max-width: 600px;
+    text-align: center;
+}
+
+.table-title h3 {
+    color: #167F92;
+    font-size: 30px;
+    font-weight: 400;
+    font-style:normal;
+    font-family: "Roboto", helvetica, arial, sans-serif;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+    text-transform:uppercase;
+}
+
+/*** Table Styles **/
+
+.table-fill {
+    background: white;
+    border-radius:3px;
+    border-collapse: collapse;
+    height: 320px;
+    margin: auto;
+    max-width: 600px;
+    padding:5px;
+    width: 90%;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    animation: float 5s infinite;
+}
+
+.table-fill th {
+    color:#EAF3F3;
+    background:#024457;
+    border-right: 1px solid #343a45;
+    padding:15px;
+    text-align:center;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    vertical-align:middle;
+}
+
+.table-fill th:first-child {
+    border-top-left-radius:3px;
+}
+
+.table-fill th:last-child {
+    border-top-right-radius:3px;
+    border-right:none;
+}
+
+tr {
+    border-top: 1px solid #C1C3D1;
+    border-bottom-: 1px solid #C1C3D1;
+    font-size:16px;
+    font-weight:normal;
+    text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+
+tr:hover a {
+    background:#167F92;
+    color:#FFFFFF;
+}
+
+tr:hover td {
+    background:#167F92;
+    color:#FFFFFF;
+    border-top: 1px solid #22262e;
+    border-bottom: 1px solid #22262e;
+}
+
+
+.table-fill tr:first-child {
+    border-top:none;
+}
+
+.table-fill tr:last-child {
+    border-bottom:none;
+}
+
+.table-fill tr:nth-child(odd) td {
+    background:#EBEBEB;
+}
+
+.table-fill tr:nth-child(odd):hover td {
+    background:#167F92;
+    color:#FFFFFF;
+    border-top: 1px solid #22262e;
+    border-bottom: 1px solid #22262e;
+}
+
+.table-fill tr:last-child td:first-child {
+    border-bottom-left-radius:3px;
+}
+
+.table-fill tr:last-child td:last-child {
+    border-bottom-right-radius:3px;
+}
+
+.table-fill td {
+    background:#FFFFFF;
+    padding:5px;
+    text-align:left;
+    vertical-align:middle;
+    font-weight:300;
+    font-size:18px;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #C1C3D1;
+}
+
+.table-fill td:last-child {
+    border-right: 0px;
+}
+
+.table-fill th.text-left {
+    text-align: left;
+}
+
+.table-fill th.text-center {
+    text-align: center;
+}
+
+.table-fill th.text-right {
+    text-align: right;
+}
+
+.table-fill td.text-left {
+    text-align: left;
+}
+
+.table-fill td.text-center {
+    text-align: center;
+}
+
+.table-fill td.text-right {
+    text-align: right;
+}

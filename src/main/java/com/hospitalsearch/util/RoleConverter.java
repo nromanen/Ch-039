@@ -25,7 +25,6 @@ public class RoleConverter implements Converter<Object, Role> {
     public Role convert(Object element) {
         String type =(String) element;
         Role role = roleService.getByType(type);
-        System.out.println("Role " + role);
         return role;
     }
 }

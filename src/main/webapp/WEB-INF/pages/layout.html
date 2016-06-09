@@ -1,84 +1,86 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="" />
-<meta name="author" content="" />
-<title>DOCTOR - Responsive HTML &amp; Bootstrap Template</title>
-<link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" />
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/css/login.css}" />
-<link rel="stylesheet" th:href="@{/css/style.css}" />
-<link rel="stylesheet" th:href="@{/css/animate.css}" />
-<link rel="stylesheet" th:href="@{/css/header.css}" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Hospitals</title>
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>
+    <link rel="stylesheet"
+          th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/animate.css}"/>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
 
-<!-- <link
-	href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300'
-	rel='stylesheet' type='text/css' />
-<link
-	href='http://fonts.googleapis.com/css?family=BenchNine:300,400,700'
-	rel='stylesheet' type='text/css' /> -->
+    <!-- <link
+        href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300'
+        rel='stylesheet' type='text/css' />
+    <link
+        href='http://fonts.googleapis.com/css?family=BenchNine:300,400,700'
+        rel='stylesheet' type='text/css' /> -->
 
-<link rel="stylesheet" th:href="@{/css/admin.css}" type="text/css" />
-<link rel="stylesheet"
-	th:href="@{/font-awesome/css/font-awesome.min.css}" type="text/css" />
-<link rel="stylesheet" th:href="@{/codebase/dhtmlxscheduler_flat.css}"
-	type="text/css" media="screen" title="no title" charset="utf-8" />
-<script th:src="@{/codebase/dhtmlxscheduler.js}" type="text/javascript"
-	charset="utf-8"></script>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" type="text/css"/>
+    <link rel="stylesheet"
+          th:href="@{/font-awesome/css/font-awesome.min.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/codebase/dhtmlxscheduler_flat.css}"
+          type="text/css" media="screen" title="no title" charset="utf-8"/>
+    <script th:src="@{/codebase/dhtmlxscheduler.js}" type="text/javascript"
+            charset="utf-8"></script>
 
-<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_minical.js}"
-	type="text/javascript" charset="utf-8"></script>
-<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_readonly.js}"
-	type="text/javascript" charset="utf-8"></script>
-<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_limit.js}"></script>
-<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_serialize.js}"
-	type="text/javascript" charset="utf-8"></script>
-<script th:src="@{/codebase/messageResource.js}" type="text/javascript"
-	charset="utf-8"></script>
-
-
-<script th:src="@{/js/jquery-2.1.1.js}"></script>
-<script th:src="@{/js/feedback.js}"></script>
-<script th:src="@{/js/modernizr.js}"></script>
-<script th:src="@{/js/header.js}"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-<script th:src="@{/js/advanced_search.js}"></script>
-<!--[if lt IE 9]>
-	<script src="js/html5shiv.js"></script>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
+    <script th:src="@{/codebase/sources/ext/dhtmlxscheduler_minical.js}"
+            type="text/javascript" charset="utf-8"></script>
+    <script th:src="@{/codebase/sources/ext/dhtmlxscheduler_readonly.js}"
+            type="text/javascript" charset="utf-8"></script>
+    <script th:src="@{/codebase/sources/ext/dhtmlxscheduler_limit.js}"></script>
+    <script th:src="@{/codebase/sources/ext/dhtmlxscheduler_serialize.js}"
+            type="text/javascript" charset="utf-8"></script>
+    <script th:src="@{/codebase/messageResource.js}" type="text/javascript"
+            charset="utf-8"></script>
 
 
-<!--<script type="text/javascript">
-		WebFontConfig = {
-			google : {
-				families : [ 'Roboto::latin' ]
-			}
-		};
-		(function() {
-			var wf = document.createElement('script');
-			wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-			wf.type = 'text/javascript';
-			wf.async = 'true';
-			var s = document.getElementsByTagName('script')[0];
-			s.parentNode.insertBefore(wf, s);
-		})();
-	</script>-->
+    <script th:src="@{/js/jquery-2.1.1.js}"></script>
+    <script th:src="@{/js/feedback.js}"></script>
+    <script th:src="@{/js/modernizr.js}"></script>
+    <script th:src="@{/js/header.js}"></script>
+    <script th:src="@{/js/jquery.cookie.js}"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script th:src="@{/js/advanced_search.js}"></script>
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+
+    <!--<script type="text/javascript">
+            WebFontConfig = {
+                google : {
+                    families : [ 'Roboto::latin' ]
+                }
+            };
+            (function() {
+                var wf = document.createElement('script');
+                wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+                wf.type = 'text/javascript';
+                wf.async = 'true';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(wf, s);
+            })();
+        </script>-->
 </head>
 <body>
-	<div th:replace="templates/header::page-header" />
-	<div layout:fragment="content" />
-	<div class="footer" th:replace="templates/footer::page-footer" />
+<div th:replace="templates/header::page-header"/>
+<div layout:fragment="content"/>
+<div class="footer" th:replace="templates/footer::page-footer"/>
 
-	<script th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>
-	<script th:src="@{/js/custom.js}"></script>
-	<script th:src="@{/js/smoothscroll.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/smoothscroll.js}"></script>
 
 </body>
 </html>

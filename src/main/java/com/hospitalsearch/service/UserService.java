@@ -2,6 +2,7 @@ package com.hospitalsearch.service;
 
 import java.util.List;
 
+import com.hospitalsearch.dto.UserAdminDTO;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,11 +28,17 @@ public interface UserService {
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     List<User> getAll();
 
-    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
-    List<User> getAllEnabledUsers();
+    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
+    List<User> getAllUser(UserAdminDTO userAdminDTO);
 
-    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
-    List<User> getAllDisabledUsers();
+    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
+    List<User> getAllEnabledUsers(UserAdminDTO userAdminDTO);
+
+    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
+    List<User> getAllDisabledUsers(UserAdminDTO userAdminDTO);
+
+    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
+    List<User> searchUser(UserAdminDTO userAdminDTO);
 
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     User getByEmail(String email);
@@ -43,8 +50,6 @@ public interface UserService {
     UserDto getDtoByEmail(String email);
 
 	void registerUpdate(UserDetailRegisterDto dto, String email);
-
-    public List<User> searchUser(UserSearchDTO userSearch);
 
     //Illia
     List<User> getByRole(String role, int pageNumber, int pageSize, String sortBy, Boolean order);

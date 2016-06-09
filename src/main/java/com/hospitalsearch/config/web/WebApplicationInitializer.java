@@ -2,6 +2,7 @@ package com.hospitalsearch.config.web;
 
 
 import javax.servlet.Filter;
+import javax.servlet.ServletRegistration;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -33,6 +34,10 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
         return new Filter[]{filter};
     }
 
-
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        if(!(registration.setInitParameter("throwExceptionIfNoHandlerFound", "true")))
+            throw new RuntimeException();
+    }
 }
 
