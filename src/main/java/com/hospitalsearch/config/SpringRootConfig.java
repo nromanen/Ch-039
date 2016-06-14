@@ -84,6 +84,7 @@ public class SpringRootConfig {
         props.put(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER));
         props.put(PROP_HIBERNATE_SEARCH_INDEX_BASE, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_INDEX_BASE));
 
+
         return props;
     }
 

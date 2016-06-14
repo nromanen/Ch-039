@@ -18,7 +18,6 @@
 <section layout:fragment="content">
     <div class="content">
         <div class="container">
-            <span hidden="hidden" id="mass" th:text="#{card.record.mass}"></span>
             <h1 th:if="${cardItem.id==null}" th:text="#{card.record.create}">Create new record</h1>
             <h1 th:if="${cardItem.id!=null}" th:text="#{card.record.edit}">Edit record</h1>
             <h4 th:if="${cardItem.date==null}" th:text="#{card.record.now}+' '+ ${#dates.format(#dates.createNow(), 'HH:mm dd-MM-yyyy')}"></h4>
@@ -55,6 +54,8 @@
             </form>
             <a class="btn btn-danger" th:text="#{card.record.back}" th:href="@{/card/items(userId=${userId},page=1)}">Back</a>
         </div>
+        <span hidden="hidden" id="massMin" th:text="#{card.record.massMin}"></span>
+        <span hidden="hidden" id="massMax" th:text="#{card.record.massMax}"></span>
     </div>
 </section>
 

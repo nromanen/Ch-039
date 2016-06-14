@@ -24,11 +24,11 @@
                         </div>
                     </form>
                 </li>
-                <li><a th:class="menu" th:href="@{/}">Home</a></li>
+                <li><a th:class="menu" th:href="@{/}" th:text="#{header.menu.home}">Home</a></li>
 
                 <li><a th:class="menu"
                        th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/mapsearch.*')}?'active':''"
-                       th:href="@{/mapsearch}">Find</a></li>
+                       th:href="@{/mapsearch}" th:text="#{header.menu.find}">Find</a></li>
 
                 <li sec:authorize="hasRole('PATIENT')"><a
                         th:class="menu"
@@ -125,7 +125,7 @@
                     <ul class="dropdown-menu localization" id="dropdawn">
                         <li>
                             <a th:href="@{ |${#httpServletRequest.requestURL.toString()+'?lang=ua'}| }" class="menu">
-                                <img th:src="@{/img/ua.png}"/> українська
+                                <img th:src="@{/img/ua.png}" th:text="#{ukrainian}"/>
                             </a>
                         </li>
                         <li>

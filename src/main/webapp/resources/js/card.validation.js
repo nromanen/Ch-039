@@ -1,39 +1,40 @@
 $(document).ready(function() {
-    var mass = document.getElementById('mass');
+    var massMin = document.getElementById('massMin');
+    var massMax = document.getElementById('massMax');
 
     $('#form').validate({
         rules:{
             complaint:{
                 required:true,
                 minlength:5,
-                maxlength: 254
+                maxlength: 1000
             },
             result:{
                 required:true,
                 minlength:5,
-                maxlength: 254
+                maxlength: 1000
             },
             prescription:{
                 required:true,
                 minlength:5,
-                maxlength: 254
+                maxlength: 1000
             }
         },
         messages:{
             complaint:{
-                required: mass.textContent,
-                minlength:mass.textContent,
-                maxlength: "max size = 254"
+                required: massMin.textContent,
+                minlength:massMin.textContent,
+                maxlength: massMax.textContent
             },
             result:{
-                required:mass.textContent,
-                minlength:mass.textContent,
-                maxlength: "max size = 254"
+                required: massMin.textContent,
+                minlength:massMin.textContent,
+                maxlength: massMax.textContent
             },
             prescription:{
-                required:mass.textContent,
-                minlength:mass.textContent,
-                maxlength: "max size = 254"
+                required: massMin.textContent,
+                minlength:massMin.textContent,
+                maxlength: massMax.textContent
             }
         }
     });

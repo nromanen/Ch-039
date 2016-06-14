@@ -318,12 +318,22 @@
         <addForeignKeyConstraint baseColumnNames="hospital_id" baseTableName="hospital_users" constraintName="FK_tcu91xpek54a086jamuakvoh8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="hospital"/>
     </changeSet>
     <changeSet author="admin (generated)" id="1465423649552-61">
-		<createTable tableName="workscheduler">
-			<column name="doctor_id" type="BIGINT"/>
-			<column name="workscheduler" type="VARCHAR"/>
-		</createTable>
-	</changeSet>
-	<changeSet author="admin (generated)" id="1465423649552-62">
-		<sqlFile path="init.sql" relativeToChangelogFile="true"/>
-	</changeSet>
+        <createTable tableName="workscheduler">
+            <column name="doctor_id" type="BIGINT"/>
+            <column name="workscheduler" type="VARCHAR"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1465423649552-62">
+        <sqlFile path="init.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet author="igortsapyak (generated)" id="1465423649552-63">
+        <modifyDataType columnName="complaint" newDataType="text" tableName="carditem"/>
+    </changeSet>
+    <changeSet author="igortsapyak (generated)" id="1465423649552-64">
+        <modifyDataType columnName="prescription" newDataType="text" tableName="carditem"/>
+    </changeSet>
+    <changeSet author="igortsapyak (generated)" id="1465423649552-65">
+        <modifyDataType columnName="result" newDataType="text" tableName="carditem"/>
+    </changeSet>
 </databaseChangeLog>
