@@ -6,6 +6,7 @@
 package com.hospitalsearch.util;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
@@ -88,8 +89,9 @@ public final class Page<T>{
         }
         fullTextQuery.setFirstResult((pageSize*(page-1))).setMaxResults(pageSize);
         fullTextQuery.setSort(new Sort(new SortField("name", Type.STRING_VAL)));
-        List<T> result = (List<T>) fullTextQuery.list();
         
+        Logger.getLogger(Page.class.getName()).log(java.util.logging.Level.ALL, fullTextQuery.toString());
+        List<T> result = (List<T>) fullTextQuery.list();
         session.close();
         return result;
     }

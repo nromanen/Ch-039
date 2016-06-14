@@ -1,7 +1,7 @@
 package com.hospitalsearch.config.security;
 
-import com.hospitalsearch.handlers.CustomAuthenticationHandler;
-import com.hospitalsearch.handlers.ErrorAuthenticationHandler;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +23,8 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-import javax.sql.DataSource;
+import com.hospitalsearch.handlers.CustomAuthenticationHandler;
+import com.hospitalsearch.handlers.ErrorAuthenticationHandler;
 
 /**
  * @author Andrew Jasinskiy
@@ -60,7 +61,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/doctor/feedback");
 		web.ignoring().antMatchers("/**/supplyAppointment");
 		web.ignoring().antMatchers("/hospitals/config");
 	}
@@ -102,7 +102,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.tokenRepository(tokenRepository)
 				.tokenValiditySeconds(TIME);
 	}
-
+	
 	//password encoder
 	@Bean
 	public PasswordEncoder passwordEncoder() {

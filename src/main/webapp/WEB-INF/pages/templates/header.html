@@ -114,7 +114,6 @@
                         </a></li>
                     </ul>
                 </li>
-
                 <!-- Localization changer -->
                 <li style="cursor: pointer;">
                     <a href="#" class="nav localization-item navbar-nav dropdown dropdown-toggle"
@@ -124,20 +123,17 @@
                     </a>
                     <ul class="dropdown-menu localization" id="dropdawn">
                         <li>
-                            <a th:href="@{ |${#httpServletRequest.requestURL.toString()+'?lang=ua'}| }" class="menu">
+                            <a th:href="@{#}" data-lang="ua" onclick="changeLang(event)" class="menu">
                                 <img th:src="@{/img/ua.png}"/> українська
                             </a>
                         </li>
                         <li>
-                            <a th:href="@{ |${#httpServletRequest.requestURL.toString()+'?lang=en'}|}" class="menu">
+                            <a th:href="@{#}" data-lang="en" onclick="changeLang(event)"  class="menu">
                                 <img th:src="@{/img/en.png}"/> english
                             </a>
                         </li>
-
                     </ul>
                 </li>
-
-
                 <li class="[ hidden-xs ]"><a href="#toggle-search" class="[ animate ]"><span
                         class="[ glyphicon glyphicon-search ]"></span></a></li>
             </ul>
@@ -198,16 +194,14 @@
                            length="100"
                            maxlength="100"
                            required="required"
-                           data-error="minumum of 5 characters"
+                           th:attr="data-error = #{header.search.error.message}"
                            th:placeholder="#{header.menu.searchbar.placeholder}"/>
  					    <div class="help-block with-errors"></div>
-                    
                     </div>
                     <span class="[ input-group-btn ]">
                     	<button type="submit" class="[ btn btn-info ]"><span class="[ glyphicon glyphicon-search ]"></span></button>
                         <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
                     </span>
-                    
                 </div>
             </form>
         </div>
