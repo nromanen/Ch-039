@@ -18,11 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
-
 /**
  * @author Andrew Jasinskiy on 10.05.16
  */
-
 @Controller
 public class AdminController {
 
@@ -33,6 +31,7 @@ public class AdminController {
     RoleService roleService;
 
     private Integer usersPerPage = 10;
+    private Integer currentPage = 1;
 
     @ModelAttribute("roles")
     public List<Role> initializeRoles() {
@@ -85,7 +84,7 @@ public class AdminController {
             User user = userService.getByEmail(email);
             user.setUserRoles(editUser.getUserRoles());
             user.setEnabled(editUser.getEnabled());
-            userService.update(user);
+            userService.updateUser(user);
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("messageError", "Error updating, please try again!");
             return "redirect:/admin/users?status=" + status;
@@ -105,21 +104,8 @@ public class AdminController {
         dto.setAsc(asc);
         dto.setSort(sort);
         dto.setPageSize(usersPerPage);
-        List users;
-        switch (status) {
-            case "false":
-                users = userService.getAllDisabledUsers(dto);
-                model.addAttribute("status", "false");
-                break;
-            case "true":
-                users = userService.getAllEnabledUsers(dto);
-                model.addAttribute("status", "true");
-                break;
-            default:
-                users = userService.getAllUser(dto);
-                model.addAttribute("status", "All");
-                break;
-        }
+        dto.setStatus(status);
+        List users = userService.getUsers(dto);
         if(dto.getTotalPage()>1)model.addAttribute("pagination", "pagination");
         model.addAttribute("userAdminDTO", dto);
         model.addAttribute("pageSize", dto.getPageSize());
@@ -133,7 +119,8 @@ public class AdminController {
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @ModelAttribute("userAdminDTO") UserAdminDTO dto,
                              ModelMap model) throws Exception {
-        dto.setPageSize(usersPerPage);
+
+       /* dto.setPageSize(usersPerPage);*/
         List users = userService.searchUser(dto);
         if(dto.getTotalPage()>1) model.addAttribute("pagination", "pagination");
         model.addAttribute("search", "search");
@@ -143,11 +130,12 @@ public class AdminController {
         return "admin/users";
     }
 
-    @ResponseBody
+  /*  @ResponseBody
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "admin/users/setItemsPerPage/{value}", method = RequestMethod.GET)
     public String setItemsPerPage(@PathVariable int value) {
         usersPerPage = value;
+        currentPage = 1;
         return "done";
-    }
+    }*/
 }

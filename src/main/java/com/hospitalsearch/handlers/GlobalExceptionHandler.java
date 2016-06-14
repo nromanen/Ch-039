@@ -1,3 +1,4 @@
+/*
 package com.hospitalsearch.handlers;
 
 import org.apache.log4j.LogManager;
@@ -52,3 +53,4 @@ public class GlobalExceptionHandler {
         return "error/404";
     }
 }
+*/

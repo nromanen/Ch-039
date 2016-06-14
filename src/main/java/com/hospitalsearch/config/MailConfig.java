@@ -34,12 +34,10 @@ public class MailConfig {
     }
     //enable gmail "less secure on" https://www.google.com/settings/security/lesssecureapps page
     
-
     @Bean
     public VelocityConfigurer velocityConfigurer() {
         VelocityConfigurer configurer = new VelocityConfigurer();
         configurer.setResourceLoaderPath("/WEB-INF/velocity/");
         return configurer;
     }
-
 }

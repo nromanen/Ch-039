@@ -45,7 +45,6 @@ public class SpringRootConfig {
     private static final String PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER = "hibernate.search.default.directory_provider";
     private static final String PROP_HIBERNATE_SEARCH_INDEX_BASE = "hibernate.search.default.indexBase";
 
-
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -104,6 +103,4 @@ public class SpringRootConfig {
         liquibase.setIgnoreClasspathPrefix(true);
         return liquibase;
     }
-
-
 }

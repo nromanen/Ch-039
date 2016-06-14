@@ -65,8 +65,8 @@ public class User implements Comparable<User> {
 	private Set<Role> userRoles = new HashSet<>();
 
 	@OneToOne(cascade= CascadeType.ALL)
-	@Fetch(FetchMode.SELECT)
     @JoinColumn(name="userdetails_id")
+	@Fetch(FetchMode.SELECT)
 	private UserDetail userDetails;
 
 	public String getEmail() {

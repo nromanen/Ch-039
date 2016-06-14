@@ -18,7 +18,9 @@ public interface UserService {
 
     void delete(Long id);
 
-    void update(User updatedUser);
+    void updateUser(User user);
+
+    void update(User user);
 
     void changeStatus(Long id);
 
@@ -28,19 +30,13 @@ public interface UserService {
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     List<User> getAll();
 
-    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
-    List<User> getAllUser(UserAdminDTO userAdminDTO);
-
-    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
-    List<User> getAllEnabledUsers(UserAdminDTO userAdminDTO);
-
-    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
-    List<User> getAllDisabledUsers(UserAdminDTO userAdminDTO);
+    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
+    List<User> getUsers(UserAdminDTO userAdminDTO);
 
     @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
     List<User> searchUser(UserAdminDTO userAdminDTO);
 
-    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
+    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
     User getByEmail(String email);
 
     void register(UserRegisterDto dto);

@@ -18,8 +18,6 @@ import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.util.Bounds;
 import com.hospitalsearch.util.HospitalFilterDTO;
 import com.hospitalsearch.util.Page;
-
-
 /**
  *
  * @author Pavlo Kuz edited by Oleksandr Mukonin,Pavlo Kuz and others

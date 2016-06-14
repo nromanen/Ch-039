@@ -70,6 +70,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser(User user) {
+        try {
+            logger.info("Update merge " + user);
+            dao.updateUser(user);
+        } catch (Exception e) {
+            logger.error("Error merge user: " + user, e);
+        }
+    }
+
+    @Override
     public void update(User user) {
         try {
             logger.info("Update user " + user);
@@ -126,38 +136,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     @Override
-    public List<User> getAllUser(UserAdminDTO userAdminDTO) {
+    public List<User> getUsers(UserAdminDTO userAdminDTO) {
         List<User> users = new ArrayList<>();
         try {
-            users = dao.getAllUser(userAdminDTO);
+            users = dao.getUsers(userAdminDTO);
             logger.info("Get all users!");
         } catch (Exception e) {
             logger.error("Error getting all users", e);
-        }
-        return users;
-    }
-
-    @Override
-    public List<User> getAllEnabledUsers(UserAdminDTO userAdminDTO) {
-        List<User> users = new ArrayList<>();
-        try {
-            users = dao.getAllEnabledUsers(userAdminDTO);
-            logger.info("Get all enabled users!");
-        } catch (Exception e) {
-            logger.error("Error getting all enabled users", e);
-        }
-        return users;
-    }
-
-    @Override
-    public List<User> getAllDisabledUsers(UserAdminDTO userAdminDTO) {
-        List<User> users = new ArrayList<>();
-        try {
-            users = dao.getAllDisabledUsers(userAdminDTO);
-            logger.info("Get all disabled users!");
-        } catch (Exception e) {
-            logger.error("Error getting all disabled users", e);
         }
         return users;
     }
@@ -173,7 +160,6 @@ public class UserServiceImpl implements UserService {
         }
         return users;
     }
-
 
     //Illia
     @Override
@@ -223,12 +209,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserRegisterDto dto) {
-
     }
 
     @Override
     public void registerUpdate(UserDto dto, String email) {
-
     }
 
     @Override

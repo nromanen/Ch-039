@@ -14,7 +14,6 @@
 </head>
 <body>
 <section layout:fragment="content" class="dashboard center">
-
     <div class="content">
         <div id="mainWrapper">
             <div class="container">
@@ -24,26 +23,29 @@
                             <fieldset>
                                 <h2>Please Log In</h2>
 
-                                <div class="alert alert-info" th:if="${error == 'invalidAuthentication'}" >
+                                <div class="alert alert-danger" th:if="${error == 'invalidAuthentication'}">
                                     <p>Invalid username or password.</p>
                                 </div>
 
-                                <div class="alert alert-info" th:if="${error == 'invalidActivation'}" >
+                                <div class="alert alert-danger" th:if="${error == 'invalidActivation'}">
                                     <p>Your account is not activated.</p>
                                 </div>
 
                                 <hr class="colorgraph"/>
 
                                 <div class="form-group">
-                                    <input type="email" name="email" id="email" th:value="${email}" class="form-control input-lg" placeholder="Email Address"/>
+                                    <input type="email" name="email" id="email" th:value="${email}"
+                                           class="form-control input-lg" placeholder="Email Address"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password"/>
+                                    <input type="password" name="password" id="password" class="form-control input-lg"
+                                           placeholder="Password"/>
                                 </div>
 
                                 <span class="button-checkbox">
                                     <button type="button" class="btn" data-color="info">Remember Me</button>
-                                    <input type="checkbox" name="remember-me" id="remember-me" checked="checked" class="hidden"/>
+                                    <input type="checkbox" name="remember-me" id="remember-me" checked="checked"
+                                           class="hidden"/>
                                     <a href="" class="btn btn-link pull-right">Forgot Password?</a>
                                 </span>
 

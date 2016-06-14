@@ -2,22 +2,33 @@ package com.hospitalsearch.dao.impl;
 
 import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.dto.UserAdminDTO;
-import com.hospitalsearch.dto.UserSearchDTO;
 import com.hospitalsearch.entity.User;
+import com.hospitalsearch.entity.UserDetail;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
+import org.hibernate.FetchMode;
+import org.hibernate.ScrollableResults;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.internal.CriteriaImpl;
+import org.hibernate.internal.SessionImpl;
+import org.hibernate.loader.OuterJoinLoader;
+import org.hibernate.loader.criteria.CriteriaLoader;
+import org.hibernate.persister.entity.OuterJoinLoadable;
+import org.hibernate.transform.DistinctRootEntityResultTransformer;
+import org.hibernate.transform.ResultTransformer;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
+import javax.swing.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.nonNull;
-
 /**
  * @author Andrew Jasinskiy
  */
@@ -36,13 +47,23 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         return nonNull(getByEmail(email));
     }
 
+
+    public void updateUser(User user) {
+        this.getSessionFactory().getCurrentSession().merge(user);
+    }
+
+
+    public void update(User user) {
+        super.update(user);
+    }
+
     @Override
     public User getByEmail(String email) {
         try {
             logger.info("getUserByEmail email: " + email);
-            //fixed by Igor
-            //Criteria criteria = this.currentSession().createCriteria(User.class);
-            Criteria criteria = getSessionFactory().openSession().createCriteria(User.class);
+            Criteria criteria = this.getSessionFactory()
+                    .getCurrentSession()
+                    .createCriteria(User.class);
             criteria.add(Restrictions.eq("email", email));
             return (User) criteria.uniqueResult();
         } catch (Exception e) {
@@ -59,42 +80,14 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> getAllUser(UserAdminDTO userAdminDTO) {
+    public List<User> getUsers(UserAdminDTO userAdminDTO) {
         Criteria criteria = this.getSessionFactory()
                 .getCurrentSession()
                 .createCriteria(User.class);
-        userAdminDTO.setTotalPage(getTotalPages(criteria, userAdminDTO.getPageSize()));
-        getPagination(userAdminDTO, criteria);
+        getUsersByStatus(userAdminDTO, criteria);
         getAlias(criteria);
-        getSort(userAdminDTO, criteria);
-        return criteria.list();
-    }
-
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<User> getAllEnabledUsers(UserAdminDTO userAdminDTO) {
-        Criteria criteria = this.getSessionFactory()
-                .getCurrentSession()
-                .createCriteria(User.class, "user")
-                .add(Restrictions.eq("user.enabled", true));
-        userAdminDTO.setTotalPage(getTotalPages(criteria, userAdminDTO.getPageSize()));
+        userAdminDTO.setTotalPage(getTotalPages(criteria,userAdminDTO));
         getPagination(userAdminDTO, criteria);
-        getAlias(criteria);
-        getSort(userAdminDTO, criteria);
-        return criteria.list();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<User> getAllDisabledUsers(UserAdminDTO userAdminDTO) {
-        Criteria criteria = this.getSessionFactory()
-                .getCurrentSession()
-                .createCriteria(User.class, "user")
-                .add(Restrictions.eq("user.enabled", false));
-        userAdminDTO.setTotalPage(getTotalPages(criteria, userAdminDTO.getPageSize()));
-        getPagination(userAdminDTO, criteria);
-        getAlias(criteria);
         getSort(userAdminDTO, criteria);
         return criteria.list();
     }
@@ -105,30 +98,35 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         Criteria criteria = this.getSessionFactory()
                 .getCurrentSession()
                 .createCriteria(User.class);
-        getAlias(criteria);
-
+        getUsersByStatus(userAdminDTO, criteria);
         //choose role
+        getAlias(criteria);
         criteria.add(Restrictions.like("roles.type", userAdminDTO.getRole(), MatchMode.ANYWHERE));
-        if (userAdminDTO.getStatus().equals("All")) {
-            criteria.add(Restrictions.conjunction());
-        } else {
-            criteria.add(Restrictions.eq("enabled", Boolean.parseBoolean(userAdminDTO.getStatus())));
-        }
         if (userAdminDTO.getAllField() != null) {
             criteria.add(searchInAllFields(userAdminDTO.getAllField()));
-            userAdminDTO.setTotalPage(getTotalPages(criteria, userAdminDTO.getPageSize()));
+            userAdminDTO.setTotalPage(getTotalPages(criteria,userAdminDTO));
             getPagination(userAdminDTO, criteria);
             getSort(userAdminDTO, criteria);
             return criteria.list();
         }
         criteria.add(searchInChosenField(userAdminDTO));
-        userAdminDTO.setTotalPage(getTotalPages(criteria, userAdminDTO.getPageSize()));
+        userAdminDTO.setTotalPage(getTotalPages(criteria,userAdminDTO));
         getPagination(userAdminDTO, criteria);
         getSort(userAdminDTO, criteria);
         return criteria.list();
     }
 
     //utilities methods
+    //get all users by status
+    private Criteria getUsersByStatus(UserAdminDTO userAdminDTO, Criteria criteria) {
+        if (userAdminDTO.getStatus().equals("all")) {
+            criteria.add(Restrictions.conjunction());
+        } else {
+            criteria.add(Restrictions.eq("enabled", Boolean.parseBoolean(userAdminDTO.getStatus())));
+        }
+        return criteria;
+    }
+
     //search in all fields
     private Disjunction searchInAllFields(String value) {
         Disjunction disjunction = Restrictions.disjunction();
@@ -146,10 +144,14 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     }
 
     //get count of page
-    private Integer getTotalPages(Criteria criteria, Integer pageSize) {
+    private Integer getTotalPages(Criteria criteria, UserAdminDTO userAdminDTO) {
         Long countPages = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+        Integer totalPages =(int) Math.ceil((double) countPages / userAdminDTO.getPageSize());
+        if(totalPages<userAdminDTO.getCurrentPage()) {
+            userAdminDTO.setCurrentPage(1);
+        }
         criteria.setProjection(null);
-        return (int) Math.ceil((double) countPages / pageSize);
+        return totalPages;
     }
 
     //get pagination
@@ -166,6 +168,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         criteria.createAlias("userDetails", "detail");
         return criteria;
     }
+
     //get sort
     /**
      * @param userAdminDTO
@@ -183,11 +186,11 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     }
 
     //Illia
-
     @Override
     public List<User> getByRole(String role) {
         Criteria criteria = this.currentSession().createCriteria(User.class, "user")
-                .createAlias("user.userRoles", "userRoles").add(Restrictions.eq("userRoles.type", role))
+                .createAlias("user.userRoles", "userRoles")
+                .add(Restrictions.eq("userRoles.type", role))
                 .createAlias("user.userDetails", "details");
         return criteria.list();
     }
@@ -203,7 +206,6 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         } else {
             criteria = prepareGetByRole(role, pageNumber, pageSize, "user.email", order);
         }
-
         return criteria.list();
     }
 
@@ -218,7 +220,6 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         } else {
             criteria = prepareSearchByRole(role, search, pageNumber, pageSize, "user.email", order);
         }
-
         return criteria.list();
     }
 

@@ -2,7 +2,6 @@ package com.hospitalsearch.entity;
 
 import javax.persistence.*;
 import java.util.Date;
-
 /**
  * @author Andrew Jasinskiy
  */
@@ -21,7 +20,6 @@ public class PersistentLogin{
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date last_used;
-
 
     public String getSeries() {
         return series;

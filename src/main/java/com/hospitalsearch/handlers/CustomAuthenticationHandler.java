@@ -23,6 +23,7 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 
     private final Logger logger = LogManager.getLogger(CustomAuthenticationHandler.class);
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private static Map<String, String> roleMapper = new HashMap<>();
 
     @Override
     protected void handle(HttpServletRequest request,
@@ -37,7 +38,6 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 
     protected String determineTargetUrl(Authentication authentication) {
         String role = authentication.getAuthorities().toString();
-        Map<String, String> roleMapper = new HashMap<>();
         roleMapper.put("MANAGER", "/manageDoctors");
         roleMapper.put("ADMIN", "/admin/users?status=true");
         roleMapper.put("PATIENT", "/");

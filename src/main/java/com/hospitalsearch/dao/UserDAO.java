@@ -16,10 +16,11 @@ public interface UserDAO extends GenericDAO<User,Long>{
     User getByEmail(String email);
     void changeStatus(long id);
     Boolean emailExists(String email);
-    List<User> getAllUser(UserAdminDTO userAdminDTO);
-    List<User> getAllDisabledUsers(UserAdminDTO userAdminDTO);
-    List<User> getAllEnabledUsers(UserAdminDTO userAdminDTO);
+    void updateUser(User user);
+
+    List<User> getUsers(UserAdminDTO userAdminDTO);
     List<User> searchUser(UserAdminDTO userAdminDTO);
+
     //Illia
     List<User> getByRole(String role, int pageNumber, int pageSize, String sortBy, Boolean order);
     List<User> getByRole(String role);
