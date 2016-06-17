@@ -130,5 +130,4 @@ public class MapController {
 	public String validate() {
 		return "mapvalidation";
 	}
-
 }

@@ -1,5 +1,6 @@
 package com.hospitalsearch.controller;
 
+import com.hospitalsearch.dto.UserRegisterDto;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.RoleService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -75,6 +77,24 @@ public class UserController {
             return "/user/endRegistration";
         }
         model.addAttribute("success", "User with email " + user.getEmail() + " has been registered successfully");
+        return "/user/endRegistration";
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public String getRegistration(@ModelAttribute("userDto") UserRegisterDto userDto,
+                                  BindingResult result, ModelMap model) {
+        model.addAttribute("userRegisterDto", userDto);
+        return "/registration";
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String registerUser(@Valid @ModelAttribute("userDto") UserRegisterDto userDto,
+                               BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+                return "registration";
+        }
+        userService.register(userDto);
+        model.addAttribute("success", "User with email " + userDto.getEmail() + " has been registered successfully");
         return "/user/endRegistration";
     }
 }

@@ -16,13 +16,6 @@
     <link rel="stylesheet" th:href="@{/css/animate.css}"/>
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
 
-    <!-- <link
-        href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300'
-        rel='stylesheet' type='text/css' />
-    <link
-        href='http://fonts.googleapis.com/css?family=BenchNine:300,400,700'
-        rel='stylesheet' type='text/css' /> -->
-
     <link rel="stylesheet" th:href="@{/css/admin.css}" type="text/css"/>
     <link rel="stylesheet"
           th:href="@{/font-awesome/css/font-awesome.min.css}" type="text/css"/>
@@ -42,7 +35,9 @@
             charset="utf-8"></script>
 
 
-    <script th:src="@{/js/jquery-2.1.1.js}"></script>
+    <script th:src="@{/js/jquery-2.2.4.js}"></script>
+    <script th:src="@{/js/jquery.json.min.js}"></script>
+
     <script th:src="@{/js/feedback.js}"></script>
     <script th:src="@{/js/modernizr.js}"></script>
     <script th:src="@{/js/header.js}"></script>
@@ -57,21 +52,6 @@
     <![endif]-->
 
 
-    <!--<script type="text/javascript">
-            WebFontConfig = {
-                google : {
-                    families : [ 'Roboto::latin' ]
-                }
-            };
-            (function() {
-                var wf = document.createElement('script');
-                wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-                wf.type = 'text/javascript';
-                wf.async = 'true';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(wf, s);
-            })();
-        </script>-->
 </head>
 <body>
 <div th:replace="templates/header::page-header"/>

@@ -88,7 +88,7 @@ $(document).ready(function () {
         $('.content').removeClass('blur');
     });
 
-    $("#menu-toggle").click(function (e) {
+   $("#menu-toggle").click(function (e) {
         e.preventDefault();
         $("#sidebar-wrapper").toggleClass("active");
     });
@@ -112,4 +112,7 @@ $(document).ready(function () {
             }
         });
     });
+
+
+
 });

@@ -1,5 +1,6 @@
 package com.hospitalsearch.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hospitalsearch.dto.UserAdminDTO;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
@@ -8,6 +9,7 @@ import com.hospitalsearch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.SortDefinition;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -38,16 +40,18 @@ public class AdminController {
         return roleService.getAll();
     }
 
+
     @ResponseBody
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "/admin/users/changeStatus/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/**/changeStatus/{userId}", method = RequestMethod.GET)
     public void changeUserStatus(@PathVariable long userId) {
         userService.changeStatus(userId);
     }
 
+
     @ResponseBody
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping("/admin/users/view/{id}")
+    @RequestMapping(value = "/**/viewUser/{id}", method = RequestMethod.POST)
     public User viewUser(@PathVariable("id") String id) {
         return userService.getById(Long.parseLong(id));
     }
@@ -120,7 +124,6 @@ public class AdminController {
                              @ModelAttribute("userAdminDTO") UserAdminDTO dto,
                              ModelMap model) throws Exception {
 
-       /* dto.setPageSize(usersPerPage);*/
         List users = userService.searchUser(dto);
         if(dto.getTotalPage()>1) model.addAttribute("pagination", "pagination");
         model.addAttribute("search", "search");

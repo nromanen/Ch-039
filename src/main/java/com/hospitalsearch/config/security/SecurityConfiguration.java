@@ -92,7 +92,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.logout()
 				.logoutSuccessUrl("/login?logout")
 				.invalidateHttpSession(true)
-				.deleteCookies("remember-me")
+				/*.deleteCookies("remember-me")*/
 				.and()
 				.exceptionHandling()
 				.accessDeniedPage("/403")
@@ -100,7 +100,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.rememberMe()
 				.rememberMeParameter("remember-me")
 				.tokenRepository(tokenRepository)
-				.tokenValiditySeconds(TIME);
+				.tokenValiditySeconds(TIME)
+				.and().requiresChannel().anyRequest().requiresSecure();
 	}
 
 	//password encoder

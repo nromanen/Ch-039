@@ -11,7 +11,7 @@ import com.hospitalsearch.service.RoleService;
 import com.hospitalsearch.service.UserService;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
-import com.hospitalsearch.util.UserRegisterDto;
+import com.hospitalsearch.dto.UserRegisterDto;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -52,6 +54,20 @@ public class UserServiceImpl implements UserService {
             dao.save(newUser);
         } catch (Exception e) {
             logger.error("Error saving user: " + newUser, e);
+        }
+    }
+
+    @Override
+    public void register(UserRegisterDto userRegisterDto) {
+        try {
+            logger.info("register user: " + userRegisterDto);
+            User user = new User();
+            user.setEmail(userRegisterDto.getEmail());
+            user.setPassword(userRegisterDto.getPassword());
+            user.setUserRoles(new HashSet<>(Collections.singletonList(roleService.getByType("PATIENT"))));
+            save(user);
+        }catch (Exception e){
+            logger.error("Error register user: " + userRegisterDto, e);
         }
     }
 
@@ -207,9 +223,6 @@ public class UserServiceImpl implements UserService {
     }
     //Illia
 
-    @Override
-    public void register(UserRegisterDto dto) {
-    }
 
     @Override
     public void registerUpdate(UserDto dto, String email) {

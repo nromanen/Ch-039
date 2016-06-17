@@ -6,11 +6,10 @@ import com.hospitalsearch.dto.UserAdminDTO;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hospitalsearch.dto.UserSearchDTO;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
-import com.hospitalsearch.util.UserRegisterDto;
+import com.hospitalsearch.dto.UserRegisterDto;
 @Transactional
 public interface UserService {
 
@@ -24,7 +23,7 @@ public interface UserService {
 
     void changeStatus(Long id);
 
-    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
+    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     User getById(Long id);
 
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)

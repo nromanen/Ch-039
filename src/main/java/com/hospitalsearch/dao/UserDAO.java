@@ -1,7 +1,6 @@
 package com.hospitalsearch.dao;
 
 import com.hospitalsearch.dto.UserAdminDTO;
-import com.hospitalsearch.dto.UserSearchDTO;
 import com.hospitalsearch.entity.User;
 import org.springframework.stereotype.Component;
 

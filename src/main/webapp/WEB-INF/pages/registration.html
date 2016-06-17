@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<head>
+    <meta charset="ISO-8859-1"/>
+    <meta charset="UTF-8"/>
+    <title>Registration</title>
+    <link rel="stylesheet" th:href="@{/css/animate.css}"/>
+    <link rel="stylesheet" th:href="@{/css/charisma-app.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/login.js}"></script>
+</head>
+<body>
+<section layout:fragment="content" class="dashboard center">
+
+    <div class="content">
+        <div id="mainWrapper">
+            <div class="container">
+                <div class="row" style="margin-top:20px">
+                    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                        <form role="form" th:action="@{/registration}" method="post" th:object="${userDto}"
+                              autocomplete="off">
+                            <fieldset>
+                                <h2>Please Register</h2>
+
+                                <hr class="colorgraph"/>
+
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" class="form-control input-lg"
+                                           placeholder="Email" tabindex="1"
+                                           th:value="(${userDto != null}) and (${userDto.email !=null}) ? ${userDto.email}:''"/>
+
+
+                                    <span th:if="${(userDto ne null) and (#fields.hasErrors('email'))}"
+                                          th:errors="*{email}" class="has-error text-danger"></span>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" name="password" id="password" class="form-control input-lg"
+                                           placeholder="Password" tabindex="2"
+                                           th:value="${(userDto != null) and (userDto.password !=null)} ? ${userDto.password}:''"/>
+
+                                    <span th:if="${(userDto ne null) and (#fields.hasErrors('password'))}"
+                                          th:errors="*{password}" class="has-error text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" name="confirmPassword" id="confirmPassword"
+                                           class="form-control input-lg" placeholder="Confirm Password" tabindex="3"
+                                           th:value="${(userDto != null) and (userDto.confirmPassword !=null)} ? ${userDto.confirmPassword}:''"/>
+
+                                    <span th:if="${(userDto ne null) and (#fields.hasErrors('confirmPassword'))}"
+                                          th:errors="*{confirmPassword}" class="has-error text-danger"></span>
+                                </div>
+
+                                <hr class="colorgraph"/>
+
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <input type="submit" class="btn btn-lg btn-info btn-block" value="Register"
+                                               tabindex="4" id="registerSubmit"/>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <a th:href="@{/login}" class="btn btn-lg btn-primary btn-block" id="loginRedirect">Log In</a>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--
+
+    <li sec:authorize="isAnonymous()" th:class="${dto ne null} ? 'menu dropdown open' : 'menu dropdown'"
+                                        style="cursor: pointer;"><a class="dropdown-toggle menu"
+                                                                    data-toggle="dropdown">Register </a>
+                                        <ul class="dropdown-menu dropdown-lr animated"
+                                            role="menu">
+                                            <div class="col-lg-12">
+                                                <div class="text-center">
+                                                    <h3>
+                                                        <b>Register</b>
+                                                    </h3>
+                                                </div>
+                                                <form id="ajax-register-form"
+                                                      th:action="@{/register}" method="post" th:object="${dto}" role="form" autocomplete="off">
+
+                                                    <div class="form-group">
+                                                        <input type="text" name="userName" id="userName"
+                                                               tabindex="1" placeholder="Username"
+                                                               class="form-control"
+                                                               th:value="${(dto != null) &amp;&amp; (dto.userName !=null)} ? ${dto.userName}:''"/>
+
+                                                        <span th:if="${(dto != null) &amp;&amp; (#fields.hasErrors('userName'))}"
+                                                              th:errors="*{userName}" th:class="has-error"></span>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <input type="email" name="email" id="email" tabindex="1"
+                                                               class="form-control" placeholder="Email Address"
+                                                               th:value="${(dto != null) &amp;&amp; (dto.email !=null)}
+                                                               ? ${dto.email}:''"/
+
+
+                                                               >
+                                                        <span th:if="${(dto ne null) &amp;&amp; (#fields.hasErrors('email'))}"
+                                                              th:errors="*{email}" class="has-error"></span>
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <input type="password" name="password" id="password"
+                                                               tabindex="2" class="form-control" placeholder="Password"
+                                                               th:value="${(dto != null) &amp;&amp; (dto.password !=null)}
+                                                               ? ${dto.password}:''"/>
+                                                        <span th:if="${(dto ne null) &amp;&amp; (#fields.hasErrors('password'))}"
+                                                              th:errors="*{password}" class="has-error"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="password" name="confirm-password"
+                                                               id="confirm-password" tabindex="2" class="form-control"
+                                                               placeholder="Confirm Password"/>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-xs-6 col-xs-offset-3">
+                                                                <input type="submit" name="register-submit"
+                                                                       id="register-submit" tabindex="4"
+                                                                       class="form-control btn btn-info" value="Register Now"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <input type="hidden" class="hide" name="token" id="token"
+                                                           value="7c6f19960d63f53fcd05c3e0cbc434c0"/>
+                                                </form>
+                                            </div>
+                                        </ul>
+                                    </li>-->
+    <!--login-->
+
+
+</section>
+</body>
+</html>
+
