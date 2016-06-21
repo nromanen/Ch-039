@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hospitalsearch.dto.Bounds;
 import com.hospitalsearch.entity.Hospital;
 import com.hospitalsearch.entity.HospitalAddress;
 import com.hospitalsearch.service.HospitalService;
-import com.hospitalsearch.util.Bounds;
 
 /**
  *

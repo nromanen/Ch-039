@@ -1,8 +1,11 @@
 package com.hospitalsearch.config.web;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -14,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
@@ -43,11 +47,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     RoleConverter roleConverter;
+	
+	@Resource
+	Environment properties;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/images/**").addResourceLocations("file:///" + System.getProperty(properties.getProperty("global.root.path")) + 
+        		"/" + properties.getProperty("global.resource.path") + "/" + properties.getProperty("global.image.path") + "/");
     }
 
     @Bean

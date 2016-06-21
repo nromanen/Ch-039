@@ -1,38 +1,54 @@
 /**
  * @author Oleksandr Mukonin
  */
-var messageExtension = $('meta[name="message-filetype"]').attr('content');
-var messageUploaded = $('meta[name="message-uploaded"]').attr('content');
-var messageSize = $('meta[name="message-filesize"]').attr('content');
-var messageDimension = $('meta[name="message-dimension"]').attr('content');
-var fileSizeLimit = 204800;
-var imageMaxHeight = 400;
-var imageMaxWidth = 400;
 
-var isJpg = function(name) {
-	return name.match(/jpg$/i)
+var parameters;
+
+$.ajaxSetup({
+	headers: {
+		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	}
+});
+
+$.ajax({
+	type: "POST",
+	url: "getparams/uploadparams",
+	datatype: "json",
+	contentType: 'application/json',
+	mimeType: 'application/json',
+	success: function(data) {
+		parameters = data;
+	}
+});
+
+function getProperty(code) {
+	return parameters[code];
+}
+
+function isImage(name) {
+	return name.match(/^.+\.(jpg|png)$/i);
 };
 
-var isPng = function(name) {
-	return name.match(/png$/i)
-};
-
-function upload(typePath) {
+function upload(type) {
+	var fileSizeLimit = parseInt(getProperty(type + '.file.max.size'));
+	var imageMaxHeight = parseInt(getProperty(type + '.image.max.height'));
+	var imageMaxWidth = parseInt(getProperty(type + '.image.max.width'));
 	var filename = $('#file').val().trim();
+	if (filename == null || filename == "") {return};
 	var label = filename.replace(/\\/g, '/').replace(/.*\//, '');
 	var input = document.getElementById('file');
 	var file = input.files[0];
-	
-	if (!(isJpg(filename) || isPng(filename))) {
-		alert(messageExtension);
+
+	if (!(isImage(filename))) {
+		showMessage(getMessage('upload.image.filetype'), 'alert-warning');
 		return;
 	}
-	
+
 	if (file.size > fileSizeLimit) {
-		alert(messageSize);
+		showMessage(getMessage('upload.image.filesize'), 'alert-warning');
 		return;		
 	}
-	
+
 	var img = new Image();
 	var dimensionError = false;
 	img.src = window.URL.createObjectURL(file);
@@ -44,23 +60,17 @@ function upload(typePath) {
 			dimensionError = true;
 		}
 	}
-	
+
 	if (dimensionError) {
-		alert(messageDimension);
+		showMessage(getMessage('upload.image.dimension'), 'alert-warning');
 		return;			
 	}
-	
+
 	document.getElementById('file-name').value = label;
 	var file_data = $('#file').prop('files')[0]; 
-	var form_data = new FormData(); 
+	var form_data = new FormData();
 	form_data.append('file', file_data)
-	form_data.append('typePath', typePath)
-	
-	$.ajaxSetup({
-		headers: {
-			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		}
-	});
+	form_data.append('type', type)
 
 	$.ajax({
 		url: 'upload',
@@ -71,12 +81,62 @@ function upload(typePath) {
 		data: form_data,
 		type: 'post',
 		success: function(data) {
-			alert(messageUploaded);
+			showMessage(getMessage('upload.image.uploaded'));
 			document.getElementById('imagePath').value = data;
+			$('#image1').attr('src', addition + '/images/' + type + '/' + data);
 		},
 		error: function(qXHR, status, err) {
 			document.getElementById('file-name').value = "";
-			alert(qXHR.responseText);
+			showMessage(qXHR.responseText, 'alert-warning');
 		}
 	})
+}
+
+function showMessage(message, type) {
+	type = (typeof type === 'undefined') ? 'alert-success' : type;
+	var divModal = document.createElement('div');
+	divModal.setAttribute('id', 'modalAlert');
+	divModal.setAttribute('class', 'modal fade');
+	divModal.setAttribute('role', 'dialog');
+	var divDialog = document.createElement('div');
+	divDialog.setAttribute('class', 'modal-dialog');
+	var divContent = document.createElement('div');
+	divContent.setAttribute('class', 'modal-content');
+	var divHeader = document.createElement('div');
+	divHeader.setAttribute('class', 'modal-header');
+	var divBody = document.createElement('div');
+	divBody.setAttribute('class', 'modal-body');
+	var divFooter = document.createElement('div');
+	divFooter.setAttribute('class', 'modal-footer');
+	var divAlert = document.createElement('div');
+	divAlert.setAttribute('id', 'divAlert');
+	divAlert.setAttribute('class', 'alert alert-success');
+	var pHeader = document.createElement('p');
+	pHeader.setAttribute('id', 'modalHeaderText');
+	var pBody = document.createElement('p');
+	pBody.setAttribute('id', 'modalBodyText');
+	var button1 = document.createElement('button');
+	button1.setAttribute('id', 'modalOK');
+	button1.setAttribute('type', 'button');
+	button1.setAttribute('class', 'btn btn-default');
+	button1.setAttribute('data-dismiss', 'modal');	
+	var buttonText = document.createTextNode('OK');
+	button1.appendChild(buttonText);
+	divFooter.appendChild(button1);
+	divAlert.appendChild(pBody);
+	divBody.appendChild(divAlert);
+	divHeader.appendChild(pHeader);
+	divContent.appendChild(divHeader);
+	divContent.appendChild(divBody);
+	divContent.appendChild(divFooter);
+	divDialog.appendChild(divContent);
+	divModal.appendChild(divDialog);
+	document.body.appendChild(divModal);
+	document.getElementById('divAlert').className = 'alert ' + type;
+	document.getElementById('modalBodyText').innerText = message;
+	document.getElementById('modalHeaderText').innerText = getMessage('global.modal.info');	
+	$('#modalAlert').modal();	
+	window.setTimeout(function() {
+		document.getElementById('modalOK').click();
+	}, 5000);
 }
