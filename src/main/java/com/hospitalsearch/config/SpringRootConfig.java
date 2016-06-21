@@ -10,6 +10,8 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.hospitalsearch.validator.ImageValidator;
+
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -105,6 +107,11 @@ public class SpringRootConfig {
         liquibase.setIgnoreClasspathPrefix(true);
         return liquibase;
     }
+	
+	@Bean
+	public ImageValidator imageValidator() {
+		return new ImageValidator();
+	}
 
 
 }

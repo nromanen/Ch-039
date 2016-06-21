@@ -11,3 +11,17 @@ th {
 .removable-i {
 	color: RED;
 }
+
+.hospital-image {
+	float: left;
+	width: 350px;
+	height: 350px;
+	margin-right: 1em;
+}
+
+.hospital-map {
+    display: block;
+    overflow: hidden;
+	height:350px;
+	width: calc(100% - 350px - 1em);
+}

@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.hospitalsearch.dao.HospitalDAO;
+import com.hospitalsearch.dto.Bounds;
 import com.hospitalsearch.entity.Hospital;
-import com.hospitalsearch.util.Bounds;
 import com.hospitalsearch.util.HospitalFilterDTO;
 import com.hospitalsearch.util.Page;
 
