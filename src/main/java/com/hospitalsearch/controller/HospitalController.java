@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,21 +34,17 @@ public class HospitalController {
 
     @Autowired(required = true)
     private DepartmentService departmentService;
-
     @Autowired(required = true)
     private DoctorInfoService doctorInfoService;
-
-    private List<Hospital> currentHospitalList;
+    
+    
     private Page pageableContent;
     
     @RequestMapping("/")
     public String renderIndex(Map<String, Object> model) {
-
         return "layout";
     }
-
-
-
+ 
     @RequestMapping("/hospitals")
     public String renderHospitals(Map<String, Object> model,
             @RequestParam(value = "q", required = false) String query) throws ParseException, InterruptedException, FilterHospitalListEmptyException {
@@ -56,7 +53,7 @@ public class HospitalController {
         }
         this.initializeModel(model, 1);
         if(this.pageableContent.getResultListCount() == 0){
-        	throw new HospitalControllerAdvice.FilterHospitalListEmptyException("Empty list");
+        	throw new HospitalControllerAdvice.FilterHospitalListEmptyException("empty");
         }
         return "hospitals";
     }
@@ -69,7 +66,6 @@ public class HospitalController {
             Map<String, Object> model) throws Exception {
 
         List<Hospital> hospitals = service.filterHospitalsByAddress(dto);
-
         if (hospitals.isEmpty()) {
             throw new HospitalControllerAdvice.FilterHospitalListEmptyException("Problem");
         } else {
@@ -82,13 +78,10 @@ public class HospitalController {
     }
 
     @RequestMapping(value = "/hospitals/config", method = RequestMethod.POST)
-    
     public String configurePage(Map<String,Object> model,
     		@ModelAttribute("pageConfig") 
-    			PageConfigDTO config
-           ) {
+    			PageConfigDTO config) {
     	this.pageableContent.setPageSize(config.getItemsPerPage());
-
     	this.initializeModel(model, 1);
         return "hospitals";
     }
@@ -96,8 +89,7 @@ public class HospitalController {
     @RequestMapping("/hospital/page/{page}")
     public String renderHospitalsByPage(Map<String, Object> model,
             @PathVariable("page") Integer currentPage
-    ) {
-    	this.initializeModel(model, currentPage);
+    ) { this.initializeModel(model, currentPage);
         return "hospitals";
     }
 
@@ -110,7 +102,6 @@ public class HospitalController {
         model.put("departments", lst);
         model.put("hospital", service.getById(id));
         model.put("hid", id);
-
         return "departments";
     }
     @RequestMapping("/hospital/{hid}/department/{id}")
@@ -122,10 +113,8 @@ public class HospitalController {
         model.put("doctors", doctorInfoService.findByDepartmentId(id));
         model.put("department", d);
         model.put("hospital", d.getHospital());
-
         model.put("hid", hid);
         model.put("id", id);
-
         return "doctors";
     }
     

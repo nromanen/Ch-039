@@ -102,14 +102,14 @@ public class SpringRootConfig {
         return commonsMultipartResolver;
     }
 
-    @Bean
-    public SpringLiquibase liquibase() {
-        SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
-        liquibase.setDataSource(dataSource());
-        liquibase.setIgnoreClasspathPrefix(true);
-        return liquibase;
-    }
+//    @Bean
+//    public SpringLiquibase liquibase() {
+//        SpringLiquibase liquibase = new SpringLiquibase();
+//        liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
+//        liquibase.setDataSource(dataSource());
+//        liquibase.setIgnoreClasspathPrefix(true);
+//        return liquibase;
+//    }
 
 
 }

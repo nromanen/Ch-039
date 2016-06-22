@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
-    <changeSet author="admin (generated)" id="1465423649552-1">
+    <changeSet author="kpaul (generated)" id="1466000022298-1">
         <createSequence sequenceName="appointment_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-2">
+    <changeSet author="kpaul (generated)" id="1466000022298-2">
         <createSequence sequenceName="carditem_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-3">
+    <changeSet author="kpaul (generated)" id="1466000022298-3">
         <createSequence sequenceName="department_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-4">
+    <changeSet author="kpaul (generated)" id="1466000022298-4">
         <createSequence sequenceName="doctorinfo_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-5">
+    <changeSet author="kpaul (generated)" id="1466000022298-5">
         <createSequence sequenceName="feedback_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-6">
+    <changeSet author="kpaul (generated)" id="1466000022298-6">
         <createSequence sequenceName="hospital_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-7">
+    <changeSet author="kpaul (generated)" id="1466000022298-7">
         <createSequence sequenceName="patientcard_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-8">
+    <changeSet author="kpaul (generated)" id="1466000022298-8">
         <createSequence sequenceName="patientinfo_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-9">
+    <changeSet author="kpaul (generated)" id="1466000022298-9">
         <createSequence sequenceName="role_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-10">
+    <changeSet author="kpaul (generated)" id="1466000022298-10">
         <createSequence sequenceName="userdetail_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-11">
+    <changeSet author="kpaul (generated)" id="1466000022298-11">
         <createSequence sequenceName="users_id_seq"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-12">
+    <changeSet author="kpaul (generated)" id="1466000022298-12">
         <createTable tableName="ROLE_USERS">
             <column name="USERS_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -43,7 +43,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-13">
+    <changeSet author="kpaul (generated)" id="1466000022298-13">
         <createTable tableName="appointment">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -56,7 +56,7 @@
             <column name="userdetail_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-14">
+    <changeSet author="kpaul (generated)" id="1466000022298-14">
         <createTable tableName="carditem">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -66,10 +66,10 @@
             <column name="prescription" type="VARCHAR(255)"/>
             <column name="result" type="VARCHAR(255)"/>
             <column name="doctor_id" type="BIGINT"/>
-            <column name="patientcard_id" type="BIGINT"/>
+            <column name="patientCard_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-15">
+    <changeSet author="kpaul (generated)" id="1466000022298-15">
         <createTable tableName="department">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -79,7 +79,7 @@
             <column name="hospital_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-16">
+    <changeSet author="kpaul (generated)" id="1466000022298-16">
         <createTable tableName="department_doctorinfo">
             <column name="departments_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -89,7 +89,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-17">
+    <changeSet author="kpaul (generated)" id="1466000022298-17">
         <createTable tableName="doctorinfo">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -98,7 +98,7 @@
             <column name="userdetails_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-18">
+    <changeSet author="kpaul (generated)" id="1466000022298-18">
         <createTable tableName="feedback">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -109,7 +109,7 @@
             <column name="producer_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-19">
+    <changeSet author="kpaul (generated)" id="1466000022298-19">
         <createTable tableName="hospital">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -133,7 +133,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-20">
+    <changeSet author="kpaul (generated)" id="1466000022298-20">
         <createTable tableName="hospital_users">
             <column name="hospital_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -143,15 +143,15 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-21">
+    <changeSet author="kpaul (generated)" id="1466000022298-21">
         <createTable tableName="patientcard">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="userdetail_id" type="BIGINT"/>
+            <column name="userDetail_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-22">
+    <changeSet author="kpaul (generated)" id="1466000022298-22">
         <createTable tableName="patientinfo">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -159,7 +159,7 @@
             <column name="cardid" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-23">
+    <changeSet author="kpaul (generated)" id="1466000022298-23">
         <createTable tableName="persistent_logins">
             <column name="series" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -173,7 +173,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-24">
+    <changeSet author="kpaul (generated)" id="1466000022298-24">
         <createTable tableName="role">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -183,7 +183,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-25">
+    <changeSet author="kpaul (generated)" id="1466000022298-25">
         <createTable tableName="userdetail">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -198,7 +198,7 @@
             <column name="patientcard_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-26">
+    <changeSet author="kpaul (generated)" id="1466000022298-26">
         <createTable tableName="users">
             <column name="id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -215,259 +215,106 @@
             <column name="userdetails_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-27">
+    <changeSet author="kpaul (generated)" id="1466000022298-27">
         <addPrimaryKey columnNames="USERS_ID, ROLE_ID" tableName="ROLE_USERS"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-28">
+    <changeSet author="kpaul (generated)" id="1466000022298-28">
         <addPrimaryKey columnNames="id" constraintName="appointmentPK" tableName="appointment"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-29">
+    <changeSet author="kpaul (generated)" id="1466000022298-29">
         <addPrimaryKey columnNames="id" constraintName="carditemPK" tableName="carditem"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-30">
+    <changeSet author="kpaul (generated)" id="1466000022298-30">
         <addPrimaryKey columnNames="id" constraintName="departmentPK" tableName="department"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-31">
+    <changeSet author="kpaul (generated)" id="1466000022298-31">
         <addPrimaryKey columnNames="id" constraintName="doctorinfoPK" tableName="doctorinfo"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-32">
+    <changeSet author="kpaul (generated)" id="1466000022298-32">
         <addPrimaryKey columnNames="id" constraintName="feedbackPK" tableName="feedback"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-33">
+    <changeSet author="kpaul (generated)" id="1466000022298-33">
         <addPrimaryKey columnNames="id" constraintName="hospitalPK" tableName="hospital"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-34">
+    <changeSet author="kpaul (generated)" id="1466000022298-34">
         <addPrimaryKey columnNames="id" constraintName="patientcardPK" tableName="patientcard"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-35">
+    <changeSet author="kpaul (generated)" id="1466000022298-35">
         <addPrimaryKey columnNames="id" constraintName="patientinfoPK" tableName="patientinfo"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-36">
+    <changeSet author="kpaul (generated)" id="1466000022298-36">
         <addPrimaryKey columnNames="series" constraintName="persistent_loginsPK" tableName="persistent_logins"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-37">
+    <changeSet author="kpaul (generated)" id="1466000022298-37">
         <addPrimaryKey columnNames="id" constraintName="rolePK" tableName="role"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-38">
+    <changeSet author="kpaul (generated)" id="1466000022298-38">
         <addPrimaryKey columnNames="id" constraintName="userdetailPK" tableName="userdetail"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-39">
+    <changeSet author="kpaul (generated)" id="1466000022298-39">
         <addPrimaryKey columnNames="id" constraintName="usersPK" tableName="users"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-40">
+    <changeSet author="kpaul (generated)" id="1466000022298-40">
         <addUniqueConstraint columnNames="TOKEN" constraintName="UC_PERSISTENT_LOGINSTOKEN_COL" tableName="persistent_logins"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-41">
+    <changeSet author="kpaul (generated)" id="1466000022298-41">
         <addUniqueConstraint columnNames="USERNAME" constraintName="UC_PERSISTENT_LOGINSUSERNAME_COL" tableName="persistent_logins"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-42">
+    <changeSet author="kpaul (generated)" id="1466000022298-42">
         <addUniqueConstraint columnNames="type" constraintName="UC_ROLETYPE_COL" tableName="role"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-43">
+    <changeSet author="kpaul (generated)" id="1466000022298-43">
         <addUniqueConstraint columnNames="email" constraintName="UC_USERSEMAIL_COL" tableName="users"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-44">
+    <changeSet author="kpaul (generated)" id="1466000022298-44">
         <addForeignKeyConstraint baseColumnNames="userdetails_id" baseTableName="doctorinfo" constraintName="FK_1r6dadb3ajbaxwkpdx1v4u9n9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-45">
+    <changeSet author="kpaul (generated)" id="1466000022298-45">
+        <addForeignKeyConstraint baseColumnNames="patientCard_id" baseTableName="carditem" constraintName="FK_23f7e1f3aoynlynkmrk6elwaq" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="patientcard"/>
+    </changeSet>
+    <changeSet author="kpaul (generated)" id="1466000022298-46">
         <addForeignKeyConstraint baseColumnNames="userdetails_id" baseTableName="users" constraintName="FK_2xe4lqrkwymg4aoshgadolask" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-46">
+    <changeSet author="kpaul (generated)" id="1466000022298-47">
         <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="ROLE_USERS" constraintName="FK_67w5hj99v5nvjexfv0cf1mxus" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-47">
+    <changeSet author="kpaul (generated)" id="1466000022298-48">
         <addForeignKeyConstraint baseColumnNames="consumer_id" baseTableName="feedback" constraintName="FK_7uda74mreyd8pe0bc0rgm1ufe" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-48">
-        <addForeignKeyConstraint baseColumnNames="patientcard_id" baseTableName="carditem" constraintName="FK_8hgkscyrlwhgtdgcljai40128" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="patientcard"/>
-    </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-49">
+    <changeSet author="kpaul (generated)" id="1466000022298-49">
         <addForeignKeyConstraint baseColumnNames="userdetail_id" baseTableName="appointment" constraintName="FK_b51bk1hxlblc0fq7l65dkcnc5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-50">
+    <changeSet author="kpaul (generated)" id="1466000022298-50">
         <addForeignKeyConstraint baseColumnNames="USERS_ID" baseTableName="ROLE_USERS" constraintName="FK_cunrd1kjdr3pwcekkhw8r5k2l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-51">
+    <changeSet author="kpaul (generated)" id="1466000022298-51">
         <addForeignKeyConstraint baseColumnNames="departments_id" baseTableName="department_doctorinfo" constraintName="FK_ej88rho1obqsgettqaymg2ax8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="department"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-52">
+    <changeSet author="kpaul (generated)" id="1466000022298-52">
         <addForeignKeyConstraint baseColumnNames="patientcard_id" baseTableName="userdetail" constraintName="FK_exlldeucxpa91uwds0hpc97o" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="patientcard"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-53">
+    <changeSet author="kpaul (generated)" id="1466000022298-53">
         <addForeignKeyConstraint baseColumnNames="doctorinfo_id" baseTableName="appointment" constraintName="FK_hx479pw4gje0ktsjfwvl9pwn8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="doctorinfo"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-54">
+    <changeSet author="kpaul (generated)" id="1466000022298-54">
         <addForeignKeyConstraint baseColumnNames="doctors_id" baseTableName="department_doctorinfo" constraintName="FK_ibochgjqx1dyr7ysbeg0royt9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="doctorinfo"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-55">
+    <changeSet author="kpaul (generated)" id="1466000022298-55">
         <addForeignKeyConstraint baseColumnNames="managers_id" baseTableName="hospital_users" constraintName="FK_o7prsdub8c63s5w469e06q83" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-56">
+    <changeSet author="kpaul (generated)" id="1466000022298-56">
         <addForeignKeyConstraint baseColumnNames="doctor_id" baseTableName="carditem" constraintName="FK_ohvlr9w2h9pvsj2bg12ox9b9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-57">
+    <changeSet author="kpaul (generated)" id="1466000022298-57">
+        <addForeignKeyConstraint baseColumnNames="userDetail_id" baseTableName="patientcard" constraintName="FK_ov506nbhqxddqios9pxlb21ie" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
+    </changeSet>
+    <changeSet author="kpaul (generated)" id="1466000022298-58">
         <addForeignKeyConstraint baseColumnNames="producer_id" baseTableName="feedback" constraintName="FK_pvf13utfatebavsixvqxwo3ob" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-58">
-        <addForeignKeyConstraint baseColumnNames="userdetail_id" baseTableName="patientcard" constraintName="FK_pwj6yvmnh4hwbo4148t3bwhd0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
-    </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-59">
+    <changeSet author="kpaul (generated)" id="1466000022298-59">
         <addForeignKeyConstraint baseColumnNames="hospital_id" baseTableName="department" constraintName="FK_spotjwwrelb9dhulkiivbl62b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="hospital"/>
     </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-60">
+    <changeSet author="kpaul (generated)" id="1466000022298-60">
         <addForeignKeyConstraint baseColumnNames="hospital_id" baseTableName="hospital_users" constraintName="FK_tcu91xpek54a086jamuakvoh8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="hospital"/>
-    </changeSet>
-    <changeSet author="admin (generated)" id="1465423649552-61">
-		<createTable tableName="workscheduler">
-			<column name="doctor_id" type="BIGINT"/>
-			<column name="workscheduler" type="VARCHAR"/>
-		</createTable>
-	</changeSet>
-	<changeSet author="admin (generated)" id="1465423649552-62">
-		<sqlFile path="init.sql" relativeToChangelogFile="true"/>
-	</changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-1">
-        <dropForeignKeyConstraint baseTableName="doctorinfo" constraintName="FK_1r6dadb3ajbaxwkpdx1v4u9n9"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-2">
-        <dropForeignKeyConstraint baseTableName="users" constraintName="FK_2xe4lqrkwymg4aoshgadolask"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-3">
-        <dropForeignKeyConstraint baseTableName="role_users" constraintName="FK_67w5hj99v5nvjexfv0cf1mxus"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-4">
-        <dropForeignKeyConstraint baseTableName="feedback" constraintName="FK_7uda74mreyd8pe0bc0rgm1ufe"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-5">
-        <dropForeignKeyConstraint baseTableName="carditem" constraintName="FK_8hgkscyrlwhgtdgcljai40128"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-6">
-        <dropForeignKeyConstraint baseTableName="appointment" constraintName="FK_b51bk1hxlblc0fq7l65dkcnc5"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-7">
-        <dropForeignKeyConstraint baseTableName="role_users" constraintName="FK_cunrd1kjdr3pwcekkhw8r5k2l"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-8">
-        <dropForeignKeyConstraint baseTableName="department_doctorinfo" constraintName="FK_ej88rho1obqsgettqaymg2ax8"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-9">
-        <dropForeignKeyConstraint baseTableName="userdetail" constraintName="FK_exlldeucxpa91uwds0hpc97o"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-10">
-        <dropForeignKeyConstraint baseTableName="appointment" constraintName="FK_hx479pw4gje0ktsjfwvl9pwn8"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-11">
-        <dropForeignKeyConstraint baseTableName="department_doctorinfo" constraintName="FK_ibochgjqx1dyr7ysbeg0royt9"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-12">
-        <dropForeignKeyConstraint baseTableName="hospital_users" constraintName="FK_o7prsdub8c63s5w469e06q83"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-13">
-        <dropForeignKeyConstraint baseTableName="carditem" constraintName="FK_ohvlr9w2h9pvsj2bg12ox9b9"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-14">
-        <dropForeignKeyConstraint baseTableName="feedback" constraintName="FK_pvf13utfatebavsixvqxwo3ob"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-15">
-        <dropForeignKeyConstraint baseTableName="patientcard" constraintName="FK_pwj6yvmnh4hwbo4148t3bwhd0"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-16">
-        <dropForeignKeyConstraint baseTableName="department" constraintName="FK_spotjwwrelb9dhulkiivbl62b"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-17">
-        <dropForeignKeyConstraint baseTableName="hospital_users" constraintName="FK_tcu91xpek54a086jamuakvoh8"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-18">
-        <dropUniqueConstraint constraintName="uc_persistent_loginstoken_col" tableName="persistent_logins"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-19">
-        <dropUniqueConstraint constraintName="uc_persistent_loginsusername_col" tableName="persistent_logins"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-20">
-        <dropUniqueConstraint constraintName="uc_roletype_col" tableName="role"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-21">
-        <dropUniqueConstraint constraintName="uc_usersemail_col" tableName="users"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-22">
-        <dropTable tableName="appointment"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-23">
-        <dropTable tableName="carditem"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-24">
-        <dropTable tableName="department"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-25">
-        <dropTable tableName="department_doctorinfo"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-26">
-        <dropTable tableName="doctorinfo"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-27">
-        <dropTable tableName="feedback"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-28">
-        <dropTable tableName="hospital"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-29">
-        <dropTable tableName="hospital_users"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-30">
-        <dropTable tableName="patientcard"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-31">
-        <dropTable tableName="patientinfo"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-32">
-        <dropTable tableName="persistent_logins"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-33">
-        <dropTable tableName="role"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-34">
-        <dropTable tableName="role_users"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-35">
-        <dropTable tableName="userdetail"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-36">
-        <dropTable tableName="users"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-37">
-        <dropTable tableName="workscheduler"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-38">
-        <dropSequence sequenceName="appointment_id_seq"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-39">
-        <dropSequence sequenceName="carditem_id_seq"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-40">
-        <dropSequence sequenceName="department_id_seq"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-41">
-        <dropSequence sequenceName="doctorinfo_id_seq"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-42">
-        <dropSequence sequenceName="feedback_id_seq"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-43">
-        <dropSequence sequenceName="hospital_id_seq"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-44">
-        <dropSequence sequenceName="patientcard_id_seq"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-45">
-        <dropSequence sequenceName="patientinfo_id_seq"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-46">
-        <dropSequence sequenceName="role_id_seq"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-47">
-        <dropSequence sequenceName="userdetail_id_seq"/>
-    </changeSet>
-    <changeSet author="kpaul (generated)" id="1465916855438-48">
-        <dropSequence sequenceName="users_id_seq"/>
     </changeSet>
 </databaseChangeLog>

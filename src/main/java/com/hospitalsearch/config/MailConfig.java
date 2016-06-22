@@ -6,7 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
-
 import javax.annotation.Resource;
 import java.util.Properties;
 

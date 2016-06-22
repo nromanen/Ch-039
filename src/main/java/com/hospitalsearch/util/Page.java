@@ -32,11 +32,11 @@ public final class Page<T>{
     private final String query;
     private final SessionFactory sessionFactory;
     private int resultListCount;
-    private int pageSize = 3;
+    private int pageSize;
     private int pageCount;
     private boolean paginated;
     private String[] projection;
-    private String sortType ="Asc";
+    private String sortType;
     private Class<T> clazz;
 
     

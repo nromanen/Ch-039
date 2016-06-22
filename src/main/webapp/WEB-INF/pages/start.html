@@ -183,7 +183,6 @@ html, body {
 				location.reload();
 				scheduler.config.readonly = true;
 			}
-
 			scheduler.attachEvent("onLimitViolation", function  (id, obj){
 				dhtmlx.message('The appointment is not allowed at this time');
 			});

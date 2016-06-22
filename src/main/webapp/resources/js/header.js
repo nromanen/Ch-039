@@ -37,7 +37,6 @@ $(document).ready(function(e){
 function changeLang(event){	
 	var url = window.location.toString();
 	var lang= $(event.target).data("lang");
-	
 	if(url.indexOf("#")!=-1){
 		var langIndex=url.indexOf("#"); 
 		url = url.substring(0,langIndex);

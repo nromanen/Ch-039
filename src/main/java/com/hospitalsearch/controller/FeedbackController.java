@@ -8,22 +8,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hospitalsearch.entity.User;
-import com.hospitalsearch.entity.UserDetail;
 import com.hospitalsearch.service.FeedbackService;
-import com.hospitalsearch.service.UserDetailService;
 import com.hospitalsearch.service.UserService;
 import com.hospitalsearch.util.FeedbackDTO;
 
 @Controller
 public class FeedbackController {
-
-    @SuppressWarnings("unused")
 	@Autowired
     private UserService userService;
+    
 
-    @Autowired
-    private UserDetailService detailService;
-
+    @RequestMapping(value="/feed")
+    public String feedbackWall(){
+    	return "feedback_wall";
+    }
     
     @Autowired
     private FeedbackService feedbackService;

@@ -44,11 +44,11 @@ import org.hibernate.search.annotations.TokenizerDef;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hospitalsearch.annotation.SearchAnalyzers;
+
 
 /**
  *
- * @author Oleksandr Mukonin
+ * @author Oleksandr Mukonin,Pavel Kuz'
  *
  */
 @Entity
@@ -64,9 +64,9 @@ import com.hospitalsearch.annotation.SearchAnalyzers;
 							 	 @TokenFilterDef(factory = StandardFilterFactory.class),
 							 	 @TokenFilterDef(factory = StopFilterFactory.class),
 							 	 @TokenFilterDef(factory = NGramFilterFactory.class, params = {
-							 			 @Parameter(name = "minGramSize", value = "5"),
-							 			 @Parameter(name = "maxGramSize", value = "8") }) })
-
+							 			 @Parameter(name = "minGramSize", value = "4"),
+							 			 @Parameter(name = "maxGramSize", value = "8") }) 
+							 	 })
 })
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "entityCache")
 public class Hospital {

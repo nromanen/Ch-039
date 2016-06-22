@@ -62,7 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/**/supplyAppointment");
-		web.ignoring().antMatchers("/hospitals/config");
+		
 	}
 
 	@Override
@@ -80,6 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/appointments").access("hasRole('PATIENT')")
 				.antMatchers("/workscheduler").access("hasRole('DOCTOR')")
 				.antMatchers("/login").anonymous()
+				.antMatchers("/hospitals/config").permitAll()
 				.and()
 				.formLogin()
 				.loginPage("/login")

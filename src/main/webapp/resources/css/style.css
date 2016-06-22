@@ -21,7 +21,7 @@
   position: fixed;
   bottom: 40px;
   right: 10px;
-
+  z-index:10000000000;
   /* image replacement properties */
   overflow: hidden;
   text-indent: 100%;
@@ -372,7 +372,8 @@ li a.active {
 .about h4 {
     font-size: 24px;
     color: #737373;
-    margin-bottom: 45px;
+    text-align:left;
+    margin-bottom: 10px;
 }
 
 .about-img img {
@@ -444,7 +445,8 @@ li a.active {
 .about-details h3 {
     font-size: 36px;
     color: #fff;
-    margin-top: 0;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important; 
 }
 
 .about-details p {

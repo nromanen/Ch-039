@@ -32,7 +32,6 @@ public class HospitalDAOImpl extends GenericDAOImpl<Hospital, Long> implements H
         this.setSessionFactory(sessionFactory);
     }
 
-    @SuppressWarnings("unchecked")
     public List<Hospital> getAllByBounds(Bounds bounds) {
         org.hibernate.Query query = this.currentSession().getNamedQuery(Hospital.GET_LIST_BY_BOUNDS)
                 .setDouble("nelat", bounds.getNorthEastLat())
@@ -48,7 +47,6 @@ public class HospitalDAOImpl extends GenericDAOImpl<Hospital, Long> implements H
                 .executeUpdate();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<Hospital> filterHospitalsByAddress(HospitalFilterDTO filterInfo) {
         Criteria criteria = this.getSessionFactory()

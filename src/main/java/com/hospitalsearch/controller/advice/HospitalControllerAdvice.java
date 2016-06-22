@@ -39,7 +39,7 @@ public class HospitalControllerAdvice {
 	@ModelAttribute(value="filter")
 	public HospitalFilterDTO hospitalFilterDTO(){return new HospitalFilterDTO();}
 	
-        @ModelAttribute
+    @ModelAttribute
 	public void hospitalFilterDTO(ModelMap model){
             model.addAttribute("globalSearch",new PageConfigDTO());
         }

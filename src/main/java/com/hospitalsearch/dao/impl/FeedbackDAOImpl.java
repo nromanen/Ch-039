@@ -23,19 +23,16 @@ public class FeedbackDAOImpl extends GenericDAOImpl<Feedback, Long> implements F
 
 	@Override
 	public List<Feedback> getByDoctorId(Long id) {
-		
 		return (List<Feedback>) getHibernateTemplate().findByCriteria(DetachedCriteria.forClass(Feedback.class).add(Restrictions.eq("consumer.id", id)).addOrder(Order.desc("date")));
 	}
 
 	@Override
 	public User getByUserEmail(String email) {
-		// TODO Auto-generated method stub
 		return (User) getHibernateTemplate().findByCriteria(DetachedCriteria.forClass(User.class).add(Restrictions.eq("email", email))).get(0);
 	}
 
 	@Override
 	public Feedback getByProducer(User user) {
-		// TODO Auto-generated method stub
 		return (Feedback) getHibernateTemplate().findByCriteria(DetachedCriteria.forClass(Feedback.class).add(Restrictions.eq("producer.id", user.getId()))).get(0);
 	}
 
