@@ -32,13 +32,16 @@ public class CardItem implements Serializable {
     @Fetch(FetchMode.JOIN)
     PatientCard patientCard;
     @NotNull
-    @Size(min = 5, message = "min size = 5")
+    @Column( name = "RESULT", columnDefinition = "TEXT")
+    @Size(min = 5, max = 1000, message = "size = 5 < 255")
     private String result;
     @NotNull
-    @Size(min = 5, message = "min size = 5")
+    @Column( name = "PRESCRIPTION", columnDefinition = "TEXT")
+    @Size(min = 5, max = 1000, message = "size = 5 < 255")
     private String prescription;
     @NotNull
-    @Size(min = 5, message = "min size = 5")
+    @Column( name = "COMPLAINT", columnDefinition = "TEXT")
+    @Size(min = 5, max = 1000, message = "size = 5 < 255")
     private String complaint;
     @ManyToOne
     private User doctor;

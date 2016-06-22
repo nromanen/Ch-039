@@ -195,10 +195,11 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     @Override
     public List<User> getByRole(String role, int pageNumber, int pageSize, String sortBy, Boolean order) {
         Criteria criteria;
+
         if (sortBy.equals("firstName")) {
             criteria = prepareGetByRole(role, pageNumber, pageSize, "details.firstName", order);
         }
-        if (sortBy.equals("lastName")) {
+        else if (sortBy.equals("lastName")) {
             criteria = prepareGetByRole(role, pageNumber, pageSize, "details.lastName", order);
         } else {
             criteria = prepareGetByRole(role, pageNumber, pageSize, "user.email", order);
@@ -213,7 +214,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         if (sortBy.equals("firstName")) {
             criteria = prepareSearchByRole(role, search, pageNumber, pageSize, "details.firstName", order);
         }
-        if (sortBy.equals("lastName")) {
+        else if (sortBy.equals("lastName")) {
             criteria = prepareSearchByRole(role, search, pageNumber, pageSize, "details.lastName", order);
         } else {
             criteria = prepareSearchByRole(role, search, pageNumber, pageSize, "user.email", order);

@@ -18,7 +18,11 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.hospitalsearch.validator.ImageValidator;
+
 import liquibase.integration.spring.SpringLiquibase;
+
+
 
 /**
  * Created by speedfire on 4/28/16.
@@ -90,6 +94,7 @@ public class SpringRootConfig {
         props.put(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER));
         props.put(PROP_HIBERNATE_SEARCH_INDEX_BASE, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_INDEX_BASE));
 
+
         return props;
     }
 
@@ -102,6 +107,7 @@ public class SpringRootConfig {
         return commonsMultipartResolver;
     }
 
+// have problem with liquibase, switch off it, dont kick my ass
 //    @Bean
 //    public SpringLiquibase liquibase() {
 //        SpringLiquibase liquibase = new SpringLiquibase();
@@ -110,6 +116,13 @@ public class SpringRootConfig {
 //        liquibase.setIgnoreClasspathPrefix(true);
 //        return liquibase;
 //    }
+
+  
+	@Bean
+	public ImageValidator imageValidator() {
+		return new ImageValidator();
+	}
+
 
 
 }

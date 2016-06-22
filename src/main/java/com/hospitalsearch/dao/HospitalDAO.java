@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 
+import com.hospitalsearch.dto.Bounds;
 import com.hospitalsearch.entity.Hospital;
-import com.hospitalsearch.util.Bounds;
 import com.hospitalsearch.util.HospitalFilterDTO;
 import com.hospitalsearch.util.Page;
 
