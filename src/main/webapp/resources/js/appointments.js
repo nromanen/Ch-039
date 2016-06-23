@@ -5,7 +5,6 @@ $(document).ready(function () {
 
     var principal = $('#principal').text();
 
-
     var format = scheduler.date.date_to_str("%H:%i");
 
     var step = 20;

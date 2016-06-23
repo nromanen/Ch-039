@@ -38,13 +38,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	@Qualifier("CustomUserDetailsService")
-	UserDetailsService userDetailsService;
+	private UserDetailsService userDetailsService;
 
 	@Autowired
 	private DataSource dataSource;
 
 	@Autowired
-	PersistentTokenRepository tokenRepository;
+	private PersistentTokenRepository tokenRepository;
 
 	@Autowired
 	private CustomAuthenticationHandler customHandler;
@@ -60,8 +60,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/doctor/feedback");
-		web.ignoring().antMatchers("/**/supplyAppointment");
 		web.ignoring().antMatchers("/hospitals/config");
 	}
 
@@ -76,6 +74,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/home").permitAll()
 				.antMatchers("/admin/**").access("hasRole('ADMIN')")
 				.antMatchers("/manageDoctors").access("hasRole('MANAGER')")
+				.antMatchers("/**/manage").access("hasRole('MANAGER')")
 				.antMatchers("/editHospitalsManagers").access("hasRole('ADMIN')")
 				.antMatchers("/appointments").access("hasRole('PATIENT')")
 				.antMatchers("/workscheduler").access("hasRole('DOCTOR')")
@@ -101,6 +100,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.rememberMeParameter("remember-me")
 				.tokenRepository(tokenRepository)
 				.tokenValiditySeconds(TIME);
+
+
 	}
 
 	//password encoder

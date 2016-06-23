@@ -8,6 +8,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta th:name="csrf-token" th:content="${_csrf.token}" />
     <script th:src="@{/js/appointments.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/appointmentModal.css}"/>
     <script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'" type="text/javascript" charset="utf-8"></script>
 
 
@@ -77,6 +78,7 @@
                             <div class="dhx_cal_date"></div>
                             <div class="dhx_minical_icon" id="dhx_minical_icon"
                                  onclick="show_minical()">&nbsp;</div>
+                            <!--TODO: put to js file-->
                             <script type="text/javascript">
                                 function show_minical() {
                                     if (scheduler.isCalendarVisible())
@@ -109,43 +111,155 @@
         </div>
 
 
+
         <script type="text/javascript">
 
             var html = function(id) { return document.getElementById(id); };
 
-            scheduler.showLightbox = function(id) {
-                var ev = scheduler.getEvent(id);
-                scheduler.startLightbox(id, html("my_form"));
+            var ev;
 
-                html("description").focus();
+            scheduler.showLightbox = function(id) {
+                $('#myModal').modal('show');
+                ev = scheduler.getEvent(id);
+                scheduler.startLightbox(id, html("myModal"));
+                $('#date').text(new Date(ev.start_date).toLocaleDateString() + ' from '
+                        + new Date(ev.start_date).toLocaleTimeString().replace(':00','') + ' to ' +
+                        new Date(ev.end_date).toLocaleTimeString().replace(':00',''));
                 html("description").value = ev.text;
+                var nameAndDescription = ev.text.split("-");
+                $('#patientName').text(nameAndDescription[0]);
+                $('#theReasonForVisit').text(nameAndDescription[1]);
+                $('#cancelAppointmentHeader').text('Cancel appointment of '+ ' ' + nameAndDescription[0]);
 
             };
 
+            function onCancelAppointment() {
+                $('#cancelAppointmentModal').modal('hide');
+            }
+
+            function cancelAppointment() {
+                changeModalCont()
+            }
+
+            function changeModalCont() {
+                setTimeout(closeFirst, 50);
+                setTimeout(openSecond, 600);
+            }
+
+            function closeFirst() {
+                $('#modalBodyFirst').slideToggle('slow');
+                $('#modalHeaderWithDate').slideToggle('slow');
+                $('#modalHeaderForCancel').slideToggle('slow');
+            }
+
+            function openSecond() {
+                $('#modalBodySecond').slideToggle('slow');
+                $('#okBtn').slideToggle(10);
+                $('#batOne').slideToggle('slow');
+                $('#canBtn').slideToggle('slow');
+            }
+
+            function test() {
+                setTimeout(bla, 500);
+                setTimeout(blabla, 4000);
+
+            }
+
+            function bla() {
+                $('#modalBodySecond').attr('hidden','hidden');
+                $('#modalBodyFirst').slideToggle(500);
+                $('#modal-header').slideToggle(500);
+                $('#modal-footer').slideToggle(500);
+                $('#modalBodySuccess').slideToggle(500);
+            }
+            //TODO:rename methods.
+            function blabla() {
+                $('#myModal').modal('hide');
+                bla();
+            }
+
+
+            $(document).keyup(function(e) {
+                if (e.keyCode == 27) { // escape key maps to keycode `27`
+                    close_form();
+                }
+            });
+
             function save_form() {
                 blockAppointmensAdd();
+                //TODO:check ev var.
                 var ev = scheduler.getEvent(scheduler.getState().lightbox_id);
-                ev.text = html("description").value;
-
-
                 scheduler.endLightbox(true, html("my_form"));
             }
             function close_form() {
+                if ($("#modalHeaderForCancel").is(':visible')) {
+                    cancelAppointment()
+                }
                 scheduler.endLightbox(false, html("my_form"));
             }
 
             function delete_event() {
                 var event_id = scheduler.getState().lightbox_id;
-                scheduler.endLightbox(false, html("my_form"));
+                scheduler.endLightbox(false, html("cancelAppointmentModal"));
                 scheduler.deleteEvent(event_id);
             }
             function blockAppointmensAdd(){
                 scheduler.config.readonly = true;
             }
 
+            function dismissMyModal(event) {
+                if ($(event.target).is('#myModal')) {
+                    close_form();
+                }
+            }
+
+            function onCancelAppointment() {
+                cancelAppointment();
+                test();
+                var reason =  $('#cancelReason').val();
+                delete_event();
+                console.log(reason);
+                $('#cancelMassageText').text('Appointment with doctor '+ev.text.split('-')[0]+' was canceled successfully!');
+            }
+
 
         </script>
+        <div id="myModal" class="modal fade" role="dialog" onclose="cancelAppointment()" onclick="dismissMyModal(event)">
+            <div class="modal-dialog">
 
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header" id="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" onclick="close_form()">&times;</button>
+                        <h3 class="modal-title" id="modalHeaderWithDate">Appointment details</h3>
+                        <h4 class="modal-title" id="modalHeaderForCancel" hidden="hidden">Reason for canceling the appointment:</h4>
+                    </div>
+                    <div class="modal-body" id="modalBodySuccess" hidden="hidden">
+                        <div  id="cancelMassage" class="helper">
+                            <div class="alert alert-info alert-dismissible messageAfterEdit" role="alert">
+                                <h4 id="cancelMassageText" class="success text-center"></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body" id="modalBodySecond" hidden="hidden">
+                        <input type="text" class="form-control" id="cancelReason" placeholder="Type here..."/>
+                    </div>
+                    <div class="modal-body" id="modalBodyFirst">
+                        <label  style="font-size: large" for="date">Appointment time:</label>
+                        <p style="font-size: large" id="date"/>
+                        <label style="font-size: large" for="patientName">Doctor:</label>
+                        <p style="font-size: large" id="patientName"/>
+                        <div style="text-align: center;"><button class="btn btn-danger"  onclick="cancelAppointment()">Cancel the appointment</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="modal-footer">
+                        <button id="batOne" type="button" class="btn btn-default" style="width: 80px; display: none;" onclick="onCancelAppointment()">OK</button>
+                        <button id="canBtn"  type="button" class="btn btn-default" style="width: 80px; display: none;" onclick="cancelAppointment()">Cancel</button>
+                        <button id="okBtn" type="button" class="btn btn-default" style="width: 80px" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <p id="principal" sec:authorize="isAuthenticated()" sec:authentication="principal.username" hidden="hidden"></p>
     </div>
 
