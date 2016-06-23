@@ -1,4 +1,4 @@
-package com.hospitalsearch.util;
+package com.hospitalsearch.dto;
 
 
 import com.hospitalsearch.entity.Appointment;

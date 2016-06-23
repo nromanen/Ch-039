@@ -37,9 +37,6 @@ public class FeedbackDTO {
 		return feedback;
 	}
 
-
-
-
 	public String getUserEmail() {
 		return userEmail;
 	}

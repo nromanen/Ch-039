@@ -8,53 +8,16 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<meta th:name="csrf-token" th:content="${_csrf.token}" />
 	<meta th:name="csrf-name" th:content="${_csrf.parameterName}" />
-	<script th:src="@{/js/Workintervals.js}"></script>
+	<script th:src="@{/js/workintervals.js}"></script>
 	<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_limit.js}" type="text/javascript" charset="utf-8"></script>
 	<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_serialize.js}" type="text/javascript" charset="utf-8"></script>
 	<script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/schedulerDatePicker.js}" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" th:href="@{/css/appointmentModal.css}"/>
-	<style type="text/css" media="screen">
-		html, body {
-			height: 100%;
-			padding: 0px;
-			margin: 0px;
-		}
-		.well {
-			text-align: right;
-		}
-
-		.container-fluid #scheduler_here {
-			height: 715px;
-			width: 100%;
-			border: 1px solid #cecece;
-		}
-
-		#scheduler_here {
-			border-radius: 4px;
-		}
-
-		#my_form {
-			position: absolute;
-			top: 100px;
-			left: 300px;
-			z-index: 10001;
-			display: none;
-			background-color: white;
-			border: 2px outset gray;
-			padding: 20px;
-			font-size: 10pt;
-		}
-
-		#my_form label {
-			width: 50px;
-		}
-
-
-	</style>
+	<link rel="stylesheet" th:href="@{/css/workScheduler.css}"/>
 </head>
 <body>
 <section layout:fragment="content">
-
 	<p th:text="${id}" id="1" hidden="hidden"></p>
 	<input id="path" th:value="${#httpServletRequest.getContextPath()}"/>
 	<div class="modal bs-example-modal-sm" id="message_modal"
@@ -92,14 +55,9 @@
 							</ul>
 						</div>
 					</div>
-
-
-
 					<div class="row">
 						<div th:replace="templates/chat::feedback-panel(${feedbacks})" />
 					</div>
-
-
 				</div>
 				<div class="col-lg-9 col-md-9 col-xs-10">
 					<div id="my_form">
@@ -115,28 +73,6 @@
 							<div class="dhx_cal_date"></div>
 							<div class="dhx_minical_icon" id="dhx_minical_icon"
 								 onclick="show_minical()">&nbsp;</div>
-							<script type="text/javascript">
-								function show_minical() {
-
-									//TODO put to js
-									if (scheduler.isCalendarVisible())
-										scheduler.destroyCalendar();
-									else
-										scheduler
-												.renderCalendar({
-													position : "dhx_minical_icon",
-													date : scheduler._date,
-													navigation : true,
-													handler : function(
-															date, calendar) {
-														scheduler
-																.setCurrentView(date);
-														scheduler
-																.destroyCalendar()
-													}
-												});
-								}
-							</script>
 							<div class="dhx_cal_tab" name="day_tab"></div>
 							<div class="dhx_cal_tab" name="week_tab"></div>
 							<div class="dhx_cal_tab" name="month_tab"></div>
@@ -147,95 +83,11 @@
 				</div>
 			</div>
 		</div>
-
-
-		<script type="text/javascript">
-
-			//TODO: put to js.
-
-			var html = function(id) { return document.getElementById(id); };
-
-			scheduler.showLightbox = function(id) {
-				$('#myModal').modal('show');
-				var ev = scheduler.getEvent(id);
-				scheduler.startLightbox(id, html("myModal"));
-				$('#date').text(new Date(ev.start_date).toLocaleDateString() + ' from '
-						+ new Date(ev.start_date).toLocaleTimeString().replace(':00','') + ' to ' +
-						new Date(ev.end_date).toLocaleTimeString().replace(':00',''));
-				$('#doctorName').text($('#profDoctorsName').text());
-				html("TheReasonForVisit").focus();
-			};
-			function save_form() {
-				blockAppointmensAdd();
-				var ev = scheduler.getEvent(scheduler.getState().lightbox_id);
-				ev.text = html("TheReasonForVisit").value;
-				scheduler.endLightbox(true, html("my_form"));
-			}
-
-			function close_form() {
-				scheduler.endLightbox(false, html("my_form"));
-			}
-
-			function delete_event() {
-				var event_id = scheduler.getState().lightbox_id;
-				scheduler.endLightbox(false, html("my_form"));
-				scheduler.deleteEvent(event_id);
-			}
-
-			function blockAppointmensAdd(){
-				location.reload();
-				scheduler.config.readonly = true;
-			}
-
-			scheduler.attachEvent("onLimitViolation", function  (id, obj){
-				dhtmlx.message('The appointment is not allowed at this time');
-			});
-
-			function dismissMyModal(event) {
-				if ($(event.target).is('#myModal')) {
-					close_form();
-				}
-			}
-			function test() {
-
-				setTimeout(bla, 500);
-				setTimeout(blabla, 4000);
-
-			}
-
-			function bla() {
-				$('#modb').slideToggle(500);
-				$('#modal-header').slideToggle(500);
-				$('#modal-footer').slideToggle(500);
-				$('#modbs').slideToggle(500);
-			}
-
-			function blabla() {
-				save_form();
-				$('#myModal').modal('hide');
-			}
-
-
-			$(document).keyup(function(e) {
-				if (e.keyCode == 27) { // escape key maps to keycode `27`
-					close_form();
-				}
-			});
-
-			function goBack() {
-				window.history.back();
-			}
-
-
-		</script>
-
 		<p id="principal" sec:authorize="isAuthenticated()" sec:authentication="principal.username" hidden="hidden"></p>
 	</div>
-
 	<!-- Appointment confirmation modal -->
 	<div id="myModal" class="modal fade" role="dialog"  onclick="dismissMyModal(event)" onclose="close_form()">
 		<div class="modal-dialog">
-
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header" id="modal-header">
@@ -258,7 +110,7 @@
 					<input  type="text" class="form-control" id="TheReasonForVisit" placeholder="Input here" required="required"/>
 				</div>
 				<div class="modal-footer" id="modal-footer">
-					<button type="submit" class="btn btn-default" style="width: 80px"  onclick="test()">Confirm</button>
+					<button type="submit" class="btn btn-default" style="width: 80px"  onclick="startModal()">Confirm</button>
 					<button type="button"  class="btn btn-default" style="width: 80px" data-dismiss="modal" onclick="close_form()">Cancel</button>
 				</div>
 			</div>
@@ -283,7 +135,6 @@
 			</div>
 		</div>
 	</div>
-
 </section>
 </body>
 

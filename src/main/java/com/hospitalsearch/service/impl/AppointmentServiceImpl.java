@@ -8,7 +8,7 @@ import com.hospitalsearch.entity.Appointment;
 import com.hospitalsearch.entity.DoctorInfo;
 import com.hospitalsearch.entity.UserDetail;
 import com.hospitalsearch.service.AppointmentService;
-import com.hospitalsearch.util.AppointmentDto;
+import com.hospitalsearch.dto.AppointmentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,8 +52,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 break;
         }
     }
-    //TODO: rename methods, refactor get methods.
 
+    //TODO: rename methods, refactor get methods.
     @Override
     public List<Appointment> getGetAllByPatient(String patient) {
         List<Appointment> appointments = appointmentDao.getAllByPatient(userDAO.getByEmail(patient).getId());
