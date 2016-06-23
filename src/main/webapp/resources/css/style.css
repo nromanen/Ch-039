@@ -175,6 +175,7 @@ li {
 
 a:hover, a:visited, a {
     text-decoration: none;
+    cursor: pointer;
 }
 
 h1, h2 {

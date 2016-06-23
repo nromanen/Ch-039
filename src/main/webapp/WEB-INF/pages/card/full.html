@@ -17,7 +17,10 @@
             <div class="col-md-2"></div>
 
             <div class="col-md-8">
-                <h1 th:text="#{card.full.name}+' '+ ${name}">Patient card:</h1>
+                <h1><span th:text="#{card.full.name}">
+                </span> <a sec:authorize="hasRole('ROLE_DOCTOR')"  data-toggle="modal" data-target="#profileModal"
+                           th:onclick="'showProfile(\'' + ${userId} + '\');'" th:text="${name}"> </a></h1>
+
                 <a sec:authorize="hasRole('ROLE_DOCTOR')" th:text="#{card.record.new}"  th:href="@{/new/record(userId=${userId})}"
                    class="btn btn-info" style="display: inherit; margin-bottom: 12px;">New record</a>
 
@@ -71,7 +74,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-2">
+        </div>
+        <div id="profileModal" class="modal fade" role="dialog">
+        </div>
     </div>
 </section>
 </body>

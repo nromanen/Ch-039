@@ -106,8 +106,8 @@
                         <span class="caret"></span> </a>
 
                     <ul class="dropdown-menu" id="dropdawn">
-                        <li><a class="menu"> <span
-                                class="glyphicon glyphicon-user"></span>Profile
+                        <li><a class="menu" data-toggle="modal" data-target="#myModal" onclick="showPage()">
+                            <span class="glyphicon glyphicon-user"></span>Profile
                         </a></li>
                         <li><a class="menu" th:href="@{/logout}"> <span
                                 class="glyphicon glyphicon-log-out"></span>Log out
@@ -174,24 +174,7 @@
             <form data-toggle="validator" th:action="@{/hospitals}" id="search-form" method="GET" role="search">
                 <div class="[ input-group ]" style="z-index:1000000">
 
-<!--                    <div class="input-group-btn search-panel">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <span id="search_concept" th:inline="text">[[#{header.search.criteria}]] </span> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="#contains" th:text="#{header.search.criteria.hospital}"/>
-                            </li>
-                            <li>
-                                <a href="#its_equal" th:text="#{header.search.criteria.doctor}"/>
-                            </li>
 
-                             
-                            <li class="divider"></li>
-                            <li><a href="#all">Anything</a></li> 
-                        </ul>
-                    </div>-->
-                    <!-- <input type="hidden" name="search_param" value="all" id="search_param"/> -->
                     <div class="form-group">
                     	<input id="select_search"  type="text" class="[ form-control ] dropdown-field" name="q" 
                            minlength="5"
@@ -207,9 +190,10 @@
                     	<button type="submit" class="[ btn btn-info ]"><span class="[ glyphicon glyphicon-search ]"></span></button>
                         <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
                     </span>
-                    
+
                 </div>
             </form>
         </div>
+
     </div>
 </nav>
