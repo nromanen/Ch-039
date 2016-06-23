@@ -16,6 +16,7 @@
     <link rel="stylesheet" th:href="@{/css/animate.css}"/>
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
 
+
     <!-- <link
         href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300'
         rel='stylesheet' type='text/css' />
@@ -41,18 +42,21 @@
     <script th:src="@{/codebase/messageResource.js}" type="text/javascript"
             charset="utf-8"></script>
 
-<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/jquery-2.2.4.js}"></script>
 <script th:src="@{/js/validator.min.js}" type="text/javascript"
 	charset="utf-8"></script>
 <script th:src="@{/js/feedback.js}"></script>
+<script th:src="@{/js/admin.js}"></script>
 <script th:src="@{/js/modernizr.js}"></script>
 <script th:src="@{/js/header.js}"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script th:src="@{/js/advanced_search.js}"></script>
+
 <!--[if lt IE 9]>
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
+
 	<![endif]-->
 
 <!--<script type="text/javascript">
@@ -72,14 +76,22 @@
 	</script>-->
 </head>
 <body>
+
 	<div th:replace="templates/header::page-header" />
-	
+
 	<div layout:fragment="content" >
 		<div class="content">
 			<div class="container">
 	<div class="row">
 	<div id="carouselHacked" class="carousel slide carousel-fade" data-ride="carousel">
 					<div class="header-backup"></div>
+
+        <div th:if="${messageSuccess!=null}" class="helper col-md-12 col-lg-12 col-sm-12">
+            <div class="alert alert-info alert-dismissible col-md-6 col-sm-6 col-lg-6
+             col-md-offset-3 col-sm-offset-3 col-lg-offset-3 messageAfterEdit" role="alert">
+                <h4 class="success text-center" th:text="${messageSuccess}"></h4>
+            </div>
+        </div>
 			         <!-- Wrapper for slides -->
 			        <div class="carousel-inner" role="listbox">
 			            <div class="item">
@@ -129,11 +141,16 @@
 			    </div>
 		</div>
 	</div>
-	 
+
+    <div id="myModal" class="modal fade" role="dialog">
+    </div>
+
 
 <script th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 <script th:src="@{/js/smoothscroll.js}"></script>
-
+    <script type="text/javascript" th:src="@{/js/detail.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.form.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
 </body>
 </html>
