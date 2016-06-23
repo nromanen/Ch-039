@@ -3,10 +3,10 @@ package com.hospitalsearch.service;
 import java.util.List;
 
 import com.hospitalsearch.dto.UserAdminDTO;
+import com.hospitalsearch.dto.UserRegisterDTO;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hospitalsearch.dto.UserSearchDTO;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
@@ -18,38 +18,36 @@ public interface UserService {
 
     void delete(Long id);
 
-    void update(User updatedUser);
+    void updateUser(User user);
 
-    void changeStatus(Long id);
+    void update(User user);
 
-    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
+    User changeStatus(Long id);
+
+    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     User getById(Long id);
 
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     List<User> getAll();
 
-    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
-    List<User> getAllUser(UserAdminDTO userAdminDTO);
-
-    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
-    List<User> getAllEnabledUsers(UserAdminDTO userAdminDTO);
-
-    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
-    List<User> getAllDisabledUsers(UserAdminDTO userAdminDTO);
+    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
+    List<User> getUsers(UserAdminDTO userAdminDTO);
 
     @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
     List<User> searchUser(UserAdminDTO userAdminDTO);
 
-    @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
+    @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
     User getByEmail(String email);
 
-    void register(UserRegisterDto dto);
+    User register(UserRegisterDTO dto);
 
     void registerUpdate(UserDto dto, String email);
 
     UserDto getDtoByEmail(String email);
 
-	void registerUpdate(UserDetailRegisterDto dto, String email);
+    boolean resetPassword(String email, String newPassword);
+
+    void registerUpdate(UserDetailRegisterDto dto, String email);
 
     //Illia
     List<User> getByRole(String role, int pageNumber, int pageSize, String sortBy, Boolean order);

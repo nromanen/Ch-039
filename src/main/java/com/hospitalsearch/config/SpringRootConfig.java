@@ -1,5 +1,6 @@
 package com.hospitalsearch.config;
 
+import com.hospitalsearch.validator.ImageValidator;
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
@@ -9,8 +10,6 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
-import com.hospitalsearch.validator.ImageValidator;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -85,8 +84,8 @@ public class SpringRootConfig {
         props.put(PROP_HIBERNATE_EHCACHE_REGION_FACTORY, properties.getRequiredProperty(PROP_HIBERNATE_EHCACHE_REGION_FACTORY));
         props.put(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER));
         props.put(PROP_HIBERNATE_SEARCH_INDEX_BASE, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_INDEX_BASE));
-
-
+        props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
+        props.put(PROP_HIBERNATE_IMPORT_FILE, properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
         return props;
     }
 
@@ -98,19 +97,18 @@ public class SpringRootConfig {
         return new CommonsMultipartResolver();
     }
 
-    @Bean
+    //todo andrew
+/*    @Bean
     public SpringLiquibase liquibase() {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
         liquibase.setDataSource(dataSource());
         liquibase.setIgnoreClasspathPrefix(true);
         return liquibase;
+    }*/
+
+    @Bean
+    public ImageValidator imageValidator() {
+        return new ImageValidator();
     }
-	
-	@Bean
-	public ImageValidator imageValidator() {
-		return new ImageValidator();
-	}
-
-
 }
