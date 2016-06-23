@@ -11,13 +11,11 @@ Steps
 
 **1 step.**
 Enable ssl in spring security.
-```html
 @Override
 	protected void configure(HttpSecurity http) throws Exception {
 	.....
-	**.and().requiresChannel().anyRequest().requiresSecure();**
+	.and().requiresChannel().anyRequest().requiresSecure();
 	}
-	```
 	
 	**2 step.**
 	Create and connect to tomcat security certificate.
