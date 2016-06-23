@@ -13,7 +13,7 @@
             type="text/javascript" charset="utf-8"></script>
     <script th:src="@{/js/schedulerDatePicker.js}" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" th:href="@{/css/appointmentModal.css}"/>
-    <link rel="stylesheet" th:href="@{/css/workScheduler.css}"/>
+    <link rel="stylesheet" th:href="@{/css/workscheduler.css}"/>
 </head>
 
 <body>
@@ -62,9 +62,9 @@
                         <h4 class="modal-title" id="modalHeaderForCancel" hidden="hidden">Reason for canceling the
                             appointment:</h4>
                     </div>
-                    <div class="modal-body" id="modalBodySuccess" hidden="hidden">
+                    <div class="modal-body" id="modalBodySuccess" style="padding-bottom: 0" hidden="hidden">
                         <div id="cancelMassage" class="helper">
-                            <div class="alert alert-info alert-dismissible messageAfterEdit" role="alert">
+                            <div class="alert alert-info " role="alert">
                                 <h4 id="cancelMassageText" class="success text-center"></h4>
                             </div>
                         </div>

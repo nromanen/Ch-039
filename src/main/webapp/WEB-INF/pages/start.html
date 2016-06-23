@@ -14,7 +14,7 @@
 	<script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'" type="text/javascript" charset="utf-8"></script>
 	<script th:src="@{/js/schedulerDatePicker.js}" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" th:href="@{/css/appointmentModal.css}"/>
-	<link rel="stylesheet" th:href="@{/css/workScheduler.css}"/>
+	<link rel="stylesheet" th:href="@{/css/workscheduler.css}"/>
 </head>
 <body>
 <section layout:fragment="content">
@@ -94,9 +94,9 @@
 					<button type="button" class="close" data-dismiss="modal" onclick="close_form()">&times;</button>
 					<h3 class="modal-title" id="modalHeaderWithDate">Appointment confirmation</h3>
 				</div>
-				<div class="modal-body" id="modbs" hidden="hidden">
+				<div class="modal-body" id="modbs" style="padding-bottom: 0" hidden="hidden">
 					<div  id="cancelMassage" class="helper">
-						<div class="alert alert-info alert-dismissible messageAfterEdit" role="alert">
+						<div class="alert alert-info" role="alert">
 							<h4 id="cancelMassageText" class="success text-center">Appointment was added successfully!</h4>
 						</div>
 					</div>
