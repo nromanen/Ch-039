@@ -213,6 +213,7 @@ dtmlXMLLoaderObject.prototype.loadXML=function(filePath, postMode, postVars, rpc
     else
         this.xmlDoc.open(postMode ? "POST" : "GET", filePath, this.async);
 
+
     if (rpc){
         this.xmlDoc.setRequestHeader("User-Agent", "dhtmlxRPC v0.1 ("+navigator.userAgent+")");
         this.xmlDoc.setRequestHeader("Content-type", "text/xml");
@@ -220,6 +221,8 @@ dtmlXMLLoaderObject.prototype.loadXML=function(filePath, postMode, postVars, rpc
 
     else if (postMode)
         this.xmlDoc.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        this.xmlDoc.setRequestHeader('X-CSRF-TOKEN', csrfToken);
 
     this.xmlDoc.setRequestHeader("X-Requested-With","XMLHttpRequest");
     this.xmlDoc.send(null||postVars);

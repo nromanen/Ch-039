@@ -1,0 +1,36 @@
+html, body {
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.well {
+    text-align: right;
+}
+
+.container-fluid #scheduler_here {
+    height: 715px;
+    width: 100%;
+    border: 1px solid #cecece;
+}
+
+#scheduler_here {
+    border-radius: 4px;
+}
+
+#my_form {
+    position: absolute;
+    top: 100px;
+    left: 300px;
+    z-index: 10001;
+    display: none;
+    background-color: white;
+    border: 2px outset gray;
+    padding: 20px;
+    font-size: 10pt;
+}
+
+#my_form label {
+    width: 200px;
+}
+

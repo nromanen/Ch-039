@@ -1,73 +1,36 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:h="http://www.w3.org/1999/html" layout:decorator="layout"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
 <head>
-    <title>Appointments</title>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta th:name="csrf-token" th:content="${_csrf.token}" />
+    <title>Work scheduler</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <meta th:name="csrf-token" th:content="${_csrf.token}"/>
     <script th:src="@{/js/workscheduler.js}"></script>
-    <script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'" type="text/javascript" charset="utf-8"></script>
-
-
-
-    <style type="text/css" media="screen">
-        html, body {
-            height: 100%;
-            padding: 0px;
-            margin: 0px;
-        }
-
-        .well {
-            text-align: right;
-        }
-
-        .container-fluid #scheduler_here {
-            height: 715px;
-            width: 100%;
-            border: 1px solid #cecece;
-        }
-
-        #scheduler_here {
-            border-radius: 4px;
-        }
-
-        #my_form {
-            position: absolute;
-            top: 100px;
-            left: 300px;
-            z-index: 10001;
-            display: none;
-            background-color: white;
-            border: 2px outset gray;
-            padding: 20px;
-            font-size: 10pt;
-        }
-
-        #my_form label {
-            width: 200px;
-        }
-
-
-    </style>
+    <script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'"
+            type="text/javascript" charset="utf-8"></script>
+    <script th:src="@{/js/schedulerDatePicker.js}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" th:href="@{/css/appointmentModal.css}"/>
+    <link rel="stylesheet" th:href="@{/css/workScheduler.css}"/>
 </head>
+
 <body>
 <section layout:fragment="content">
-
     <input id="path" th:value="${#httpServletRequest.getContextPath()}"/>
     <input sec:authorize="hasRole('PATIENT')" value="true"
-           id="patient" type="text" hidden="hidden" />
-    <p th:id="currentUser" hidden="hidden" sec:authentication="name" />
+           id="patient" type="text" hidden="hidden"/>
+    <p th:id="currentUser" hidden="hidden" sec:authentication="name"/>
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-
                 <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
                     <div id="my_form">
-                        <label for="description">Appointment</label><input type="text" name="description" hidden="hidden" id="description"/><br/>
-                        <button class="btn btn-default" value="Close" id="close"  onclick="close_form()">Cancel</button>
-                        <button class="btn btn-default" value="Delete" id="delete" onclick="delete_event()">Delete</button>
+                        <label for="description">Appointment</label><input type="text" name="description"
+                                                                           hidden="hidden" id="description"/><br/>
+                        <button class="btn btn-default" value="Close" id="close" onclick="close_form()">Cancel</button>
+                        <button class="btn btn-default" value="Delete" id="delete" onclick="delete_event()">Delete
+                        </button>
                     </div>
                     <div class="dhx_cal_container panel" id="scheduler_here">
                         <div class="dhx_cal_navline">
@@ -77,26 +40,6 @@
                             <div class="dhx_cal_date"></div>
                             <div class="dhx_minical_icon" id="dhx_minical_icon"
                                  onclick="show_minical()">&nbsp;</div>
-                            <script type="text/javascript">
-                                function show_minical() {
-                                    if (scheduler.isCalendarVisible())
-                                        scheduler.destroyCalendar();
-                                    else
-                                        scheduler
-                                                .renderCalendar({
-                                                    position : "dhx_minical_icon",
-                                                    date : scheduler._date,
-                                                    navigation : true,
-                                                    handler : function(
-                                                            date, calendar) {
-                                                        scheduler
-                                                                .setCurrentView(date);
-                                                        scheduler
-                                                                .destroyCalendar()
-                                                    }
-                                                });
-                                }
-                            </script>
                             <div class="dhx_cal_tab" name="day_tab"></div>
                             <div class="dhx_cal_tab" name="week_tab"></div>
                             <div class="dhx_cal_tab" name="month_tab"></div>
@@ -107,49 +50,53 @@
                 </div>
             </div>
         </div>
-
-
-        <script type="text/javascript">
-
-            var html = function(id) { return document.getElementById(id); };
-
-            scheduler.showLightbox = function(id) {
-                var ev = scheduler.getEvent(id);
-                scheduler.startLightbox(id, html("my_form"));
-
-                html("description").focus();
-                html("description").value = ev.text;
-
-            };
-
-            function save_form() {
-                blockAppointmensAdd();
-                var ev = scheduler.getEvent(scheduler.getState().lightbox_id);
-                ev.text = html("description").value;
-
-
-                scheduler.endLightbox(true, html("my_form"));
-            }
-            function close_form() {
-                scheduler.endLightbox(false, html("my_form"));
-            }
-
-            function delete_event() {
-                var event_id = scheduler.getState().lightbox_id;
-                scheduler.endLightbox(false, html("my_form"));
-                scheduler.deleteEvent(event_id);
-            }
-            function blockAppointmensAdd(){
-                scheduler.config.readonly = true;
-            }
-
-
-        </script>
-
         <p id="principal" sec:authorize="isAuthenticated()" sec:authentication="principal.username" hidden="hidden"></p>
     </div>
-
-
+    <div id="myModal" class="modal fade" role="dialog" onclose="cancelAppointment()" onclick="dismissMyModal(event)">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" id="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="close_form()">&times;</button>
+                    <h3 class="modal-title" id="modalHeaderWithDate">Appointment details</h3>
+                    <h4 class="modal-title" id="modalHeaderForCancel" hidden="hidden">Reason for canceling the
+                        appointment:</h4>
+                </div>
+                <div class="modal-body" id="modalBodySuccess" hidden="hidden">
+                    <div id="cancelMassage" class="helper">
+                        <div class="alert alert-info alert-dismissible messageAfterEdit" role="alert">
+                            <h4 id="cancelMassageText" class="success text-center"></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" id="modalBodySecond" hidden="hidden">
+                    <input type="text" class="form-control" id="cancelReason" placeholder="Type here..."/>
+                </div>
+                <div class="modal-body" id="modalBodyFirst">
+                    <label style="font-size: large" for="date">Appointment time:</label>
+                    <p style="font-size: large" id="date"/>
+                    <label style="font-size: large" for="patientName">Patient:</label>
+                    <p style="font-size: large" id="patientName"/>
+                    <label style="font-size: large" for="theReasonForVisit">The short reason for visit:</label>
+                    <p id="theReasonForVisit">Bla bla bla</p>
+                    <div style="text-align: center;">
+                        <button class="btn btn-danger" onclick="cancelAppointment()">Cancel the appointment</button>
+                    </div>
+                </div>
+                <div class="modal-footer" id="modal-footer">
+                    <button id="batOne" type="button" class="btn btn-default" style="width: 80px; display: none;"
+                            onclick="onCancelAppointment()">OK
+                    </button>
+                    <button id="canBtn" type="button" class="btn btn-default" style="width: 80px; display: none;"
+                            onclick="cancelAppointment()">Cancel
+                    </button>
+                    <button id="okBtn" type="button" class="btn btn-default" style="width: 80px" data-dismiss="modal">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 </body>
 </html>

@@ -40,9 +40,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     public User getByEmail(String email) {
         try {
             logger.info("getUserByEmail email: " + email);
-            //fixed by Igor
-            //Criteria criteria = this.currentSession().createCriteria(User.class);
-            Criteria criteria = getSessionFactory().openSession().createCriteria(User.class);
+            Criteria criteria = this.currentSession().createCriteria(User.class);
             criteria.add(Restrictions.eq("email", email));
             return (User) criteria.uniqueResult();
         } catch (Exception e) {
