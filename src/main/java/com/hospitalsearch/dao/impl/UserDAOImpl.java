@@ -37,7 +37,6 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         this.getSessionFactory().getCurrentSession().merge(user);
     }
 
-
     public void update(User user) {
         super.update(user);
     }
@@ -58,9 +57,10 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     }
 
     @Override
-    public void changeStatus(long id) {
+    public User changeStatus(long id) {
         User user = super.getById(id);
         user.setEnabled(!user.getEnabled());
+        return user;
     }
 
     @SuppressWarnings("unchecked")

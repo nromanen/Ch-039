@@ -1,3 +1,4 @@
+/*
 package com.hospitalsearch.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Map;
 
 @Service
-public class MailService {
+public class MailServiceOld {
 
     @Autowired
     private Environment properties;
@@ -45,3 +46,4 @@ public class MailService {
 
     }
 }
+*/

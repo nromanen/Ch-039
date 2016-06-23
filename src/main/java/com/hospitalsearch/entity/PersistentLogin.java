@@ -12,12 +12,13 @@ public class PersistentLogin{
     @Id
     private String series;
 
-    @Column(name="USERNAME", unique=true, nullable=false)
+    @Column(name="username", unique=true, nullable=false)
     private String username;
 
-    @Column(name="TOKEN", unique=true, nullable=false)
+    @Column(name="token", unique=true, nullable=false)
     private String token;
 
+    @Column(name="last_used")
     @Temporal(TemporalType.TIMESTAMP)
     private Date last_used;
 

@@ -17,10 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.*;
 import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -68,7 +65,7 @@ public class UserDetail{
 	@JsonIgnore
 	private DoctorInfo doctorsDetails;
 
-	@OneToOne
+	@OneToOne(cascade= CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name="patientcard_id")
 	@JsonIgnore

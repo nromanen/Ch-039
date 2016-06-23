@@ -9,7 +9,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import com.hospitalsearch.config.SpringRootConfig;
 
-public class WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class  WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {

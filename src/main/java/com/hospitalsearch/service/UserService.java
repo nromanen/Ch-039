@@ -3,13 +3,14 @@ package com.hospitalsearch.service;
 import java.util.List;
 
 import com.hospitalsearch.dto.UserAdminDTO;
+import com.hospitalsearch.dto.UserRegisterDTO;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
-import com.hospitalsearch.dto.UserRegisterDto;
+
 @Transactional
 public interface UserService {
 
@@ -21,7 +22,7 @@ public interface UserService {
 
     void update(User user);
 
-    void changeStatus(Long id);
+    User changeStatus(Long id);
 
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     User getById(Long id);
@@ -38,11 +39,13 @@ public interface UserService {
     @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
     User getByEmail(String email);
 
-    void register(UserRegisterDto dto);
+    User register(UserRegisterDTO dto);
 
     void registerUpdate(UserDto dto, String email);
 
     UserDto getDtoByEmail(String email);
+
+    boolean resetPassword(String email, String newPassword);
 
 	void registerUpdate(UserDetailRegisterDto dto, String email);
 

@@ -8,8 +8,10 @@
     <title>Login</title>
     <link rel="stylesheet" th:href="@{/css/animate.css}"/>
     <link rel="stylesheet" th:href="@{/css/charisma-app.css}"/>
+    <link rel="stylesheet" th:href="@{/css/view-admin-table.css}"/>
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
     <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery.validate.js}"></script>
     <script th:src="@{/js/login.js}"></script>
 </head>
 <body>
@@ -19,7 +21,7 @@
             <div class="container">
                 <div class="row" style="margin-top:20px">
                     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-                        <form role="form" th:action="@{/login}" method="post">
+                        <form role="form" th:action="@{/login}" method="post" id="loginForm">
                             <fieldset>
                                 <h2>Please Log In</h2>
 
@@ -29,6 +31,10 @@
 
                                 <div class="alert alert-danger" th:if="${error == 'invalidActivation'}">
                                     <p>Your account is not activated.</p>
+                                </div>
+
+                                <div class="alert alert-danger" th:if="${error == 'userBlocked'}">
+                                    <p>Your account is blocked.</p>
                                 </div>
 
                                 <hr class="colorgraph"/>
@@ -46,17 +52,20 @@
                                     <button type="button" class="btn" data-color="info">Remember Me</button>
                                     <input type="checkbox" name="remember-me" id="remember-me"
                                            class="hidden"/>
-                                    <a href="" class="btn btn-link pull-right">Forgot Password?</a>
+                                    <a href="#" class="btn btn-link pull-right" data-toggle="modal"
+                                       data-target="#forgotPassword" id="forgotButton">Forgot Password?</a>
                                 </span>
 
                                 <hr class="colorgraph"/>
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <input type="submit" class="btn btn-lg btn-info btn-block" value="Log In" id="loginSubmit"/>
+                                        <input type="submit" class="btn btn-lg btn-info btn-block" value="Log In"
+                                               id="loginSubmit"/>
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <a th:href="@{/registration}" class="btn btn-lg btn-primary btn-block" id="registerRedirect">Register</a>
+                                        <a th:href="@{/registration}" class="btn btn-lg btn-primary btn-block"
+                                           id="registerRedirect">Register</a>
                                     </div>
                                 </div>
                             </fieldset>
@@ -66,7 +75,46 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="forgotPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="z-index: 9000">
+            <div class="modal-content">
+                <div class="modal-header table-title">
+                    <button type="button" class="close" data-dismiss="modal">X</button>
+                    <h3>Password Recover</h3>
+                </div>
+                <div class="modal-body">
+                    <p class="alert alert-info debug-url" id="successMessage" hidden="hidden"></p>
+                    <form class="recoverContent" id="resetModal">
+                        <div class="form-group">
+                            <label class="control-label" for="recoverEmail">Enter your email</label>
+                            <div class="input-group">
+                                <input type="email" class="form-control" name="recoverEmail" id="recoverEmail" placeholder="Email Address" aria-describedby="inputGroupSuccess3Status"/>
+                                <em id="errorReset" class="text-danger" hidden="hidden"></em>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
+                    <a id="recoverButton" class="btn btn-primary" type="submit">Recover</a>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="secondModal"
+         id="floatingCirclesG" aria-hidden="true" style="z-index: 100000">
+        <div class="f_circleG" id="frotateG_01"></div>
+        <div class="f_circleG" id="frotateG_02"></div>
+        <div class="f_circleG" id="frotateG_03"></div>
+        <div class="f_circleG" id="frotateG_04"></div>
+        <div class="f_circleG" id="frotateG_05"></div>
+        <div class="f_circleG" id="frotateG_06"></div>
+        <div class="f_circleG" id="frotateG_07"></div>
+        <div class="f_circleG" id="frotateG_08"></div>
+    </div>
+
 </section>
 </body>
 </html>
-

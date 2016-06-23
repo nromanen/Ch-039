@@ -39,7 +39,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class User implements Comparable<User> {
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_gen")
 	@SequenceGenerator(name = "users_gen", sequenceName = "users_id_seq", initialValue = 1, allocationSize = 1)
@@ -72,6 +71,7 @@ public class User implements Comparable<User> {
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -79,6 +79,7 @@ public class User implements Comparable<User> {
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -86,6 +87,7 @@ public class User implements Comparable<User> {
 	public Boolean getEnabled() {
 		return enabled;
 	}
+
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
@@ -113,7 +115,6 @@ public class User implements Comparable<User> {
 	public void setUserDetails(UserDetail userDetails) {
 		this.userDetails = userDetails;
 	}
-
 
     @Override
     public String toString() {

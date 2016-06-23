@@ -5,6 +5,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -23,8 +25,8 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource(value = "classpath:app.properties")
 @ComponentScan(basePackages = "com.hospitalsearch")
-@EnableCaching
 @Import({MailConfig.class})
+@EnableCaching
 public class SpringRootConfig {
     @Resource
     Environment properties;
@@ -81,6 +83,7 @@ public class SpringRootConfig {
         props.put(PROP_HIBERNATE_EHCACHE_SHOWSQL, properties.getRequiredProperty(PROP_HIBERNATE_EHCACHE_SHOWSQL));
         props.put(PROP_HIBERNATE_EHCACHE_REGION_FACTORY, properties.getRequiredProperty(PROP_HIBERNATE_EHCACHE_REGION_FACTORY));
         props.put(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER));
+        props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
         props.put(PROP_HIBERNATE_SEARCH_INDEX_BASE, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_INDEX_BASE));
 
         return props;
@@ -95,12 +98,12 @@ public class SpringRootConfig {
         return commonsMultipartResolver;
     }
 
-    @Bean
+  /*  @Bean
     public SpringLiquibase liquibase() {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
         liquibase.setDataSource(dataSource());
         liquibase.setIgnoreClasspathPrefix(true);
         return liquibase;
-    }
+    }*/
 }

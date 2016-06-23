@@ -37,5 +37,4 @@ public class UserDetailController {
         userService.update(user);
         return user.toString();
     }
-
 }

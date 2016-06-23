@@ -326,4 +326,746 @@
 	<changeSet author="admin (generated)" id="1465423649552-62">
 		<sqlFile path="init.sql" relativeToChangelogFile="true"/>
 	</changeSet>
+    <changeSet author="andrew (generated)" id="1466427775865-1">
+        <createSequence sequenceName="verification_token_gen_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466427775865-2">
+        <createTable tableName="verifications_tokens">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expirydate" type="date"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466427775865-3">
+        <addPrimaryKey columnNames="id" constraintName="verifications_tokensPK" tableName="verifications_tokens"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466427775865-4">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="verifications_tokens" constraintName="FK_79hy0bqeu0oobh0thq8bgbae1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466427775865-5">
+        <dropTable tableName="workscheduler"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-1">
+        <createSequence sequenceName="appointment_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-2">
+        <createSequence sequenceName="carditem_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-3">
+        <createSequence sequenceName="department_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-4">
+        <createSequence sequenceName="doctorinfo_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-5">
+        <createSequence sequenceName="feedback_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-6">
+        <createSequence sequenceName="hospital_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-7">
+        <createSequence sequenceName="password_reset_token_gen_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-8">
+        <createSequence sequenceName="patientcard_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-9">
+        <createSequence sequenceName="patientinfo_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-10">
+        <createSequence sequenceName="role_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-11">
+        <createSequence sequenceName="userdetail_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-12">
+        <createSequence sequenceName="users_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-13">
+        <createSequence sequenceName="verification_token_gen_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-14">
+        <createTable tableName="ROLE_USERS">
+            <column name="USERS_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-15">
+        <createTable tableName="appointment">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="color" type="VARCHAR(255)"/>
+            <column name="end_date" type="BYTEA"/>
+            <column name="start_date" type="BYTEA"/>
+            <column name="text" type="VARCHAR(255)"/>
+            <column name="doctorinfo_id" type="BIGINT"/>
+            <column name="userdetail_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-16">
+        <createTable tableName="carditem">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="complaint" type="VARCHAR(255)"/>
+            <column name="date" type="timestamp"/>
+            <column name="prescription" type="VARCHAR(255)"/>
+            <column name="result" type="VARCHAR(255)"/>
+            <column name="doctor_id" type="BIGINT"/>
+            <column name="patientCard_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-17">
+        <createTable tableName="department">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="imagepath" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="hospital_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-18">
+        <createTable tableName="department_doctorinfo">
+            <column name="departments_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="doctors_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-19">
+        <createTable tableName="doctorinfo">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specialization" type="VARCHAR(255)"/>
+            <column name="userdetails_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-20">
+        <createTable tableName="feedback">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="BYTEA"/>
+            <column name="message" type="VARCHAR(255)"/>
+            <column name="consumer_id" type="BIGINT"/>
+            <column name="producer_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-21">
+        <createTable tableName="hospital">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="building" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="street" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="imagepath" type="VARCHAR(255)"/>
+            <column name="latitude" type="FLOAT8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="FLOAT8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-22">
+        <createTable tableName="hospital_users">
+            <column name="hospital_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="managers_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-23">
+        <createTable tableName="password_reset_tokens">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expirydate" type="date"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-24">
+        <createTable tableName="patientcard">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="userDetail_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-25">
+        <createTable tableName="patientinfo">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cardid" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-26">
+        <createTable tableName="persistent_logins">
+            <column name="series" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_used" type="timestamp"/>
+            <column name="TOKEN" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USERNAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-27">
+        <createTable tableName="role">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-28">
+        <createTable tableName="userdetail">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(255)"/>
+            <column name="birthdate" type="BYTEA"/>
+            <column name="firstname" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="imagepath" type="VARCHAR(255)"/>
+            <column name="lastname" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(255)"/>
+            <column name="patientcard_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-29">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="userdetails_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-30">
+        <createTable tableName="verifications_tokens">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expirydate" type="date"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-31">
+        <addPrimaryKey columnNames="USERS_ID, ROLE_ID" tableName="ROLE_USERS"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-32">
+        <addPrimaryKey columnNames="id" constraintName="appointmentPK" tableName="appointment"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-33">
+        <addPrimaryKey columnNames="id" constraintName="carditemPK" tableName="carditem"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-34">
+        <addPrimaryKey columnNames="id" constraintName="departmentPK" tableName="department"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-35">
+        <addPrimaryKey columnNames="id" constraintName="doctorinfoPK" tableName="doctorinfo"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-36">
+        <addPrimaryKey columnNames="id" constraintName="feedbackPK" tableName="feedback"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-37">
+        <addPrimaryKey columnNames="id" constraintName="hospitalPK" tableName="hospital"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-38">
+        <addPrimaryKey columnNames="id" constraintName="password_reset_tokensPK" tableName="password_reset_tokens"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-39">
+        <addPrimaryKey columnNames="id" constraintName="patientcardPK" tableName="patientcard"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-40">
+        <addPrimaryKey columnNames="id" constraintName="patientinfoPK" tableName="patientinfo"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-41">
+        <addPrimaryKey columnNames="series" constraintName="persistent_loginsPK" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-42">
+        <addPrimaryKey columnNames="id" constraintName="rolePK" tableName="role"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-43">
+        <addPrimaryKey columnNames="id" constraintName="userdetailPK" tableName="userdetail"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-44">
+        <addPrimaryKey columnNames="id" constraintName="usersPK" tableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-45">
+        <addPrimaryKey columnNames="id" constraintName="verifications_tokensPK" tableName="verifications_tokens"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-46">
+        <addUniqueConstraint columnNames="TOKEN" constraintName="UC_PERSISTENT_LOGINSTOKEN_COL" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-47">
+        <addUniqueConstraint columnNames="USERNAME" constraintName="UC_PERSISTENT_LOGINSUSERNAME_COL" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-48">
+        <addUniqueConstraint columnNames="type" constraintName="UC_ROLETYPE_COL" tableName="role"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-49">
+        <addUniqueConstraint columnNames="email" constraintName="UC_USERSEMAIL_COL" tableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-50">
+        <addForeignKeyConstraint baseColumnNames="userdetails_id" baseTableName="doctorinfo" constraintName="FK_1r6dadb3ajbaxwkpdx1v4u9n9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-51">
+        <addForeignKeyConstraint baseColumnNames="patientCard_id" baseTableName="carditem" constraintName="FK_23f7e1f3aoynlynkmrk6elwaq" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="patientcard"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-52">
+        <addForeignKeyConstraint baseColumnNames="userdetails_id" baseTableName="users" constraintName="FK_2xe4lqrkwymg4aoshgadolask" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-53">
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="ROLE_USERS" constraintName="FK_67w5hj99v5nvjexfv0cf1mxus" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-54">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="verifications_tokens" constraintName="FK_79hy0bqeu0oobh0thq8bgbae1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-55">
+        <addForeignKeyConstraint baseColumnNames="consumer_id" baseTableName="feedback" constraintName="FK_7uda74mreyd8pe0bc0rgm1ufe" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-56">
+        <addForeignKeyConstraint baseColumnNames="userdetail_id" baseTableName="appointment" constraintName="FK_b51bk1hxlblc0fq7l65dkcnc5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-57">
+        <addForeignKeyConstraint baseColumnNames="USERS_ID" baseTableName="ROLE_USERS" constraintName="FK_cunrd1kjdr3pwcekkhw8r5k2l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-58">
+        <addForeignKeyConstraint baseColumnNames="departments_id" baseTableName="department_doctorinfo" constraintName="FK_ej88rho1obqsgettqaymg2ax8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="department"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-59">
+        <addForeignKeyConstraint baseColumnNames="patientcard_id" baseTableName="userdetail" constraintName="FK_exlldeucxpa91uwds0hpc97o" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="patientcard"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-60">
+        <addForeignKeyConstraint baseColumnNames="doctorinfo_id" baseTableName="appointment" constraintName="FK_hx479pw4gje0ktsjfwvl9pwn8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="doctorinfo"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-61">
+        <addForeignKeyConstraint baseColumnNames="doctors_id" baseTableName="department_doctorinfo" constraintName="FK_ibochgjqx1dyr7ysbeg0royt9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="doctorinfo"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-62">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="password_reset_tokens" constraintName="FK_la2ts67g4oh2sreayswhox1i6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-63">
+        <addForeignKeyConstraint baseColumnNames="managers_id" baseTableName="hospital_users" constraintName="FK_o7prsdub8c63s5w469e06q83" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-64">
+        <addForeignKeyConstraint baseColumnNames="doctor_id" baseTableName="carditem" constraintName="FK_ohvlr9w2h9pvsj2bg12ox9b9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-65">
+        <addForeignKeyConstraint baseColumnNames="userDetail_id" baseTableName="patientcard" constraintName="FK_ov506nbhqxddqios9pxlb21ie" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-66">
+        <addForeignKeyConstraint baseColumnNames="producer_id" baseTableName="feedback" constraintName="FK_pvf13utfatebavsixvqxwo3ob" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-67">
+        <addForeignKeyConstraint baseColumnNames="hospital_id" baseTableName="department" constraintName="FK_spotjwwrelb9dhulkiivbl62b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="hospital"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466460581598-68">
+        <addForeignKeyConstraint baseColumnNames="hospital_id" baseTableName="hospital_users" constraintName="FK_tcu91xpek54a086jamuakvoh8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="hospital"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-1">
+        <createSequence sequenceName="appointment_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-2">
+        <createSequence sequenceName="carditem_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-3">
+        <createSequence sequenceName="department_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-4">
+        <createSequence sequenceName="doctorinfo_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-5">
+        <createSequence sequenceName="feedback_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-6">
+        <createSequence sequenceName="hospital_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-7">
+        <createSequence sequenceName="password_reset_token_gen_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-8">
+        <createSequence sequenceName="patientcard_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-9">
+        <createSequence sequenceName="patientinfo_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-10">
+        <createSequence sequenceName="role_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-11">
+        <createSequence sequenceName="userdetail_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-12">
+        <createSequence sequenceName="users_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-13">
+        <createSequence sequenceName="verification_token_gen_id_seq"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-14">
+        <createTable tableName="ROLE_USERS">
+            <column name="USERS_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-15">
+        <createTable tableName="appointment">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="color" type="VARCHAR(255)"/>
+            <column name="end_date" type="BYTEA"/>
+            <column name="start_date" type="BYTEA"/>
+            <column name="text" type="VARCHAR(255)"/>
+            <column name="doctorinfo_id" type="BIGINT"/>
+            <column name="userdetail_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-16">
+        <createTable tableName="carditem">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="complaint" type="VARCHAR(255)"/>
+            <column name="date" type="timestamp"/>
+            <column name="prescription" type="VARCHAR(255)"/>
+            <column name="result" type="VARCHAR(255)"/>
+            <column name="doctor_id" type="BIGINT"/>
+            <column name="patientCard_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-17">
+        <createTable tableName="department">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="imagepath" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="hospital_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-18">
+        <createTable tableName="department_doctorinfo">
+            <column name="departments_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="doctors_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-19">
+        <createTable tableName="doctorinfo">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specialization" type="VARCHAR(255)"/>
+            <column name="userdetails_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-20">
+        <createTable tableName="feedback">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="BYTEA"/>
+            <column name="message" type="VARCHAR(255)"/>
+            <column name="consumer_id" type="BIGINT"/>
+            <column name="producer_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-21">
+        <createTable tableName="hospital">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="building" type="VARCHAR(255)"/>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+            <column name="street" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="imagepath" type="VARCHAR(255)"/>
+            <column name="latitude" type="FLOAT8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="FLOAT8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-22">
+        <createTable tableName="hospital_users">
+            <column name="hospital_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="managers_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-23">
+        <createTable tableName="password_reset_tokens">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expirydate" type="date"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-24">
+        <createTable tableName="patientcard">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="userDetail_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-25">
+        <createTable tableName="patientinfo">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cardid" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-26">
+        <createTable tableName="persistent_logins">
+            <column name="series" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_used" type="timestamp"/>
+            <column name="TOKEN" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USERNAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-27">
+        <createTable tableName="role">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-28">
+        <createTable tableName="userdetail">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(255)"/>
+            <column name="birthdate" type="BYTEA"/>
+            <column name="firstname" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="imagepath" type="VARCHAR(255)"/>
+            <column name="lastname" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(255)"/>
+            <column name="patientcard_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-29">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="userdetails_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-30">
+        <createTable tableName="verifications_tokens">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expirydate" type="date"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-31">
+        <addPrimaryKey columnNames="USERS_ID, ROLE_ID" tableName="ROLE_USERS"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-32">
+        <addPrimaryKey columnNames="id" constraintName="appointmentPK" tableName="appointment"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-33">
+        <addPrimaryKey columnNames="id" constraintName="carditemPK" tableName="carditem"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-34">
+        <addPrimaryKey columnNames="id" constraintName="departmentPK" tableName="department"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-35">
+        <addPrimaryKey columnNames="id" constraintName="doctorinfoPK" tableName="doctorinfo"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-36">
+        <addPrimaryKey columnNames="id" constraintName="feedbackPK" tableName="feedback"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-37">
+        <addPrimaryKey columnNames="id" constraintName="hospitalPK" tableName="hospital"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-38">
+        <addPrimaryKey columnNames="id" constraintName="password_reset_tokensPK" tableName="password_reset_tokens"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-39">
+        <addPrimaryKey columnNames="id" constraintName="patientcardPK" tableName="patientcard"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-40">
+        <addPrimaryKey columnNames="id" constraintName="patientinfoPK" tableName="patientinfo"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-41">
+        <addPrimaryKey columnNames="series" constraintName="persistent_loginsPK" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-42">
+        <addPrimaryKey columnNames="id" constraintName="rolePK" tableName="role"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-43">
+        <addPrimaryKey columnNames="id" constraintName="userdetailPK" tableName="userdetail"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-44">
+        <addPrimaryKey columnNames="id" constraintName="usersPK" tableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-45">
+        <addPrimaryKey columnNames="id" constraintName="verifications_tokensPK" tableName="verifications_tokens"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-46">
+        <addUniqueConstraint columnNames="TOKEN" constraintName="UC_PERSISTENT_LOGINSTOKEN_COL" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-47">
+        <addUniqueConstraint columnNames="USERNAME" constraintName="UC_PERSISTENT_LOGINSUSERNAME_COL" tableName="persistent_logins"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-48">
+        <addUniqueConstraint columnNames="type" constraintName="UC_ROLETYPE_COL" tableName="role"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-49">
+        <addUniqueConstraint columnNames="email" constraintName="UC_USERSEMAIL_COL" tableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-50">
+        <addForeignKeyConstraint baseColumnNames="userdetails_id" baseTableName="doctorinfo" constraintName="FK_1r6dadb3ajbaxwkpdx1v4u9n9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-51">
+        <addForeignKeyConstraint baseColumnNames="patientCard_id" baseTableName="carditem" constraintName="FK_23f7e1f3aoynlynkmrk6elwaq" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="patientcard"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-52">
+        <addForeignKeyConstraint baseColumnNames="userdetails_id" baseTableName="users" constraintName="FK_2xe4lqrkwymg4aoshgadolask" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-53">
+        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="ROLE_USERS" constraintName="FK_67w5hj99v5nvjexfv0cf1mxus" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="role"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-54">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="verifications_tokens" constraintName="FK_79hy0bqeu0oobh0thq8bgbae1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-55">
+        <addForeignKeyConstraint baseColumnNames="consumer_id" baseTableName="feedback" constraintName="FK_7uda74mreyd8pe0bc0rgm1ufe" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-56">
+        <addForeignKeyConstraint baseColumnNames="userdetail_id" baseTableName="appointment" constraintName="FK_b51bk1hxlblc0fq7l65dkcnc5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-57">
+        <addForeignKeyConstraint baseColumnNames="USERS_ID" baseTableName="ROLE_USERS" constraintName="FK_cunrd1kjdr3pwcekkhw8r5k2l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-58">
+        <addForeignKeyConstraint baseColumnNames="departments_id" baseTableName="department_doctorinfo" constraintName="FK_ej88rho1obqsgettqaymg2ax8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="department"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-59">
+        <addForeignKeyConstraint baseColumnNames="patientcard_id" baseTableName="userdetail" constraintName="FK_exlldeucxpa91uwds0hpc97o" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="patientcard"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-60">
+        <addForeignKeyConstraint baseColumnNames="doctorinfo_id" baseTableName="appointment" constraintName="FK_hx479pw4gje0ktsjfwvl9pwn8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="doctorinfo"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-61">
+        <addForeignKeyConstraint baseColumnNames="doctors_id" baseTableName="department_doctorinfo" constraintName="FK_ibochgjqx1dyr7ysbeg0royt9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="doctorinfo"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-62">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="password_reset_tokens" constraintName="FK_la2ts67g4oh2sreayswhox1i6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-63">
+        <addForeignKeyConstraint baseColumnNames="managers_id" baseTableName="hospital_users" constraintName="FK_o7prsdub8c63s5w469e06q83" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-64">
+        <addForeignKeyConstraint baseColumnNames="doctor_id" baseTableName="carditem" constraintName="FK_ohvlr9w2h9pvsj2bg12ox9b9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-65">
+        <addForeignKeyConstraint baseColumnNames="userDetail_id" baseTableName="patientcard" constraintName="FK_ov506nbhqxddqios9pxlb21ie" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userdetail"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-66">
+        <addForeignKeyConstraint baseColumnNames="producer_id" baseTableName="feedback" constraintName="FK_pvf13utfatebavsixvqxwo3ob" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-67">
+        <addForeignKeyConstraint baseColumnNames="hospital_id" baseTableName="department" constraintName="FK_spotjwwrelb9dhulkiivbl62b" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="hospital"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466461627774-68">
+        <addForeignKeyConstraint baseColumnNames="hospital_id" baseTableName="hospital_users" constraintName="FK_tcu91xpek54a086jamuakvoh8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="hospital"/>
+    </changeSet>
 </databaseChangeLog>

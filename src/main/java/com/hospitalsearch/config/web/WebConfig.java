@@ -13,8 +13,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -31,11 +35,13 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.Set;
 
 @Configuration
 @EnableWebMvc
 @EnableCaching
+@EnableScheduling
 @ComponentScan(basePackages = {"com.hospitalsearch"}, basePackageClasses = {SpringRootConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter {
 

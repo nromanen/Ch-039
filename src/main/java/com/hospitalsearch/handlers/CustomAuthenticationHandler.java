@@ -42,7 +42,6 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
         roleMapper.put("ADMIN", "/admin/users?status=true");
         roleMapper.put("PATIENT", "/");
         roleMapper.put("DOCTOR", "/");
-
         if (authentication.getAuthorities().size() > 1) {
             return "/";
         }

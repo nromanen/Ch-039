@@ -1,10 +1,10 @@
 package com.hospitalsearch.controller;
 
 
+import com.hospitalsearch.dto.UserRegisterDTO;
 import com.hospitalsearch.service.UserDetailService;
 import com.hospitalsearch.service.UserService;
 import com.hospitalsearch.util.UserDto;
-import com.hospitalsearch.dto.UserRegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ public class RegisterController {
     private UserDetailService userDetailService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public String processRegistration(@Valid @ModelAttribute("dto") UserRegisterDto dto, BindingResult result, Model model) {
+    public String processRegistration(@Valid @ModelAttribute("dto") UserRegisterDTO dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "layout";
         }

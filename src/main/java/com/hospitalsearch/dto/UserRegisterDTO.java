@@ -10,8 +10,8 @@ import javax.validation.constraints.Size;
 /**
  * @author Andrew Jasinskiy on 17.06.16
  */
-@FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match")
-public class UserRegisterDto {
+@FieldMatch(first    = "password", second = "confirmPassword", message = "The password fields must match")
+public class UserRegisterDTO {
 
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -27,9 +27,8 @@ public class UserRegisterDto {
     private String email;
 
     @NotEmpty(message = "Please enter your password.")
-    @Size(min = 6, max = 16, message = "Your password must between 6 and 16 characters")
-    @Pattern(regexp = PASSWORD_PATTERN,
-            message = "Your password must contains at least:one lowercase characters, one uppercase characters")
+    @Size(min = 6, max = 20, message = "Your password must between 6 and 20 characters")
+    @Pattern(regexp = PASSWORD_PATTERN, message = "Your password is too weak")
     private String password;
 
     @NotEmpty(message = "Please enter your password again.")
@@ -59,6 +58,10 @@ public class UserRegisterDto {
         this.confirmPassword = confirmPassword;
     }
 
-    public UserRegisterDto() {
+    public UserRegisterDTO() {
+    }
+
+    public UserRegisterDTO(String email) {
+        this.email = email;
     }
 }

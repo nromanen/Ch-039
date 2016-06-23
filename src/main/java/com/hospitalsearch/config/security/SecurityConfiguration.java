@@ -23,8 +23,6 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-import javax.sql.DataSource;
-
 /**
  * @author Andrew Jasinskiy
  */
@@ -34,105 +32,100 @@ import javax.sql.DataSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private static final Integer TIME = 21600;
+    //token valid 24 hours
+    public static Integer REMEMBER_ME_TOKEN_EXPIRATION = 24;
 
-	@Autowired
-	@Qualifier("CustomUserDetailsService")
-	UserDetailsService userDetailsService;
+    @Autowired
+    @Qualifier("CustomUserDetailsService")
+    UserDetailsService userDetailsService;
 
-	@Autowired
-	private DataSource dataSource;
+    @Autowired
+    PersistentTokenRepository tokenRepository;
 
-	@Autowired
-	PersistentTokenRepository tokenRepository;
+    @Autowired
+    private CustomAuthenticationHandler customHandler;
 
-	@Autowired
-	private CustomAuthenticationHandler customHandler;
+    @Autowired
+    private ErrorAuthenticationHandler errorAuthenticationHandler;
 
-	@Autowired
-	private ErrorAuthenticationHandler errorAuthenticationHandler;
+    @Autowired
+    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(authenticationProvider());
+    }
 
-	@Autowired
-	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService);
-		auth.authenticationProvider(authenticationProvider());
-	}
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/hospitals/config");
+    }
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/doctor/feedback");
-		web.ignoring().antMatchers("/**/supplyAppointment");
-		web.ignoring().antMatchers("/hospitals/config");
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        http.addFilterBefore(filter, CsrfFilter.class);
+        http
+                .authorizeRequests()
+                .antMatchers("/", "/home").permitAll()
+                .antMatchers("/admin/**").access("hasRole('ADMIN')")
+                .antMatchers("/manageDoctors").access("hasRole('MANAGER')")
+                .antMatchers("/**/manage").access("hasRole('MANAGER')")
+                .antMatchers("/editHospitalsManagers").access("hasRole('ADMIN')")
+                .antMatchers("/appointments").access("hasRole('PATIENT')")
+                .antMatchers("/workscheduler").access("hasRole('DOCTOR')")
+                .antMatchers("/login", "/registration").anonymous()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .successHandler(customHandler)
+                .failureHandler(errorAuthenticationHandler)
+                .and().csrf()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login?logout")
+                .invalidateHttpSession(true)
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/403")
+                .and()
+                .rememberMe()
+                .rememberMeParameter("remember-me")
+                .tokenRepository(tokenRepository)
+                .tokenValiditySeconds(REMEMBER_ME_TOKEN_EXPIRATION * 60)
+                .and().requiresChannel().anyRequest().requiresSecure();
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		CharacterEncodingFilter filter = new CharacterEncodingFilter();
-		filter.setEncoding("UTF-8");
-		filter.setForceEncoding(true);
-		http.addFilterBefore(filter, CsrfFilter.class);
-		http
-				.authorizeRequests()
-				.antMatchers("/", "/home").permitAll()
-				.antMatchers("/admin/**").access("hasRole('ADMIN')")
-				.antMatchers("/manageDoctors").access("hasRole('MANAGER')")
-				.antMatchers("/editHospitalsManagers").access("hasRole('ADMIN')")
-				.antMatchers("/appointments").access("hasRole('PATIENT')")
-				.antMatchers("/workscheduler").access("hasRole('DOCTOR')")
-				.antMatchers("/login").anonymous()
-				.and()
-				.formLogin()
-				.loginPage("/login")
-				.usernameParameter("email")
-				.passwordParameter("password")
-				.successHandler(customHandler)
-				.failureHandler(errorAuthenticationHandler)
-				.and().csrf()
-				.and()
-				.logout()
-				.logoutSuccessUrl("/login?logout")
-				.invalidateHttpSession(true)
-				/*.deleteCookies("remember-me")*/
-				.and()
-				.exceptionHandling()
-				.accessDeniedPage("/403")
-				.and()
-				.rememberMe()
-				.rememberMeParameter("remember-me")
-				.tokenRepository(tokenRepository)
-				.tokenValiditySeconds(TIME)
-				.and().requiresChannel().anyRequest().requiresSecure();
-	}
+    //password encoder
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	//password encoder
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
 
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(userDetailsService);
-		authenticationProvider.setPasswordEncoder(passwordEncoder());
-		return authenticationProvider;
-	}
+    @Bean
+    public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
+        return new PersistentTokenBasedRememberMeServices(
+                "remember-me", userDetailsService, tokenRepository);
+    }
 
-	@Bean
-	public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
-		PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
-				"remember-me", userDetailsService, tokenRepository);
-		return tokenBasedservice;
-	}
+    @Bean
+    public ErrorAuthenticationHandler errorAuthenticationHandler() {
+        return new ErrorAuthenticationHandler();
+    }
 
-	@Bean
-	public ErrorAuthenticationHandler errorAuthenticationHandler() {
-		return new ErrorAuthenticationHandler();
-	}
-
-	@Bean
-	public SpringSecurityDialect springSecurityDialect() {
-		return new SpringSecurityDialect();
-	}
+    @Bean
+    public SpringSecurityDialect springSecurityDialect() {
+        return new SpringSecurityDialect();
+    }
 
 }

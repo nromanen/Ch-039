@@ -2,6 +2,7 @@ package com.hospitalsearch.service.impl;
 
 import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.dto.UserAdminDTO;
+import com.hospitalsearch.dto.UserRegisterDTO;
 import com.hospitalsearch.entity.PatientCard;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
@@ -11,7 +12,6 @@ import com.hospitalsearch.service.RoleService;
 import com.hospitalsearch.service.UserService;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
-import com.hospitalsearch.dto.UserRegisterDto;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -58,17 +57,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(UserRegisterDto userRegisterDto) {
+    public User register(UserRegisterDTO userRegisterDTO) {
+        User user = new User();
         try {
-            logger.info("register user: " + userRegisterDto);
-            User user = new User();
-            user.setEmail(userRegisterDto.getEmail());
-            user.setPassword(userRegisterDto.getPassword());
+            logger.info("register user: " + userRegisterDTO);
+            user.setEmail(userRegisterDTO.getEmail().toLowerCase());
+            user.setPassword(userRegisterDTO.getPassword());
             user.setUserRoles(new HashSet<>(Collections.singletonList(roleService.getByType("PATIENT"))));
             save(user);
-        }catch (Exception e){
-            logger.error("Error register user: " + userRegisterDto, e);
+        } catch (Exception e) {
+            logger.error("Error register user: " + userRegisterDTO, e);
         }
+        return user;
     }
 
     @Override
@@ -141,17 +141,46 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-
     @Override
-    public void changeStatus(Long id) {
+    public User changeStatus(Long id) {
+        User user = null;
         try {
             logger.info("Change status to user with id " + id);
-            dao.changeStatus(id);
+            user = dao.changeStatus(id);
         } catch (Exception e) {
             logger.error("Error changing status user with id " + id, e);
         }
+        return user;
     }
 
+    @Override
+    public boolean resetPassword(String email, String newPassword) {
+        User user = getByEmail(email);
+        try {
+            logger.info("Change password to user with email " + email);
+            user.setPassword(this.passwordEncoder.encode(newPassword));
+            dao.update(user);
+        } catch (Exception e) {
+            logger.error("Error changing password user with email " + email, e);
+            return false;
+        }
+        return true;
+    }
+
+   /* //change password
+    @Override
+    public boolean changePassword(String email, String currentPassword, String newPassword) {
+        User user = getUserByEmail(email);
+
+        if (!this.passwordEncoder.matches(currentPassword, user.getPassword())) {
+            return false;
+        }
+
+        user.setPassword(this.passwordEncoder.encode(newPassword));
+        userDao.update(user);
+
+        return true;
+    }*/
 
     @Override
     public List<User> getUsers(UserAdminDTO userAdminDTO) {
@@ -223,7 +252,6 @@ public class UserServiceImpl implements UserService {
     }
     //Illia
 
-
     @Override
     public void registerUpdate(UserDto dto, String email) {
     }
@@ -233,9 +261,9 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+
     @Override
     public void registerUpdate(UserDetailRegisterDto dto, String email) {
-
     }
 
 }
