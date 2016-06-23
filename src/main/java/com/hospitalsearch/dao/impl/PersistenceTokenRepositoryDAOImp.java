@@ -67,6 +67,7 @@ public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentL
     @Override
     public void removeUserTokens(String username){
         Criteria criteria = this.currentSession().createCriteria(PersistentLogin.class);
+        criteria.add(Restrictions.eq("username", username));
         PersistentLogin persistentLogin = (PersistentLogin) criteria.uniqueResult();
         if (persistentLogin != null) {
             logger.info("rememberMe was selected");

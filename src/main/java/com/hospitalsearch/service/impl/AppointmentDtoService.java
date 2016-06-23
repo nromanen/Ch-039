@@ -3,7 +3,7 @@ package com.hospitalsearch.service.impl;
 import com.hospitalsearch.entity.Appointment;
 import com.hospitalsearch.entity.DoctorInfo;
 import com.hospitalsearch.util.AppointmentBuilder;
-import com.hospitalsearch.util.AppointmentDto;
+import com.hospitalsearch.dto.AppointmentDto;
 
 import java.util.Arrays;
 import java.util.HashMap;

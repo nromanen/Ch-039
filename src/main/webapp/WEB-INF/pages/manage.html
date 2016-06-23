@@ -7,41 +7,15 @@
     <title>Manage</title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <meta th:name="csrf-token" th:content="${_csrf.token}"/>
-    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}"/>
-    <link rel="stylesheet" th:href="@{/css/animate.css}"/>
-    <link rel="stylesheet" th:href="@{/css/theme.default.css}"/>
     <script th:src="@{/codebase/sources/ext/dhtmlxscheduler_key_nav.js}" type="text/javascript"
             charset="utf-8"></script>
     <script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'"
             type="text/javascript" charset="utf-8"></script>
-
-
-    <style type="text/css">
-        html, body {
-            height: 100%;
-            padding: 0px;
-            margin: 0px;
-        }
-
-        .well {
-            text-align: right;
-        }
-
-        .container-fluid #scheduler_here {
-            height: 715px;
-            width: 100%;
-            border: 1px solid #cecece;
-        }
-
-        #scheduler_here {
-            border-radius: 4px;
-        }
-
-        /* Important !!! */
-        .dhx_scale_hour {
-            line-height: normal;
-        }
-    </style>
+    <script th:src="@{/js/schedulerDatePicker.js}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}"/>
+    <link rel="stylesheet" th:href="@{/css/animate.css}"/>
+    <link rel="stylesheet" th:href="@{/css/theme.default.css}"/>
+    <link rel="stylesheet" th:href="@{/css/managerPage.css}"/>
 </head>
 <body>
 <section layout:fragment="content">
@@ -49,7 +23,6 @@
     <input id="path" th:value="${#httpServletRequest.getContextPath()}"/>
     <input sec:authorize="hasRole('MANAGER')" value="true"
            id="manager" type="text" hidden="hidden"/>
-
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -67,9 +40,7 @@
                             <select id="workWeekSize" class="form-control">
                                 <option th:each="i : ${#numbers.sequence( 5, 7)}"
                                         th:text="${i}+' '+#{manager.scheduler.days}" th:value="${i}"></option>
-
                             </select>
-
                             <label class="filter-col" style="margin-right:0;" for="workdayBeginAt" th:text="#{manager.scheduler.dayshours}"></label>
                             <select id="workDayBeginAt" class="form-control">
                                 <option th:each="i : ${#numbers.sequence( 0, 24)}"
@@ -92,8 +63,6 @@
 
                         </div>
                     </form>
-
-
                     <div class="dhx_cal_container panel" id="scheduler_here">
                         <div class="dhx_cal_navline">
                             <div class="dhx_cal_prev_button">&nbsp;</div>
@@ -102,26 +71,6 @@
                             <div class="dhx_cal_date"></div>
                             <div class="dhx_minical_icon" id="dhx_minical_icon"
                                  onclick="show_minical()">&nbsp;</div>
-                            <script type="text/javascript">
-                                //TODO: put to js
-                                function show_minical() {
-                                    if (scheduler.isCalendarVisible())
-                                        scheduler.destroyCalendar();
-                                    else
-                                        scheduler
-                                                .renderCalendar({
-                                                    position: "dhx_minical_icon",
-                                                    date: scheduler._date,
-                                                    navigation: true,
-                                                    handler: function (date, calendar) {
-                                                        scheduler
-                                                                .setCurrentView(date);
-                                                        scheduler
-                                                                .destroyCalendar()
-                                                    }
-                                                });
-                                }
-                            </script>
                             <div class="dhx_cal_tab" name="day_tab"></div>
                             <div class="dhx_cal_tab" name="week_tab"></div>
                             <div class="dhx_cal_tab" name="month_tab"></div>
