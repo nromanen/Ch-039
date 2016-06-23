@@ -3,7 +3,7 @@ Ch-039.Chernivtsi Hospitals
 Configure SSL(HTTPS protocol)
 ---
 Small topic for configuration ssl in local tomcat server.
-Ch-039 group used at least tomcat servaer version 8.
+Ch-039 group used tomcat server v.8...
 **Java (annotation) spring configuration.**
 
 Steps
@@ -96,8 +96,4 @@ Start tomcat service and try to access https://localhost:8443. You will see Tomc
 	
 Authors
 ---
-Copyright(c) 2016 Dream-Tema CH-039
-
-	
-	
-	
+Copyright(c) 2016 Dream-Team CH-039
