@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 public class GenderValidation implements ConstraintValidator<Gender,com.hospitalsearch.util.Gender> {
     @Override
     public void initialize(Gender gender) {
-
     }
 
     @Override

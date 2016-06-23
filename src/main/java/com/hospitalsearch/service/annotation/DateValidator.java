@@ -10,7 +10,6 @@ public class DateValidator implements ConstraintValidator<Date,LocalDate> {
 
     @Override
     public void initialize(Date date) {
-
     }
 
     @Override

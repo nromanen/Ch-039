@@ -11,9 +11,7 @@
 .responstable tr {
     border: 1px solid #D9E4E6;
 }
-.responstable tr:nth-child(odd) {
-    background-color: #EAF3F3;
-}
+
 .responstable th {
     display: none;
     border: 1px solid #FFF;
@@ -21,6 +19,8 @@
     color: #FFF;
     padding: 1em;
 }
+
+
 .responstable th:first-child {
     display: table-cell;
     text-align: center;
@@ -68,6 +68,14 @@
     }
 }
 
+.table-danger {
+    color:#d90007;
+}
+
+.table-danger a{
+    color:#d90007;
+}
+
 .dashboard {
     padding: 0 2em;
     font-family: Arial, sans-serif;
@@ -81,8 +89,6 @@
 .all span {
     color: #167F92;
 }
-
-
 
 /*buttons*/
 .button_info {
@@ -195,7 +201,6 @@ a:hover.back-to-top {
 
 /*pagination button*/
 
-
 .pagination > li > button,
 .pagination > li > span {
     position: relative;
@@ -283,3 +288,4 @@ a:hover.back-to-top {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
+

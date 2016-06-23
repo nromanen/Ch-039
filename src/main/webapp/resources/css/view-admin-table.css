@@ -90,6 +90,17 @@ tr:hover td {
     border-bottom: 1px solid #22262e;
 }
 
+.table-danger:hover td {
+    background-color: #ff652f; !important;
+    color:#FFFFFF;
+    border-top: 1px solid #22262e;
+    border-bottom: 1px solid #22262e;
+}
+
+.table-danger:hover a{
+    background-color: #ff652f; !important;
+    color:#FFFFFF;
+}
 
 .table-fill tr:first-child {
     border-top:none;
@@ -156,3 +167,5 @@ tr:hover td {
 .table-fill td.text-right {
     text-align: right;
 }
+
+

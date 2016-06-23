@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<head>
+    <meta charset="ISO-8859-1"/>
+    <meta charset="UTF-8"/>
+    <title>Configure Tokens</title>
+    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}"/>
+    <link rel="stylesheet" th:href="@{/css/animate.css}"/>
+    <link rel="stylesheet" th:href="@{/css/theme.default.css}"/>
+    <script th:src="@{/js/jquery.validate.js}"></script>
+    <script th:src="@{/js/configToken.js}"></script>
+    <script th:src="@{/js/localization.js}"></script>
+
+</head>
+<body>
+<section layout:fragment="content" class="dashboard center">
+    <div class="content">
+        <div class="container">
+            <div class="row">
+
+                <h2 class="all text-center">Token lifetime configuration</h2>
+                <br/>
+                <br/>
+                <div class="col-md-6 center-block">
+                    <form method="POST" th:object="${configDTO}" class="form-horizontal"
+                          th:action="@{/admin/configureToken}" id="configTokenForm">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="verificationToken">Verification token</label>
+
+                            <div class="col-sm-6">
+                                <input id="verificationToken" type="text" th:value="*{verificationToken}"
+                                       th:field="*{verificationToken}" class="form-control"
+                                       th:class="form-control" name="verificationToken"/>
+
+                                <span th:if="${(configDTO ne null) and (#fields.hasErrors('verificationToken'))}"
+                                      th:errors="*{verificationToken}" class="has-error text-danger"></span>
+
+                            </div>
+                            <label class="col-sm-1 control-label" for="verificationToken">hours</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="resetPasswordToken">Reset password token</label>
+
+                            <div class="col-sm-6">
+                                <input id="resetPasswordToken" type="text" th:value="*{resetPasswordToken}"
+                                       th:field="*{resetPasswordToken}" class="form-control"
+                                       th:class="form-control" name="resetPasswordToken"/>
+
+                                <span th:if="${(configDTO ne null) and (#fields.hasErrors('resetPasswordToken'))}"
+                                      th:errors="*{resetPasswordToken}" class="has-error text-danger"></span>
+
+                            </div>
+                            <label class="col-sm-1 control-label" for="resetPasswordToken">hours</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="rememberMeToken">Remember me token</label>
+
+                            <div class="col-sm-6">
+                                <input id="rememberMeToken" type="text" th:value="*{rememberMeToken}"
+                                       th:field="*{rememberMeToken}" class="form-control"
+                                       th:class="form-control" name="rememberMeToken"/>
+
+                                 <span th:if="${(configDTO ne null) and (#fields.hasErrors('rememberMeToken'))}"
+                                       th:errors="*{rememberMeToken}" class="has-error text-danger"></span>
+
+                            </div>
+                            <label class="col-sm-1 control-label" for="resetPasswordToken">hours</label>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <input type="submit" value="Save" class="btn btn-primary btn-lg"/> or <a
+                                    class="btn btn-default btn-lg" th:href="@{/}">Cancel</a>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+
+
+
+
+
+
+
