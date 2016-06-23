@@ -68,10 +68,9 @@ Re-enter new password: password
 ```
 It will create a .keystore file on your user home directory. On Windows, it will be on: C:Documents and Settings[username]; on Mac it will be on /Users/[username] and on Linux will be on /home/[username].
 
-	**3 step.**
-	Configuring Tomcat for using the keystore file – SSL config
-	
-	Open your Tomcat installation directory and open the conf folder. Inside this folder, you will find the **server.xml** file. Open it.
+**3 step.**
+Configuring Tomcat for using the keystore file – SSL config
+Open your Tomcat installation directory and open the conf folder. Inside this folder, you will find the **server.xml** file. Open it.
 
 Find the following declaration:
 ```html
