@@ -14,14 +14,14 @@
 	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
 <script th:src="@{/js/welcome.js}"></script>
 <script th:src="@{/js/gmaps.js}"></script>
+<link rel="stylesheet" th:href="@{/css/map.css}" />
 
 <title th:text="#{welcome.header}"></title>
 </head>
 <body>
 	<section layout:fragment="content">
 		<div class="content">
-			<input id="pac-input" class="form-control"
-				style="margin: 1%; width: 98%" type="text"
+			<input id="pac-input" class="form-control" type="text"
 				th:placeholder="#{welcome.enteraddress}" />
 			<div id="googleMap" style="height: 70vh"></div>
 		</div>

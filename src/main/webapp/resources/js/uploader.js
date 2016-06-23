@@ -4,6 +4,15 @@
 
 var parameters;
 
+var pathname = window.location.pathname;
+var patharr = pathname.split('/');
+var addition = patharr[1];
+if (addition != 'HospitalSeeker') {
+	addition = '';
+} else {
+	addition = '/' + addition;
+}
+
 $.ajaxSetup({
 	headers: {
 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -25,8 +34,9 @@ function getProperty(code) {
 	return parameters[code];
 }
 
-function isImage(name) {
-	return name.match(/^.+\.(jpg|png)$/i);
+function isImage(name, type) {
+	var pattern = new RegExp(getProperty(type + '.file.name.js.pattern'), getProperty(type + '.file.name.js.pattern.param'));
+	return name.match(pattern);
 };
 
 function upload(type) {
@@ -39,7 +49,7 @@ function upload(type) {
 	var input = document.getElementById('file');
 	var file = input.files[0];
 
-	if (!(isImage(filename))) {
+	if (!(isImage(filename, type))) {
 		showMessage(getMessage('upload.image.filetype'), 'alert-warning');
 		return;
 	}
@@ -66,11 +76,13 @@ function upload(type) {
 		return;			
 	}
 
-	document.getElementById('file-name').value = label;
 	var file_data = $('#file').prop('files')[0]; 
 	var form_data = new FormData();
 	form_data.append('file', file_data)
-	form_data.append('type', type)
+	form_data.append('type', type);
+	console.log(file_data);
+	console.log(type);
+	console.log(label);
 
 	$.ajax({
 		url: 'upload',
@@ -83,10 +95,9 @@ function upload(type) {
 		success: function(data) {
 			showMessage(getMessage('upload.image.uploaded'));
 			document.getElementById('imagePath').value = data;
-			$('#image1').attr('src', addition + '/images/' + type + '/' + data);
+			$('#image-uploaded').attr('src', addition + '/images/' + type + '/' + data);
 		},
 		error: function(qXHR, status, err) {
-			document.getElementById('file-name').value = "";
 			showMessage(qXHR.responseText, 'alert-warning');
 		}
 	})

@@ -55,7 +55,7 @@
 													th:title="#{admin.hospital.list.tooltip.locate}">
 													<span class="glyphicon glyphicon-map-marker"></span>
 												</button>
-												<a th:href="@{'/admin/map/edithospital/' + ${hospital.id}}"
+												<a th:href="@{'/admin/map/edithospital/' + ${hospital.id} + '/'}"
 													th:title="#{admin.hospital.list.tooltip.edit}"
 													class="btn btn-default"> <span
 													class="glyphicon glyphicon-pencil"></span>
@@ -73,9 +73,9 @@
 																<h4 class="modal-title"
 																	th:text="#{admin.hospital.list.modal.header}"></h4>
 															</div>
-															<div class="modal-body"
-																th:text="#{admin.hospital.list.modal.body}">
-																<div th:text="${hospital.name}"></div>
+															<div class="modal-body">
+																<span th:text="#{admin.hospital.list.modal.body}"></span> 
+																<span th:text="${hospital.name}"></span>
 															</div>
 															<div class="modal-footer">
 																<button class="btn btn-default" type="submit"

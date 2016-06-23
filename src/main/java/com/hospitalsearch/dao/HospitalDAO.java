@@ -19,8 +19,6 @@ public interface HospitalDAO extends GenericDAO<Hospital, Long> {
 
     List<Hospital> getAllByBounds(Bounds bounds);
 
-    void deleteById(long id);
-
     List<Hospital> filterHospitalsByAddress(HospitalFilterDTO filterInfo);
 
     Page<Hospital> advancedHospitalSearch(String args) throws ParseException, InterruptedException;
