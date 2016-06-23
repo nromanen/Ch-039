@@ -26,15 +26,14 @@ public class AppointmentDAOImpl extends GenericDAOImpl<Appointment, Long> implem
     @Override
     @SuppressWarnings("unchecked")
     public List<Appointment> getAllbyDoctorId(Long doctorId) {
-
-        List<Appointment> appointments = getSessionFactory().openSession().createCriteria(Appointment.class)
+        List<Appointment> appointments = getSessionFactory().getCurrentSession().createCriteria(Appointment.class)
                 .add(Restrictions.eq("doctorInfo.id", doctorId)).list();
         return appointments;
     }
 
     @Override
     public List<Appointment> getAllByPatient(Long userDetailId) {
-        List<Appointment> appointments = getSessionFactory().openSession().createCriteria(Appointment.class)
+        List<Appointment> appointments = getSessionFactory().getCurrentSession().createCriteria(Appointment.class)
                 .add(Restrictions.eq("userDetail.id", userDetailId))
                 .list();
         return appointments;
@@ -42,7 +41,7 @@ public class AppointmentDAOImpl extends GenericDAOImpl<Appointment, Long> implem
 
     @Override
     public List<Appointment> getAllByDoctor(Long doctorId) {
-        List<Appointment> appointments = getSessionFactory().openSession().createCriteria(Appointment.class)
+        List<Appointment> appointments = getSessionFactory().getCurrentSession().createCriteria(Appointment.class)
                 .add(Restrictions.eq("doctorInfo.id", doctorId))
                 .list();
         return appointments;

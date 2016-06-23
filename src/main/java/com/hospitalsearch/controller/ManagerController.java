@@ -18,7 +18,7 @@ import java.util.Map;
 @Controller
 public class ManagerController {
 
-    @Autowired(required = true)
+    @Autowired
     private HospitalService hospitalService;
 
     @Autowired
@@ -44,19 +44,21 @@ public class ManagerController {
 
     @RequestMapping(value = "/applyManager", method = RequestMethod.POST)
     public String applyManager(@RequestBody Map<String, Long> hospitalData) {
-
         managerService.applyManager(hospitalData);
-
         return "redirect:/editHospitalsManagers";
     }
 
     @RequestMapping(value = "/deleteManager", method = RequestMethod.POST)
     public String deleteManager(@RequestParam Long hospitalId) {
-
         managerService.deleteHospitalManager(hospitalId);
-
         return "redirect: /editHospitalsManagers";
 
+    }
+
+    @RequestMapping(value = "/docs", method = RequestMethod.GET)
+    public String docs(Map<String, Object> model){
+        model.put("doctors", userService.getByRole("DOCTOR"));
+        return "doctorsTwo";
     }
 
 

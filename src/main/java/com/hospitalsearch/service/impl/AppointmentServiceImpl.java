@@ -24,68 +24,54 @@ import java.util.Map;
 public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
     @Autowired
-    UserDetailDAO userDetailDAO;
+    private UserDetailDAO userDetailDAO;
     @Autowired
     private AppointmentDAO appointmentDao;
     @Autowired
     private DoctorInfoDAO doctorInfoDAO;
 
     @Override
-    public void actionControl(Map<String, String[]> AppointmentParams, Long doctorId, String principal) {
-
+    public void actionControl(Map<String, String[]> appointmentParams, Long doctorId, String principal) {
         UserDetail userDetail = userDetailDAO.getById(userDAO.getByEmail(principal).getId());
-
         DoctorInfo doctorInfo = doctorInfoDAO.getById(doctorId);
-
-        AppointmentDto AppointmentDto = AppointmentDtoService.createAppointmentDto(AppointmentParams, doctorInfo);
-
-        Appointment appointment = AppointmentDto.getAppointment();
-
+        AppointmentDto appointmentDto = AppointmentDtoService.createAppointmentDto(appointmentParams, doctorInfo);
+        Appointment appointment = appointmentDto.getAppointment();
         appointment.setDoctorInfo(doctorInfo);
-
         appointment.setUserDetail(userDetail);
-
-        switch (AppointmentDto.getStatus()) {
+        switch (appointmentDto.getStatus()) {
             case "inserted":
                 saveAppointment(appointment);
-
                 break;
             case "deleted":
                 deleteInterval(appointment);
-
                 break;
             case "updated":
                 updateAppointment(appointment);
-
                 break;
-            default:
-
         }
-
     }
+    //TODO: rename methods, refactor get methods.
 
     @Override
     public List<Appointment> getGetAllByPatient(String patient) {
         List<Appointment> appointments = appointmentDao.getAllByPatient(userDAO.getByEmail(patient).getId());
-
         for (Appointment appointment : appointments) {
             appointment.setText(appointment.getDoctorInfo().getUserDetails().getFirstName()
                     + " " + appointment.getDoctorInfo().getUserDetails().getLastName());
         }
-
         return appointments;
     }
 
-
+    //TODO: rename methods.
     @Override
     public List<Appointment> getAllByDoctor(String doctor) {
         List<Appointment> appointments = appointmentDao.getAllbyDoctorId(userDAO.getByEmail(doctor).getUserDetails()
                 .getDoctorsDetails().getId());
-
         for (Appointment appointment : appointments) {
-            appointment.setText(appointment.getUserDetail().getFirstName() + " " + appointment.getUserDetail().getLastName());
+            appointment.setText(appointment.getUserDetail().getFirstName() + " " + appointment.getUserDetail().getLastName()
+                    +" - "+appointment.getText());
         }
         return appointments;
     }
@@ -94,7 +80,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<Appointment> getAllbyDoctorId(Long doctorId) {
         return appointmentDao.getAllbyDoctorId(doctorId);
     }
-
 
     @Override
     public void saveAppointment(Appointment appointment) {

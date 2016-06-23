@@ -1,0 +1,6 @@
+body, .modal-header{
+    border-bottom: 1px solid #2FABE9;
+}
+.modal-footer{
+    border-top: 1px solid #2FABE9;
+}

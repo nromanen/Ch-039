@@ -1,8 +1,10 @@
 <!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:h="http://www.w3.org/1999/html" layout:decorator="layout"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
     <meta charset="ISO-8859-1"/>
     <meta charset="UTF-8"/>
@@ -13,51 +15,48 @@
     <link rel="stylesheet" th:href="@{/css/theme.default.css}"/>
     <script th:src="@{/js/admin.js}"></script>
     <script th:src="@{/js/jquery.tablesorter.js}"></script>
-    <script th:src="@{/js/manager.js}"></script>
+    <script th:src="@{/js/supplayManager.js}"></script>
     <script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'" type="text/javascript" charset="utf-8"></script>
-
 </head>
 
 <body>
 <section layout:fragment="content">
     <div class="content">
-    <div class="col-lg-6 col-lg-offset-3">
-        <div class="content">
-            <table class="tablesorter table table-bordred table-striped responstable" id="hospitals">
-                <thead>
-                <tr>
-                    <th class="col-lg-1">#</th>
-                    <th th:text="#{admin.hospitals.managers.hospital}"></th>
-                    <th class="col-lg-3" th:text="#{admin.hospitals.managers.manager}"></th>
-                    <th class="col-lg-1"><span class="glyphicon glyphicon-thumbs-down"></span></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="hospital : ${hospitals}">
-                    <td></td>
-                    <td th:id="${hospital.id}" th:value="${hospital.id}" th:text="${hospital.name}"></td>
-                    <td>
-                        <select th:id="${hospital.id}" class="form-control" onchange="applyManager(this.value,this.id);">
-                            <option th:if="${hospital.managers.size()}==0">Select user</option>
-                            <option th:if="${hospital.managers.size()}!=0" th:text="${hospital.managers.get(0).email}"
-                                    th:value="${hospital.managers.get(0).id}"></option>
-                            <option th:each="user : ${users}" th:value="${user.id}"
-                                    th:if="(${hospital.managers.size()}==0)or((${user.id}!=${hospital.managers.get(0).id}))"
-                                    th:text="${user.email}">
-                            </option>
-                        </select>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" th:value="${hospital.id}" onclick="clearManager(this.value);"><span class="glyphicon glyphicon-remove"></span></button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="content">
+                <table class="tablesorter table table-bordred table-striped responstable" id="hospitals">
+                    <thead>
+                    <tr>
+                        <th class="col-lg-1">#</th>
+                        <th th:text="#{admin.hospitals.managers.hospital}"></th>
+                        <th class="col-lg-3" th:text="#{admin.hospitals.managers.manager}"></th>
+                        <th class="col-lg-1"><span class="glyphicon glyphicon-thumbs-down"></span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="hospital : ${hospitals}">
+                        <td></td>
+                        <td th:id="${hospital.id}" th:value="${hospital.id}" th:text="${hospital.name}"></td>
+                        <td>
+                            <select th:id="${hospital.id}" class="form-control" onchange="applyManager(this.value,this.id);">
+                                <option th:if="${hospital.managers.size()}==0">Select user</option>
+                                <option th:if="${hospital.managers.size()}!=0" th:text="${hospital.managers.get(0).email}"
+                                        th:value="${hospital.managers.get(0).id}"></option>
+                                <option th:each="user : ${users}" th:value="${user.id}"
+                                        th:if="(${hospital.managers.size()}==0)or((${user.id}!=${hospital.managers.get(0).id}))"
+                                        th:text="${user.email}">
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" th:value="${hospital.id}" onclick="clearManager(this.value);"><span class="glyphicon glyphicon-remove"></span></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-        </div>
 </section>
 </body>
-
-
 </html>
