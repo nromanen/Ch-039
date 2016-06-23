@@ -42,12 +42,6 @@ public class HospitalDAOImpl extends GenericDAOImpl<Hospital, Long> implements H
         return query.list();
     }
 
-    public void deleteById(long id) {
-        org.hibernate.Query query = this.currentSession().getNamedQuery(Hospital.DELETE_HOSPITAL_BY_ID);
-        query.setLong("id", id)
-                .executeUpdate();
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public List<Hospital> filterHospitalsByAddress(HospitalFilterDTO filterInfo) {

@@ -40,7 +40,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "hospital")
 @Indexed
 @NamedQueries({
-	@NamedQuery(name = Hospital.DELETE_HOSPITAL_BY_ID, query = Hospital.DELETE_HOSPITAL_BY_ID_QUERY),
 	@NamedQuery(name = Hospital.GET_LIST_BY_BOUNDS, query = Hospital.GET_LIST_BY_BOUNDS_QUERY)
 })
 @AnalyzerDef(name = "ngram",
@@ -60,9 +59,6 @@ public class Hospital {
 			+ "(latitude < :nelat) and (latitude > :swlat) and "
 			+ "(longitude < :nelng) and (longitude > :swlng)";
 	public static final String GET_LIST_BY_BOUNDS = "GET_LIST_BY_BOUNDS";
-
-	static final String DELETE_HOSPITAL_BY_ID_QUERY = "DELETE Hospital WHERE id = :id";
-	public static final String DELETE_HOSPITAL_BY_ID = "DELETE_HOSPITAL_BY_ID";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hospital_gen")
@@ -97,7 +93,7 @@ public class Hospital {
 		@AttributeOverride(name = "street", column = @Column(name = "street")),
 		@AttributeOverride(name = "building", column = @Column(name = "building"))
 	})
-	private HospitalAddress address;
+	private HospitalAddress address = new HospitalAddress();
 
 	@Size(max = 150)
 	@Column(nullable = false)
