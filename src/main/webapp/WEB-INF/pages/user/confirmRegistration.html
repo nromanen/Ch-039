@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<head>
+    <meta charset="ISO-8859-1"/>
+    <meta charset="UTF-8"/>
+    <title>Confirm registration</title>
+    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}"/>
+    <link rel="stylesheet" th:href="@{/css/animate.css}"/>
+    <script th:src="@{/js/admin.js}"></script>
+</head>
+<body>
+<section layout:fragment="content" class="container">
+    <div class="content">
+
+        <div th:if="${confirmEmail!=null}">
+            <div class="animated fadein">
+                <h3 th:text="'Dear ' + ${confirmEmail} + ' You confirm registration on our website successfully.'"
+                    class="text-success text-center menu"></h3>
+
+                <h3 class="text-success text-center menu"> Now you are can login.</h3>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

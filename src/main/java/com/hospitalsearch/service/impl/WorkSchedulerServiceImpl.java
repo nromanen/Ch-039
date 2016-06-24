@@ -5,18 +5,20 @@ import com.hospitalsearch.dao.WorkSchedulerDAO;
 import com.hospitalsearch.service.WorkSchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by igortsapyak on 29.05.16.
  */
 @Service
+@Transactional
 public class WorkSchedulerServiceImpl implements WorkSchedulerService {
 
     @Autowired
-    WorkSchedulerDAO workSchedulerDAO;
+    private WorkSchedulerDAO workSchedulerDAO;
 
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Override
     public String getWorkScheduler(Long doctorId) {

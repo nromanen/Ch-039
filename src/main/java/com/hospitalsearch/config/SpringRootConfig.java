@@ -1,10 +1,10 @@
 package com.hospitalsearch.config;
 
 import java.util.Properties;
-
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-
+import com.hospitalsearch.validator.ImageValidator;
+import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,6 +23,9 @@ import com.hospitalsearch.validator.ImageValidator;
 import liquibase.integration.spring.SpringLiquibase;
 
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * Created by speedfire on 4/28/16.
@@ -93,8 +96,8 @@ public class SpringRootConfig {
         props.put(PROP_HIBERNATE_EHCACHE_REGION_FACTORY, properties.getRequiredProperty(PROP_HIBERNATE_EHCACHE_REGION_FACTORY));
         props.put(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER));
         props.put(PROP_HIBERNATE_SEARCH_INDEX_BASE, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_INDEX_BASE));
-
-
+        props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
+        props.put(PROP_HIBERNATE_IMPORT_FILE, properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
         return props;
     }
 
@@ -103,26 +106,22 @@ public class SpringRootConfig {
      */
     @Bean
     public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-        return commonsMultipartResolver;
+        return new CommonsMultipartResolver();
     }
 
-// have problem with liquibase, switch off it, dont kick my ass
-//    @Bean
-//    public SpringLiquibase liquibase() {
-//        SpringLiquibase liquibase = new SpringLiquibase();
-//        liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
-//        liquibase.setDataSource(dataSource());
-//        liquibase.setIgnoreClasspathPrefix(true);
-//        return liquibase;
-//    }
+    //todo andrew
+/*    @Bean
+    public SpringLiquibase liquibase() {
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
+        liquibase.setDataSource(dataSource());
+        liquibase.setIgnoreClasspathPrefix(true);
+        return liquibase;
+    }*/
 
-  
-	@Bean
-	public ImageValidator imageValidator() {
-		return new ImageValidator();
-	}
-
-
+    @Bean
+    public ImageValidator imageValidator() {
+        return new ImageValidator();
+    }
 
 }

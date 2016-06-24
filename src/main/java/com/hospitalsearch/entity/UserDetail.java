@@ -15,8 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hospitalsearch.service.annotation.Date;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
@@ -26,6 +29,7 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
 import com.hospitalsearch.util.Gender;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
@@ -39,25 +43,31 @@ public class UserDetail{
 	@SequenceGenerator(name = "userdetail_gen", sequenceName = "userdetail_id_seq", initialValue = 1, allocationSize = 1)
 	@JsonIgnore
 	private Long id;
-	
+
 	@Column(name="firstname")
+    @Pattern(regexp = "^[A-Z][a-z]+$",message = "Not valid. Ex: Alina")
 	@Field
 	private String firstName;
-	
+
 	@Column(name="lastname")
+    @Pattern(regexp = "^[A-Z][a-z]+$",message = "Not valid. Ex: Veter")
 	@Field
 	private String lastName;
-	
+	@Pattern(regexp = "^\\+38 \\(\\d{3}\\) \\d{3}-\\d{4}", message = "Not valid. Ex: +38 (095) 435-7132")
 	private String phone;
 	
 	@Column(name="birthdate")
+   /* @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Date(message = "Not valid format")*/
+	//todo comment by andrew
 	private LocalDate birthDate;
 	
 	@JsonIgnore	
 	@Column(name="imagepath")
 	private String imagePath;
-	
+
 	@Enumerated(EnumType.STRING)
+    @com.hospitalsearch.service.annotation.Gender(message = "Not valid format")
 	private Gender gender;
 	
 	private String address;
@@ -145,12 +155,14 @@ public class UserDetail{
 		this.patientCard = patientCard;
 	}
 
-	@Override
-	public String toString() {
-		return "UserDetail{" +
-				"firstName='" + firstName + '\'' +
-				", lastName='" + lastName + '\'' +
-				'}';
-	}
-
+    @Override
+    public String toString() {
+        return "UserDetail{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", birthDate=" + birthDate +
+                '}';
+    }
 }

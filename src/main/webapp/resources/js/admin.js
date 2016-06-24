@@ -26,7 +26,6 @@ $(document).ready(function () {
         var quantityUsers = this.options[this.selectedIndex].value;
         var setUrl = '/admin/users/setItemsPerPage/' + quantityUsers;
         $.get(setUrl, function (data) {
-            window.location.reload();
         });
     });
 
@@ -63,8 +62,7 @@ $(document).ready(function () {
     $('#clearButton').click(function (event) {
         var pageSize = 10;
         var url = '/admin/users/setItemsPerPage/' + pageSize;
-        $.get(url, function (data) {
-        });
+        $.get(url, function (data) {});
         sessionStorage.clear();
         $('#pref-roleby').val('');
         $searchInput.val('');
@@ -90,7 +88,7 @@ $(document).ready(function () {
         $('.content').removeClass('blur');
     });
 
-    $("#menu-toggle").click(function (e) {
+   $("#menu-toggle").click(function (e) {
         e.preventDefault();
         $("#sidebar-wrapper").toggleClass("active");
     });

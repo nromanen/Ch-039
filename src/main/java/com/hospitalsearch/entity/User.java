@@ -32,13 +32,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name="users")
 
 @NamedQueries({
-	@NamedQuery(name = "SELECT_BY_ROLE", query = "SELECT u FROM User u JOIN  u.userRoles r WHERE r.id = :id"),
-	@NamedQuery(name = "SELECT_ALL_ENABLED_USERS", query = "SELECT u FROM User u WHERE u.enabled = true"),
-	@NamedQuery(name = "SELECT_ALL_DISABLED_USERS", query = "SELECT u FROM User u WHERE u.enabled = false"),
+		@NamedQuery(name = "SELECT_BY_ROLE", query = "SELECT u FROM User u JOIN  u.userRoles r WHERE r.id = :id"),
+		@NamedQuery(name = "SELECT_ALL_ENABLED_USERS", query = "SELECT u FROM User u WHERE u.enabled = true"),
+		@NamedQuery(name = "SELECT_ALL_DISABLED_USERS", query = "SELECT u FROM User u WHERE u.enabled = false"),
 })
 
 public class User implements Comparable<User> {
-
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_gen")
@@ -56,7 +55,7 @@ public class User implements Comparable<User> {
 	private String password;
 
 	@Column(nullable = false)
-	private Boolean enabled= true;
+	private Boolean enabled= false;
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -65,13 +64,14 @@ public class User implements Comparable<User> {
 	private Set<Role> userRoles = new HashSet<>();
 
 	@OneToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="userdetails_id")
 	@Fetch(FetchMode.SELECT)
-    @JoinColumn(name="userdetails_id")
 	private UserDetail userDetails;
 
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -79,6 +79,7 @@ public class User implements Comparable<User> {
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -86,6 +87,7 @@ public class User implements Comparable<User> {
 	public Boolean getEnabled() {
 		return enabled;
 	}
+
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
@@ -114,18 +116,17 @@ public class User implements Comparable<User> {
 		this.userDetails = userDetails;
 	}
 
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", enabled=" + enabled +
-                ", userRoles=" + userRoles +
-                ", userDetails=" + userDetails +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", enabled=" + enabled +
+				", userRoles=" + userRoles +
+				", userDetails=" + userDetails +
+				'}';
+	}
 
 	@Override
 	public int compareTo(User o) {

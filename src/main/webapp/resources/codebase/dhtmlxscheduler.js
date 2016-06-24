@@ -130,9 +130,10 @@ window.dhtmlXScheduler = window.scheduler = {version: "4.3.1"}, window.dhtmlx ||
     }
     t || (this.onloadAction && this.onloadAction(this.mainObject, null, null, null, this), this.waitCall && (this.waitCall(), this.waitCall = null))
 }, dtmlXMLLoaderObject.prototype.loadXML = function (e, t, i, s) {
+
     this.rSeed && (e += (-1 != e.indexOf("?") ? "&" : "?") + "a_dhx_rSeed=" + (new Date).valueOf()), this.filePath = e,
         !_isIE && window.XMLHttpRequest ? this.xmlDoc = new XMLHttpRequest : this.xmlDoc = new ActiveXObject("Microsoft.XMLHTTP"), this.async && (this.xmlDoc.onreadystatechange = new this.waitLoadFunction(this)), "string" == typeof t ? this.xmlDoc.open(t, e, this.async) : this.xmlDoc.open(t ? "POST" : "GET", e, this.async), s ? (this.xmlDoc.setRequestHeader("User-Agent", "dhtmlxRPC v0.1 (" + navigator.userAgent + ")"), this.xmlDoc.setRequestHeader("Content-type", "text/xml")) : t && this.xmlDoc.setRequestHeader("Content-type", "application/x-www-form-urlencoded"),
-        this.xmlDoc.setRequestHeader("X-Requested-With", "XMLHttpRequest"), this.xmlDoc.send(null || i), this.async || new this.waitLoadFunction(this)()
+        this.xmlDoc.setRequestHeader("X-Requested-With", "XMLHttpRequest"), this.xmlDoc.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content')), this.xmlDoc.send(null || i), this.async || new this.waitLoadFunction(this)()
 }, dtmlXMLLoaderObject.prototype.destructor = function () {
     return this._filterXPath = null, this._getAllNamedChilds = null, this._retry = null, this.async = null, this.rSeed = null, this.filePath = null, this.onloadAction = null, this.mainObject = null, this.xmlDoc = null, this.doXPath = null, this.doXPathOpera = null, this.doXSLTransToObject = null, this.doXSLTransToString = null, this.loadXML = null, this.loadXMLString = null,
         this.doSerialization = null, this.xmlNodeToJSON = null, this.getXMLTopNode = null, this.setXSLParamValue = null, null
@@ -2260,7 +2261,7 @@ window.dhtmlXScheduler = window.scheduler = {version: "4.3.1"}, window.dhtmlx ||
         t ? e.style.top = Math.round(t + Math.max((s - e.offsetHeight) / 2, 0)) + "px" : e.style.top = Math.round(Math.max((s - e.offsetHeight) / 2, 0) + 9) + "px", document.documentElement.scrollWidth > document.body.offsetWidth ? e.style.left = Math.round(i + (document.body.offsetWidth - e.offsetWidth) / 2) + "px" : e.style.left = Math.round((document.body.offsetWidth - e.offsetWidth) / 2) + "px";
 
     }
-    this.show_cover()
+    //this.show_cover()
 },scheduler.showLightbox = function (e) {
     if (e) {
         if (!this.callEvent("onBeforeLightbox", [e]))return void(this._new_event && (this._new_event = null));

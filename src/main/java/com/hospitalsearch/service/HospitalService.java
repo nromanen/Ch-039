@@ -23,7 +23,6 @@ public interface HospitalService {
     void save(Hospital newHospital);
     void delete(Hospital hospital);
     void update(Hospital updatedHospital);
-	void deleteById(long id);
     @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
     Hospital getById(Long id);
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)

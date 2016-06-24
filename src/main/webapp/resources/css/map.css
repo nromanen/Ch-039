@@ -25,3 +25,8 @@ th {
 	height:350px;
 	width: calc(100% - 350px - 1em);
 }
+
+#pac-input {
+	margin: 1%;
+	width: 98%;
+}

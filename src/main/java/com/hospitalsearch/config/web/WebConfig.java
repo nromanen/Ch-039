@@ -20,6 +20,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -42,6 +43,7 @@ import nz.net.ultraq.thymeleaf.LayoutDialect;
 @Configuration
 @EnableWebMvc
 @EnableCaching
+@EnableScheduling
 @ComponentScan(basePackages = {"com.hospitalsearch"}, basePackageClasses = {SpringRootConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter {
 

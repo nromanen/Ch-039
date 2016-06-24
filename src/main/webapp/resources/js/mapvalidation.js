@@ -71,6 +71,8 @@ function getHospital(lat, lng) {
 }
 
 function buildTable() {
+	var tooltipLocate = getMessage('admin.hospital.poi.table.tooltip.locate');
+	var tooltipAdd = getMessage('admin.hospital.poi.table.tooltip.add');
 	var table = "";
 	for (var i = 0; i < hospitals.length; i++) {
 		var hospital1 = hospitals[i];
@@ -86,12 +88,49 @@ function buildTable() {
 			table += '<input type="hidden" id="hospjs" name="hospjs" value=\'';
 			table += JSON.stringify(hospital1);
 			table += '\'><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus" title="';
-			table += $('meta[name="tooltip-add"]').attr('content') + '"></span>';
+			table += tooltipAdd + '"></span>';
 			table += '</button></form></td><td>none</td>';					
 		} else {			
 			table += '<td class="text-center"><button type="button" class="btn btn-default" onclick="javascript:placeMarker(\'';
 			table += hospital2.latitude + '\', \'' + hospital2.longitude + '\');"  title="';
-			table += $('meta[name="tooltip-locate"]').attr('content') + '">'
+			table += tooltipLocate + '">'
+			table += '<span class="glyphicon glyphicon-map-marker"></span></button></td><td>';
+			table += hospital2.name + ' <br>';
+			table += hospital2.address.street + ', ';	
+			table += hospital2.address.building + ', ';	
+			table += hospital2.address.city + ', ';
+			table += hospital2.address.country + '</td>';
+		}
+		table += '</tr>';
+
+	}
+	document.getElementById("table-out").innerHTML = table;
+}
+
+function buildTable2() {
+	var tooltipLocate = getMessage('admin.hospital.poi.table.tooltip.locate');
+	var tooltipAdd = getMessage('admin.hospital.poi.table.tooltip.add');
+	var table = "";
+	for (var i = 0; i < hospitals.length; i++) {
+		var hospital1 = hospitals[i];
+		var address = addresses[i];
+		getHospital(hospital1.latitude, hospital1.longitude);
+		var hospital2 = hospital;
+		table += '<tr><td>' + hospital1.name + '<br>' + address + '</td>';
+
+		if (hospital2 == null) {
+			table += '<td class="text-center"><form method="post"><input type="hidden" name="';
+			table += $('meta[name="csrf-name"]').attr('content') + '" value="';
+			table += $('meta[name="csrf-token"]').attr('content') + '" />';
+			table += '<input type="hidden" id="hospjs" name="hospjs" value=\'';
+			table += JSON.stringify(hospital1);
+			table += '\'><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus" title="';
+			table += tooltipAdd + '"></span>';
+			table += '</button></form></td><td>none</td>';					
+		} else {			
+			table += '<td class="text-center"><button type="button" class="btn btn-default" onclick="javascript:placeMarker(\'';
+			table += hospital2.latitude + '\', \'' + hospital2.longitude + '\');"  title="';
+			table += tooltipLocate + '">'
 			table += '<span class="glyphicon glyphicon-map-marker"></span></button></td><td>';
 			table += hospital2.name + ' <br>';
 			table += hospital2.address.street + ', ';	

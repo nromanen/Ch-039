@@ -5,15 +5,16 @@
 <head>
     <meta charset="ISO-8859-1"/>
     <meta charset="UTF-8"/>
+    <meta th:name="csrf-token" th:content="${_csrf.token}" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}"/>
     <link rel="stylesheet" th:href="@{/css/animate.css}"/>
     <link rel="stylesheet" th:href="@{/css/theme.default.css}"/>
     <link rel="stylesheet" th:href="@{/css/view-admin-table.css}"/>
+
     <script th:src="@{/js/admin.js}"></script>
     <script th:src="@{/js/sortButtons.js}"></script>
     <script th:src="@{/js/modalView.js}"></script>
-
 </head>
 
 <body>
@@ -35,17 +36,21 @@
         </div>
         <br/>
 
-        <h1 th:if="${status=='true'}" class="all text-center" th:text="#{admin.dashboard.users.status.user.enabled}"></h1>
+        <h1 th:if="${userAdminDTO.status=='true'}" class="all text-center"
+            th:text="#{admin.dashboard.users.status.user.enabled}"></h1>
 
-        <h1 th:if="${status=='false'}" class="all text-center" th:text="#{admin.dashboard.users.status.user.disabled}"></h1>
+        <h1 th:if="${userAdminDTO.status=='false'}" class="all text-center"
+            th:text="#{admin.dashboard.users.status.user.disabled}"></h1>
 
-        <h1 th:if="${status=='All'}" class="all text-center" th:text="#{admin.dashboard.users.status.user.all}"></h1>
+        <h1 th:if="${userAdminDTO.status=='all'}" class="all text-center"
+            th:text="#{admin.dashboard.users.status.user.all}"></h1>
 
         <div class="box-content">
             <form class="form-inline" role="form" method="GET" th:object="${userAdminDTO}"
                   th:action="@{/admin/users/search}" id="searchForm">
                 <div class="form-group">
-                    <label class="filter-col" style="margin-right:0;" for="userPerPage" th:text="#{admin.dashboard.users.show.users}"></label>
+                    <label class="filter-col" style="margin-right:0;" for="userPerPage"
+                           th:text="#{admin.dashboard.users.show.users}"></label>
                     <select id="userPerPage" class="form-control" th:field="*{pageSize}" th:value="*{pageSize}">
                         <option value="10">10</option>
                         <option value="15">15</option>
@@ -55,9 +60,10 @@
                         <option value="50">50</option>
                     </select>
                 </div>
-                <!-- form group [rows] -->
+                <!-- form group -->
                 <div class="form-group">
-                    <label class="filter-col" style="margin-right:0;" for="pref-roleby" th:text="#{admin.dashboard.users.show.role}"></label>
+                    <label class="filter-col" style="margin-right:0;" for="pref-roleby"
+                           th:text="#{admin.dashboard.users.show.role}"></label>
                     <select id="pref-roleby" class="form-control" th:field="*{role}" th:value="*{role}">
                         <option value="" th:text="#{admin.dashboard.users.show.role.all}"></option>
                         <option
@@ -68,12 +74,15 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="filter-col" style="margin-right:0;" for="searchBy" th:text="#{admin.dashboard.users.show.search.by}"></label>
+                    <label class="filter-col" style="margin-right:0;" for="searchBy"
+                           th:text="#{admin.dashboard.users.show.search.by}"></label>
                     <select id="searchBy" name="searchBy" class="form-control">
                         <option th:value="allField" th:text="#{admin.dashboard.users.show.search.by.all}"></option>
                         <option th:value="email" th:text="#{admin.dashboard.users.show.search.by.email}"></option>
-                        <option th:value="firstName" th:text="#{admin.dashboard.users.show.search.by.first.name}"></option>
-                        <option th:value="lastName" th:text="#{admin.dashboard.users.show.search.by.last.name}"></option>
+                        <option th:value="firstName"
+                                th:text="#{admin.dashboard.users.show.search.by.first.name}"></option>
+                        <option th:value="lastName"
+                                th:text="#{admin.dashboard.users.show.search.by.last.name}"></option>
                     </select>
                 </div>
 
@@ -81,43 +90,42 @@
                     <input id="search" type="text" class="form-control" name="allField"
                            th:placeholder="#{admin.dashboard.users.show.search.placeholder}" autocomplete='off'/>
                 </div>
-                <button type="submit" class="btn btn-default" id="searchButton" th:text="#{admin.dashboard.users.show.search.search.button}"></button>
-                <button type="submit" class="btn btn-default" id="clearButton" th:text="#{admin.dashboard.users.show.search.clear.button}"></button>
+                <button type="submit" class="btn btn-default" id="searchButton"
+                        th:text="#{admin.dashboard.users.show.search.search.button}"></button>
+                <button type="submit" class="btn btn-default" id="clearButton"
+                        th:text="#{admin.dashboard.users.show.search.clear.button}"></button>
                 <div class="pull-right btn-group">
                     <a type="button" th:href="@{/admin/users(status=true)}"
-                       class="btn btn-default"><span class="text-info" th:text="#{admin.dashboard.users.show.search.button.enabled}"></span></a>
+                       class="btn btn-default"><span class="text-info"
+                                                     th:text="#{admin.dashboard.users.show.search.button.enabled}"></span></a>
                     <a type="button" th:href="@{/admin/users(status=false)}"
-                       class="btn btn-default"><span class="text-danger" th:text="#{admin.dashboard.users.show.search.button.disabled}"></span></a>
+                       class="btn btn-default"><span class="text-danger"
+                                                     th:text="#{admin.dashboard.users.show.search.button.disabled}"></span></a>
                     <a type="button" th:href="@{/admin/users(status=all)}"
-                       class="btn btn-default"><span class="text-primary" th:text="#{admin.dashboard.users.show.search.button.all}"></span></a>
+                       class="btn btn-default"><span class="text-primary"
+                                                     th:text="#{admin.dashboard.users.show.search.button.all}"></span></a>
                 </div>
-                <input th:value="${status}" name="status" hidden="hidden" id="status"/>
+                <input th:value="*{status}" th:field="*{status}" name="status" hidden="hidden" id="status"/>
                 <input th:value="*{currentPage}" th:field="*{currentPage}" id="currentPage" hidden="hidden"/>
                 <input th:value="*{sort}" th:field="*{sort}" id="sortDto" hidden="hidden"/>
                 <input th:value="*{asc}" th:field="*{asc}" id="ascDto" hidden="hidden"/>
-
-                <input th:if="${search!=null}" th:value="${search}" th:field="${search}" id="searchDto"
-                       hidden="hidden"/>
+                <input th:if="${search!=null}" th:value="${search}" th:field="${search}" id="searchDto" hidden="hidden"/>
             </form>
 
             <table class="responstable" id="allUsers">
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th >@Email
-                        <button class="btn sorter sorter-false pull-right" id="email"
+                    <th>@Email<button class="btn sorter sorter-false pull-right" id="email"
                                 th:onclick="'javascript:sort(event);'"></button>
                     </th>
-                    <th>First Name
-                        <button class="btn sorter sorter-false pull-right" id="detail.firstName"
+                    <th>First Name<button class="btn sorter sorter-false pull-right" id="detail.firstName"
                                 th:onclick="'javascript:sort(event);'"></button>
                     </th>
-                    <th>Last Name
-                        <button class="btn sorter sorter-false pull-right" id="detail.lastName"
+                    <th>Last Name<button class="btn sorter sorter-false pull-right" id="detail.lastName"
                                 th:onclick="'javascript:sort(event);'"></button>
                     </th>
-                    <th>Role
-                        <button class="btn sorter sorter-false pull-right" id="roles.type"
+                    <th>Role<button class="btn sorter sorter-false pull-right" id="roles.type"
                                 th:onclick="'javascript:sort(event);'"></button>
                     </th>
                     <th>Actions</th>
@@ -125,7 +133,8 @@
                 </thead>
 
                 <tbody th:with="iterStart=1">
-                <tr th:each="user,iterStart: ${users}">
+                <tr th:each="user,iterStart: ${users}"
+                    th:classappend="${(user.getEnabled()) == false }?'table-danger': ''">
                     <td th:text="(${userAdminDTO.getCurrentPage()!=null}) ? ${(userAdminDTO.getCurrentPage()-1)*userAdminDTO.getPageSize()+iterStart.count} : ${iterStart.count}"></td>
                     <td th:value="${user.email}" th:text="${user.email}"></td>
                     <td th:value="${user.userDetails.firstName}" th:text="${user.userDetails.firstName}"></td>
@@ -135,22 +144,26 @@
                     </td>
 
                     <td class="center">
-                        <span data-placement="top" data-toggle="tooltip" th:title="#{admin.dashboard.users.show.title.tooltip.view}">
+                        <span data-placement="top" data-toggle="tooltip"
+                              th:title="#{admin.dashboard.users.show.title.tooltip.view}">
                             <a class="btn button_user" href="#" th:attr="data-id=${user.id}" type="submit"
                                data-toggle="modal" data-target="#viewModal" id="viewUser">
                                 <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                             </a>
                         </span>
 
-                        <span data-placement="top" data-toggle="tooltip" th:title="#{admin.dashboard.users.show.title.tooltip.edit}">
-                            <a class="btn button_user" th:href="@{/admin/users/edit(id=${user.id},status=${status})}">
+                        <span data-placement="top" data-toggle="tooltip"
+                              th:title="#{admin.dashboard.users.show.title.tooltip.edit}">
+                            <a class="btn button_user"
+                               th:href="@{/admin/users/edit(id=${user.id},status=${userAdminDTO.status})}">
                                 <i class="glyphicon glyphicon-edit icon-white"></i>
                             </a>
                         </span>
 
-                        <span th:if="${status!='false'}" data-placement="top" data-toggle="tooltip" th:title="#{admin.dashboard.users.show.title.tooltip.delete}">
+                        <span th:if="${user.getEnabled()!=false}" data-placement="top" data-toggle="tooltip"
+                              th:title="#{admin.dashboard.users.show.title.tooltip.delete}">
                             <a class="btn button_user" href="#" data-toggle="modal" data-target="#deleteModal"
-                               th:attr="data-values=|users/delete/,${user.id},${user.email},?status=${status}|"
+                               th:attr="data-values=|users/delete/,${user.id},${user.email},?status=${userAdminDTO.status}|"
                                id="deleteUser">
                                 <i class="glyphicon glyphicon-trash icon-white"></i>
                             </a>
@@ -162,16 +175,17 @@
             <ul th:if="${pagination}" class="pagination pagination-lg">
                 <li class="page-item" th:if="${userAdminDTO.getCurrentPage()!= 1}">
                     <a class="page-link" th:if="${search==null}"
-                       th:href="@{/admin/users(status=${status}, page=1,,sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
+                       th:href="@{/admin/users(status=${userAdminDTO.status}, page=1,sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
                        aria-label="First" th:text="'first'">
                     </a>
                     <button class="page-link" th:if="${search!=null}" th:form="searchForm" type="submit"
-                            id="firstPage" aria-label="First" th:title="#{admin.dashboard.users.show.firstpage}">
+                            id="firstPage" aria-label="First" th:title="#{admin.dashboard.users.show.firstpage}">First
                     </button>
                 </li>
+
                 <li class="page-item" th:if="${userAdminDTO.getCurrentPage()!= 1}">
                     <a class="page-link" th:if="${search==null}"
-                       th:href="@{/admin/users(status=${status},page=${(userAdminDTO.getCurrentPage()-1)},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
+                       th:href="@{/admin/users(status=${userAdminDTO.status},page=${(userAdminDTO.getCurrentPage()-1)},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
                        aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
@@ -182,6 +196,7 @@
                         <span class="sr-only">Previous</span>
                     </button>
                 </li>
+
                 <li
                         th:each="number:${#numbers.sequence(1,userAdminDTO.getTotalPage())}"
                         th:class="page-item"
@@ -189,17 +204,23 @@
 
                     <a th:class="page-link" th:if="${search==null}"
                        th:classappend="${(userAdminDTO.getCurrentPage()) == number }?'active': ''"
-                       th:href="@{/admin/users(status=${status},page=${number},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
+                       th:href="@{/admin/users(status=${userAdminDTO.status},page=${number},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
                        th:text="${number}"/>
 
                     <button th:class="page-link" th:if="${search!=null}" id=""
                             th:classappend="${(userAdminDTO.getCurrentPage()) == number }?'active': ''"
                             th:form="searchForm" th:text="${number}" th:id="${number}" onclick="getPage(this.id)"/>
                 </li>
+
+                <li class="page-item"
+                    th:if="${userAdminDTO.getCurrentPage()&lt;userAdminDTO.getTotalPage()}">
+                    <button class="page-link" th:form="searchForm" type="submit" disabled="disabled">...</button>
+                </li>
+
                 <li class="page-item"
                     th:if="${(userAdminDTO.getCurrentPage()+1) &lt;= userAdminDTO.getTotalPage()}">
                     <a th:if="${search==null}" class="page-link"
-                       th:href="@{/admin/users(status=${status},page=${userAdminDTO.getCurrentPage()+1},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
+                       th:href="@{/admin/users(status=${userAdminDTO.status},page=${userAdminDTO.getCurrentPage()+1},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
                        aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
@@ -210,13 +231,14 @@
                         <span class="sr-only">Next</span>
                     </button>
                 </li>
+
                 <li class="page-item" th:if="${(userAdminDTO.getCurrentPage()+1) &lt;= userAdminDTO.getTotalPage()}">
                     <a class="page-link" th:if="${search==null}"
-                       th:href="@{/admin/users(status=${status},page=${userAdminDTO.totalPage},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
+                       th:href="@{/admin/users(status=${userAdminDTO.status},page=${userAdminDTO.totalPage},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
                        aria-label="Last" th:text="'last'">
                     </a>
                     <button class="page-link" th:if="${search!=null}" th:form="searchForm" type="submit"
-                            id="lastPage" aria-label="Last" th:title="#{admin.dashboard.users.show.lastpage}">
+                            id="lastPage" aria-label="Last" th:title="#{admin.dashboard.users.show.lastpage}">Last
                     </button>
                 </li>
             </ul>
@@ -232,7 +254,7 @@
                     <h3 class="panel-title">Information about user</h3>
                 </div>
                 <div class="modal-body panel-body">
-                    <div class="all viewDetails table table-user-information"></div>
+                    <div class="all table table-user-information viewDetails"></div>
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
@@ -260,7 +282,6 @@
         </div>
     </div>
     <input th:value="${userAdminDTO.totalPage}" th:field="${userAdminDTO.totalPage}" id="totalPageDto" hidden="hidden"/>
-
     <script type="text/javascript">
         var valueCurrentPage = parseInt($("#currentPage").val());
         var currentPage = $("#currentPage");
@@ -285,7 +306,6 @@
         $("#lastPage").click(function (e) {
             currentPage.val(totalPage);
         });
-
     </script>
 </section>
 </body>

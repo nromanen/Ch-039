@@ -20,9 +20,9 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
-
 import com.hospitalsearch.handlers.CustomAuthenticationHandler;
 import com.hospitalsearch.handlers.ErrorAuthenticationHandler;
+
 
 /**
  * @author Andrew Jasinskiy
@@ -33,13 +33,12 @@ import com.hospitalsearch.handlers.ErrorAuthenticationHandler;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private static final Integer TIME = 21600;
+	//token valid 24 hours
+	public static Integer REMEMBER_ME_TOKEN_EXPIRATION = 24;
 
 	@Autowired
 	@Qualifier("CustomUserDetailsService")
 	UserDetailsService userDetailsService;
-
-	
 
 	@Autowired
 	PersistentTokenRepository tokenRepository;
@@ -59,6 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/**/supplyAppointment");
+		web.ignoring().antMatchers("/hospitals/config");
 	}
 
 	@Override
@@ -72,11 +72,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/home").permitAll()
 				.antMatchers("/admin/**").access("hasRole('ADMIN')")
 				.antMatchers("/manageDoctors").access("hasRole('MANAGER')")
+				.antMatchers("/**/manage").access("hasRole('MANAGER')")
 				.antMatchers("/editHospitalsManagers").access("hasRole('ADMIN')")
 				.antMatchers("/appointments").access("hasRole('PATIENT')")
 				.antMatchers("/workscheduler").access("hasRole('DOCTOR')")
-				.antMatchers("/login").anonymous()
 				.antMatchers("/hospitals/**").permitAll()
+				.antMatchers("/login", "/registration").anonymous()
+
 				.and()
 				.formLogin()
 				.loginPage("/login")
@@ -89,7 +91,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.logout()
 				.logoutSuccessUrl("/login?logout")
 				.invalidateHttpSession(true)
-				.deleteCookies("remember-me")
 				.and()
 				.exceptionHandling()
 				.accessDeniedPage("/403")
@@ -97,7 +98,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.rememberMe()
 				.rememberMeParameter("remember-me")
 				.tokenRepository(tokenRepository)
-				.tokenValiditySeconds(TIME);
+				.tokenValiditySeconds(REMEMBER_ME_TOKEN_EXPIRATION * 60)
+				.and().requiresChannel().anyRequest().requiresSecure();
 	}
 	
 	//password encoder
@@ -116,9 +118,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
-		PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
+		return new PersistentTokenBasedRememberMeServices(
 				"remember-me", userDetailsService, tokenRepository);
-		return tokenBasedservice;
 	}
 
 	@Bean

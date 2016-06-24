@@ -2,6 +2,7 @@ package com.hospitalsearch.handlers;
 
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.UserService;
+import com.hospitalsearch.service.VerificationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -19,6 +20,9 @@ public class ErrorAuthenticationHandler extends SimpleUrlAuthenticationFailureHa
     @Autowired
     private UserService userService;
 
+    @Autowired
+    VerificationTokenService tokenService;
+
     private User user;
 
     @Override
@@ -28,11 +32,13 @@ public class ErrorAuthenticationHandler extends SimpleUrlAuthenticationFailureHa
         user = userService.getByEmail(email);
         String error = "invalidAuthentication";
         if (user != null) {
-            if(!user.getEnabled()){
+            if (tokenService.getByUser(user) != null) {
                 error = "invalidActivation";
+            } else if (!user.getEnabled()) {
+                error = "userBlocked";
             }
         }
-        this.setDefaultFailureUrl("/login?email=" + email +"&error=" + error);
+        this.setDefaultFailureUrl("/login?email=" + email + "&error=" + error);
         super.onAuthenticationFailure(request, response, exception);
     }
 }

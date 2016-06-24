@@ -49,11 +49,6 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     @Override
-    public void deleteById(long id) {
-        dao.deleteById(id);
-    }
-
-    @Override
     public List<Hospital> getAllByBounds(Bounds bounds) {
         return dao.getAllByBounds(bounds);
     }

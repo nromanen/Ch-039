@@ -16,13 +16,6 @@
     <link rel="stylesheet" th:href="@{/css/animate.css}"/>
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
 
-    <!-- <link
-href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300'
-rel='stylesheet' type='text/css' />
-<link
-href='http://fonts.googleapis.com/css?family=BenchNine:300,400,700'
-rel='stylesheet' type='text/css' /> -->
-
     <link rel="stylesheet" th:href="@{/css/admin.css}" type="text/css"/>
     <link rel="stylesheet"
           th:href="@{/font-awesome/css/font-awesome.min.css}" type="text/css"/>
@@ -48,6 +41,10 @@ rel='stylesheet' type='text/css' /> -->
     <script th:src="@{/js/modernizr.js}"></script>
     <script th:src="@{/js/header.js}"></script>
     <script th:src="@{/js/maps_find.js}"></script>
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/jquery.cookie.js}"></script>
+    <script th:src="@{/js/advanced_search.js}"></script>
+
     <!--[if lt IE 9]>
 <script src="js/html5shiv.js"></script>
 <script src="js/respond.min.js"></script>
@@ -70,7 +67,7 @@ s.parentNode.insertBefore(wf, s);
 </script>-->
   </head>
   <body>
-	<input id="path" th:value="${#httpServletRequest.getContextPath()}"/>
+    <input id="path" th:value="${#httpServletRequest.getContextPath()}"/>
     <div th:replace="templates/header::page-header" />
 
     <div layout:fragment="content" >
@@ -110,7 +107,6 @@ s.parentNode.insertBefore(wf, s);
                   <div class="carousel-caption">
                     <h1>providing</h1>
                     <p>highquality service for men &amp; women</p>
-
                   </div>
                 </div>
               </div>
@@ -128,11 +124,17 @@ s.parentNode.insertBefore(wf, s);
         </div>
       </div>
     </div>
-
+    <div id="myModal" class="modal fade" role="dialog">
+    </div>
 
     <script th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>
     <script th:src="@{/js/custom.js}"></script>
     <script th:src="@{/js/smoothscroll.js}"></script>
+    <script type="text/javascript" th:src="@{/js/detail.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.form.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
 
   </body>
 </html>
+
+

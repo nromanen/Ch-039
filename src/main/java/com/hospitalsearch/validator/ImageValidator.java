@@ -29,38 +29,22 @@ public class ImageValidator {
 	private Locale locale;
 	private String type;
 	private String error;
-	private boolean valid;
 
-	public void validate() {
-		locale = LocaleContextHolder.getLocale();
-		valid = false;
-		if (!checkSize()) return;
-		if (!checkExtension()) return;
-		if (!checkSignature()) return;
-		if (!checkDimension()) return;
-		valid = true;		
-	}
-
-	public void setMultipartFile(MultipartFile multipartFile) {
+	public boolean validate(MultipartFile multipartFile, String type) {
 		this.multipartFile = multipartFile;
-	}
-
-	public void setType(String type) {
 		this.type = type;
+		locale = LocaleContextHolder.getLocale();
+		if (!checkSize()) return false;
+		if (!checkExtension()) return false;
+		if (!checkSignature()) return false;
+		if (!checkDimension()) return false;
+		return true;		
 	}
 
 	public String getError() {
 		return error;
 	}
-
-	public boolean isValid() {
-		return valid;
-	}
-
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
-
+	
 	private boolean checkSize() {
 		Long FILE_MAX_SIZE = Long.parseLong(properties.getProperty(type + ".file.max.size"));
 		if (multipartFile.getSize() > FILE_MAX_SIZE) {
