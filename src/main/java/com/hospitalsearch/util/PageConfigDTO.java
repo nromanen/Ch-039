@@ -2,7 +2,7 @@ package com.hospitalsearch.util;
 
 public class PageConfigDTO {
 
-    private String type;
+    private Boolean sortType;
     private Integer itemsPerPage;
     private String currentSearchQuery;
 
@@ -18,15 +18,15 @@ public class PageConfigDTO {
         this.itemsPerPage = itemsPerPage;
     }
 
-    public String getType() {
-        return type;
-    }
+    public Boolean getSortType() {
+		return sortType;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setSortType(Boolean sortType) {
+		this.sortType = sortType;
+	}
 
-    public void setCurrentSearchQuery(String currentSearchQuery) {
+	public void setCurrentSearchQuery(String currentSearchQuery) {
         this.currentSearchQuery = currentSearchQuery;
     }
 

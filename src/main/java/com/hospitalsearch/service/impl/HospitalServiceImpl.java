@@ -64,7 +64,7 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     @Override
-    public Page<Hospital> advancedHospitalSearch(String args) throws ParseException, InterruptedException {
-        return dao.advancedHospitalSearch(args);
+	public Page<Hospital> advancedHospitalSearch(String args,int pageSize,int page,boolean sortAsc) throws ParseException, InterruptedException{
+        return dao.advancedHospitalSearch(args, pageSize, page, sortAsc);
     }
 }

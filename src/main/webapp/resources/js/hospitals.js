@@ -28,7 +28,8 @@ function sendPageConfig(event) {
 }
 
 function showModalMap(lat, lng) {
-
+	
+	
 	$("#modalMap").modal();
 
 	var latLng = new google.maps.LatLng(lat, lng);
@@ -46,10 +47,14 @@ function showModalMap(lat, lng) {
 						mapProp);
 
 				map.setCenter(latLng);
-
+				
 				marker = new google.maps.Marker({
 					position : latLng,
 					map : map
 				});
+				google.maps.event.addListener(marker, 'click', function() {
+					window.location = "./hospital/" + $("#map_id").data("id");
+				});
 			});
+	
 }

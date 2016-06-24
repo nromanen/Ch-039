@@ -1,4 +1,4 @@
-<div th:fragment="map-modal(lat,lng)">
+<div th:fragment="map-modal(lat,lng,id)">
 
 	<button id="map-button" data-toggle="tooltip" th:title="#{hospital.list.map.button}" style="opacity: 40%;" type="button" class="btn btn-default pull-right"
 		th:onclick="|showModalMap(${lat},${lng})|">
@@ -22,7 +22,7 @@
 				<div class="modal-body">
 					<div id="googleMap" style="height: 70vh"></div>
 				</div>
-
+				<p hidden="hidden" id="map_id" th:attr="data-id=${id}"/>
 			</div>
 
 		</div>

@@ -1,7 +1,5 @@
 package com.hospitalsearch.config.security;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -41,8 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Qualifier("CustomUserDetailsService")
 	UserDetailsService userDetailsService;
 
-	@Autowired
-	private DataSource dataSource;
+	
 
 	@Autowired
 	PersistentTokenRepository tokenRepository;
@@ -62,7 +59,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/**/supplyAppointment");
-		
 	}
 
 	@Override
@@ -80,7 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/appointments").access("hasRole('PATIENT')")
 				.antMatchers("/workscheduler").access("hasRole('DOCTOR')")
 				.antMatchers("/login").anonymous()
-				.antMatchers("/hospitals/config").permitAll()
+				.antMatchers("/hospitals/**").permitAll()
 				.and()
 				.formLogin()
 				.loginPage("/login")
