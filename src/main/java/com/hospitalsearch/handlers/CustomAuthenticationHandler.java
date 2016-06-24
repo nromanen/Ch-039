@@ -1,12 +1,5 @@
 package com.hospitalsearch.handlers;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
@@ -14,6 +7,12 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Andrew Jasinskiy
@@ -23,6 +22,7 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 
     private final Logger logger = LogManager.getLogger(CustomAuthenticationHandler.class);
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private static Map<String, String> roleMapper = new HashMap<>();
 
     @Override
     protected void handle(HttpServletRequest request,
@@ -37,12 +37,10 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
 
     protected String determineTargetUrl(Authentication authentication) {
         String role = authentication.getAuthorities().toString();
-        Map<String, String> roleMapper = new HashMap<>();
         roleMapper.put("MANAGER", "/manageDoctors");
         roleMapper.put("ADMIN", "/admin/users?status=true");
         roleMapper.put("PATIENT", "/");
         roleMapper.put("DOCTOR", "/");
-
         if (authentication.getAuthorities().size() > 1) {
             return "/";
         }
@@ -59,6 +57,7 @@ public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessH
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
         this.redirectStrategy = redirectStrategy;
     }
+
     @Override
     protected RedirectStrategy getRedirectStrategy() {
         return redirectStrategy;

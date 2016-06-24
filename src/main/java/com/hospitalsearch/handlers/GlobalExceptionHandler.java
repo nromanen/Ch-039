@@ -1,3 +1,4 @@
+/*
 package com.hospitalsearch.handlers;
 
 import org.apache.log4j.LogManager;
@@ -44,7 +45,6 @@ public class GlobalExceptionHandler {
         return "error/403";
     }
 
-    //TODO explore exception handling
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String notFound(Exception e) {
@@ -52,3 +52,4 @@ public class GlobalExceptionHandler {
         return "error/404";
     }
 }
+*/

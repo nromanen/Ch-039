@@ -80,7 +80,7 @@ $(document).ready(function () {
         }
             break;
     }
-    
+
     $.ajax({
         type: "GET",
         async: false,

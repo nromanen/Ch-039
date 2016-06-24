@@ -15,15 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
 /**
- * Created by andrew on 16.05.16.
+ * @author Andrew Jasinskiy on 20.06.16
  */
-
 @Repository("tokenRepositoryDao")
 @Transactional
 public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentLogin,String> implements PersistentTokenRepository {
 
     private final Logger logger = LogManager.getLogger(PersistenceTokenRepositoryDAOImp.class);
-
 
     @Autowired
     public PersistenceTokenRepositoryDAOImp(SessionFactory factory) {
@@ -33,6 +31,7 @@ public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentL
 
     @Override
     public void createNewToken(PersistentRememberMeToken token) {
+        logger.info("Creating Token for user : {}"+ token.getUsername());
         PersistentLogin persistentLogin = new PersistentLogin();
         persistentLogin.setUsername(token.getUsername());
         persistentLogin.setSeries(token.getSeries());
@@ -43,6 +42,7 @@ public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentL
 
     @Override
     public void updateToken(String seriesId, String tokenValue, Date lastUsed) {
+        logger.info("Updating Token for seriesId : {}" + seriesId);
         PersistentLogin persistentLogin = getById(seriesId);
         persistentLogin.setToken(tokenValue);
         persistentLogin.setLast_used(lastUsed);
@@ -50,12 +50,12 @@ public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentL
     }
 
     @Override
-    public PersistentRememberMeToken getTokenForSeries(String seriesId) {
+    public PersistentRememberMeToken getTokenForSeries(String series) {
+        logger.info("Fetch Token if any for seriesId : {}" + series);
         try {
             Criteria criteria = this.currentSession().createCriteria(PersistentLogin.class);
-            criteria.add(Restrictions.eq("series", seriesId));
+            criteria.add(Restrictions.eq("series", series));
             PersistentLogin persistentLogin = (PersistentLogin) criteria.uniqueResult();
-
             return new PersistentRememberMeToken(persistentLogin.getUsername(), persistentLogin.getSeries(),
                     persistentLogin.getToken(), persistentLogin.getLast_used());
         } catch (Exception e) {
@@ -66,6 +66,7 @@ public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentL
 
     @Override
     public void removeUserTokens(String username){
+        logger.info("Removing Token if any for user : {}" + username);
         Criteria criteria = this.currentSession().createCriteria(PersistentLogin.class);
         criteria.add(Restrictions.eq("username", username));
         PersistentLogin persistentLogin = (PersistentLogin) criteria.uniqueResult();

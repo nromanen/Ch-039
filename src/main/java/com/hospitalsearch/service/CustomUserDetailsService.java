@@ -15,9 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
- * Created by andrew on 10.05.16.
+ * @author Andrew Jasinskiy
  */
 @Service("CustomUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService{
@@ -29,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 
     @Transactional(readOnly=true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userService.getByEmail(email);
+        User user = userService.getByEmail(email.toLowerCase());
         logger.info("User : " + user.getEmail());
         if (user == null) {
             logger.warn("User not found!");

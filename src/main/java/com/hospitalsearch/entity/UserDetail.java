@@ -57,8 +57,9 @@ public class UserDetail{
 	private String phone;
 	
 	@Column(name="birthdate")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @Date(message = "Not valid format")
+   /* @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Date(message = "Not valid format")*/
+	//todo comment by andrew
 	private LocalDate birthDate;
 	
 	@JsonIgnore	
