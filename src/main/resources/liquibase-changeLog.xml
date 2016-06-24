@@ -336,4 +336,46 @@
     <changeSet author="igortsapyak (generated)" id="1465423649552-65">
         <modifyDataType columnName="result" newDataType="text" tableName="carditem"/>
     </changeSet>
+    <changeSet author="admin (generated)" id="1466762404233-1">
+        <createSequence sequenceName="password_reset_token_gen_id_seq"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1466762404233-2">
+        <createSequence sequenceName="verification_token_gen_id_seq"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1466762404233-3">
+        <createTable tableName="password_reset_tokens">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expirydate" type="timestamp"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1466762404233-4">
+        <createTable tableName="verifications_tokens">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expirydate" type="timestamp"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1466762404233-5">
+        <addPrimaryKey columnNames="id" constraintName="password_reset_tokensPK" tableName="password_reset_tokens"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1466762404233-6">
+        <addPrimaryKey columnNames="id" constraintName="verifications_tokensPK" tableName="verifications_tokens"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1466762404233-7">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="verifications_tokens" constraintName="FK_79hy0bqeu0oobh0thq8bgbae1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1466762404233-8">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="password_reset_tokens" constraintName="FK_la2ts67g4oh2sreayswhox1i6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
 </databaseChangeLog>
