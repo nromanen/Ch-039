@@ -11,9 +11,6 @@
 *
 ****/
 /*@import url(https://fonts.googleapis.com/css?family=Roboto);*/
-
-
-
 .cd-top {
   display: inline-block;
   height: 40px;
@@ -112,7 +109,9 @@
     font-weight: bold;
 }
 
- 
+#hospital_list > .row {
+	padding:10px;
+} 
 
 #dropdawn>li>a:hover{
     color: #42b3e5;

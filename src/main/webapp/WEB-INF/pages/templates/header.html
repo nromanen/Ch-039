@@ -1,13 +1,10 @@
 <nav th:fragment="page-header" class="[ navbar navbar-fixed-top ][ navbar-bootsnipp animate ]" role="navigation">
   <div class="[ container ]">
     <!-- Brand and toggle get grouped for better mobile display -->
-
     <div class="brand-logo ">
       <br /> <a th:href="@{/}"><img th:src="@{/img/Logo.png}" alt=""
                                     class="img-responsive logo" /></a>
     </div>
-
-
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="[ collapse navbar-collapse ]" id="bs-example-navbar-collapse-1">
       <ul class="[ nav navbar-nav navbar-right ] my-navbar">
@@ -47,10 +44,6 @@
             </li>
           </ul>
         </li>
-        <li><a th:class="menu"
-               th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/mapsearch.*')}?'active':''"
-               th:href="@{/mapsearch}" th:text="#{header.menu.find}">Find</a></li>
-
         <li sec:authorize="hasRole('PATIENT')"><a
                                                   th:class="menu"
                                                   th:text="#{header.menu.card}"
@@ -72,11 +65,9 @@
                                                   th:class="menu"
                                                   th:classappend="${#httpServletRequest.requestURL.toString().matches('.*/appointments.*')}?'active':''"
                                                   th:href="@{/appointments}" th:text="#{header.myapp}"></a></li>
-
         <li sec:authorize="isAnonymous()" style="cursor: pointer;">
-          <a class="dropdown-toggle" th:href="@{/login}">Login</a>
+          <a class="dropdown-toggle" th:href="@{/login}" th:text="#{header.menu.login}"/>
         </li>
-
         <li sec:authorize="hasRole('ADMIN')" style="cursor: pointer;">
           <a href="#" class="nav navbar-nav dropdown dropdown-toggle" data-toggle="dropdown">Actions<span class="caret"></span></a>
           <ul class="dropdown-menu" id="dropdawn">
@@ -116,7 +107,6 @@
             </li>
           </ul>
         </li>
-
         <!--autorize user-->
         <li style="cursor: pointer;" sec:authorize="isAuthenticated()">
 
@@ -137,7 +127,6 @@
               </a></li>
           </ul>
         </li>
-
         <!-- Localization changer -->
         <li style="cursor: pointer;">
           <a href="#" class="nav localization-item navbar-nav dropdown dropdown-toggle"
@@ -210,11 +199,9 @@
             <button type="submit" class="[ btn btn-info ]"><span class="[ glyphicon glyphicon-search ]"></span></button>
             <button class="[ btn btn-danger ]" type="reset"><span class="[ glyphicon glyphicon-remove ]"></span></button>
           </span>
-
         </div>
       </form>
     </div>
-
   </div>
-  </div>
+  
 </nav>

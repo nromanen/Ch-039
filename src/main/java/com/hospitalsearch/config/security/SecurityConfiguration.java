@@ -58,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/**/supplyAppointment");
-		web.ignoring().antMatchers("/hospitals/config");
+
 	}
 
 	@Override
@@ -78,7 +78,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/workscheduler").access("hasRole('DOCTOR')")
 				.antMatchers("/hospitals/**").permitAll()
 				.antMatchers("/login", "/registration").anonymous()
-
 				.and()
 				.formLogin()
 				.loginPage("/login")
@@ -98,8 +97,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.rememberMe()
 				.rememberMeParameter("remember-me")
 				.tokenRepository(tokenRepository)
-				.tokenValiditySeconds(REMEMBER_ME_TOKEN_EXPIRATION * 60)
-				.and().requiresChannel().anyRequest().requiresSecure();
+				.tokenValiditySeconds(REMEMBER_ME_TOKEN_EXPIRATION * 60);
+				//.and().requiresChannel().anyRequest().requiresSecure();
 	}
 	
 	//password encoder

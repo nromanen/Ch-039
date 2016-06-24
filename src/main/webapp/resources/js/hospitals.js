@@ -10,6 +10,13 @@ $(document).ready(function() {
 	});
 	$("#map-button").tooltip();
 	$("#search-form").validator();
+	jQuery.goup({trigger: 100,
+        containerSize: 80,
+        bottomOffset: 150,
+        locationOffset: 0,
+        title: 'Back To Top',
+        containerColor: '#1ABC9C',
+        titleAsText: true});
 });
 function sendPageConfig(event) {
 	var itemPerPage = $('#pref-perpage option:selected').text();

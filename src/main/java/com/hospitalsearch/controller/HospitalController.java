@@ -83,7 +83,7 @@ public class HospitalController {
         }
     }
 
-    @RequestMapping(value = "/hospitals/config", method = RequestMethod.POST)
+    @RequestMapping(value = "/hospitals/config", method = RequestMethod.GET)
     public String configurePage(Map<String,Object> model,
     		@ModelAttribute("pageConfig") 
     			PageConfigDTO config) throws ParseException, InterruptedException {

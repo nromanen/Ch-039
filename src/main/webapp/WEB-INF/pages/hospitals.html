@@ -11,8 +11,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
+    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css"/>
     <script th:src="@{/js/hospitals.js}"/>
-    <script th:src="@{/js/arrow-top.js}"/>
+    <script th:src="@{/js/jquery.goup.min.js}"></script>
+
     <style>
       h3 {
         margin-top: 0px !important;
@@ -29,37 +31,32 @@
             <div id="filter-panel" class="collapse filter-panel">
               <div class="panel panel-default">
                 <div class="panel-body">
-                  <form class="form-inline" th:action="@{/hospitals/config}" method="POST" th:object="${pageConfig}" role="form">
+                  <form class="form-inline" th:action="@{/hospitals/config}" method="GET" th:object="${pageConfig}" role="form">
                     <div class="form-group">
                       <label class="filter-col" style="margin-right:0;" for="pref-perpage" th:inline="text">[[#{hospitals.list.config.pagecount}]]</label>
-                   
                       <select id="pref-perpage" th:field="*{itemsPerPage}" class="form-control">
                         <option th:each="number:${#numbers.sequence(1,20)}"
                                 th:text="${number}"
                                 th:value="${number}"
                                 th:classappend="${number == pageSize}?'selected':''" />
                       </select>
-                      
                     </div>
-                     
+
                     <div class="form-group">
                       <label class="filter-col" style="margin-right:0;" for="pref-perpage" th:inline="text">[[#{hospitals.list.config.sort}]]</label>
                       <select id="pref-perpage" name="sortType" class="form-control">
-                        <option 
+                        <option
                                 th:text="#{hospitals.list.config.sort.ascendance}"
                                 th:value="${true}"
                                 th:selected="${sort}?'selected'"
                                 th:classappend="${sort}?'selected'" />
-                        <option 
+                        <option
                                 th:text="#{hospitals.list.config.sort.descendance}"
                                 th:value="${false}"
                                 th:selected="${not sort}?'selected'"
                                 th:classappend="${not sort}?'selected'"
                                 />
                       </select>
-                      
-                      
-                      
                     </div>
                     <div class="form-group">
                       <button type="submit"  class="btn btn-default filter-col" th:inline="text">
@@ -76,7 +73,7 @@
           </div>
           <br/>
           <div class="row">
-            <div class="col-lg-offset-1 col-lg-10 col-md-12">
+            <div id="hospital_list" class="col-lg-offset-1 col-lg-10 col-md-12">
               <div class="row"
                    th:each="hospital:${pagedList}"
                    th:object="${hospital}">
@@ -86,8 +83,7 @@
                     <div class="about-img">
                       <a href="#" th:href="@{|/hospital/${hospital.id}|}">
                         <img class="img-responsive" src="/"
-                             th:src="@{|/img/hospitals/${hospital.imagePath}|}"
-                             />
+                             th:src="@{|/img/hospitals/${hospital.imagePath}|}"/>
                       </a>
                     </div>
                     <div class="about-details" th:href="@{|/hospital/${hospital.id}|}">
@@ -109,7 +105,7 @@
                           <h3  class="text-left" th:text="|About ${hospital.name}|"/>
                         </div>
                         <div class="col-lg-2">
-                          <div th:include="templates/hospital-map-modal::map-modal(${hospital.latitude},${hospital.longitude},${hospital.id})"/>
+                          <div th:include="templates/hospital-map-modal::map-modal(${hospital.latitude} , ${hospital.longitude},${hospital.id})"/>
                         </div>
                       </div>
                     </div>
@@ -139,7 +135,7 @@
                     th:classappend="${currentPage == number }?'active': ''">
                   <a th:class="page-link"
                      th:classappend="${currentPage == number }?'active': ''"
-                     th:href="@{|/hospital/page/${number}|}" 
+                     th:href="@{|/hospital/page/${number}|}"
                      th:text="${number}" />
                 </li>
                 <li class="page-item"
@@ -155,16 +151,17 @@
                     th:if="${(currentPage+1) &lt;= pageCount}">
                   <a class="page-link"
                      th:href="@{|/hospital/page/${pageCount}|}" th:inline="text">
-                     [[#{hospitals.list.page.last}]]
+                    [[#{hospitals.list.page.last}]]
                   </a>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <a href="#content" class="cd-top"/>
+
       </div>
     </div>
+    
   </body>
 </html>
 
