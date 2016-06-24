@@ -20,7 +20,6 @@ import java.util.Map;
  * Created by igortsapyak on 04.05.16.
  */
 @Service
-@Transactional
 public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired

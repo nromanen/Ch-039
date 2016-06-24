@@ -52,16 +52,6 @@ public class AppointmentController {
         return "start";
     }
 
-    @RequestMapping(value = "/doctor/{d_id}/manage", method = RequestMethod.GET)
-    public String getManage(
-            @PathVariable("d_id") Long doctorId,
-            ModelMap model) {
-        UserDetail userDetail = userDetailService.getById(doctorId);
-        model.addAttribute("id", userDetail.getDoctorsDetails().getId());
-        model.addAttribute("doctor", userDetailService.getById(doctorId));
-        return "manage";
-    }
-
     @RequestMapping(value = "/**/supplyAppointment", method = RequestMethod.POST)
     public String eventProcessor(HttpServletRequest request,
                                  @RequestParam("id") Long id, @RequestParam("principal") String principal) {

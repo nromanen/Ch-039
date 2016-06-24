@@ -1,14 +1,14 @@
 package com.hospitalsearch.controller;
 
+import com.hospitalsearch.entity.UserDetail;
 import com.hospitalsearch.service.HospitalService;
 import com.hospitalsearch.service.ManagerService;
+import com.hospitalsearch.service.UserDetailService;
 import com.hospitalsearch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -27,6 +27,9 @@ public class ManagerController {
 
     @Autowired
     private ManagerService managerService;
+
+    @Autowired
+    private UserDetailService userDetailService;
 
 
     @RequestMapping(value = "/manageDoctors", method = RequestMethod.GET)
@@ -52,7 +55,15 @@ public class ManagerController {
     public String deleteManager(@RequestParam Long hospitalId) {
         managerService.deleteHospitalManager(hospitalId);
         return "redirect: /editHospitalsManagers";
+    }
 
+    @RequestMapping(value = "/doctor/{d_id}/manage", method = RequestMethod.GET)
+    public String getManage(
+            @PathVariable("d_id") Long doctorId, ModelMap model) {
+        UserDetail userDetail = userDetailService.getById(doctorId);
+        model.addAttribute("id", userDetail.getDoctorsDetails().getId());
+        model.addAttribute("doctor", userDetailService.getById(doctorId));
+        return "manage";
     }
 
     @RequestMapping(value = "/docs", method = RequestMethod.GET)
