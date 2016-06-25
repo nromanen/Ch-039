@@ -132,6 +132,7 @@ function changeModalContentFirstStep() {
     $('#modal-header').slideToggle(500);
     $('#modal-footer').slideToggle(500);
     $('#modalBodySuccess').slideToggle(500);
+    
 }
 
 function changeModalContentSecondStep() {

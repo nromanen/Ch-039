@@ -1,5 +1,6 @@
 package com.hospitalsearch.dao;
 
+import com.hospitalsearch.entity.WorkScheduler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -7,10 +8,8 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public interface WorkSchedulerDAO {
+public interface WorkSchedulerDAO extends GenericDAO<WorkScheduler, Long> {
 
-    String getWorkScheduler(Long doctorId);
+    WorkScheduler getByDoctorId(Long doctorId);
 
-    void updateWorkScheduler(Long doctorId, String scheduler);
-
-    }
+}
