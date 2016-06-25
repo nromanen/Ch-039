@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.Field;
 
@@ -34,6 +35,18 @@ public class DoctorInfo{
     @ManyToMany(mappedBy = "doctors")
     @ContainedIn
     private List<Department> departments;
+
+    @JsonIgnore
+    @OneToOne
+    private WorkScheduler workScheduler;
+
+    public WorkScheduler getWorkScheduler() {
+        return workScheduler;
+    }
+
+    public void setWorkScheduler(WorkScheduler workScheduler) {
+        this.workScheduler = workScheduler;
+    }
 
     public Long getId() {
         return id;

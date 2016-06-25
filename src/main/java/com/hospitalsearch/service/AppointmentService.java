@@ -1,6 +1,7 @@
 package com.hospitalsearch.service;
 
 import com.hospitalsearch.entity.Appointment;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,9 +23,9 @@ public interface AppointmentService {
     void deleteInterval(Appointment appointment);
 
     void actionControl(Map<String, String[]> Appointment, Long doctorId, String principal);
-
+    @Transactional(readOnly = true, propagation=Propagation.SUPPORTS)
     List<Appointment> getGetAllByPatient(String patient);
-
+    @Transactional(readOnly = true, propagation=Propagation.SUPPORTS)
     List<Appointment> getAllByDoctor(String doctor);
     
 }

@@ -16,19 +16,19 @@ public class WorkSchedulerController {
 
     @ResponseBody
     @RequestMapping(value = "/**/getWorkScheduler", method = RequestMethod.GET)
-    public String getWorkScheduler(@RequestParam("id") String id) {
-        return workSchedulerService.getWorkScheduler(Long.parseLong(id));
+    public String getWorkScheduler(@RequestParam("id") Long id) {
+        return workSchedulerService.getByDoctorId(id).getWorkScheduler();
     }
 
     @ResponseBody
     @RequestMapping(value = "/getWorkSchedulerByPrincipal", method = RequestMethod.GET)
-    public String getWorkSchedulerByDoctor(@RequestParam("doctor") String doctor) {
-        return workSchedulerService.getWorkSchedulerByDoctor(doctor);
+    public String getWorkSchedulerByDoctor(@RequestParam("doctor") String doctorEmail) {
+        return workSchedulerService.getByDoctorEmail(doctorEmail);
     }
 
     @RequestMapping(value = "/**/supplyWorkScheduler", method = RequestMethod.POST)
-    public String supplyScheduler(@RequestBody String data, @RequestParam String doctorId) {
-        workSchedulerService.updateWorkScheduler(doctorId, data);
+    public String supplyScheduler(@RequestBody String data, @RequestParam Long doctorId) {
+        workSchedulerService.saveWorkScheduler(data, doctorId);
         return "redirect:/";
     }
 
@@ -36,5 +36,6 @@ public class WorkSchedulerController {
     public String getAppointments() {
         return "workscheduler";
     }
+
 
 }
