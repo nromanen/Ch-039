@@ -4,13 +4,14 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns="http://www.w3.org/1999/xhtml"
       layout:decorator="layout">
 <head>
-    <title>Work scheduler</title>
+    <title th:text="#{title.workscheduler}"></title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <meta th:name="csrf-token" th:content="${_csrf.token}"/>
     <script th:src="@{/js/workscheduler.js}"></script>
     <script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'"
             type="text/javascript" charset="utf-8"></script>
     <script th:src="@{/js/schedulerDatePicker.js}" type="text/javascript" charset="utf-8"></script>
+    <script th:src="@{/js/localization.js}" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" th:href="@{/css/appointmentModal.css}"/>
     <link rel="stylesheet" th:href="@{/css/workscheduler.css}"/>
 </head>
@@ -58,9 +59,8 @@
             <div class="modal-content">
                 <div class="modal-header" id="modal-header">
                     <button type="button" class="close" data-dismiss="modal" onclick="close_form()">&times;</button>
-                    <h3 class="modal-title" id="modalHeaderWithDate">Appointment details</h3>
-                    <h4 class="modal-title" id="modalHeaderForCancel" hidden="hidden">Reason for canceling the
-                        appointment:</h4>
+                    <h3 class="modal-title" id="modalHeaderWithDate" th:text="#{workscheduler.modal.header}"></h3>
+                    <h4 class="modal-title" id="modalHeaderForCancel" hidden="hidden" th:text="#{workscheduler.modal.second.header}"></h4>
                 </div>
                 <div class="modal-body" id="modalBodySuccess" style="padding-bottom: 0" hidden="hidden">
                     <div id="cancelMassage" class="helper">
@@ -70,17 +70,17 @@
                     </div>
                 </div>
                 <div class="modal-body" id="modalBodySecond" hidden="hidden">
-                    <input type="text" class="form-control" id="cancelReason" placeholder="Type here..."/>
+                    <input type="text" class="form-control" id="cancelReason" th:placeholder="#{workscheduler.modal.appointment.cancel.reason.input}"/>
                 </div>
                 <div class="modal-body" id="modalBodyFirst">
-                    <label style="font-size: large" for="date">Appointment time:</label>
+                    <label style="font-size: large" for="date" th:text="#{workscheduler.modal.appointment.time}"></label>
                     <p style="font-size: large" id="date"/>
-                    <label style="font-size: large" for="patientName">Patient:</label>
+                    <label style="font-size: large" for="patientName" th:text="#{workscheduler.modal.appointment.patient}"></label>
                     <p style="font-size: large" id="patientName"/>
-                    <label style="font-size: large" for="theReasonForVisit">The short reason for visit:</label>
-                    <p id="theReasonForVisit">Bla bla bla</p>
+                    <label style="font-size: large" for="theReasonForVisit" th:text="#{workscheduler.modal.appointment.shortreason}"></label>
+                    <p id="theReasonForVisit"></p>
                     <div style="text-align: center;">
-                        <button class="btn btn-danger" onclick="cancelAppointment()">Cancel the appointment</button>
+                        <button class="btn btn-danger" onclick="cancelAppointment()" th:text="#{workscheduler.modal.cancel.appointment.button}"></button>
                     </div>
                 </div>
                 <div class="modal-footer" id="modal-footer">
@@ -88,7 +88,7 @@
                             onclick="onCancelAppointment()">OK
                     </button>
                     <button id="canBtn" type="button" class="btn btn-default" style="width: 80px; display: none;"
-                            onclick="cancelAppointment()">Cancel
+                            onclick="cancelAppointment()" th:text="#{modal.button.cancel}">
                     </button>
                     <button id="okBtn" type="button" class="btn btn-default" style="width: 80px" data-dismiss="modal">
                         OK

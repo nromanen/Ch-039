@@ -13,6 +13,7 @@
 	<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_serialize.js}" type="text/javascript" charset="utf-8"></script>
 	<script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'" type="text/javascript" charset="utf-8"></script>
 	<script th:src="@{/js/schedulerDatePicker.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/localization.js}" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" th:href="@{/css/appointmentModal.css}"/>
 	<link rel="stylesheet" th:href="@{/css/workscheduler.css}"/>
 </head>
@@ -92,26 +93,26 @@
 			<div class="modal-content">
 				<div class="modal-header" id="modal-header">
 					<button type="button" class="close" data-dismiss="modal" onclick="close_form()">&times;</button>
-					<h3 class="modal-title" id="modalHeaderWithDate">Appointment confirmation</h3>
+					<h3 class="modal-title" id="modalHeaderWithDate" th:text="#{dashboard.modal.appointment.confirm.header}"></h3>
 				</div>
 				<div class="modal-body" id="modbs" style="padding-bottom: 0" hidden="hidden">
 					<div  id="cancelMassage" class="helper">
 						<div class="alert alert-info" role="alert">
-							<h4 id="cancelMassageText" class="success text-center">Appointment was added successfully!</h4>
+							<h4 id="cancelMassageText" class="success text-center" th:text="#{workscheduler.modal.appointment.add.success}"></h4>
 						</div>
 					</div>
 				</div>
 				<div class="modal-body" id="modb">
-					<label  style="font-size: large" for="date">Appointment time:</label>
+					<label  style="font-size: large" for="date" th:text="#{workscheduler.modal.appointment.time}"></label>
 					<p style="font-size: large" id="date"/>
-					<label style="font-size: large" for="doctorName">Doctor:</label>
+					<label style="font-size: large" for="doctorName" th:text="#{workscheduler.modal.appointment.doctor}"></label>
 					<p style="font-size: large" id="doctorName"/>
-					<label style="font-size: large" for="TheReasonForVisit">The short reason for visit:</label>
-					<input  type="text" class="form-control" id="TheReasonForVisit" placeholder="Input here" required="required"/>
+					<label style="font-size: large" for="TheReasonForVisit" th:text="#{workscheduler.modal.appointment.shortreason}"></label>
+					<input  type="text" class="form-control" id="TheReasonForVisit" th:placeholder="#{workscheduler.modal.appointment.cancel.reason.input}" required="required"/>
 				</div>
 				<div class="modal-footer" id="modal-footer">
-					<button type="submit" class="btn btn-default" style="width: 80px"  onclick="startModal()">Confirm</button>
-					<button type="button"  class="btn btn-default" style="width: 80px" data-dismiss="modal" onclick="close_form()">Cancel</button>
+					<button type="submit" class="btn btn-default" style="width: 80px"  onclick="startModal()" th:text="#{modal.button.confirm}"></button>
+					<button type="button"  class="btn btn-default" style="width: 80px" data-dismiss="modal" onclick="close_form()" th:text="#{modal.button.cancel}"></button>
 				</div>
 			</div>
 		</div>

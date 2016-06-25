@@ -32,11 +32,13 @@ var html = function (id) {
 var ev;
 
 scheduler.showLightbox = function (id) {
+    var tex_local_from = getMessage('workscheduler.modal.appointment.time.from');
+    var tex_local_to = getMessage('workscheduler.modal.appointment.time.to');
     $('#myModal').modal('show');
     ev = scheduler.getEvent(id);
     scheduler.startLightbox(id, html("myModal"));
-    $('#date').text(new Date(ev.start_date).toLocaleDateString() + ' from '
-        + new Date(ev.start_date).toLocaleTimeString().replace(':00', '') + ' to ' +
+    $('#date').text(new Date(ev.start_date).toLocaleDateString() + ' ' + tex_local_from + ' '+
+        new Date(ev.start_date).toLocaleTimeString().replace(':00', '') + ' ' + tex_local_to + ' ' +
         new Date(ev.end_date).toLocaleTimeString().replace(':00', ''));
     html("description").value = ev.text;
     var nameAndDescription = ev.text.split("-");
@@ -126,11 +128,13 @@ function dismissMyModal(event) {
 }
 
 function onCancelAppointment() {
+    var succesMassegeStart = getMessage('myappointments.modal.appointment.cancel.success.begin');
+    var succesMassegeEnd = getMessage('myappointments.modal.appointment.cancel.success.end');
     cancelAppointment();
     startModal()
     var reason = $('#cancelReason').val();
     delete_event();
     console.log(reason);
-    $('#cancelMassageText').text('Appointment with doctor ' + ev.text.split('-')[0] + ' was canceled successfully!');
+    $('#cancelMassageText').text(succesMassegeStart +' ' + ev.text.split('-')[0] + ' ' + succesMassegeEnd);
 }
             

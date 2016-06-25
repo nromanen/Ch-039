@@ -121,11 +121,13 @@ var html = function (id) {
     return document.getElementById(id);
 };
 scheduler.showLightbox = function (id) {
+    var tex_local_from = getMessage('workscheduler.modal.appointment.time.from');
+    var tex_local_to = getMessage('workscheduler.modal.appointment.time.to');
     $('#myModal').modal('show');
     var ev = scheduler.getEvent(id);
     scheduler.startLightbox(id, html("myModal"));
-    $('#date').text(new Date(ev.start_date).toLocaleDateString() + ' from '
-        + new Date(ev.start_date).toLocaleTimeString().replace(':00', '') + ' to ' +
+    $('#date').text(new Date(ev.start_date).toLocaleDateString() + ' ' + tex_local_from + ' '+
+        new Date(ev.start_date).toLocaleTimeString().replace(':00', '') + ' ' + tex_local_to + ' ' +
         new Date(ev.end_date).toLocaleTimeString().replace(':00', ''));
     $('#doctorName').text($('#profDoctorsName').text());
     html("TheReasonForVisit").focus();
