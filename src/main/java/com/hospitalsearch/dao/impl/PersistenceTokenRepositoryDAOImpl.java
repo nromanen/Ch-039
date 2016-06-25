@@ -19,12 +19,12 @@ import java.util.Date;
  */
 @Repository("tokenRepositoryDao")
 @Transactional
-public class PersistenceTokenRepositoryDAOImp extends GenericDAOImpl<PersistentLogin,String> implements PersistentTokenRepository {
+public class PersistenceTokenRepositoryDAOImpl extends GenericDAOImpl<PersistentLogin,String> implements PersistentTokenRepository {
 
-    private final Logger logger = LogManager.getLogger(PersistenceTokenRepositoryDAOImp.class);
+    private final Logger logger = LogManager.getLogger(PersistenceTokenRepositoryDAOImpl.class);
 
     @Autowired
-    public PersistenceTokenRepositoryDAOImp(SessionFactory factory) {
+    public PersistenceTokenRepositoryDAOImpl(SessionFactory factory) {
         super();
         this.setSessionFactory(factory);
     }

@@ -34,19 +34,20 @@
                 <h4 class="success text-center" th:text="${messageSuccess}"></h4>
             </div>
         </div>
+
         <br/>
 
-        <h1 th:if="${userAdminDTO.status=='true'}" class="all text-center"
+        <h1 th:if="${userFilterDTO.status=='true'}" class="all text-center"
             th:text="#{admin.dashboard.users.status.user.enabled}"></h1>
 
-        <h1 th:if="${userAdminDTO.status=='false'}" class="all text-center"
+        <h1 th:if="${userFilterDTO.status=='false'}" class="all text-center"
             th:text="#{admin.dashboard.users.status.user.disabled}"></h1>
 
-        <h1 th:if="${userAdminDTO.status=='all'}" class="all text-center"
+        <h1 th:if="${userFilterDTO.status=='all'}" class="all text-center"
             th:text="#{admin.dashboard.users.status.user.all}"></h1>
 
         <div class="box-content">
-            <form class="form-inline" role="form" method="GET" th:object="${userAdminDTO}"
+            <form class="form-inline" role="form" method="GET" th:object="${userFilterDTO}"
                   th:action="@{/admin/users/search}" id="searchForm">
                 <div class="form-group">
                     <label class="filter-col" style="margin-right:0;" for="userPerPage"
@@ -90,10 +91,8 @@
                     <input id="search" type="text" class="form-control" name="allField"
                            th:placeholder="#{admin.dashboard.users.show.search.placeholder}" autocomplete='off'/>
                 </div>
-                <button type="submit" class="btn btn-default" id="searchButton"
-                        th:text="#{admin.dashboard.users.show.search.search.button}"></button>
-                <button type="submit" class="btn btn-default" id="clearButton"
-                        th:text="#{admin.dashboard.users.show.search.clear.button}"></button>
+                <button type="submit" class="btn btn-default" id="searchButton"><span class="glyphicon glyphicon-search"></span></button>
+                <button type="submit" class="btn btn-default" id="clearButton"><span class="glyphicon glyphicon-refresh"></span></button>
                 <div class="pull-right btn-group">
                     <a type="button" th:href="@{/admin/users(status=true)}"
                        class="btn btn-default"><span class="text-info"
@@ -135,7 +134,7 @@
                 <tbody th:with="iterStart=1">
                 <tr th:each="user,iterStart: ${users}"
                     th:classappend="${(user.getEnabled()) == false }?'table-danger': ''">
-                    <td th:text="(${userAdminDTO.getCurrentPage()!=null}) ? ${(userAdminDTO.getCurrentPage()-1)*userAdminDTO.getPageSize()+iterStart.count} : ${iterStart.count}"></td>
+                    <td th:text="(${userFilterDTO.getCurrentPage()!=null}) ? ${(userFilterDTO.getCurrentPage()-1)*userFilterDTO.getPageSize()+iterStart.count} : ${iterStart.count}"></td>
                     <td th:value="${user.email}" th:text="${user.email}"></td>
                     <td th:value="${user.userDetails.firstName}" th:text="${user.userDetails.firstName}"></td>
                     <td th:value="${user.userDetails.lastName}" th:text="${user.userDetails.lastName}"></td>
@@ -155,7 +154,7 @@
                         <span data-placement="top" data-toggle="tooltip"
                               th:title="#{admin.dashboard.users.show.title.tooltip.edit}">
                             <a class="btn button_user"
-                               th:href="@{/admin/users/edit(id=${user.id},status=${userAdminDTO.status})}">
+                               th:href="@{/admin/users/edit(id=${user.id},status=${userFilterDTO.status})}">
                                 <i class="glyphicon glyphicon-edit icon-white"></i>
                             </a>
                         </span>
@@ -163,7 +162,7 @@
                         <span th:if="${user.getEnabled()!=false}" data-placement="top" data-toggle="tooltip"
                               th:title="#{admin.dashboard.users.show.title.tooltip.delete}">
                             <a class="btn button_user" href="#" data-toggle="modal" data-target="#deleteModal"
-                               th:attr="data-values=|users/delete/,${user.id},${user.email},?status=${userAdminDTO.status}|"
+                               th:attr="data-values=|users/delete/,${user.id},${user.email},?status=${userFilterDTO.status}|"
                                id="deleteUser">
                                 <i class="glyphicon glyphicon-trash icon-white"></i>
                             </a>
@@ -173,9 +172,9 @@
                 </tbody>
             </table>
             <ul th:if="${pagination}" class="pagination pagination-lg">
-                <li class="page-item" th:if="${userAdminDTO.getCurrentPage()!= 1}">
+                <li class="page-item" th:if="${userFilterDTO.getCurrentPage()!= 1}">
                     <a class="page-link" th:if="${search==null}"
-                       th:href="@{/admin/users(status=${userAdminDTO.status}, page=1,sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
+                       th:href="@{/admin/users(status=${userFilterDTO.status}, page=1,sort=${(userFilterDTO.getSort())},asc=${(userFilterDTO.getAsc())})}"
                        aria-label="First" th:text="'first'">
                     </a>
                     <button class="page-link" th:if="${search!=null}" th:form="searchForm" type="submit"
@@ -183,9 +182,9 @@
                     </button>
                 </li>
 
-                <li class="page-item" th:if="${userAdminDTO.getCurrentPage()!= 1}">
+                <li class="page-item" th:if="${userFilterDTO.getCurrentPage()!= 1}">
                     <a class="page-link" th:if="${search==null}"
-                       th:href="@{/admin/users(status=${userAdminDTO.status},page=${(userAdminDTO.getCurrentPage()-1)},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
+                       th:href="@{/admin/users(status=${userFilterDTO.status},page=${(userFilterDTO.getCurrentPage()-1)},sort=${(userFilterDTO.getSort())},asc=${(userFilterDTO.getAsc())})}"
                        aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
@@ -198,29 +197,29 @@
                 </li>
 
                 <li
-                        th:each="number:${#numbers.sequence(1,userAdminDTO.getTotalPage())}"
+                        th:each="number:${#numbers.sequence(1,userFilterDTO.getTotalPage())}"
                         th:class="page-item"
-                        th:classappend="${(userAdminDTO.getCurrentPage()) == number }?'active': ''">
+                        th:classappend="${(userFilterDTO.getCurrentPage()) == number }?'active': ''">
 
                     <a th:class="page-link" th:if="${search==null}"
-                       th:classappend="${(userAdminDTO.getCurrentPage()) == number }?'active': ''"
-                       th:href="@{/admin/users(status=${userAdminDTO.status},page=${number},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
+                       th:classappend="${(userFilterDTO.getCurrentPage()) == number }?'active': ''"
+                       th:href="@{/admin/users(status=${userFilterDTO.status},page=${number},sort=${(userFilterDTO.getSort())},asc=${(userFilterDTO.getAsc())})}"
                        th:text="${number}"/>
 
                     <button th:class="page-link" th:if="${search!=null}" id=""
-                            th:classappend="${(userAdminDTO.getCurrentPage()) == number }?'active': ''"
+                            th:classappend="${(userFilterDTO.getCurrentPage()) == number }?'active': ''"
                             th:form="searchForm" th:text="${number}" th:id="${number}" onclick="getPage(this.id)"/>
                 </li>
 
                 <li class="page-item"
-                    th:if="${userAdminDTO.getCurrentPage()&lt;userAdminDTO.getTotalPage()}">
+                    th:if="${userFilterDTO.getCurrentPage()&lt;userFilterDTO.getTotalPage()}">
                     <button class="page-link" th:form="searchForm" type="submit" disabled="disabled">...</button>
                 </li>
 
                 <li class="page-item"
-                    th:if="${(userAdminDTO.getCurrentPage()+1) &lt;= userAdminDTO.getTotalPage()}">
+                    th:if="${(userFilterDTO.getCurrentPage()+1) &lt;= userFilterDTO.getTotalPage()}">
                     <a th:if="${search==null}" class="page-link"
-                       th:href="@{/admin/users(status=${userAdminDTO.status},page=${userAdminDTO.getCurrentPage()+1},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
+                       th:href="@{/admin/users(status=${userFilterDTO.status},page=${userFilterDTO.getCurrentPage()+1},sort=${(userFilterDTO.getSort())},asc=${(userFilterDTO.getAsc())})}"
                        aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
@@ -232,9 +231,9 @@
                     </button>
                 </li>
 
-                <li class="page-item" th:if="${(userAdminDTO.getCurrentPage()+1) &lt;= userAdminDTO.getTotalPage()}">
+                <li class="page-item" th:if="${(userFilterDTO.getCurrentPage()+1) &lt;= userFilterDTO.getTotalPage()}">
                     <a class="page-link" th:if="${search==null}"
-                       th:href="@{/admin/users(status=${userAdminDTO.status},page=${userAdminDTO.totalPage},sort=${(userAdminDTO.getSort())},asc=${(userAdminDTO.getAsc())})}"
+                       th:href="@{/admin/users(status=${userFilterDTO.status},page=${userFilterDTO.totalPage},sort=${(userFilterDTO.getSort())},asc=${(userFilterDTO.getAsc())})}"
                        aria-label="Last" th:text="'last'">
                     </a>
                     <button class="page-link" th:if="${search!=null}" th:form="searchForm" type="submit"
@@ -281,7 +280,7 @@
             </div>
         </div>
     </div>
-    <input th:value="${userAdminDTO.totalPage}" th:field="${userAdminDTO.totalPage}" id="totalPageDto" hidden="hidden"/>
+    <input th:value="${userFilterDTO.totalPage}" th:field="${userFilterDTO.totalPage}" id="totalPageDto" hidden="hidden"/>
     <script type="text/javascript">
         var valueCurrentPage = parseInt($("#currentPage").val());
         var currentPage = $("#currentPage");

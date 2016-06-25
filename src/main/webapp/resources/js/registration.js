@@ -82,6 +82,7 @@ $(document).ready(function () {
         highlight: function (element, errorClass, validClass) {
             $(element).parents(".form-group").addClass("has-error").removeClass("has-success");
             $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
+            $('#floatingCirclesG').modal('hide');
         },
         unhighlight: function (element, errorClass, validClass) {
             $(element).parents(".form-group").addClass("has-success").removeClass("has-error");
@@ -89,4 +90,21 @@ $(document).ready(function () {
         }
     });
 
+    $("#registerSubmit").click(function (e) {
+        $('#floatingCirclesG').modal('show');
+    });
+
+
+
+    $('#email').focus(function () {
+        $('#errorEmail').attr("hidden", true);
+    });
+    $('#password').focus(function () {
+        $('#errorPassword').attr("hidden", true);
+    });
+
+
 });
+
+
+

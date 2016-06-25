@@ -336,4 +336,41 @@
     <changeSet author="igortsapyak (generated)" id="1465423649552-65">
         <modifyDataType columnName="result" newDataType="text" tableName="carditem"/>
     </changeSet>
+
+    <changeSet author="andrew (generated)" id="1466758406845-1">
+        <createTable tableName="password_reset_tokens">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expirydate" type="timestamp"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466758406845-2">
+        <createTable tableName="verifications_tokens">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expirydate" type="timestamp"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466758406845-3">
+        <addPrimaryKey columnNames="id" constraintName="password_reset_tokensPK" tableName="password_reset_tokens"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466758406845-4">
+        <addPrimaryKey columnNames="id" constraintName="verifications_tokensPK" tableName="verifications_tokens"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466758406845-5">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="verifications_tokens" constraintName="FK_79hy0bqeu0oobh0thq8bgbae1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet author="andrew (generated)" id="1466758406845-6">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="password_reset_tokens" constraintName="FK_la2ts67g4oh2sreayswhox1i6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
 </databaseChangeLog>

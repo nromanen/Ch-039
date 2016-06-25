@@ -14,12 +14,22 @@
 <section layout:fragment="content" class="container">
     <div class="content">
 
-        <div th:if="${emailSuccess  }!=null">
+        <div th:if="${emailSuccess}!=null">
             <div class="animated flipInX">
                 <h3 th:text="'User with email ' + ${emailSuccess} + ' has been registered successfully.'"
                     class="text-success text-center menu"></h3>
 
                 <h3 class="text-success text-center menu">Please confirm registration on email.</h3>
+                <img th:src="@{/img/registration_success.jpg}" style="max-width:40%"
+                     class="img-responsive center-block"/>
+            </div>
+        </div>
+
+        <div th:if="${emailError}!=null">
+            <div class="animated flipInX">
+                <h3 th:text="'User with email ' + ${emailSuccess} + ' has been registered successfully.'"
+                    class="text-success text-center menu"></h3>
+                <h3 class="text-success text-center menu">Now you are can <a th:href="@{/login}" id="redirectOnLogin" class="text-muted">login.</a></h3>
                 <img th:src="@{/img/registration_success.jpg}" style="max-width:40%"
                      class="img-responsive center-block"/>
             </div>
@@ -32,6 +42,7 @@
                      class="img-responsive center-block "/>
             </div>
         </div>
+
     </div>
 </section>
 </body>

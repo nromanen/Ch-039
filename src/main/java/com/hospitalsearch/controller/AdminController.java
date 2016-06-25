@@ -1,7 +1,7 @@
 package com.hospitalsearch.controller;
 
 import com.hospitalsearch.dto.AdminTokenConfigDTO;
-import com.hospitalsearch.dto.UserAdminDTO;
+import com.hospitalsearch.dto.UserFilterDTO;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.MailService;
@@ -40,6 +40,8 @@ public class AdminController {
 
     private Integer usersPerPage = 10;
 
+    private static String emailTemplate = "emailTemplate.vm";
+
     @ModelAttribute("roles")
     public List<Role> initializeRoles() {
         return roleService.getAll();
@@ -49,11 +51,8 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/**/changeStatus/{userId}", method = RequestMethod.GET)
     public void changeUserStatus(@PathVariable long userId) {
-        User user = userService.changeStatus(userId);
-        if (!user.getEnabled()) {
-            String bannedMessage = mailService.createBannedMessage(user);
-            mailService.sendMessage(user, "Banned confirmation", bannedMessage);
-        }
+        userService.changeStatus(userId);
+        sendBannedMessageToUserById(userId);
     }
 
     @ResponseBody
@@ -68,11 +67,7 @@ public class AdminController {
     public String deleteUser(@PathVariable long userId,
                              @RequestParam(value = "status", required = false) String status) {
         userService.changeStatus(userId);
-        User user = userService.getById(userId);
-        if (!user.getEnabled()) {
-            String bannedMessage = mailService.createBannedMessage(user);
-            mailService.sendMessage(user, "Banned confirmation", bannedMessage);
-        }
+        sendBannedMessageToUserById(userId);
         return "redirect:/admin/users?status=" + status;
     }
 
@@ -102,6 +97,7 @@ public class AdminController {
             user.setEnabled(editUser.getEnabled());
             userService.update(user);
         } catch (Exception e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("messageError", "Error updating, please try again!");
             return "redirect:/admin/users?status=" + status;
         }
@@ -112,7 +108,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "admin/users", method = RequestMethod.GET)
     public String allUsers(ModelMap model, @RequestParam(value = "status", required = false) String status,
-                           @ModelAttribute UserAdminDTO dto,
+                           @ModelAttribute UserFilterDTO dto,
                            @RequestParam(value = "page", defaultValue = "1") Integer page,
                            @RequestParam(value = "sort", defaultValue = "email") String sort,
                            @RequestParam(value = "asc", defaultValue = "true") Boolean asc) {
@@ -123,7 +119,7 @@ public class AdminController {
         dto.setStatus(status);
         List users = userService.getUsers(dto);
         if (dto.getTotalPage() > 1) model.addAttribute("pagination", "pagination");
-        model.addAttribute("userAdminDTO", dto);
+        model.addAttribute("userFilterDTO", dto);
         model.addAttribute("pageSize", dto.getPageSize());
         model.addAttribute("users", users);
         return "admin/users";
@@ -133,12 +129,12 @@ public class AdminController {
     @RequestMapping(value = "admin/users/search", method = RequestMethod.GET)
     public String searchUser(@RequestParam("status") String status,
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
-                             @ModelAttribute("userAdminDTO") UserAdminDTO dto,
+                             @ModelAttribute("userFilterDTO") UserFilterDTO dto,
                              ModelMap model) throws Exception {
         List users = userService.searchUser(dto);
         if (dto.getTotalPage() > 1) model.addAttribute("pagination", "pagination");
         model.addAttribute("search", "search");
-        model.addAttribute("userAdminDTO", dto);
+        model.addAttribute("userFilterDTO", dto);
         model.addAttribute("status", status);
         model.addAttribute("users", users);
         return "admin/users";
@@ -164,5 +160,35 @@ public class AdminController {
         REMEMBER_ME_TOKEN_EXPIRATION = configDTO.getRememberMeToken();
         model.addAttribute("configDTO", configDTO);
         return "admin/configureToken";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "admin/newUser", method = RequestMethod.GET)
+    public String newRegistration(ModelMap model) {
+        model.addAttribute("user", new User());
+        return "admin/newUser";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "admin/newUser", method = RequestMethod.POST)
+    public String saveUser(@ModelAttribute("user") User user, BindingResult result, ModelMap model,
+                           RedirectAttributes redirectAttributes) {
+        try {
+            userService.save(user);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("messageError", "Error creating new user, please try again!");
+            return "redirect:/admin/users?status=true";
+        }
+        redirectAttributes.addFlashAttribute("messageSuccess", "User with email " + user.getEmail() + " successfully has been registered.");
+        return "redirect:/admin/users?status=true";
+    }
+
+    //utility methods
+    private void sendBannedMessageToUserById(Long id) {
+        User user = userService.getById(id);
+        if (!user.getEnabled()) {
+            String bannedMessage = mailService.createBannedMessage(user);
+            mailService.sendMessage(user, "Banned confirmation", bannedMessage, emailTemplate);
+        }
     }
 }

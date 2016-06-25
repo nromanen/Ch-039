@@ -20,7 +20,7 @@
                 </div>
                 <br/>
                 <br/>
-                <input type="button" id="btnRedirect" value="Go to the main page" class="btn bnt-primary"/>
+                <input type="button" id="btnRedirect" value="Go to the main page" class="btn btn-default"/>
                 <br />
                 <div id="dvCountDown" style="display: none">
                     You will be redirected after <h4><span id="lblCount"></span>&nbsp;seconds.</h4>
@@ -32,6 +32,7 @@
                     $("#btnRedirect").click(function () {
                         var seconds = 5;
                         $("#dvCountDown").show();
+                        $("#btnRedirect").hide();
                         $("#lblCount").html(seconds);
                         setInterval(function () {
                             seconds--;

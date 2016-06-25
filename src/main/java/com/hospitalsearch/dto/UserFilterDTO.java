@@ -4,7 +4,7 @@ package com.hospitalsearch.dto;
  * @author Andrew Jasinskiy on 28.05.16
  */
 
-public class UserAdminDTO {
+public class UserFilterDTO {
 
     //searchFields
     private String role;
@@ -22,13 +22,13 @@ public class UserAdminDTO {
     private String sort = "email";
     private Boolean asc = false;
 
-    public UserAdminDTO(Integer pageSize, String sort, Boolean asc) {
+    public UserFilterDTO(Integer pageSize, String sort, Boolean asc) {
         this.pageSize = pageSize;
         this.sort = sort;
         this.asc = asc;
     }
 
-    public UserAdminDTO() {
+    public UserFilterDTO() {
     }
 
     public String getRole() {
@@ -121,7 +121,7 @@ public class UserAdminDTO {
 
     @Override
     public String toString() {
-        return "UserAdminDTO{" +
+        return "UserFilterDTO{" +
                 "role='" + role + '\'' +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +

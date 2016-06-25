@@ -1,8 +1,0 @@
-<html>
-<body>
-<h1>Register invite</h1>
-<b>Hello, ${user}, U are registered</b>
-<p> Confirm registration
-	<a href="${confirmLink}">here</a> </p>
-</body>
-</html>

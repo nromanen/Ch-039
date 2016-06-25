@@ -28,13 +28,14 @@
         <groovy.lang>2.4.5</groovy.lang>
         <thymeleafspringsecurity4.version>2.1.2.RELEASE</thymeleafspringsecurity4.version>
         <javax.mail>1.4.7</javax.mail>
-        <apache.velocity>1.7</apache.velocity>
         <guava>19.0</guava>
         <liquibase.core>3.4.2</liquibase.core>
         <liquibase.plugin>3.4.2</liquibase.plugin>
         <liquibase.hibernate4>3.5</liquibase.hibernate4>
         <spring.beans>4.2.6.RELEASE</spring.beans>
         <spring.data.jpa>1.10.1.RELEASE</spring.data.jpa>
+
+        <apache.velocity>1.7</apache.velocity>
 
     </properties>
     <dependencies>
@@ -262,12 +263,6 @@
             <artifactId>mail</artifactId>
             <version>${javax.mail}</version>
         </dependency>
-        <!-- Velocity engine -->
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>${apache.velocity}</version>
-        </dependency>
         <!-- Guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -346,6 +341,14 @@
             <artifactId>commons-beanutils</artifactId>
             <version>1.8.3</version>
         </dependency>
+
+        <!-- Velocity engine -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>${apache.velocity}</version>
+        </dependency>
+
 
     </dependencies>
 

@@ -60,9 +60,6 @@ $(document).ready(function () {
 
     //reset all search field
     $('#clearButton').click(function (event) {
-        var pageSize = 10;
-        var url = '/admin/users/setItemsPerPage/' + pageSize;
-        $.get(url, function (data) {});
         sessionStorage.clear();
         $('#pref-roleby').val('');
         $searchInput.val('');

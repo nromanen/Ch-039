@@ -5,9 +5,10 @@ import com.hospitalsearch.entity.PasswordResetToken;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.entity.VerificationToken;
+import com.hospitalsearch.exception.ResetPasswordException;
 import com.hospitalsearch.service.*;
-import com.hospitalsearch.service.impl.ScheduledTokensService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSendException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
@@ -51,6 +52,7 @@ public class UserController {
     @Autowired
     PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
 
+    private static String emailTemplate = "emailTemplate.vm";
 
     @ModelAttribute("roles")
     public List<Role> initializeRoles() {
@@ -65,37 +67,22 @@ public class UserController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             persistentTokenBasedRememberMeServices.logout(request, response, auth);
             SecurityContextHolder.getContext().setAuthentication(null);
         }
-        request.logout();
+        try {
+            request.logout();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/newUser", method = RequestMethod.GET)
-    public String newRegistration(ModelMap model) {
-        model.addAttribute("user", new User());
-        return "newuser";
-    }
-
-    @RequestMapping(value = "/newUser", method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute("user") User user, BindingResult result, ModelMap model) {
-        try {
-            userService.save(user);
-        } catch (Exception e) {
-            model.addAttribute("registrationError", "User with email " + user.getEmail() + " is already exist!");
-            return "/user/endRegistration";
-        }
-        model.addAttribute("success", "User with email " + user.getEmail() + " has been registered successfully");
-        return "/user/endRegistration";
-    }
-
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String getRegistration(@ModelAttribute("userDto") UserRegisterDTO userDto,
-                                  BindingResult result, ModelMap model) {
+    public String getRegistration(@ModelAttribute("userDto") UserRegisterDTO userDto, ModelMap model) {
         model.addAttribute("userRegisterDto", userDto);
         return "/registration";
     }
@@ -107,10 +94,17 @@ public class UserController {
             return "registration";
         }
         User user = userService.register(userDto);
-        String token = UUID.randomUUID().toString();
-        String confirmationMessage = mailService.createRegisterMessage(user, token);
+        String token = getRandomToken();
         verificationTokenService.createToken(token, user);
-        mailService.sendMessage(user, "Registration confirmation", confirmationMessage);
+        String confirmationMessage = mailService.createRegisterMessage(user, token);
+        try {
+            mailService.sendMessage(user, "Registration confirmation", confirmationMessage, emailTemplate);
+        } catch (MailSendException e) {
+            verificationTokenService.deleteTokenByUser(user);
+            user.setEnabled(true);
+            model.addAttribute("emailError", userDto.getEmail());
+            return "/user/endRegistration";
+        }
         model.addAttribute("emailSuccess", userDto.getEmail());
         return "/user/endRegistration";
     }
@@ -118,6 +112,10 @@ public class UserController {
     @RequestMapping(value = "/confirmRegistration", method = RequestMethod.GET)
     public String confirmRegistration(@RequestParam("token") String token, ModelMap model) {
         VerificationToken verificationToken = verificationTokenService.getByToken(token);
+        if (verificationToken == null) {
+            model.addAttribute("invalidToken", "invalidToken");
+            return "/user/confirmRegistration";
+        }
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.update(user);
@@ -144,19 +142,20 @@ public class UserController {
         if (result.hasFieldErrors("password") || result.hasFieldErrors("confirmPassword")) {
             return "user/confirmResetPassword";
         }
-        boolean reset = userService.resetPassword(userDto.getEmail(), userDto.getPassword());
-        if (reset) {
+        try {
+            userService.resetPassword(userDto.getEmail(), userDto.getPassword());
             passwordResetTokenService.deleteTokenByUser(userService.getByEmail(userDto.getEmail()));
             model.addAttribute("successReset", "successReset");
-        } else {
+        } catch (ResetPasswordException e) {
             model.addAttribute("errorReset", "errorReset");
+            e.printStackTrace();
         }
         model.addAttribute("userDto", null);
         return "/user/confirmResetPassword";
     }
 
     @ResponseBody
-    @RequestMapping(value = "/**/resetPassword", method = RequestMethod.GET)
+    @RequestMapping(value = "resetPassword", method = RequestMethod.GET)
     public String resetPassword(@RequestParam("email") String email) {
         User user = userService.getByEmail(email);
         if (user == null) {
@@ -171,11 +170,15 @@ public class UserController {
         if (passwordResetTokenService.getByUser(user) != null) {
             return "tokenCreated";
         }
-
-        String token = UUID.randomUUID().toString();
-        String resetPasswordMessage = mailService.createResetPasswordMessage(user, token);
+        String token = getRandomToken();
         passwordResetTokenService.createToken(token, user);
-        mailService.sendMessage(user, "Forgotten password", resetPasswordMessage);
+        String resetPasswordMessage = mailService.createResetPasswordMessage(user, token);
+        mailService.sendMessage(user, "Forgotten password", resetPasswordMessage, emailTemplate);
         return "success";
+    }
+
+    //utility methods
+    private String getRandomToken() {
+        return UUID.randomUUID().toString();
     }
 }

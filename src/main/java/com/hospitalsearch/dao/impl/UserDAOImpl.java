@@ -1,18 +1,16 @@
 package com.hospitalsearch.dao.impl;
 
 import com.hospitalsearch.dao.UserDAO;
-import com.hospitalsearch.dto.UserAdminDTO;
+import com.hospitalsearch.dto.UserFilterDTO;
 import com.hospitalsearch.entity.User;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Objects.nonNull;
@@ -41,7 +39,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
 
     public void update(User user) {
         super.update(user);
-            this.getSessionFactory().getCurrentSession().flush();
+        this.getSessionFactory().getCurrentSession().flush();
     }
 
     @Override
@@ -60,59 +58,52 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     }
 
     @Override
-    public User changeStatus(long id) {
+    public void changeStatus(long id) {
         User user = super.getById(id);
         user.setEnabled(!user.getEnabled());
-        return user;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> getUsers(UserAdminDTO userAdminDTO) {
+    public List<User> getUsers(UserFilterDTO userFilterDTO) {
         Criteria criteria = this.getSessionFactory()
                 .getCurrentSession()
                 .createCriteria(User.class);
-        getUsersByStatus(userAdminDTO, criteria);
-        getAlias(criteria);
-        userAdminDTO.setTotalPage(getTotalPages(criteria, userAdminDTO));
-        getPagination(userAdminDTO, criteria);
-        getSort(userAdminDTO, criteria);
+        filterCriteriaByStatus(userFilterDTO, criteria);
+        filterCriteriaForPagination(userFilterDTO, criteria);
         return criteria.list();
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> searchUser(UserAdminDTO userAdminDTO) {
+    public List<User> searchUser(UserFilterDTO userFilterDTO) {
         Criteria criteria = this.getSessionFactory()
                 .getCurrentSession()
                 .createCriteria(User.class);
-        getUsersByStatus(userAdminDTO, criteria);
+        filterCriteriaByStatus(userFilterDTO, criteria);
+
         //choose role
-        getAlias(criteria);
-        criteria.add(Restrictions.like("roles.type", userAdminDTO.getRole(), MatchMode.ANYWHERE));
-        if (userAdminDTO.getAllField() != null) {
-            criteria.add(searchInAllFields(userAdminDTO.getAllField()));
-            userAdminDTO.setTotalPage(getTotalPages(criteria, userAdminDTO));
-            getPagination(userAdminDTO, criteria);
-            getSort(userAdminDTO, criteria);
+        criteria.add(Restrictions.like("roles.type", userFilterDTO.getRole(), MatchMode.ANYWHERE));
+        if (userFilterDTO.getAllField() != null) {
+            criteria.add(searchInAllFields(userFilterDTO.getAllField()));
+            filterCriteriaForPagination(userFilterDTO, criteria);
             return criteria.list();
         }
-        criteria.add(searchInChosenField(userAdminDTO));
-        userAdminDTO.setTotalPage(getTotalPages(criteria, userAdminDTO));
-        getPagination(userAdminDTO, criteria);
-        getSort(userAdminDTO, criteria);
+        criteria.add(searchInChosenField(userFilterDTO));
+        filterCriteriaForPagination(userFilterDTO, criteria);
         return criteria.list();
     }
 
     //utilities methods
     //get all users by status
-    private Criteria getUsersByStatus(UserAdminDTO userAdminDTO, Criteria criteria) {
-        if (userAdminDTO.getStatus().equals("all")) {
+    private void filterCriteriaByStatus(UserFilterDTO userFilterDTO, Criteria criteria) {
+        if (userFilterDTO.getStatus().equals("all")) {
             criteria.add(Restrictions.conjunction());
         } else {
-            criteria.add(Restrictions.eq("enabled", Boolean.parseBoolean(userAdminDTO.getStatus())));
+            criteria.add(Restrictions.eq("enabled", Boolean.parseBoolean(userFilterDTO.getStatus())));
         }
-        return criteria;
+        criteria.createAlias("userRoles", "roles");
+        criteria.createAlias("userDetails", "detail");
     }
 
     //search in all fields
@@ -125,56 +116,50 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
     }
 
     //search in all chosen fields
-    private Disjunction searchInChosenField(UserAdminDTO userAdminDTO) {
-        return Restrictions.or(Restrictions.like("email", userAdminDTO.getEmail(), MatchMode.ANYWHERE).ignoreCase(),
-                Restrictions.like("detail.firstName", userAdminDTO.getFirstName(), MatchMode.ANYWHERE).ignoreCase(),
-                Restrictions.like("detail.lastName", userAdminDTO.getLastName(), MatchMode.ANYWHERE).ignoreCase());
+    private Disjunction searchInChosenField(UserFilterDTO userFilterDTO) {
+        return Restrictions.or(Restrictions.like("email", userFilterDTO.getEmail(), MatchMode.ANYWHERE).ignoreCase(),
+                Restrictions.like("detail.firstName", userFilterDTO.getFirstName(), MatchMode.ANYWHERE).ignoreCase(),
+                Restrictions.like("detail.lastName", userFilterDTO.getLastName(), MatchMode.ANYWHERE).ignoreCase());
     }
-
-    //get count of page
-    private Integer getTotalPages(Criteria criteria, UserAdminDTO userAdminDTO) {
-        Long countPages = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
-        Integer totalPages = (int) Math.ceil((double) countPages / userAdminDTO.getPageSize());
-        if (totalPages < userAdminDTO.getCurrentPage()) {
-            userAdminDTO.setCurrentPage(1);
-        }
-        criteria.setProjection(null);
-        return totalPages;
-    }
-
-    //get pagination
-    private Criteria getPagination(UserAdminDTO userAdminDTO, Criteria criteria) {
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        criteria.setFirstResult((userAdminDTO.getCurrentPage() - 1) * userAdminDTO.getPageSize());
-        criteria.setMaxResults(userAdminDTO.getPageSize());
-        return criteria;
-    }
-
-    //get alias
-    private Criteria getAlias(Criteria criteria) {
-        criteria.createAlias("userRoles", "roles");
-        criteria.createAlias("userDetails", "detail");
-        return criteria;
-    }
-
-    //get sort
 
     /**
-     * @param userAdminDTO
-     * @param criteria     sorting field id in view must be the same to field of User class (or UserDetails with alias)
-     *                     Sort by default - ASC by email
+     * @param userFilterDTO
+     * @param criteria      sorting field id in view must be the same to field of User class (or UserDetails with alias)
+     *                      default sort - ASC by email
      */
-    private Criteria getSort(UserAdminDTO userAdminDTO, Criteria criteria) {
-        if (userAdminDTO.getAsc()) {
-            criteria.addOrder(Order.asc(userAdminDTO.getSort()));
-        } else {
-            criteria.addOrder(Order.desc(userAdminDTO.getSort()));
+    //get pagination
+    private void filterCriteriaForPagination(UserFilterDTO userFilterDTO, Criteria criteria) {
+
+        //get total pages
+        Long countPages = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+
+        //get total rows
+        Integer totalPages = (int) Math.ceil((double) countPages / userFilterDTO.getPageSize());
+        if (totalPages < userFilterDTO.getCurrentPage()) {
+            userFilterDTO.setCurrentPage(1);
         }
-        return criteria;
+        criteria.setProjection(null);
+
+        //set total pages
+        userFilterDTO.setTotalPage(totalPages);
+
+        //cut repeating rows
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
+        //get pagination
+        criteria.setFirstResult((userFilterDTO.getCurrentPage() - 1) * userFilterDTO.getPageSize());
+        criteria.setMaxResults(userFilterDTO.getPageSize());
+
+        //get sort
+        if (userFilterDTO.getAsc()) {
+            criteria.addOrder(Order.asc(userFilterDTO.getSort()));
+        } else {
+            criteria.addOrder(Order.desc(userFilterDTO.getSort()));
+        }
+
     }
 
     //Illia
-
     @Override
     public List<User> getByRole(String role) {
         Criteria criteria = this.currentSession().createCriteria(User.class, "user")
@@ -189,8 +174,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
 
         if (sortBy.equals("firstName")) {
             criteria = prepareGetByRole(role, pageNumber, pageSize, "details.firstName", order);
-        }
-        else if (sortBy.equals("lastName")) {
+        } else if (sortBy.equals("lastName")) {
             criteria = prepareGetByRole(role, pageNumber, pageSize, "details.lastName", order);
         } else {
             criteria = prepareGetByRole(role, pageNumber, pageSize, "user.email", order);
@@ -204,8 +188,7 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         Criteria criteria;
         if (sortBy.equals("firstName")) {
             criteria = prepareSearchByRole(role, search, pageNumber, pageSize, "details.firstName", order);
-        }
-        else if (sortBy.equals("lastName")) {
+        } else if (sortBy.equals("lastName")) {
             criteria = prepareSearchByRole(role, search, pageNumber, pageSize, "details.lastName", order);
         } else {
             criteria = prepareSearchByRole(role, search, pageNumber, pageSize, "user.email", order);
@@ -299,6 +282,3 @@ public class UserDAOImpl extends GenericDAOImpl<User, Long> implements UserDAO {
         return criteria;
     }
 }
-
-
-

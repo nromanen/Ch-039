@@ -29,8 +29,8 @@ public class HospitalControllerAdvice {
 		return view;
 	}
 	
-    
-        
+
+
 	@ModelAttribute(value = "hospitals")
 	public List<Hospital> hospitalList(){
 		return this.service.getAll();
@@ -44,7 +44,7 @@ public class HospitalControllerAdvice {
             model.addAttribute("globalSearch",new PageConfigDTO());
         }
 	
-        
+
 	public static class FilterHospitalListEmptyException extends Exception{
 		public FilterHospitalListEmptyException(String message) {
 			super(message);

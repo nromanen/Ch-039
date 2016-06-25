@@ -12,12 +12,13 @@
     <script th:src="@{/js/admin.js}"></script>
     <script th:src="@{/js/login.js}"></script>
     <script th:src="@{/js/jquery.validate.js}"></script>
+    <script th:src="@{/js/spinner.js}"></script>
     <script th:src="@{/js/registration.js}"></script>
+
 
 </head>
 <body>
 <section layout:fragment="content" class="dashboard center">
-
     <div class="content">
         <div id="mainWrapper">
             <div class="container">
@@ -36,7 +37,7 @@
                                            th:value="(${userDto != null}) and (${userDto.email !=null}) ? ${userDto.email}:''"/>
 
                                     <span th:if="${(userDto ne null) and (#fields.hasErrors('email'))}"
-                                          th:errors="*{email}" class="has-error text-danger"></span>
+                                          th:errors="*{email}" class="has-error text-danger" id="errorEmail"></span>
                                 </div>
 
                                 <div class="form-group">
@@ -45,7 +46,7 @@
                                            th:value="${(userDto != null) and (userDto.password !=null)} ? ${userDto.password}:''"/>
 
                                     <span th:if="${(userDto ne null) and (#fields.hasErrors('password'))}"
-                                          th:errors="*{password}" class="has-error text-danger"></span>
+                                          th:errors="*{password}" class="has-error text-danger" id="errorPassword"></span>
                                 </div>
 
                                 <div class="form-group">
@@ -77,6 +78,9 @@
             </div>
         </div>
     </div>
+
+
+
 </section>
 </body>
 </html>
