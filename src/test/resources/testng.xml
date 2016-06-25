@@ -1,9 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="" allow-return-values="false">
+<suite name="testSuite" allow-return-values="false">
+    <test name="">
+    </test>
     <packages>
         <package name="com.hospitalseeker.security"/>
-            
-        
     </packages>
     <groups>
         <run>
