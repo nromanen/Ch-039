@@ -62,13 +62,13 @@ public class AppointmentController {
     @ResponseBody
     @RequestMapping(value = "/**/getAppointmentsByPatient", method = RequestMethod.GET)
     public List<Appointment> patientsAppointments(@RequestParam("patient") String patient) {
-        return appointmentService.getGetAllByPatient(patient);
+        return appointmentService.getAllByPatientEmail(patient);
     }
 
     @ResponseBody
     @RequestMapping(value = "/getAppointmentsByDoctor", method = RequestMethod.GET)
     public List<Appointment> doctorsAppointments(@RequestParam("doctor") String doctor) {
-        return appointmentService.getAllByDoctor(doctor);
+        return appointmentService.getAllByDoctorEmail(doctor);
     }
 
     @RequestMapping(value = "/appointments", method = RequestMethod.GET)

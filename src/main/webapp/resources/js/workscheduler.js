@@ -123,6 +123,7 @@ function openSecond() {
 
 function startModal() {
     setTimeout(changeModalContentFirstStep, 500);
+    alert($('#cancelReason').val());
     setTimeout(changeModalContentSecondStep, 4000);
 }
 
@@ -132,6 +133,7 @@ function changeModalContentFirstStep() {
     $('#modal-header').slideToggle(500);
     $('#modal-footer').slideToggle(500);
     $('#modalBodySuccess').slideToggle(500);
+    
 }
 
 function changeModalContentSecondStep() {

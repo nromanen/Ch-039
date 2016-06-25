@@ -6,6 +6,7 @@ import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.dao.UserDetailDAO;
 import com.hospitalsearch.entity.Appointment;
 import com.hospitalsearch.entity.DoctorInfo;
+import com.hospitalsearch.entity.User;
 import com.hospitalsearch.entity.UserDetail;
 import com.hospitalsearch.service.AppointmentService;
 import com.hospitalsearch.dto.AppointmentDto;
@@ -52,10 +53,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
-    //TODO: rename methods, refactor get methods.
     @Override
-    public List<Appointment> getGetAllByPatient(String patient) {
-        List<Appointment> appointments = appointmentDao.getAllByPatient(userDAO.getByEmail(patient).getId());
+    public List<Appointment> getAllByPatientEmail(String patientEmail) {
+        List<Appointment> appointments = appointmentDao.getAllByPatient(userDAO.getByEmail(patientEmail).getId());
         for (Appointment appointment : appointments) {
             appointment.setText(appointment.getDoctorInfo().getUserDetails().getFirstName()
                     + " " + appointment.getDoctorInfo().getUserDetails().getLastName());
@@ -63,10 +63,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointments;
     }
 
-    //TODO: rename methods.
     @Override
-    public List<Appointment> getAllByDoctor(String doctor) {
-        List<Appointment> appointments = appointmentDao.getAllbyDoctorId(userDAO.getByEmail(doctor).getUserDetails()
+    public List<Appointment> getAllByDoctorEmail(String doctorEmail) {
+        List<Appointment> appointments = appointmentDao.getAllbyDoctorId(userDAO.getByEmail(doctorEmail).getUserDetails()
                 .getDoctorsDetails().getId());
         for (Appointment appointment : appointments) {
             appointment.setText(appointment.getUserDetail().getFirstName() + " " + appointment.getUserDetail().getLastName()

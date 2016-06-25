@@ -74,7 +74,7 @@ $(document).ready(function () {
         case '6':
         {
             scheduler.ignore_week = function (date) {
-                if (date.getDay() == 6)
+                if (date.getDay() == 0)
                     return true;
             };
         }
