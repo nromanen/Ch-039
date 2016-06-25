@@ -58,7 +58,7 @@ public class HospitalController {
         }
         this.initializeModel(model, 1);
         if(this.pageableContent.getResultListCount() == 0){
-        	throw new HospitalControllerAdvice.FilterHospitalListEmptyException("empty");
+        	throw new HospitalControllerAdvice.FilterHospitalListEmptyException(this.searchQuery);
         }
         LOG.log(Level.ALL,"lol");
         return "hospitals";
@@ -73,7 +73,7 @@ public class HospitalController {
 
         List<Hospital> hospitals = service.filterHospitalsByAddress(dto);
         if (hospitals.isEmpty()) {
-            throw new HospitalControllerAdvice.FilterHospitalListEmptyException("Problem");
+            throw new HospitalControllerAdvice.FilterHospitalListEmptyException(this.searchQuery);
         } else {
             model.put("pagination", true);
             if (results.hasErrors()) {
@@ -134,6 +134,7 @@ public class HospitalController {
     
     public void initializeModel(Map<String,Object> model,Integer page){
     	model.put("pagedList", this.pageableContent.getPageItems());
+    	model.put("query", this.searchQuery);
         model.put("pagination", this.pageableContent.isPaginated());
         model.put("pageCount", this.pageableContent.getPageCount());
         model.put("pageSize", this.pageableContent.getPageSize());

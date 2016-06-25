@@ -9,11 +9,11 @@ $(document).ready(function() {
 		}
 	});
 	$("#map-button").tooltip();
-	$("#search-form").validator();
 	jQuery.goup({trigger: 100,
-        containerSize: 80,
+        containerSize: 50,
         bottomOffset: 150,
-        locationOffset: 0,
+        locationOffset: 100,
+        containerRadius:50,
         title: 'Back To Top',
         containerColor: '#1ABC9C',
         titleAsText: true});

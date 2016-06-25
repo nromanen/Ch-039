@@ -26,6 +26,7 @@ public class HospitalControllerAdvice {
 	@ExceptionHandler(value={FilterHospitalListEmptyException.class})
 	public ModelAndView renderHospitalListException(Exception ex){
 		ModelAndView view = new ModelAndView("error/hospitalList");
+		view.addObject("query", ex.getMessage());
 		return view;
 	}
 	
@@ -46,6 +47,7 @@ public class HospitalControllerAdvice {
 	
         
 	public static class FilterHospitalListEmptyException extends Exception{
+		
 		public FilterHospitalListEmptyException(String message) {
 			super(message);
 		}

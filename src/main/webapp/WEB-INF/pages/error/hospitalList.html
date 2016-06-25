@@ -6,17 +6,43 @@
 <head>
 <meta charset="UTF-8" />
 <title>Hospital search empty result</title>
-
+<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+<script th:src="@{/js/jquery-validation-tooltip.min.js}"></script>
 </head>
 <body>
 	<div layout:fragment="content">
 		<div class="content">
 			<div class="container">
 				<div class="row">
-					<img class="img-responsive img-rounded animated rotateInDownLeft"
-						th:src="@{/img/cant-find.jpg}" /> <img
-						class="img-responsive img-rounded animated rotateInDownLeft"
-						th:src="@{/img/dont-know.jpg}" />
+					<div id="custom-search-input">
+						<form data-toggle="validator" th:action="@{/hospitals}"
+							id="hospital-search-form" method="GET" role="search"
+							novalidate="novalidate">
+							<div class="input-group col-md-12">
+
+								<input id="select_search" type="text"
+									class="search-query form-control" name="q" autocomplete="off"
+									th:value="${query}"
+									th:placeholder="#{header.menu.searchbar.placeholder}" /> <span
+									class="input-group-btn">
+									<button class="btn btn-danger" type="submit">
+										<span class=" glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<br/>
+				<div class="row">
+					
+						<img class="img-responsive img-rounded animated rotateInDownLeft center-block" 
+							th:src="@{/img/cant-find.jpg}" /> <img
+							class="img-responsive img-rounded animated rotateInDownLeft center-block"
+							th:src="@{/img/dont-know.jpg}" />
+					
+
 				</div>
 
 			</div>

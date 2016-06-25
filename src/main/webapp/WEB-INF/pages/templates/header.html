@@ -136,13 +136,13 @@
           </a>
           <ul class="dropdown-menu localization" id="dropdawn">
             <li>
-              <a th:href="@{#}" data-lang="ua" onclick="changeLang(event)" class="menu">
-                <img th:src="@{/img/ua.png}"/> українська
+              <a th:href="@{#}" data-lang="ua" onclick="changeLang(event)" class="menu" th:inline="text">
+                <img th:src="@{/img/ua.png}"/> [[#{ukrainian}]]
               </a>
             </li>
             <li>
-              <a th:href="@{#}" data-lang="en" onclick="changeLang(event)"  class="menu">
-                <img th:src="@{/img/en.png}"/> english
+              <a th:href="@{#}" data-lang="en" onclick="changeLang(event)"  class="menu" th:inline="text">
+                <img th:src="@{/img/en.png}"/> [[#{english}]]
               </a>
             </li>
           </ul>
@@ -181,19 +181,16 @@
   </div>
   <div class="[ bootsnipp-search animate ]">
     <div class="[ container ]">
-      <form data-toggle="validator" th:action="@{/hospitals}" id="search-form" method="GET" role="search">
+      <form data-toggle="validator"  th:action="@{/hospitals}" id="search-form" method="GET" role="search" novalidate="novalidate">
         <div class="[ input-group ]" style="z-index:1000000">
           <div class="form-group">
             <input id="select_search"
-                   type="text" class="[ form-control ] dropdown-field"
+                   type="text" 
+                   class="[ form-control ] dropdown-field"
                    name="q"
-                   minlength="4"
-                   length="100"
-                   maxlength="100"
-                   required="required"
-                   th:attr="data-error = #{header.search.error.message}"
+                   autocomplete="off"
+                   th:value="${query}"
                    th:placeholder="#{header.menu.searchbar.placeholder}"/>
-            <div class="help-block with-errors"></div>
           </div>
           <span class="[ input-group-btn ]">
             <button type="submit" class="[ btn btn-info ]"><span class="[ glyphicon glyphicon-search ]"></span></button>

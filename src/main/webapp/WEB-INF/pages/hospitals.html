@@ -1,167 +1,184 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout">
-  <head>
-    <title>Search results</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
-    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css"/>
-    <script th:src="@{/js/hospitals.js}"/>
-    <script th:src="@{/js/jquery.goup.min.js}"></script>
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout">
+<head>
+<title>Search results</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css"
+	rel="stylesheet" type="text/css" />
+<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+<script th:src="@{/js/jquery-validation-tooltip.min.js}"></script>
+<script th:src="@{/js/hospitals.js}"></script>
+<script th:src="@{/js/jquery.goup.min.js}"></script>
 
-    <style>
-      h3 {
-        margin-top: 0px !important;
-        margin-bottom: 0px !important;
-      }
-    </style>
-  </head>
-  <body>
-    <div layout:fragment="content">
-      <div id="content" class="content">
-        <div class="about text-center container">
-          <input type="hidden" id="path" th:value="${#httpServletRequest.getContextPath()}"/>
-          <div th:remove="${itemNumber &gt; 3}?'none':'all'" class="row">
-            <div id="filter-panel" class="collapse filter-panel">
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  <form class="form-inline" th:action="@{/hospitals/config}" method="GET" th:object="${pageConfig}" role="form">
-                    <div class="form-group">
-                      <label class="filter-col" style="margin-right:0;" for="pref-perpage" th:inline="text">[[#{hospitals.list.config.pagecount}]]</label>
-                      <select id="pref-perpage" th:field="*{itemsPerPage}" class="form-control">
-                        <option th:each="number:${#numbers.sequence(1,20)}"
-                                th:text="${number}"
-                                th:value="${number}"
-                                th:classappend="${number == pageSize}?'selected':''" />
-                      </select>
-                    </div>
+<style>
+h3 {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div id="content" class="content">
+			<div class="about text-center container">
+				<input type="hidden" id="path"
+					th:value="${#httpServletRequest.getContextPath()}" />
+				<div class="row">
+					<div id="custom-search-input">
+						<form data-toggle="validator" th:action="@{/hospitals}"
+							id="hospital-search-form" method="GET" role="search"
+							novalidate="novalidate">
+							<div class="input-group col-md-12">
 
-                    <div class="form-group">
-                      <label class="filter-col" style="margin-right:0;" for="pref-perpage" th:inline="text">[[#{hospitals.list.config.sort}]]</label>
-                      <select id="pref-perpage" name="sortType" class="form-control">
-                        <option
-                                th:text="#{hospitals.list.config.sort.ascendance}"
-                                th:value="${true}"
-                                th:selected="${sort}?'selected'"
-                                th:classappend="${sort}?'selected'" />
-                        <option
-                                th:text="#{hospitals.list.config.sort.descendance}"
-                                th:value="${false}"
-                                th:selected="${not sort}?'selected'"
-                                th:classappend="${not sort}?'selected'"
-                                />
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <button type="submit"  class="btn btn-default filter-col" th:inline="text">
-                        <span class="glyphicon glyphicon-record"></span>[[#{hospitals.list.config.submit}]]
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <button type="button" class="btn btn-primary pull-right" data-toggle="collapse" data-target="#filter-panel" >
-              <span class="glyphicon glyphicon-cog"></span> <th:block th:text="#{hospitals.list.page.button}"/>
-            </button>
-          </div>
-          <br/>
-          <div class="row">
-            <div id="hospital_list" class="col-lg-offset-1 col-lg-10 col-md-12">
-              <div class="row"
-                   th:each="hospital:${pagedList}"
-                   th:object="${hospital}">
+								<input id="select_search" type="text"
+									class="search-query form-control" name="q" autocomplete="off"
+									th:value="${query}"
+									th:placeholder="#{header.menu.searchbar.placeholder}" /> <span
+									class="input-group-btn">
+									<button class="btn btn-danger" type="submit">
+										<span class=" glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- /.row -->
+				<br />
+				<div th:remove="${itemNumber &gt; 3}?'none':'all'" class="row">
+					<div id="filter-panel" class="collapse filter-panel">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<form class="form-inline" th:action="@{/hospitals/config}"
+									method="GET" th:object="${pageConfig}" role="form">
+									<div class="form-group">
+										<label class="filter-col" style="margin-right: 0;"
+											for="pref-perpage" th:inline="text">[[#{hospitals.list.config.pagecount}]]</label>
+										<select id="pref-perpage" th:field="*{itemsPerPage}"
+											class="form-control">
+											<option th:each="number:${#numbers.sequence(1,20)}"
+												th:text="${number}" th:value="${number}"
+												th:classappend="${number == pageSize}?'selected':''" />
+										</select>
+									</div>
 
-                <div class="col-lg-4 col-md-4 col-xs-5">
-                  <div class="single-about-detail">
-                    <div class="about-img">
-                      <a href="#" th:href="@{|/hospital/${hospital.id}|}">
-                        <img class="img-responsive" src="/"
-                             th:src="@{|/img/hospitals/${hospital.imagePath}|}"/>
-                      </a>
-                    </div>
-                    <div class="about-details" th:href="@{|/hospital/${hospital.id}|}">
-                      <div class="pentagon-text">
-                        <h1 th:text="${#strings.substring(hospital.name,0,1)} " />
-                      </div>
-                      <h3 th:inline="text" >
-                        [[*{name}]]
-                      </h3>
+									<div class="form-group">
+										<label class="filter-col" style="margin-right: 0;"
+											for="pref-perpage" th:inline="text">[[#{hospitals.list.config.sort}]]</label>
+										<select id="pref-perpage" name="sortType" class="form-control">
+											<option th:text="#{hospitals.list.config.sort.ascendance}"
+												th:value="${true}" th:selected="${sort}?'selected'"
+												th:classappend="${sort}?'selected'" />
+											<option th:text="#{hospitals.list.config.sort.descendance}"
+												th:value="${false}" th:selected="${not sort}?'selected'"
+												th:classappend="${not sort}?'selected'" />
+										</select>
+									</div>
+									<div class="form-group">
+										<button type="submit" class="btn btn-default filter-col"
+											th:inline="text">
+											<span class="glyphicon glyphicon-record"></span>[[#{hospitals.list.config.submit}]]
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<button type="button" class="btn btn-primary pull-right"
+						data-toggle="collapse" data-target="#filter-panel">
+						<span class="glyphicon glyphicon-cog"></span>
+						<th:block th:text="#{hospitals.list.page.button}" />
+					</button>
+				</div>
+				<br />
+				<div class="row">
+					<div id="hospital_list" class="col-lg-offset-1 col-lg-10 col-md-12">
+						<div class="row" th:each="hospital:${pagedList}"
+							th:object="${hospital}">
 
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-8 col-sm-8 col-md-7">
-                  <div class="card panel panel-default text-xs-right">
-                    <div class="panel-heading">
-                      <div class="row">
-                        <div class="col-lg-10">
-                          <h3  class="text-left" th:text="|About ${hospital.name}|"/>
-                        </div>
-                        <div class="col-lg-2">
-                          <div th:include="templates/hospital-map-modal::map-modal(${hospital.latitude} , ${hospital.longitude},${hospital.id})"/>
-                        </div>
-                      </div>
-                    </div>
-                    <h5 class="panel-body"
-                        th:text="${hospital.description}"/>
-                  </div>
-                </div>
-              </div>
-              <ul th:if="${pagination}" class="pagination pagination-lg">
-                <li class="page-item" th:if="${currentPage != 1}">
-                  <a class="page-link" th:inline="text"
-                     th:href="@{|/hospital/page/1|}">
-                    [[#{hospitals.list.page.first}]]
-                  </a>
-                </li>
-                <li class="page-item" th:if="${currentPage != 1}">
-                  <a
-                     class="page-link"
-                     th:href="@{|/hospital/page/${currentPage - 1}|}"
-                     aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                  </a></li>
-                <li
-                    th:each="number:${#numbers.sequence(1,pageCount)}"
-                    th:class="page-item"
-                    th:classappend="${currentPage == number }?'active': ''">
-                  <a th:class="page-link"
-                     th:classappend="${currentPage == number }?'active': ''"
-                     th:href="@{|/hospital/page/${number}|}"
-                     th:text="${number}" />
-                </li>
-                <li class="page-item"
-                    th:if="${(currentPage+1) &lt;= pageCount}">
-                  <a class="page-link"
-                     th:href="@{|/hospital/page/${currentPage+1}|}"
-                     aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </li>
-                <li class="page-item"
-                    th:if="${(currentPage+1) &lt;= pageCount}">
-                  <a class="page-link"
-                     th:href="@{|/hospital/page/${pageCount}|}" th:inline="text">
-                    [[#{hospitals.list.page.last}]]
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+							<div class="col-lg-4 col-md-4 col-xs-5">
+								<div class="single-about-detail">
+									<div class="about-img">
+										<a href="#" th:href="@{|/hospital/${hospital.id}|}"> <img
+											class="img-responsive" src="/"
+											th:src="@{|/img/hospitals/${hospital.imagePath}|}" />
+										</a>
+									</div>
+									<div class="about-details"
+										th:href="@{|/hospital/${hospital.id}|}">
+										<div class="pentagon-text">
+											<h1 th:text="${#strings.substring(hospital.name,0,1)} " />
+										</div>
+										<h3 th:inline="text">[[*{name}]]</h3>
 
-      </div>
-    </div>
-    
-  </body>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-8 col-sm-8 col-md-7">
+								<div class="card panel panel-default text-xs-right">
+									<div class="panel-heading">
+										<div class="row">
+											<div class="col-lg-10">
+												<h3 class="text-left" th:text="|About ${hospital.name}|" />
+											</div>
+											<div class="col-lg-2">
+												<div
+													th:include="templates/hospital-map-modal::map-modal(${hospital.latitude} , ${hospital.longitude},${hospital.id})" />
+											</div>
+										</div>
+									</div>
+									<h5 class="panel-body" th:text="${hospital.description}" />
+								</div>
+							</div>
+						</div>
+						<ul th:if="${pagination}" class="pagination pagination-lg">
+							<li class="page-item" th:if="${currentPage != 1}"><a
+								class="page-link" th:inline="text"
+								th:href="@{|/hospital/page/1|}">
+									[[#{hospitals.list.page.first}]] </a></li>
+							<li class="page-item" th:if="${currentPage != 1}"><a
+								class="page-link"
+								th:href="@{|/hospital/page/${currentPage - 1}|}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+									<span class="sr-only">Previous</span>
+							</a></li>
+							<li th:each="number:${#numbers.sequence(1,pageCount)}"
+								th:class="page-item"
+								th:classappend="${currentPage == number }?'active': ''"><a
+								th:class="page-link"
+								th:classappend="${currentPage == number }?'active': ''"
+								th:href="@{|/hospital/page/${number}|}" th:text="${number}" />
+							</li>
+							<li class="page-item" th:if="${(currentPage+1) &lt;= pageCount}">
+								<a class="page-link"
+								th:href="@{|/hospital/page/${currentPage+1}|}" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
+							</a>
+							</li>
+							<li class="page-item" th:if="${(currentPage+1) &lt;= pageCount}">
+								<a class="page-link" th:href="@{|/hospital/page/${pageCount}|}"
+								th:inline="text"> [[#{hospitals.list.page.last}]] </a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+`
+</body>
 </html>
 

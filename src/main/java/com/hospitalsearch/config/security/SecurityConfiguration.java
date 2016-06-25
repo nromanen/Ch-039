@@ -97,8 +97,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.rememberMe()
 				.rememberMeParameter("remember-me")
 				.tokenRepository(tokenRepository)
-				.tokenValiditySeconds(REMEMBER_ME_TOKEN_EXPIRATION * 60);
-				//.and().requiresChannel().anyRequest().requiresSecure();
+				.tokenValiditySeconds(REMEMBER_ME_TOKEN_EXPIRATION * 60)
+				.and().requiresChannel().anyRequest().requiresSecure();
 	}
 	
 	//password encoder
