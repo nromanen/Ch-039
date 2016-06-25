@@ -123,7 +123,6 @@ function openSecond() {
 
 function startModal() {
     setTimeout(changeModalContentFirstStep, 500);
-    alert($('#cancelReason').val());
     setTimeout(changeModalContentSecondStep, 4000);
 }
 
