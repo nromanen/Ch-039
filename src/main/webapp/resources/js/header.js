@@ -1,5 +1,4 @@
 $(function() {
-
     $('a[href="#toggle-search"], .navbar-bootsnipp .bootsnipp-search .input-group-btn > .btn[type="reset"]').on('click', function(event) {
 		event.preventDefault();
 		$('.navbar-bootsnipp .bootsnipp-search .input-group > input').val('');
@@ -25,8 +24,6 @@ $(function() {
 });
 
 $(document).ready(function(e){
-	
-	
 	$('.search-panel .dropdown-menu').find('a').click(function(e) {
 		e.preventDefault();
 		var param = $(this).attr("href").replace("#","");
@@ -35,3 +32,25 @@ $(document).ready(function(e){
 		$('.input-group #search_param').val(param);
 	});
 });
+
+
+function changeLang(event){	
+	var url = window.location.toString();
+	var lang= $(event.target).data("lang");
+	if(url.indexOf("#")!=-1){
+		var langIndex=url.indexOf("#"); 
+		url = url.substring(0,langIndex);
+	}
+	var langRegex = /(\?|&)lang=/;
+	
+	if(url.indexOf("?lang=") != -1 || url.indexOf("&lang=") != -1 ){
+		var langIndex=url.search(langRegex); 
+		url = url.substring(0,langIndex);
+	}
+	if(url.indexOf("?") > -1){
+		url+= "&lang="+lang;
+	} else {
+		url+= "?lang="+lang;
+	}
+	window.location.replace(url);
+}

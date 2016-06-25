@@ -69,13 +69,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
             setSuffix(".html");
         }};
     }
-
     //crypto
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(roleConverter);
     }
-
     //thymeleaf
     @Bean
     public SpringTemplateEngine templateEngine() {
@@ -104,36 +102,29 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         resolver.setCookieMaxAge(100000);
         return resolver;
     }
-
     @Bean
     public MessageSource messageSource() {
         return new ReloadableResourceBundleMessageSource() {{
             setBasename("classpath:i18n/messages");
         }};
     }
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("lang");
         registry.addInterceptor(interceptor);
     }
-
     @Bean
     public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
-        return new EhCacheManagerFactoryBean() {
-            {
-                setConfigLocation(new ClassPathResource("ehcache.xml"));
-                setShared(true);
-            }
-        };
+    	EhCacheManagerFactoryBean manager = new EhCacheManagerFactoryBean();
+    	manager.setConfigLocation(new ClassPathResource("ehcache.xml"));
+        manager.setShared(true);
+    	return manager;
     }
-
     @Bean
     public CacheManager cacheManager() {
         return new EhCacheCacheManager(ehCacheManagerFactoryBean().getObject());
     }
-
 }
 
 

@@ -32,5 +32,5 @@ public interface HospitalService {
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     public List<Hospital> filterHospitalsByAddress(HospitalFilterDTO filterInfo);
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
-    public Page<Hospital> advancedHospitalSearch(String args) throws ParseException, InterruptedException;
+    public Page<Hospital> advancedHospitalSearch(String args,int pageSize,int page,boolean sortAsc) throws ParseException, InterruptedException;
 }

@@ -1,9 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="" allow-return-values="false">
     <packages>
-        <package name="com.hospitalseeker.security">
-            <exclude name="TestSpringSecurity"/>
-        </package>
+        <package name="com.hospitalseeker.security"/>
+            
+        
     </packages>
     <groups>
         <run>

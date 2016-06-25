@@ -1,0 +1,39 @@
+<div th:fragment="map-modal(lat,lng,id)">
+
+	<button id="map-button" data-toggle="tooltip" th:title="#{hospital.list.map.button}" style="opacity: 40%;" type="button" class="btn btn-default pull-right"
+		th:onclick="|showModalMap(${lat},${lng})|">
+		<i class="fa fa-map-marker" aria-hidden="true"></i>
+	</button>
+	<!-- page content -->
+	<!-- <div id="googleMap" style="height: 70vh"></div>  -->
+	<div class="modal fade" id="modalMap" role="dialog">
+		<div class="modal-dialog modal-lg">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 th:text="#{hospital.search.modal.header}" th:class="'modal-title'" />
+				</div>
+				<div class="modal-body">
+					<div id="googleMap" style="height: 70vh"></div>
+				</div>
+				<p hidden="hidden" id="map_id" th:attr="data-id=${id}"/>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+
+
+
+
+
+
+

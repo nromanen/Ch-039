@@ -1,5 +1,16 @@
 package com.hospitalsearch.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.dto.UserAdminDTO;
 import com.hospitalsearch.dto.UserRegisterDTO;
@@ -13,16 +24,7 @@ import com.hospitalsearch.service.UserService;
 import com.hospitalsearch.util.Gender;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {

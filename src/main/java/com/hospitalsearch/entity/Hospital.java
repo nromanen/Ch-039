@@ -2,7 +2,20 @@ package com.hospitalsearch.entity;
 
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -20,6 +33,7 @@ import org.hibernate.annotations.NamedQuery;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.AnalyzerDefs;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -31,9 +45,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 /**
  *
- * @author Oleksandr Mukonin
+ * @author Oleksandr Mukonin,Pavel Kuz'
  *
  */
 @Entity
@@ -42,16 +57,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NamedQueries({
 	@NamedQuery(name = Hospital.GET_LIST_BY_BOUNDS, query = Hospital.GET_LIST_BY_BOUNDS_QUERY)
 })
-@AnalyzerDef(name = "ngram",
-			 tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-			 filters = {
-						@TokenFilterDef(factory = StandardFilterFactory.class),
-						@TokenFilterDef(factory = StopFilterFactory.class),
-						@TokenFilterDef(factory = NGramFilterFactory.class,params={
-								@Parameter(name="minGramSize",value="5"),
-								@Parameter(name="maxGramSize",value="8")						
-						})
-			})
+@AnalyzerDefs(value = {
+		@AnalyzerDef(name = "ngram", 
+					 tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
+							 	 @TokenFilterDef(factory = StandardFilterFactory.class),
+							 	 @TokenFilterDef(factory = StopFilterFactory.class),
+							 	 @TokenFilterDef(factory = NGramFilterFactory.class, params = {
+							 			 @Parameter(name = "minGramSize", value = "4"),
+							 			 @Parameter(name = "maxGramSize", value = "8") }) 
+							 	 })
+})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "entityCache")
 public class Hospital {
 

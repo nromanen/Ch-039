@@ -1,7 +1,5 @@
 package com.hospitalsearch.config.security;
 
-import com.hospitalsearch.handlers.CustomAuthenticationHandler;
-import com.hospitalsearch.handlers.ErrorAuthenticationHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +20,9 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+import com.hospitalsearch.handlers.CustomAuthenticationHandler;
+import com.hospitalsearch.handlers.ErrorAuthenticationHandler;
+
 
 /**
  * @author Andrew Jasinskiy
@@ -56,7 +57,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/hospitals/config");
+		web.ignoring().antMatchers("/**/supplyAppointment");
+
 	}
 
 	@Override
@@ -74,6 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/editHospitalsManagers").access("hasRole('ADMIN')")
 				.antMatchers("/appointments").access("hasRole('PATIENT')")
 				.antMatchers("/workscheduler").access("hasRole('DOCTOR')")
+				.antMatchers("/hospitals/**").permitAll()
 				.antMatchers("/login", "/registration").anonymous()
 				.and()
 				.formLogin()
@@ -94,10 +97,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.rememberMe()
 				.rememberMeParameter("remember-me")
 				.tokenRepository(tokenRepository)
-				.tokenValiditySeconds(REMEMBER_ME_TOKEN_EXPIRATION * 60)
-				.and().requiresChannel().anyRequest().requiresSecure();
+				.tokenValiditySeconds(REMEMBER_ME_TOKEN_EXPIRATION * 60);
+				//.and().requiresChannel().anyRequest().requiresSecure();
 	}
-
+	
 	//password encoder
 	@Bean
 	public PasswordEncoder passwordEncoder() {
