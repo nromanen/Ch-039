@@ -80,24 +80,24 @@
         <div class="modal-dialog" style="z-index: 9000">
             <div class="modal-content">
                 <div class="modal-header table-title">
-                    <button type="button" class="close" data-dismiss="modal">X</button>
-                    <h3>Password Recover</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 th:text="#{password.recover.modal.header}"></h3>
                 </div>
                 <div class="modal-body">
                     <p class="alert alert-info debug-url" id="successMessage" hidden="hidden"></p>
                     <form class="recoverContent" id="resetModal">
                         <div class="form-group">
-                            <label class="control-label" for="recoverEmail">Enter your email</label>
+                            <label class="control-label" for="recoverEmail" th:text="#{password.recover.modal.massage}"></label>
                             <div class="input-group">
-                                <input type="email" class="form-control" name="recoverEmail" id="recoverEmail" placeholder="Email Address" aria-describedby="inputGroupSuccess3Status"/>
+                                <input type="email" class="form-control" name="recoverEmail" id="recoverEmail" th:placeholder="#{password.recover.modal.placeholder}" aria-describedby="inputGroupSuccess3Status"/>
                                 <em id="errorReset" class="text-danger" hidden="hidden"></em>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
-                    <a id="recoverButton" class="btn btn-primary" type="submit">Recover</a>
+                    <a href="#" class="btn btn-default" data-dismiss="modal" th:text="#{password.recover.modal.button.close}"></a>
+                    <a id="recoverButton" class="btn btn-primary" type="submit" th:text="#{password.recover.modal.button.recover}"></a>
                 </div>
             </div>
         </div>
