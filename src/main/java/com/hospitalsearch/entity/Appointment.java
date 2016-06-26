@@ -18,7 +18,7 @@ public class Appointment {
 	private Long id;
 
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="userdetail_id")
 	private UserDetail userDetail;
 

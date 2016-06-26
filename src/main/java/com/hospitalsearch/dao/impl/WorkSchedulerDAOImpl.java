@@ -24,7 +24,6 @@ public class WorkSchedulerDAOImpl extends GenericDAOImpl<WorkScheduler, Long> im
     public WorkScheduler getByDoctorId(Long doctorId){
         Criteria criteria = this.getSessionFactory().getCurrentSession().createCriteria(WorkScheduler.class);
         criteria.add(Restrictions.eq("doctorInfo.id",doctorId));
-        System.out.println(criteria.uniqueResult().toString());
         return (WorkScheduler) criteria.uniqueResult();
     }
 

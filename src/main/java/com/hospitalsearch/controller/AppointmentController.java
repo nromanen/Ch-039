@@ -1,5 +1,6 @@
 package com.hospitalsearch.controller;
 
+import com.hospitalsearch.dao.AppointmentDAO;
 import com.hospitalsearch.entity.Appointment;
 import com.hospitalsearch.entity.Department;
 import com.hospitalsearch.entity.UserDetail;
@@ -20,6 +21,9 @@ public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private AppointmentDAO appointmentDAO;
 
     @Autowired
     private UserDetailService userDetailService;
@@ -72,8 +76,14 @@ public class AppointmentController {
     }
 
     @RequestMapping(value = "/appointments", method = RequestMethod.GET)
-    String getAppointments() {
+    public String getAppointments() {
         return "appointments";
+    }
+
+
+    @RequestMapping(value = "/appointmentId", method = RequestMethod.GET)
+    public String getCardByapointmentId(@RequestParam("appointmentId") Long appointmentId) {
+        return "redirect:/card/items?userId="+appointmentDAO.getById(appointmentId).getUserDetail().getId();
     }
 
 

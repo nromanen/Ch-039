@@ -95,6 +95,7 @@ scheduler.showLightbox = function (id) {
     $('#patientName').text(nameAndDescription[0]);
     $('#theReasonForVisit').text(nameAndDescription[1]);
     $('#cancelAppointmentHeader').text('Cancel appointment of ' + ' ' + nameAndDescription[0]);
+    $('#cardButton').val(ev.id)
 };
 
 function onCancelAppointment() {
@@ -185,5 +186,9 @@ function onCancelAppointment() {
     delete_event();
     console.log(reason);
     $('#cancelMassageText').text(succesMassegeStart +' ' + ev.text.split('-')[0] + ' ' + succesMassegeEnd);
+}
+
+function getCard(appointmnetId) {
+    window.location.href = "appointmentId?appointmentId=" + appointmnetId;
 }
 

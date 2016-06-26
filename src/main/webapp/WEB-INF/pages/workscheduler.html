@@ -75,9 +75,9 @@
                 <div class="modal-body" id="modalBodyFirst">
                     <label style="font-size: large" for="date" th:text="#{workscheduler.modal.appointment.time}"></label>
                     <p style="font-size: large" id="date"/>
-                    <label style="font-size: large" for="patientName" th:text="#{workscheduler.modal.appointment.patient}"></label>
-                    <p style="font-size: large" id="patientName"/>
-                    <label style="font-size: large" for="theReasonForVisit" th:text="#{workscheduler.modal.appointment.shortreason}"></label>
+                    <label style="font-size: large; display: block" for="patientName" th:text="#{workscheduler.modal.appointment.patient}"></label>
+                    <span><p style="font-size: large; display: inline" id="patientName"/><button id="cardButton" onclick="getCard(this.value)" style="display: inline" class="btn btn-primary">Card</button></span>
+                    <label style="font-size: large; display: block" for="theReasonForVisit" th:text="#{workscheduler.modal.appointment.shortreason}"></label>
                     <p id="theReasonForVisit"></p>
                     <div style="text-align: center;">
                         <button class="btn btn-danger" onclick="cancelAppointment()" th:text="#{workscheduler.modal.cancel.appointment.button}"></button>
