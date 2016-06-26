@@ -109,10 +109,10 @@
 
                     <ul class="dropdown-menu" id="dropdawn">
                         <li><a class="menu" data-toggle="modal" data-target="#myModal" onclick="showPage()">
-                            <span class="glyphicon glyphicon-user"></span>Profile
+                            <span class="glyphicon glyphicon-user" th:text="' '+#{header.principal.menu.profile}"></span>
                         </a></li>
                         <li><a class="menu" th:href="@{/logout}"> <span
-                                class="glyphicon glyphicon-log-out"></span>Log out
+                                class="glyphicon glyphicon-log-out" th:text="' '+#{header.principal.log.out}"></span>
                         </a></li>
                     </ul>
                 </li>

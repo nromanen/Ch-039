@@ -76,7 +76,7 @@
                     <label style="font-size: large" for="date" th:text="#{workscheduler.modal.appointment.time}"></label>
                     <p style="font-size: large" id="date"/>
                     <label style="font-size: large; display: block" for="patientName" th:text="#{workscheduler.modal.appointment.patient}"></label>
-                    <span><p style="font-size: large; display: inline" id="patientName"/><button id="cardButton" onclick="getCard(this.value)" style="display: inline" class="btn btn-primary">Card</button></span>
+                    <span><p style="font-size: large; display: inline" id="patientName"/><button id="cardButton" onclick="getCard(this.value)" style="display: inline" class="btn btn-primary" th:text="#{workscheduler.modal.appointment.card.button}"></button></span>
                     <label style="font-size: large; display: block" for="theReasonForVisit" th:text="#{workscheduler.modal.appointment.shortreason}"></label>
                     <p id="theReasonForVisit"></p>
                     <div style="text-align: center;">
