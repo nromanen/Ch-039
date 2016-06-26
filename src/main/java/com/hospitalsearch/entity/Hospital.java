@@ -63,7 +63,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 							 	 @TokenFilterDef(factory = StandardFilterFactory.class),
 							 	 @TokenFilterDef(factory = StopFilterFactory.class),
 							 	 @TokenFilterDef(factory = NGramFilterFactory.class, params = {
-							 			 @Parameter(name = "minGramSize", value = "4"),
+							 			 @Parameter(name = "minGramSize", value = "5"),
 							 			 @Parameter(name = "maxGramSize", value = "8") }) 
 							 	 })
 })

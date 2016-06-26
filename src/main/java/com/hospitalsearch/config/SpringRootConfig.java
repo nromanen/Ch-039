@@ -1,10 +1,10 @@
 package com.hospitalsearch.config;
 
 import java.util.Properties;
+
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import com.hospitalsearch.validator.ImageValidator;
-import liquibase.integration.spring.SpringLiquibase;
+
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,13 +19,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.hospitalsearch.validator.ImageValidator;
-
-import liquibase.integration.spring.SpringLiquibase;
-
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-import java.util.Properties;
 
 /**
  * Created by speedfire on 4/28/16.

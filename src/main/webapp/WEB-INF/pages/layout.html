@@ -38,16 +38,14 @@
 <script th:src="@{/js/jquery-2.1.1.js}"></script>
 <script th:src="@{/js/validator.min.js}" type="text/javascript"
 	charset="utf-8"></script>
-<script th:src="@{/js/feedback.js}"></script>
 <script th:src="@{/js/modernizr.js}"></script>
-<script th:src="@{/js/header.js}"></script>
 <script th:src="@{/js/maps_find.js}"></script>
 <script th:src="@{/js/admin.js}"></script>
 <script th:src="@{/js/jquery.cookie.js}"></script>
 <script type="text/javascript" th:src="@{/js/jquery.form.js}"></script>
 <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
 <script th:src="@{/js/jquery-validation-tooltip.min.js}"></script>
-
+<script th:src="@{/js/header.js}"></script>
 <!--[if lt IE 9]>
 <script src="js/html5shiv.js"></script>
 <script src="js/respond.min.js"></script>
@@ -131,38 +129,12 @@ s.parentNode.insertBefore(wf, s);
 		</div>
 	</div>
 	<div id="myModal" class="modal fade" role="dialog"></div>
-
+	<div id="searchMessage" th:text="#{header.search.error.message(5)}" hidden="hidden"/>
 	<script th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>
 	<script th:src="@{/js/custom.js}"></script>
 	<script th:src="@{/js/smoothscroll.js}"></script>
 	<script type="text/javascript" th:src="@{/js/detail.js}"></script>
-	<script type="text/javascript" th:inline="javascript">
-	/* <![CDATA[ */
-	    
-		var params = {
-			rules : {
-				q : {
-					minlength : 4,
-					maxlength : 100,
-					required : true
-				},
 
-			},
-			messages : {
-				q : /*[[#{header.search.error.message}]]*/''
-			},
-			tooltip_options : {
-				q : {
-					placement : 'bottom',
-					html : true
-				}
-			},
-		};
-		$("#search-form").validate(params);
-		$("#hospital-search-form").validate(params);
-		$("#hospital-search-form").validate(params);
-		/*]]>*/
-	</script>
 
 </body>
 </html>

@@ -48,7 +48,7 @@ $(document).ready(function(e) {
 		$('.search-panel span#search_concept').text(concept);
 		$('.input-group #search_param').val(param);
 	});
-
+	var params = {rules : {q : {minlength : 5,maxlength : 100,required : true},},messages : {q : $('#searchMessage').text()},tooltip_options : {q : {placement : 'bottom',html : true}},};$("#search-form").validate(params);$("#hospital-search-form").validate(params);
 });
 
 function changeLang(event) {

@@ -164,7 +164,7 @@
                                                    th:class="${doctor}?:'active'" th:text="${cardItem.id==null}?#{card.record.create}:#{card.record.edit}" /></li>
       </ol>
 
-      <ol class="breadcrumb" th:remove="${hospitals }? none : all">
+      <ol class="breadcrumb" th:remove="${#httpServletRequest.requestURI.toString().matches('.*/hospital.*')}? none : all">
         <li><a th:href="@{/hospitals}" th:class="${hospital}?:'active'"
                th:text="'Hospitals'" /></li>
         <li th:remove="${hospital}? none : all"><a

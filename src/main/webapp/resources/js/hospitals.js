@@ -11,11 +11,12 @@ $(document).ready(function() {
 	$("#map-button").tooltip();
 	jQuery.goup({trigger: 100,
         containerSize: 50,
-        bottomOffset: 150,
-        locationOffset: 100,
-        containerRadius:50,
+        bottomOffset: 25,
+        locationOffset: 25,
+        containerRadius:75,
         title: 'Back To Top',
-        containerColor: '#1ABC9C',
+        entryAnimation:'slide',
+        containerColor: '#428bca',
         titleAsText: true});
 });
 function sendPageConfig(event) {

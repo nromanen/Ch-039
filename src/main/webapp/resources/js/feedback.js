@@ -2,7 +2,7 @@ $(document).ready(function (){
 	$("#feedback").popover({
 		"show":500,hide:"100"
 	});
-
+	
 });
 
 
