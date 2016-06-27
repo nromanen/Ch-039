@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AppointmentController {
@@ -84,6 +85,13 @@ public class AppointmentController {
     @RequestMapping(value = "/appointmentId", method = RequestMethod.GET)
     public String getCardByapointmentId(@RequestParam("appointmentId") Long appointmentId) {
         return "redirect:/card/items?userId="+appointmentDAO.getById(appointmentId).getUserDetail().getId();
+    }
+
+    @RequestMapping(value = "/**/sendMassage", method = RequestMethod.POST)
+    public String sendMassageToEmail(@RequestBody Map<String, String> massageData){
+        System.out.println(massageData.entrySet().toString());
+        return "redirect:/";
+
     }
 
 

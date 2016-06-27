@@ -178,13 +178,14 @@ function dismissMyModal(event) {
 }
 
 function onCancelAppointment() {
+    var principal = $('#principal').text();
     var succesMassegeStart = getMessage('workscheduler.modal.appointment.cancel.success.begin');
     var succesMassegeEnd = getMessage('workscheduler.modal.appointment.cancel.success.end');
     cancelAppointment();
     startModal();
     var reason = $('#cancelReason').val();
-    delete_event();
-    console.log(reason);
+    sendMassage(reason, ev.id, principal);
+    setTimeout(delete_event, 10000);
     $('#cancelMassageText').text(succesMassegeStart +' ' + ev.text.split('-')[0] + ' ' + succesMassegeEnd);
 }
 
