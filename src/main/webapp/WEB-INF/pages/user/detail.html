@@ -5,6 +5,9 @@
       layout:decorator="layout">
 <meta charset="UTF-8"/>
 
+<meta th:name="csrf-token" th:content="${_csrf.token}"/>
+<meta th:name="csrf-name" th:content="${_csrf.parameterName}"/>
+
 <head lang="en">
     <title>Details</title>
     <link rel="stylesheet" th:href="@{/css/datepicker.css}"/>
@@ -12,7 +15,9 @@
     <script type="text/javascript" th:src="@{/js/bootstrap-datepicker.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap-formhelpers-phone.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
-
+    <script type="text/javascript" th:src="@{/js/uploader.js}"></script>
+    <script type="text/javascript" th:src="@{/js/localization.js}"></script>
+    <script type="text/javascript" th:src="@{/js/detail.validation.js}"></script>
 </head>
 
 <body>
@@ -25,7 +30,8 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
 
-                    <form th:action="@{/save/detail}" th:object="${userDetail}" role="form" name="detailForm" id="detailForm" method="post">
+                    <form th:action="@{/save/detail}" th:object="${userDetail}" role="form" name="detailForm"
+                          id="detailForm" method="post">
                         <div hidden="hidden">
                             <input type="number" th:field="*{id}"/>
                         </div>
@@ -36,26 +42,51 @@
                                           th:text="${userDetail.firstName+' '+userDetail.lastName}"></span>
                                 <span th:if="${edit}">
                                     <div class="col-md-5">
-                                <input type="text" th:field="*{firstName}" id="firstName" name="firstName" th:placeholder="#{card.patients.firstName}"/>
-                                     <p class="error" th:if="${#fields.hasErrors('firstName')}"
-                                        th:errors="*{firstName}"></p>
+                                        <input type="text" th:field="*{firstName}" name="firstName" id="firstName"
+                                               th:placeholder="#{card.patients.firstName}"/>
+
+                                        <p class="error" th:if="${#fields.hasErrors('firstName')}"
+                                           th:errors="*{firstName}"></p>
                                     </div>
                                     <div class="col-md-5">
-                                <input type="text" th:field="*{lastName}" id="lastName" name="lastName" th:placeholder="#{card.patients.lastName}"/>
-                                    <p class="error" th:if="${#fields.hasErrors('lastName')}"
-                                       th:errors="*{lastName}"></p>
-                                        </div>
+                                        <input type="text" th:field="*{lastName}" name="lastName" id="lastName"
+                                               th:placeholder="#{card.patients.lastName}"/>
+
+                                        <p class="error" th:if="${#fields.hasErrors('lastName')}"
+                                           th:errors="*{lastName}"></p>
+                                    </div>
                                 </span>
                                     <span class="pull-right">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="location.reload();">&times;</button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                            onclick="location.reload();">&times;</button>
                                         </span>
                                 </h3>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div align="center" ><img alt="User Pic" style="height: 200px;"
-                                                             src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
-                                                             class="img-circle img-responsive"/>
+                                    <div align="center" id="image-div">
+
+                                        <figure th:class="${edit}?'snip1494 img-responsive img-circle'">
+
+                                            <img th:if="${userDetail.imagePath!=''}" alt="User Pic"
+                                                 style="height: 200px;" id="image-uploaded"
+                                                 th:src="${userDetail.imagePath==null}?@{/images/avatar/ava.png}:@{|/images/avatar/${userDetail.imagePath}|}"
+                                                 class="img-responsive img-circle"/>
+                                            <img th:if="${userDetail.imagePath==''}" alt="User Pic"
+                                                 style="height: 200px;" id="image-uploaded"
+                                                 th:src="@{/images/avatar/ava.png}"
+                                                 class="img-responsive img-circle"/>
+                                            <figcaption th:if="${edit}">
+                                                <div><i class="glyphicon glyphicon-circle-arrow-down"></i></div>
+                                            </figcaption>
+                                            <a th:onclick="${edit}?'javascript:$(\'#file\').click();'"></a>
+                                        </figure>
+
+                                        <input type="file" id="file" style="display: none;"
+                                               th:onchange="'javascript:upload(\'avatar\');'"/>
+                                        <input
+                                                type="hidden" th:field="*{imagePath}" class="form-control"
+                                                id="imagePath"/>
                                     </div>
 
                                     <div class=" col-md-12">
@@ -65,7 +96,8 @@
                                                 <td th:text="#{user.detail.birthDate}"></td>
                                                 <td th:if="${!edit}" th:text="${userDetail.birthDate}"></td>
                                                 <td th:if="${edit}">
-                                                    <input type="text" th:field="*{birthDate}" id="birthDate" name="birthDate"/>
+                                                    <input type="text" th:field="*{birthDate}" id="birthDate"
+                                                           name="birthDate"/>
 
                                                     <p class="error" th:if="${#fields.hasErrors('birthDate')}"
                                                        th:errors="*{birthDate}"></p>
@@ -76,7 +108,8 @@
                                                 <td th:if="${!edit}" th:text="${userDetail.gender}"></td>
                                                 <td th:if="${edit}">
                                                     <select name="gender" id="gender" th:field="*{gender}">
-                                                        <option name="gender" th:each="gen : ${gender}" th:value="${gen}"
+                                                        <option name="gender" th:each="gen : ${gender}"
+                                                                th:value="${gen}"
                                                                 th:text="${gen}"></option>
                                                     </select>
 
@@ -89,6 +122,7 @@
                                                 <td th:if="${!edit}" th:text="${userDetail.address}"></td>
                                                 <td th:if="${edit}"><input type="text" th:field="*{address}"
                                                                            id="address" name="address"/>
+
                                                     <p class="error" th:if="${#fields.hasErrors('address')}"
                                                        th:errors="*{address}"></p>
                                                 </td>
@@ -109,42 +143,31 @@
                                                     <p class="error" th:if="${#fields.hasErrors('phone')}"
                                                        th:errors="*{phone}"></p>
                                                 </td>
-
                                             </tr>
-
                                             </tbody>
                                         </table>
-
                                     </div>
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <a style="background-color: transparent; color: transparent; border: transparent;"
-                                   data-original-title="Submit changes"
-                                   data-toggle="tooltip" type="button"
-                                   class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                                <div style="background-color: transparent; color: transparent; border: transparent; cursor: default;"
+                                     class="btn btn-sm btn-warning"
+                                     onclick="alert('YOU ARE THE BEST DEVELOPER EVER! With best regards Ch-039')"><i
+                                        class="glyphicon glyphicon-edit"></i></div>
                         <span class="pull-right">
 
-                             <!--<button th:if="${edit}" type="submit"-->
-                                     <!--data-original-title="Submit changes"-->
-                                     <!--data-toggle="tooltip"-->
-                                     <!--class="btn btn-sm btn-info"><i class="glyphicon glyphicon-ok"></i></button>-->
-                            <!--<a th:if="${!edit}" th:href="@{/user/detail(edit=true)}" data-original-title="Edit this user"-->
-                               <!--data-toggle="tooltip" type="button"-->
-                               <!--class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>-->
                         <span th:if="${read==null}">
                                <a th:if="${!edit}" onclick="editProfile()" data-original-title="Edit this user"
                                   data-toggle="tooltip" type="button"
                                   class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a th:if="${edit}"  onclick="submitForm()" data-original-title="Submit changes"
-                                  data-toggle="tooltip" type="button"
-                                  class="btn btn-sm btn-info"><i class="glyphicon glyphicon-ok"></i></a>
+                            <a th:if="${edit}" onclick="submitForm()" data-original-title="Submit changes"
+                               data-toggle="tooltip" type="button"
+                               class="btn btn-sm btn-info"><i class="glyphicon glyphicon-ok"></i></a>
                             </span>
                         </span>
                             </div>
 
                         </div>
-
                     </form>
                 </div>
             </div>

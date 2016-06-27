@@ -45,12 +45,12 @@ public class UserDetail{
 	private Long id;
 
 	@Column(name="firstname")
-    @Pattern(regexp = "^[A-Z][a-z]+$",message = "Not valid. Ex: Alina")
+    @Pattern(regexp = "^[A-Z][a-z]+$",message = "Not valid. Ex: Solomon")
 	@Field
 	private String firstName;
 
 	@Column(name="lastname")
-    @Pattern(regexp = "^[A-Z][a-z]+$",message = "Not valid. Ex: Veter")
+    @Pattern(regexp = "^[A-Z][a-z]+$",message = "Not valid. Ex: Kane")
 	@Field
 	private String lastName;
 	@Pattern(regexp = "^\\+38 \\(\\d{3}\\) \\d{3}-\\d{4}", message = "Not valid. Ex: +38 (095) 435-7132")
@@ -154,14 +154,4 @@ public class UserDetail{
 		this.patientCard = patientCard;
 	}
 
-    @Override
-    public String toString() {
-        return "UserDetail{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phone='" + phone + '\'' +
-                ", birthDate=" + birthDate +
-                '}';
-    }
 }

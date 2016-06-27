@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
+    <meta th:name="csrf-token" th:content="${_csrf.token}" />
+    <meta th:name="csrf-name" th:content="${_csrf.parameterName}" />
     <title>Hospitals</title>
     <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>
     <link rel="stylesheet"
@@ -149,6 +151,7 @@
 <script th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 <script th:src="@{/js/smoothscroll.js}"></script>
+    <script type="text/javascript" th:src="@{/js/localization.js}"></script>
     <script type="text/javascript" th:src="@{/js/detail.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.form.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>

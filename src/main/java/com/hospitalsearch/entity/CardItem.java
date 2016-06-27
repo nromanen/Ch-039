@@ -37,11 +37,11 @@ public class CardItem implements Serializable {
     private String result;
     @NotNull
     @Column( name = "PRESCRIPTION", columnDefinition = "TEXT")
-    @Size(min = 5, max = 1000, message = "size = 5 < 255")
+    @Size(min = 5, max = 1000, message = "size = 5 < 1000")
     private String prescription;
     @NotNull
     @Column( name = "COMPLAINT", columnDefinition = "TEXT")
-    @Size(min = 5, max = 1000, message = "size = 5 < 255")
+    @Size(min = 5, max = 1000, message = "size = 5 < 1000")
     private String complaint;
     @ManyToOne
     private User doctor;
@@ -104,16 +104,6 @@ public class CardItem implements Serializable {
 
     public void setComplaint(String complaint) {
         this.complaint = complaint;
-    }
-
-    @Override
-    public String toString() {
-        return "CardItem{" +
-                "date=" + date +
-                ", result='" + result + '\'' +
-                ", prescription='" + prescription + '\'' +
-                ", doctor=" + doctor +
-                '}';
     }
 
 }

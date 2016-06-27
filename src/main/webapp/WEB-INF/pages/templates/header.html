@@ -53,7 +53,7 @@
                         th:href="@{/appointments}" th:text="#{header.myapp}"></a></li>
 
                 <li sec:authorize="isAnonymous()" style="cursor: pointer;">
-                    <a class="dropdown-toggle" th:href="@{/login}">Login</a>
+                    <a class="dropdown-toggle" th:href="@{/login}" th:text="#{header.menu.login}">Login</a>
                 </li>
 
                 <li sec:authorize="hasRole('ADMIN')" style="cursor: pointer;">
@@ -89,8 +89,6 @@
                                 <span class="glyphicon glyphicon-briefcase"></span> Edit Hospitals Managers</a>
                         </li>
 
-
-
                     </ul>
                 </li>
 
@@ -106,11 +104,11 @@
                         <span class="caret"></span> </a>
 
                     <ul class="dropdown-menu" id="dropdawn">
-                        <li><a class="menu" data-toggle="modal" data-target="#myModal" onclick="showPage()">
-                            <span class="glyphicon glyphicon-user"></span>Profile
+                        <li><a class="menu" data-toggle="modal" data-target="#myModal" data-backdrop="false" onclick="showPage()" th:text="#{header.menu.profile}">
+                            <span class="glyphicon glyphicon-user"></span>
                         </a></li>
-                        <li><a class="menu" th:href="@{/logout}"> <span
-                                class="glyphicon glyphicon-log-out"></span>Log out
+                        <li><a class="menu" th:href="@{/logout}"> <span th:text="#{header.menu.logout}"
+                                class="glyphicon glyphicon-log-out"></span>
                         </a></li>
                     </ul>
                 </li>

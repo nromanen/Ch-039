@@ -15,6 +15,9 @@ public class DateValidator implements ConstraintValidator<Date,LocalDate> {
 
     @Override
     public boolean isValid(LocalDate date, ConstraintValidatorContext constraintValidatorContext) {
+        if(date==null){
+            return true;
+        }
         Pattern p = Pattern.compile("([12][980]\\d\\d)-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])");
         Matcher m = p.matcher(date.toString());
         return m.matches();

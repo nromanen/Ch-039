@@ -25,7 +25,8 @@ public class UserDetailController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = { "/user/detail" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = { "/user/detail" }, method = RequestMethod.GET, consumes="application/json")
     public String userDetail(@RequestParam(value = "edit", defaultValue = "false") Boolean edit, ModelMap model){
         User user = userService.getByEmail(PrincipalConverter.getPrincipal());
         UserDetail userDetail = user.getUserDetails();
@@ -35,6 +36,7 @@ public class UserDetailController {
         model.addAttribute("email",user.getEmail());
         return "user/detail";
     }
+
     @RequestMapping(value = { "/save/detail" }, method = RequestMethod.POST)
     public String saveUserDetail(@Valid UserDetail userDetail,   BindingResult bindingResult, ModelMap model){
         if (bindingResult.hasErrors()) {
