@@ -12,7 +12,6 @@
     <script th:src="@{/js/jquery.validate.js}"></script>
     <script th:src="@{/js/configToken.js}"></script>
     <script th:src="@{/js/localization.js}"></script>
-
 </head>
 <body>
 <section layout:fragment="content" class="dashboard center">
@@ -20,14 +19,16 @@
         <div class="container">
             <div class="row">
 
-                <h1 class="all text-center">Token lifetime configuration</h1>
+                <h1 class="all text-center" th:text="#{admin.configure.token.title}"></h1>
                 <br/>
                 <br/>
+
                 <div class="col-md-6 center-block">
                     <form method="POST" th:object="${configDTO}" class="form-horizontal"
                           th:action="@{/admin/configureToken}" id="configTokenForm">
                         <div class="form-group">
-                            <label class="col-sm-4 control-label" for="verificationToken">Verification token</label>
+                            <label class="col-sm-4 control-label" for="verificationToken"
+                                   th:text="#{admin.configure.token.verification}"></label>
 
                             <div class="col-sm-6">
                                 <input id="verificationToken" type="text" th:value="*{verificationToken}"
@@ -38,11 +39,13 @@
                                       th:errors="*{verificationToken}" class="has-error text-danger"></span>
 
                             </div>
-                            <label class="col-sm-1 control-label" for="verificationToken">hours</label>
+                            <label class="col-sm-1 control-label" for="verificationToken"
+                                   th:text="#{admin.configure.token.hours}"></label>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-4 control-label" for="resetPasswordToken">Reset password token</label>
+                            <label class="col-sm-4 control-label" for="resetPasswordToken"
+                                   th:text="#{admin.configure.token.reset.password}"></label>
 
                             <div class="col-sm-6">
                                 <input id="resetPasswordToken" type="text" th:value="*{resetPasswordToken}"
@@ -53,11 +56,13 @@
                                       th:errors="*{resetPasswordToken}" class="has-error text-danger"></span>
 
                             </div>
-                            <label class="col-sm-1 control-label" for="resetPasswordToken">hours</label>
+                            <label class="col-sm-1 control-label" for="resetPasswordToken"
+                                   th:text="#{admin.configure.token.hours}"></label>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-4 control-label" for="rememberMeToken">Remember me token</label>
+                            <label class="col-sm-4 control-label" for="rememberMeToken"
+                                   th:text="#{admin.configure.token.remember.me}"></label>
 
                             <div class="col-sm-6">
                                 <input id="rememberMeToken" type="text" th:value="*{rememberMeToken}"
@@ -68,13 +73,17 @@
                                        th:errors="*{rememberMeToken}" class="has-error text-danger"></span>
 
                             </div>
-                            <label class="col-sm-1 control-label" for="resetPasswordToken">hours</label>
+                            <label class="col-sm-1 control-label" for="resetPasswordToken"
+                                   th:text="#{admin.configure.token.hours}"></label>
                         </div>
 
                         <div class="form-group">
                             <div class="row">
-                                <input type="submit" value="Save" class="btn btn-primary btn-lg"/> or <a
-                                    class="btn btn-default btn-lg" th:href="@{/}">Cancel</a>
+                                <input type="submit" th:value="#{admin.configure.token.button.save}"
+                                       class="btn btn-primary btn-lg"/>
+                                <span th:text="#{admin.configure.token.or}"></span>
+                                <a class="btn btn-default btn-lg" th:href="@{/}"
+                                   th:text="#{admin.configure.token.button.cancel}"></a>
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             </div>
                         </div>

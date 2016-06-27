@@ -8,6 +8,7 @@ import com.hospitalsearch.entity.VerificationToken;
 import com.hospitalsearch.exception.ResetPasswordException;
 import com.hospitalsearch.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.net.ConnectException;
 import java.util.List;
 import java.util.UUID;
 
@@ -96,13 +98,13 @@ public class UserController {
         User user = userService.register(userDto);
         String token = getRandomToken();
         verificationTokenService.createToken(token, user);
-        String confirmationMessage = mailService.createRegisterMessage(user, token);
         try {
+            String confirmationMessage = mailService.createRegisterMessage(user, token);
             mailService.sendMessage(user, "Registration confirmation", confirmationMessage, emailTemplate);
-        } catch (MailSendException e) {
-            verificationTokenService.deleteTokenByUser(user);
-            user.setEnabled(true);
+        } catch (MailException | ConnectException e) {
             model.addAttribute("emailError", userDto.getEmail());
+            verificationTokenService.deleteTokenByUser(user);
+            userService.changeStatus(user.getId());
             return "/user/endRegistration";
         }
         model.addAttribute("emailSuccess", userDto.getEmail());
@@ -156,7 +158,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "resetPassword", method = RequestMethod.GET)
-    public String resetPassword(@RequestParam("email") String email) {
+    public String resetPassword(@RequestParam("email") String email) throws ConnectException {
         User user = userService.getByEmail(email);
         if (user == null) {
             return "invalidEmail";

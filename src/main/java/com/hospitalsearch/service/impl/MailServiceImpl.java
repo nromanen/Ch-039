@@ -6,6 +6,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,10 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,8 +49,10 @@ public class MailServiceImpl implements MailService {
     private Environment properties;
 
     @Override
-    public void sendMessage(User user, String subject, String text, String templateName) {
-
+    public void sendMessage(User user, String subject, String text, String templateName) throws ConnectException{
+        if(!pingURL("https://www.google.com.ua/", 300)){
+            throw new MailSendException ("Connection failed");
+        }
         String encoding = properties.getProperty("email.encoding");
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, encoding);
@@ -60,6 +68,7 @@ public class MailServiceImpl implements MailService {
                 mailSender.send(message);
             }
         } catch (MessagingException e) {
+            logger.error("Cant't send message");
             logger.error(e);
         }
     }
@@ -87,5 +96,26 @@ public class MailServiceImpl implements MailService {
                 "account administration to help you reset your password. " +
                 "To change your account password please<a href=\'" + buildConfirmationURL(token, "/confirmResetPassword?token=") +
                 "\'> click here</a>. If you did not request a password change, please ignore this message.";
+    }
+
+
+    //ping some url
+    public static boolean pingURL(String url, int timeout) {
+        url = url.replaceFirst("^https", "http"); // Otherwise an exception may be thrown on invalid SSL certificates.
+        HttpURLConnection connection = null;
+        try {
+            connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setConnectTimeout(timeout);
+            connection.setReadTimeout(timeout);
+            connection.setRequestMethod("HEAD");
+            int responseCode = connection.getResponseCode();
+            return (200 <= responseCode && responseCode <= 399);
+        } catch (IOException e) {
+            return false;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
     }
 }

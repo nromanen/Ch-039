@@ -14,7 +14,9 @@
     <script th:src="@{/js/admin.js}"></script>
     <script th:src="@{/js/jquery.validate.js}"></script>
     <script th:src="@{/js/spinner.js}"></script>
+    <script th:src="@{/js/localization.js}"></script>
     <script th:src="@{/js/login.js}"></script>
+    <script th:src="@{/js/checkbox.js}"></script>
 </head>
 <body>
 <section layout:fragment="content" class="dashboard center">
@@ -28,15 +30,15 @@
                                 <h2>Please Log In</h2>
 
                                 <div class="alert alert-danger" th:if="${error == 'invalidAuthentication'}">
-                                    <p>Invalid username or password.</p>
+                                    <p th:text="#{login.message.error.login.invalidAuthentication}"></p>
                                 </div>
 
                                 <div class="alert alert-danger" th:if="${error == 'invalidActivation'}">
-                                    <p>Your account is not activated.</p>
+                                    <p th:text="#{login.message.error.login.invalidActivation}"></p>
                                 </div>
 
                                 <div class="alert alert-danger" th:if="${error == 'userBlocked'}">
-                                    <p>Your account is blocked.</p>
+                                    <p th:text="#{login.message.error.login.banned}"></p>
                                 </div>
 
                                 <hr class="colorgraph"/>
@@ -89,6 +91,8 @@
                 </div>
                 <div class="modal-body">
                     <p class="alert alert-info debug-url" id="successMessage" hidden="hidden"></p>
+                    <p class="alert alert-danger debug-url" id="errorMessage" hidden="hidden"></p>
+
 
                     <form class="recoverContent" id="resetModal" role="form" autocomplete="off" action="#">
                         <div class="form-group">

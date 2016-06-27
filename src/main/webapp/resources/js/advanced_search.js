@@ -1,3 +1,4 @@
+/*
 $(document).ready(function(){
 	$('#select-to').select2();
 
@@ -51,4 +52,4 @@ $(document).ready(function(){
 	function formatRepoSelection (repo) {
 		return repo.full_name || repo.text;
 	}
-});
+});*/

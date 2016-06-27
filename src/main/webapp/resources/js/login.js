@@ -1,64 +1,12 @@
-$(function () {
-    $('.button-checkbox').each(function () {
-        var $widget = $(this),
-            $button = $widget.find('button'),
-            $checkbox = $widget.find('input:checkbox'),
-            color = $button.data('color'),
-            settings = {
-                on: {
-                    icon: 'glyphicon glyphicon-check'
-                },
-                off: {
-                    icon: 'glyphicon glyphicon-unchecked'
-                }
-            };
-
-        $button.on('click', function () {
-            $checkbox.prop('checked', !$checkbox.is(':checked'));
-            $checkbox.triggerHandler('change');
-            updateDisplay();
-        });
-
-        $checkbox.on('change', function () {
-            updateDisplay();
-        });
-
-        function updateDisplay() {
-            var isChecked = $checkbox.is(':checked');
-            // Set the button's state
-            $button.data('state', (isChecked) ? "on" : "off");
-
-            // Set the button's icon
-            $button.find('.state-icon')
-                .removeClass()
-                .addClass('state-icon ' + settings[$button.data('state')].icon);
-
-            // Update the button's color
-            if (isChecked) {
-                $button
-                    .removeClass('btn-default')
-                    .addClass('btn-' + color + ' active');
-            }
-            else {
-                $button
-                    .removeClass('btn-' + color + ' active')
-                    .addClass('btn-default');
-            }
-        }
-
-        function init() {
-            updateDisplay();
-            // Inject the icon if applicable
-            if ($button.find('.state-icon').length == 0) {
-                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-            }
-        }
-
-        init();
-    });
-});
-
 $(document).ready(function () {
+
+    //localization message
+    var invalidEmail = getMessage('login.message.error.invalidEmail');
+    var inactivated = getMessage('login.message.error.inactivated');
+    var banned = getMessage('login.message.error.banned');
+    var tokenCreated = getMessage('login.message.error.tokenCreated');
+    var successMessage = getMessage('login.message.error.successMessage');
+    var errorMessage = getMessage('login.message.error.errorMessage');
 
     //valid login form
     $("#loginForm").validate({
@@ -70,15 +18,6 @@ $(document).ready(function () {
                 required: true,
                 email: true
             }
-        },
-        messages: {
-            password: {
-                required: "Please provide a password"
-            },
-            email: {
-                required: "Please provide a email",
-                email: "Please enter a valid email address"
-            },
         },
         errorElement: "i",
         errorPlacement: function (error, element) {
@@ -146,12 +85,6 @@ $(document).ready(function () {
                     email: true
                 }
             },
-            messages: {
-                recoverEmail: {
-                    required: "Please provide a email",
-                    email: "Please enter a valid email address"
-                }
-            },
             errorElement: "i",
             errorPlacement: function (error, element) {
                 // Add the `help-block` class to the error element
@@ -188,39 +121,39 @@ $(document).ready(function () {
             }
         });
 
-        function resolveCallDatabase(data){
+        function resolveCallDatabase(data) {
             switch (data) {
                 case 'invalidEmail':
                 {
-                    $('#errorReset').removeAttr("hidden").html("User with this email doesn't exists.");
+                    $('#errorReset').removeAttr("hidden").html(invalidEmail);
                     break;
                 }
                 case 'inactivated':
                 {
-                    $('#errorReset').removeAttr("hidden").html("User with this email inactivated.");
+                    $('#errorReset').removeAttr("hidden").html(inactivated);
                     break;
                 }
                 case 'banned':
                 {
-                    $('#errorReset').removeAttr("hidden").html("User with this email banned.");
+                    $('#errorReset').removeAttr("hidden").html(banned);
                     break;
                 }
                 case 'tokenCreated':
                 {
-                    $('#errorReset').removeAttr("hidden").html("User with this email already request change password.Check email.");
+                    $('#errorReset').removeAttr("hidden").html(tokenCreated);
                     break;
                 }
                 case 'success' :
                 {
                     $('.recoverContent').attr("hidden", true);
-                    $('#successMessage').removeAttr("hidden").html('Information about recover your password was sended on ' + $inputEmail);
+                    $('#successMessage').removeAttr("hidden").html(successMessage + $inputEmail);
                     document.querySelector("#recoverButton").style.display = "none";
                     break;
                 }
                 default :
                 {
                     $('.recoverContent').attr("hidden", true);
-                    $('#successMessage').removeAttr("hidden").html('Something went wrong. Please try again!');
+                    $('#errorMessage').removeAttr("hidden").html(errorMessage);
                 }
             }
         }
@@ -234,7 +167,7 @@ $(document).ready(function () {
                 async: true,
                 start: blockGeneralModal(),
                 success: function (data) {
-                    window.setTimeout(function() {
+                    window.setTimeout(function () {
                         unblockGeneralModal();
                     }, 500);
                     resolveCallDatabase(data);
@@ -247,5 +180,8 @@ $(document).ready(function () {
         $('.text-danger').attr("hidden", true);
     });
 
-
+    $('#floatingCirclesG').modal({
+        static: true,
+        keyboard: false
+    });
 });

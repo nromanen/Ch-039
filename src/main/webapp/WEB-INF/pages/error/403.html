@@ -7,27 +7,27 @@
     <meta charset="UTF-8"/>
     <title>Access Denied</title>
     <script th:src="@{/js/admin.js}"></script>
-
 </head>
 <body>
-
 <section layout:fragment="content" class="dashboard center">
     <div class="content">
         <div class="col-md-12">
-              <center>
+            <center>
                 <div class="page-403 animated flipInX">
                     <img th:src="@{/img/403.png}" class="img-responsive center-block"/>
                 </div>
                 <br/>
-                <div sec:authorize="isAuthenticated()">
-                    <h3>Dear <strong><span  sec:authentication="principal.username"> </span> </strong> </h3>
-                    <h4>You are not authorized to access this page</h4>
-                </div>
-                  <br />
-                <input type="button" id="btnRedirect" value="Go to the main page" class="btn btn-default"/>
 
-                <div id="dvCountDown" style="display: none">
-                    You will be redirected after <h4><span id="lblCount"></span>&nbsp;seconds.</h4>
+                <div sec:authorize="isAuthenticated()">
+                    <h3 th:text="#{redirect.help.person}"><strong><span sec:authentication="principal.username"> </span></strong>
+                    </h3>
+                    <h4 th:text="#{redirect.help.text}"></h4>
+                </div>
+                <br/>
+                <input type="button" id="btnRedirect" th:value="#{redirect.button}" class="btn btn-default"/>
+
+                <div id="dvCountDown" style="display: none" th:text="#{redirect.message}">
+                    <h4><span id="lblCount"></span>&nbsp;<span th:text="#{redirect.seconds}"></span></h4>
                 </div>
             </center>
 

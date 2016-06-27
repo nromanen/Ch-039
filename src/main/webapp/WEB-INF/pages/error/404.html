@@ -20,10 +20,10 @@
                 </div>
                 <br/>
                 <br/>
-                <input type="button" id="btnRedirect" value="Go to the main page" class="btn btn-default"/>
+                <input type="button" id="btnRedirect" th:value="#{redirect.button}" class="btn btn-default"/>
                 <br/>
-                <div id="dvCountDown" style="display: none">
-                    You will be redirected after <h4><span id="lblCount"></span>&nbsp;seconds.</h4>
+                <div id="dvCountDown" style="display: none" th:text="#{redirect.message}">
+                   <h4><span id="lblCount"></span>&nbsp; <span th:text="#{redirect.seconds}"></span></h4>
                 </div>
             </center>
 

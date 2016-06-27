@@ -1,8 +1,20 @@
 /**
  * Created by andrew on 14.05.16.
  */
-
 $(document).ready(function () {
+    //show edit page
+    $('#editUserModal').on('show.bs.modal', function (e) {
+        var urlArray = $(e.relatedTarget).data('id').split(',');
+        var url = urlArray[0] + '&' + urlArray[1];
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (response) {
+                $('#editUserModal').html(response);
+            }
+        });
+    });
+
     //back to the top
     $('section').prepend('<a href="#top" class="back-to-top">Back to Top</a>');
     $(window).scroll(function () {
@@ -60,6 +72,9 @@ $(document).ready(function () {
 
     //reset all search field
     $('#clearButton').click(function (event) {
+        var pageSize = 10;
+        var url = '/admin/users/setItemsPerPage/' + pageSize;
+        $.get(url, function (data) {});
         sessionStorage.clear();
         $('#pref-roleby').val('');
         $searchInput.val('');
@@ -71,6 +86,7 @@ $(document).ready(function () {
 
     //modal window for delete
     $('#deleteModal').on('show.bs.modal', function (e) {
+        var deleteMessage = getMessage('admin.dashboard.users.modal.delete.message');
         $('.content').addClass('blur');
         var Selection = $(e.relatedTarget).data('values').split(",");
         var actionPrefix = Selection[0];
@@ -78,14 +94,14 @@ $(document).ready(function () {
         var email = Selection[2];
         var status = Selection[3];
         $(this).find('#deleteButton').attr('href', actionPrefix + id + status);
-        $('.debug-url').html('Are you really want to delete user <strong>' + email + ' ?' + '</strong>');
+        $('.debug-url').html( deleteMessage + ' ' + '<strong>' + email + ' ?' + '</strong>');
     });
 
     $('#deleteModal').on('hide.bs.modal', function (e) {
         $('.content').removeClass('blur');
     });
 
-   $("#menu-toggle").click(function (e) {
+    $("#menu-toggle").click(function (e) {
         e.preventDefault();
         $("#sidebar-wrapper").toggleClass("active");
     });
@@ -110,3 +126,4 @@ $(document).ready(function () {
         });
     });
 });
+

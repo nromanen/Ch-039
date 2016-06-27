@@ -16,8 +16,8 @@
 
         <div th:if="${invalidToken!=null}">
             <div class="animated fadein text-center ">
-                <h3 class="text-danger menu">Register time was expired. Please try again.</h3>
-                <input type="button" id="btnRedirect" value="Go to the main page" class="btn btn-default"/>
+                <h3 class="text-danger menu" th:text="#{registration.confirm.invalidToken}"></h3>
+                <input type="button" id="btnRedirect" th:value="#{redirect.button}" class="btn btn-default"/>
                 <br/>
                 <div id="dvCountDown" style="display: none" class="text-center">
                     You will be redirected after <h4><span id="lblCount"></span>&nbsp;seconds.</h4>
@@ -31,7 +31,7 @@
                     class="text-info text-center menu"></h3>
 
                 <h3 class="text-info text-center menu"> Now you are can
-                    <a th:href="@{/login}" id="redirectOnLogin" class="text-muted">login.</a></h3>
+                    <a th:href="@{/login}" id="redirectOnLogin" class="text-primary"><u>login.</u></a></h3>
             </div>
         </div>
     </div>

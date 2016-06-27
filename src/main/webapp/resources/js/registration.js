@@ -1,5 +1,11 @@
 $(document).ready(function () {
 
+    //localization
+    var patternPasswordM = getMessage('registration.message.error.patternPasswordM');
+    var whitespaceM = getMessage('registration.message.error.whitespaceM');
+    var patternEmailM = getMessage('registration.message.error.patternEmailM');
+
+
     $.validator.addMethod("patternPassword", function (value, element) {
         return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{6,20}$/i.test(value);
     });
@@ -31,27 +37,19 @@ $(document).ready(function () {
                 email: true,
                 whitespace: "Y",
                 patternEmail: "Y",
+            },
+            userRoles: {
+                required: true
             }
         },
         messages: {
             password: {
-                required: "Please provide a password",
-                minlength: "Your password must be at least 6 characters long",
-                maxlength: "Your password should be less than 20 characters long",
-                patternPassword: "Letters in upper and lower case, numbers, symbols",
-            },
-            confirmPassword: {
-                required: "Please provide a password",
-                minlength: "Your password must be at least 6 characters long",
-                equalTo: "Please enter the same password as above"
+                patternPassword: patternPasswordM,
             },
             email: {
-                required: "Please provide a email",
-                email: "Please enter a valid email address",
-                whitespace: "Email can't contain white spaces",
-                patternEmail: "Please enter a valid email address"
+                whitespace: whitespaceM,
+                patternEmail: patternEmailM
             },
-
         },
         errorElement: "i",
         errorPlacement: function (error, element) {
@@ -94,7 +92,9 @@ $(document).ready(function () {
         $('#floatingCirclesG').modal('show');
     });
 
-
+    $('#floatingCirclesG').modal({
+        keyboard: false
+    });
 
     $('#email').focus(function () {
         $('#errorEmail').attr("hidden", true);
@@ -103,8 +103,8 @@ $(document).ready(function () {
         $('#errorPassword').attr("hidden", true);
     });
 
-
 });
+
 
 
 

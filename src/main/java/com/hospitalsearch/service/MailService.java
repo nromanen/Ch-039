@@ -4,6 +4,7 @@ import com.hospitalsearch.entity.User;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.ConnectException;
 import java.util.Map;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Map;
 @Transactional
 public interface MailService {
 
-    void sendMessage(User user, String subject, String text, String templateName);
+    void sendMessage(User user, String subject, String text, String templateName) throws ConnectException;
 
     String createRegisterMessage(User user, String token);
 
