@@ -185,7 +185,7 @@ function onCancelAppointment() {
     startModal();
     var reason = $('#cancelReason').val();
     sendMassage(reason, ev.id, principal);
-    setTimeout(delete_event, 10000);
+    setTimeout(delete_event, 3000);
     $('#cancelMassageText').text(succesMassegeStart +' ' + ev.text.split('-')[0] + ' ' + succesMassegeEnd);
 }
 

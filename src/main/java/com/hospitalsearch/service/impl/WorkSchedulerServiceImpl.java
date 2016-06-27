@@ -33,9 +33,8 @@ public class WorkSchedulerServiceImpl implements WorkSchedulerService {
     @Override
     public void saveWorkScheduler(String workSchedulerString, Long doctorId) {
         WorkScheduler workScheduler;
-        try {
-            workScheduler = workSchedulerDAO.getByDoctorId(doctorId);
-        } catch (NullPointerException e) {
+        workScheduler = workSchedulerDAO.getByDoctorId(doctorId);
+        if (workScheduler==null) {
             workScheduler = new WorkScheduler();
         }
         workScheduler.setDoctorInfo(doctorInfoDAO.getById(doctorId));

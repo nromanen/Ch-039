@@ -4,10 +4,7 @@ import com.hospitalsearch.dao.AppointmentDAO;
 import com.hospitalsearch.entity.Appointment;
 import com.hospitalsearch.entity.Department;
 import com.hospitalsearch.entity.UserDetail;
-import com.hospitalsearch.service.AppointmentService;
-import com.hospitalsearch.service.DepartmentService;
-import com.hospitalsearch.service.FeedbackService;
-import com.hospitalsearch.service.UserDetailService;
+import com.hospitalsearch.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,6 +31,9 @@ public class AppointmentController {
 
     @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    private EmailService emailService;
 
     @ResponseBody
     @RequestMapping(value = "/**/getAppointments", method = RequestMethod.GET)
@@ -90,6 +90,7 @@ public class AppointmentController {
     @RequestMapping(value = "/**/sendMassage", method = RequestMethod.POST)
     public String sendMassageToEmail(@RequestBody Map<String, String> massageData){
         System.out.println(massageData.entrySet().toString());
+        emailService.sendMassageFromUserToUser(massageData);
         return "redirect:/";
 
     }

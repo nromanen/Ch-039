@@ -3,7 +3,7 @@ function sendMassage(reason, eventId, principal) {
     
     var massageDto = new Object();
     massageDto.eventId = eventId;
-    massageDto.princiaplMassage = reason;
+    massageDto.principalMassage = reason;
     massageDto.principal = principal;
     $.ajaxSetup({
         headers: {
