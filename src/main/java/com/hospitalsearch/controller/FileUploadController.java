@@ -55,13 +55,19 @@ public class FileUploadController {
 		break;
 		case "uploadparams" : resource = ResourceBundle.getBundle("uploader");
 		break;
+		default: return null;
 		}
-		Enumeration<String> keys = resource.getKeys();
-		while (keys.hasMoreElements()) {
-			String key = keys.nextElement();
-			result.put(key, resource.getString(key));
+		try {
+			Enumeration<String> keys = resource.getKeys();
+			while (keys.hasMoreElements()) {
+				String key = keys.nextElement();
+				result.put(key, resource.getString(key));
+			}
+			return result;
+		} catch (NullPointerException e) {
+			log.info("Can not access to resources: " + paramId);
+			return null;
 		}
-		return result;
 	}
 
 	@RequestMapping(value = {"/**/upload"}, method = RequestMethod.POST)

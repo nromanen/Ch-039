@@ -102,7 +102,6 @@ public class Hospital {
 	@Column(name = "imagepath")
 	private String imagePath;
 
-
 	@JsonIgnore
 	@OneToMany(mappedBy="hospital",cascade=CascadeType.ALL)
 	@Cache(region="entityCache",usage=CacheConcurrencyStrategy.READ_ONLY)

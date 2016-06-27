@@ -1,15 +1,6 @@
 var geocoder = new google.maps.Geocoder();
 var marker = new google.maps.Marker();
 
-var pathname = window.location.pathname;
-var patharr = pathname.split('/');
-var addition = patharr[1];
-if (addition != 'HospitalSeeker') {
-	addition = '';
-} else {
-	addition = '/' + addition;
-}
-
 function initialize() {
 
 	mapInit('googleMap');
@@ -37,6 +28,9 @@ function initialize() {
 			'address.city': {
 				required: true
 			},
+			'address.building': {
+				maxlength: 5
+			},
 			latitude: {
 				required: true
 			},
@@ -52,7 +46,7 @@ function initialize() {
 	});
 	
 	if (document.getElementById('imagePath').value) {
-		$('#image-uploaded').attr('src', addition + '/images/hospital/' + document.getElementById('imagePath').value);
+		$('#image-uploaded').attr('src', jsContextPath + 'images/hospital/' + document.getElementById('imagePath').value);
 	}
 }
 

@@ -27,16 +27,10 @@ public class FileNameGenerator {
 	}
 
 	private static String getExt(String fullName) {
-		if (fullName.lastIndexOf('.') > 0) {
-			return fullName.substring(fullName.lastIndexOf('.'));
-		}
-		return "";
+		return (fullName.lastIndexOf('.') > 0) ? fullName.substring(fullName.lastIndexOf('.')) : "";
 	}
 
 	private static String getName(String fullName) {
-		if (fullName.lastIndexOf('.') > 0) {
-			return fullName.substring(0, fullName.lastIndexOf('.'));
-		}
-		return fullName;
+		return (fullName.lastIndexOf('.') > 0) ? fullName.substring(0, fullName.lastIndexOf('.')) : fullName;
 	}
 }
