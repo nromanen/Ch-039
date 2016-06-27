@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.web.servlet.view.velocity.VelocityConfigurer;
 
 import javax.annotation.Resource;
 import java.util.Properties;
@@ -18,7 +19,7 @@ public class MailConfig {
     Environment properties;
 
     @Bean
-    public JavaMailSender javaMailSender() {
+    public JavaMailSenderImpl javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setDefaultEncoding("UTF-8");
         mailSender.setHost(properties.getProperty("mail.host"));
@@ -34,6 +35,13 @@ public class MailConfig {
         javaMailProperties.put("mail.debug", "true"); //enable to show debug
         mailSender.setJavaMailProperties(javaMailProperties);
         return mailSender;
+    }
+
+    @Bean
+    public VelocityConfigurer velocityConfigurer() {
+        VelocityConfigurer configurer = new VelocityConfigurer();
+        configurer.setResourceLoaderPath("/WEB-INF/velocity/");
+        return configurer;
     }
     //enable gmail "less secure on" https://www.google.com/settings/security/lesssecureapps page
 }

@@ -4,13 +4,16 @@ import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.UserService;
 import com.hospitalsearch.service.VerificationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * @author Andrew Jasinskiy on 05.06.16
@@ -23,11 +26,12 @@ public class ErrorAuthenticationHandler extends SimpleUrlAuthenticationFailureHa
     @Autowired
     VerificationTokenService tokenService;
 
-    private User user;
+    private static User user;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
+
         String email = request.getParameter("email");
         user = userService.getByEmail(email);
         String error = "invalidAuthentication";

@@ -5,16 +5,13 @@
 <head>
     <meta charset="ISO-8859-1"/>
     <meta charset="UTF-8"/>
-    <title>Registration</title>
+    <title>New User</title>
+    <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}"/>
     <link rel="stylesheet" th:href="@{/css/animate.css}"/>
-    <link rel="stylesheet" th:href="@{/css/charisma-app.css}"/>
-    <link rel="stylesheet" th:href="@{/css/login.css}"/>
-    <script th:src="@{/js/admin.js}"></script>
-    <script th:src="@{/js/login.js}"></script>
-    <script th:src="@{/js/jquery.validate.js}"></script>
-    <script th:src="@{/js/spinner.js}"></script>
-    <script th:src="@{/js/localization.js}"></script>
     <script th:src="@{/js/registration.js}"></script>
+    <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/localization.js}"></script>
+    <script th:src="@{/js/checkbox.js}"></script>
 </head>
 <body>
 <section layout:fragment="content" class="dashboard center">
@@ -23,16 +20,16 @@
             <div class="container">
                 <div class="row" style="margin-top:20px">
                     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-                        <form role="form" th:action="@{/registration}" method="post" th:object="${userDto}"
-                              autocomplete="off" id="registerNewUser">
+                        <form role="form" th:action="@{/admin/newUser}" method="post" th:object="${userDto}"
+                              id="registerNewUser">
                             <fieldset>
-                                <h2 th:text="#{register.page.register.form.header}"></h2>
+                                <h1 class="all text-center" th:text="#{admin.add.new.user.title}"></h1>
 
                                 <hr class="colorgraph"/>
 
                                 <div class="form-group">
                                     <input type="email" name="email" id="email" class="form-control input-lg"
-                                           th:placeholder="#{register.page.register.form.placeholder.email}" tabindex="1"
+                                           th:placeholder="#{admin.add.new.user.placeholder.email}" tabindex="1"
                                            th:value="(${userDto != null}) and (${userDto.email !=null}) ? ${userDto.email}:''"/>
 
                                     <span th:if="${(userDto ne null) and (#fields.hasErrors('email'))}"
@@ -41,33 +38,55 @@
 
                                 <div class="form-group">
                                     <input type="password" name="password" id="password" class="form-control input-lg"
-                                           th:placeholder="#{register.page.register.form.placeholder.password}" tabindex="2"
+                                           th:placeholder="#{admin.add.new.user.placeholder.password}" tabindex="2"
                                            th:value="${(userDto != null) and (userDto.password !=null)} ? ${userDto.password}:''"/>
 
                                     <span th:if="${(userDto ne null) and (#fields.hasErrors('password'))}"
-                                          th:errors="*{password}" class="has-error text-danger" id="errorPassword"></span>
+                                          th:errors="*{password}" class="has-error text-danger"
+                                          id="errorPassword"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <input type="password" name="confirmPassword" id="confirmPassword"
-                                           class="form-control input-lg" th:placeholder="#{register.page.register.form.placeholder.password.confirm}" tabindex="3"
+                                           class="form-control input-lg" th:placeholder="#{admin.add.new.user.placeholder.confirm.password}" tabindex="3"
                                            th:value="${(userDto != null) and (userDto.confirmPassword !=null)} ? ${userDto.confirmPassword}:''"/>
-
                                     <span th:if="${(userDto ne null) and (#fields.hasErrors('confirmPassword'))}"
                                           th:errors="*{confirmPassword}" class="has-error text-danger"></span>
                                 </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="userRoles" th:text="#{admin.add.new.user.roles}"></label>
+                                    <select id="userRoles" class="form-control" tabindex="4" multiple="multiple"
+                                            size="4" th:field="${userDto.userRoles}"
+                                            th:value="${(userDto != null) and (userDto.userRoles !=null)} ? ${userDto.userRoles}:''">
+                                        <option
+                                                th:each="role : ${roles}"
+                                                th:value="${role.type}"
+                                                th:text="${role.type}">Role
+                                        </option>
+                                    </select>
+                                </div>
+
+                                 <span class="button-checkbox" id="enabledUserCheckbox">
+                                    <button type="button" class="btn" data-color="info" th:text="#{user.detail.enabled.button}"></button>
+                                    <input type="checkbox" name="enabled" id="enabled" class="hidden"
+                                           th:field="${userDto.enabled}"
+                                           th:value="${(userDto != null) and (userDto.enabled !=null)} ? ${userDto.enabled}:''"/>
+                                </span>
 
                                 <hr class="colorgraph"/>
 
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <input type="submit" class="btn btn-lg btn-info btn-block" th:value="#{register.page.register.form.button.register}"
-                                               tabindex="4" id="registerSubmit"/>
+                                        <input type="submit" class="btn btn-lg btn-info btn-block"
+                                               th:value="#{admin.add.new.user.button.save}"
+                                               tabindex="4" id="newUserSubmit"/>
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <a th:href="@{/login}" class="btn btn-lg btn-primary btn-block"
-                                           id="loginRedirect" th:text="#{register.page.register.form.button.login}"></a>
+                                        <a th:href="@{/admin/users?status=true}"
+                                           class="btn btn-lg btn-default btn-block"
+                                           id="cancel" th:text="#{admin.configure.token.button.cancel}"></a>
                                     </div>
                                 </div>
                             </fieldset>

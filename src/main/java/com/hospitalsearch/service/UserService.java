@@ -2,15 +2,16 @@ package com.hospitalsearch.service;
 
 import java.util.List;
 
-import com.hospitalsearch.dto.UserAdminDTO;
+import com.hospitalsearch.dto.UserFilterDTO;
 import com.hospitalsearch.dto.UserRegisterDTO;
+import com.hospitalsearch.exception.ResetPasswordException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.util.UserDetailRegisterDto;
 import com.hospitalsearch.util.UserDto;
-import com.hospitalsearch.util.UserRegisterDto;
+
 @Transactional
 public interface UserService {
 
@@ -18,11 +19,9 @@ public interface UserService {
 
     void delete(Long id);
 
-    void updateUser(User user);
-
     void update(User user);
 
-    User changeStatus(Long id);
+    void changeStatus(Long id);
 
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
     User getById(Long id);
@@ -31,23 +30,17 @@ public interface UserService {
     List<User> getAll();
 
     @Transactional(readOnly=true,propagation=Propagation.SUPPORTS)
-    List<User> getUsers(UserAdminDTO userAdminDTO);
+    List<User> getUsers(UserFilterDTO userFilterDTO);
 
     @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
-    List<User> searchUser(UserAdminDTO userAdminDTO);
+    List<User> searchUser(UserFilterDTO userFilterDTO);
 
     @Transactional(readOnly=true,propagation= Propagation.SUPPORTS)
     User getByEmail(String email);
 
     User register(UserRegisterDTO dto);
 
-    void registerUpdate(UserDto dto, String email);
-
-    UserDto getDtoByEmail(String email);
-
-    boolean resetPassword(String email, String newPassword);
-
-    void registerUpdate(UserDetailRegisterDto dto, String email);
+    void resetPassword(String email, String newPassword) throws ResetPasswordException;
 
     //Illia
     List<User> getByRole(String role, int pageNumber, int pageSize, String sortBy, Boolean order);

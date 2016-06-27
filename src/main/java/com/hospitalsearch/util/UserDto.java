@@ -4,6 +4,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
 
 /**

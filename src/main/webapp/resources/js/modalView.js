@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -9,9 +8,12 @@ $(document).ready(function () {
     $('#viewModal').on('show.bs.modal', function (e) {
         $('.content').addClass('blur');
         var id = $(e.relatedTarget).data('id');
+        var value = getMessage('admin.dashboard.users.modal.view.value')
+        var field = getMessage('admin.dashboard.users.modal.view.field');
+
         var table = '<table class="table-fill">' +
-            '<thead>' + '<tr>' + '<th class="text-left">' + 'Field' +
-            '</th>' + '<th class="text-left">' + 'Value' + '</th>' + '</tr>' +
+            '<thead>' + '<tr>' + '<th class="text-left">' + value +
+            '</th>' + '<th class="text-left">' + field + '</th>' + '</tr>' +
             '</thead>' + '<tbody class="table-hover">';
 
         $.ajax({

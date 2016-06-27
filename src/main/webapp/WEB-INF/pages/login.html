@@ -10,9 +10,13 @@
     <link rel="stylesheet" th:href="@{/css/charisma-app.css}"/>
     <link rel="stylesheet" th:href="@{/css/view-admin-table.css}"/>
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
+<!--    <link rel="stylesheet" th:href="@{/css/spinner.css}"/>-->
     <script th:src="@{/js/admin.js}"></script>
     <script th:src="@{/js/jquery.validate.js}"></script>
+    <script th:src="@{/js/spinner.js}"></script>
+    <script th:src="@{/js/localization.js}"></script>
     <script th:src="@{/js/login.js}"></script>
+    <script th:src="@{/js/checkbox.js}"></script>
 </head>
 <body>
 <section layout:fragment="content" class="dashboard center">
@@ -26,15 +30,15 @@
                                 <h2 th:text="#{login.page.login.form.header}"></h2>
 
                                 <div class="alert alert-danger" th:if="${error == 'invalidAuthentication'}">
-                                    <p>Invalid username or password.</p>
+                                    <p th:text="#{login.message.error.login.invalidAuthentication}"></p>
                                 </div>
 
                                 <div class="alert alert-danger" th:if="${error == 'invalidActivation'}">
-                                    <p>Your account is not activated.</p>
+                                    <p th:text="#{login.message.error.login.invalidActivation}"></p>
                                 </div>
 
                                 <div class="alert alert-danger" th:if="${error == 'userBlocked'}">
-                                    <p>Your account is blocked.</p>
+                                    <p th:text="#{login.message.error.login.banned}"></p>
                                 </div>
 
                                 <hr class="colorgraph"/>
@@ -43,6 +47,7 @@
                                     <input type="email" name="email" id="email" th:value="${email}"
                                            class="form-control input-lg" th:placeholder="#{login.page.login.form.placeholder.email}"/>
                                 </div>
+
                                 <div class="form-group">
                                     <input type="password" name="password" id="password" class="form-control input-lg"
                                            th:placeholder="#{login.page.login.form.placeholder.password}" autocomplete="off"/>
@@ -77,7 +82,7 @@
     </div>
     <div class="modal fade" id="forgotPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog" style="z-index: 9000">
+        <div class="modal-dialog" style="z-index: 100">
             <div class="modal-content">
                 <div class="modal-header table-title">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -85,7 +90,10 @@
                 </div>
                 <div class="modal-body">
                     <p class="alert alert-info debug-url" id="successMessage" hidden="hidden"></p>
-                    <form class="recoverContent" id="resetModal">
+                    <p class="alert alert-danger debug-url" id="errorMessage" hidden="hidden"></p>
+
+
+                    <form class="recoverContent" id="resetModal" role="form" autocomplete="off" action="#">
                         <div class="form-group">
                             <label class="control-label" for="recoverEmail" th:text="#{password.recover.modal.massage}"></label>
                             <div class="input-group">
@@ -102,6 +110,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="secondModal"
          id="floatingCirclesG" aria-hidden="true" style="z-index: 100000">
         <div class="f_circleG" id="frotateG_01"></div>

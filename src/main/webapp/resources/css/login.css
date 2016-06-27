@@ -4,7 +4,7 @@
 }*/
 /* General sizing */
 ul.dropdown-lr {
-  width: 300px;
+	width: 300px;
 }
 
 /* mobile fix */
@@ -32,7 +32,7 @@ ul.dropdown-lr {
 
 /*modal blocked until ajax callback*/
 #floatingCirclesG{
-/*	position:relative;*/
+	/*	position:relative;*/
 	width:272px;
 	height:272px;
 	margin:auto;

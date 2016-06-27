@@ -14,15 +14,46 @@
 <section layout:fragment="content" class="container">
     <div class="content">
 
+        <div th:if="${invalidToken!=null}">
+            <div class="animated fadein text-center ">
+                <h3 class="text-danger menu" th:text="#{registration.confirm.invalidToken}"></h3>
+                <input type="button" id="btnRedirect" th:value="#{redirect.button}" class="btn btn-default"/>
+                <br/>
+                <div id="dvCountDown" style="display: none" class="text-center">
+                    You will be redirected after <h4><span id="lblCount"></span>&nbsp;seconds.</h4>
+                </div>
+            </div>
+        </div>
+
         <div th:if="${confirmEmail!=null}">
             <div class="animated fadein">
                 <h3 th:text="'Dear ' + ${confirmEmail} + ' You confirm registration on our website successfully.'"
-                    class="text-success text-center menu"></h3>
+                    class="text-info text-center menu"></h3>
 
-                <h3 class="text-success text-center menu"> Now you are can login.</h3>
+                <h3 class="text-info text-center menu"> Now you are can
+                    <a th:href="@{/login}" id="redirectOnLogin" class="text-primary"><u>login.</u></a></h3>
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#btnRedirect").click(function () {
+                var seconds = 5;
+                $("#dvCountDown").show();
+                $("#btnRedirect").hide();
+                $("#lblCount").html(seconds);
+                setInterval(function () {
+                    seconds--;
+                    $("#lblCount").html(seconds);
+                    if (seconds == 0) {
+                        $("#dvCountDown").hide();
+                        window.location = "/";
+                    }
+                }, 1000);
+            });
+        });
+    </script>
 </section>
 </body>
 </html>
