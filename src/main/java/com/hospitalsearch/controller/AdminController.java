@@ -106,6 +106,7 @@ public class AdminController {
         return "redirect:/admin/users?status=" + status;
     }
 
+
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "admin/users", method = RequestMethod.GET)
     public String allUsers(ModelMap model, @RequestParam(value = "status", required = false) String status,

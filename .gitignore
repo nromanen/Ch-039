@@ -6,4 +6,5 @@ HospitalSeeker.iml
 .classpath
 .project
 .settings/
+.logs
 test-output/
