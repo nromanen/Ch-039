@@ -5,13 +5,6 @@
 	layout:decorator="layout">
 <head>
 
-<meta th:name="csrf-token" th:content="${_csrf.token}" />
-<meta th:name="csrf-name" th:content="${_csrf.parameterName}" />
-
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script
-	src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places"></script>
 <script th:src="@{/js/welcome.js}"></script>
 <script th:src="@{/js/gmaps.js}"></script>
 <link rel="stylesheet" th:href="@{/css/map.css}" />

@@ -1,7 +1,9 @@
 package com.hospitalsearch.service.impl;
 
+import com.hospitalsearch.dao.DoctorInfoDAO;
 import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.dao.WorkSchedulerDAO;
+import com.hospitalsearch.entity.WorkScheduler;
 import com.hospitalsearch.service.WorkSchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,22 +20,32 @@ public class WorkSchedulerServiceImpl implements WorkSchedulerService {
     private WorkSchedulerDAO workSchedulerDAO;
 
     @Autowired
+    private DoctorInfoDAO doctorInfoDAO;
+
+    @Autowired
     private UserDAO userDAO;
 
     @Override
-    public String getWorkScheduler(Long doctorId) {
-        return workSchedulerDAO.getWorkScheduler(doctorId);
+    public WorkScheduler getByDoctorId(Long doctorId) {
+        return workSchedulerDAO.getByDoctorId(doctorId);
     }
 
     @Override
-    public void updateWorkScheduler(String doctorId, String workScheduler) {
-        workSchedulerDAO.updateWorkScheduler(Long.parseLong(doctorId), workScheduler);
+    public void saveWorkScheduler(String workSchedulerString, Long doctorId) {
+        WorkScheduler workScheduler;
+        workScheduler = workSchedulerDAO.getByDoctorId(doctorId);
+        if (workScheduler==null) {
+            workScheduler = new WorkScheduler();
+        }
+        workScheduler.setDoctorInfo(doctorInfoDAO.getById(doctorId));
+        workScheduler.setWorkScheduler(workSchedulerString);
+        workSchedulerDAO.save(workScheduler);
     }
 
     @Override
-    public String getWorkSchedulerByDoctor(String doctor){
-        return workSchedulerDAO.getWorkScheduler(userDAO.getByEmail(doctor)
-                .getUserDetails().getDoctorsDetails().getId());
+    public String getByDoctorEmail(String doctorEmail) {
+        return workSchedulerDAO.getByDoctorId(userDAO.getByEmail(doctorEmail)
+                .getUserDetails().getDoctorsDetails().getId()).getWorkScheduler();
     }
 
 }

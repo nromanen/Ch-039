@@ -1,12 +1,12 @@
 /**
  * Created by igortsapyak on 08.06.16.
  */
+
+//TODO: refactor to normal view
 $(document).ready(function () {
     var principal = $('#principal').text();
     var format = scheduler.date.date_to_str("%H:%i");
-    var step = 20;
-    scheduler.config.hour_size_px = (60 / step) * 44;
-    scheduler.config.time_step = step;
+
     scheduler.attachEvent("onBeforeDrag", function () {
         return false;
     });
@@ -18,12 +18,6 @@ $(document).ready(function () {
     scheduler.config.xml_date = "%Y-%m-%d %H:%i";
     scheduler.config.details_on_dblclick = true;
     scheduler.config.details_on_create = true;
-    scheduler.ignore_week = function (date) {
-        if (date.getDay() == 6 || date.getDay() == 0)
-            return true;
-    };
-    scheduler.config.first_hour = 7;
-    scheduler.config.last_hour = 21;
     scheduler.config.limit_time_select = true;
     scheduler.init('scheduler_here', null, "week");
     scheduler.load('getAppointmentsByPatient?patient=' + principal, 'json');
@@ -38,11 +32,13 @@ var html = function (id) {
 var ev;
 
 scheduler.showLightbox = function (id) {
+    var tex_local_from = getMessage('workscheduler.modal.appointment.time.from');
+    var tex_local_to = getMessage('workscheduler.modal.appointment.time.to');
     $('#myModal').modal('show');
     ev = scheduler.getEvent(id);
     scheduler.startLightbox(id, html("myModal"));
-    $('#date').text(new Date(ev.start_date).toLocaleDateString() + ' from '
-        + new Date(ev.start_date).toLocaleTimeString().replace(':00', '') + ' to ' +
+    $('#date').text(new Date(ev.start_date).toLocaleDateString() + ' ' + tex_local_from + ' '+
+        new Date(ev.start_date).toLocaleTimeString().replace(':00', '') + ' ' + tex_local_to + ' ' +
         new Date(ev.end_date).toLocaleTimeString().replace(':00', ''));
     html("description").value = ev.text;
     var nameAndDescription = ev.text.split("-");
@@ -132,11 +128,14 @@ function dismissMyModal(event) {
 }
 
 function onCancelAppointment() {
+    var principal = $('#principal').text();
+    var succesMassegeStart = getMessage('myappointments.modal.appointment.cancel.success.begin');
+    var succesMassegeEnd = getMessage('myappointments.modal.appointment.cancel.success.end');
     cancelAppointment();
-    startModal()
+    startModal();
     var reason = $('#cancelReason').val();
-    delete_event();
-    console.log(reason);
-    $('#cancelMassageText').text('Appointment with doctor ' + ev.text.split('-')[0] + ' was canceled successfully!');
+    sendMassage(reason, ev.id, principal);
+    setTimeout(delete_event, 3000);
+    $('#cancelMassageText').text(succesMassegeStart +' ' + ev.text.split('-')[0] + ' ' + succesMassegeEnd);
 }
             

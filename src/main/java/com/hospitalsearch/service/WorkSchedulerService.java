@@ -1,5 +1,6 @@
 package com.hospitalsearch.service;
 
+import com.hospitalsearch.entity.WorkScheduler;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -9,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface WorkSchedulerService {
 
-    String getWorkScheduler(Long doctorId);
+    WorkScheduler getByDoctorId(Long doctorId);
 
-    void updateWorkScheduler(String doctorIdAndAppointmentDuration, String workScheduler);
+    void saveWorkScheduler(String workScheduler, Long doctorId);
 
-    String getWorkSchedulerByDoctor(String doctor);
+    String getByDoctorEmail(String doctorEmail);
 
 }

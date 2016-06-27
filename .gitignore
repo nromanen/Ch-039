@@ -6,5 +6,10 @@ HospitalSeeker.iml
 .classpath
 .project
 .settings/
+<<<<<<< HEAD
 .logs/*
 test-output/
+=======
+test-output/
+/bin/
+>>>>>>> refs/remotes/origin/develop2

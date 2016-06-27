@@ -1,12 +1,10 @@
 package com.hospitalsearch.controller;
 
+import com.hospitalsearch.dao.AppointmentDAO;
 import com.hospitalsearch.entity.Appointment;
 import com.hospitalsearch.entity.Department;
 import com.hospitalsearch.entity.UserDetail;
-import com.hospitalsearch.service.AppointmentService;
-import com.hospitalsearch.service.DepartmentService;
-import com.hospitalsearch.service.FeedbackService;
-import com.hospitalsearch.service.UserDetailService;
+import com.hospitalsearch.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,12 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AppointmentController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private AppointmentDAO appointmentDAO;
 
     @Autowired
     private UserDetailService userDetailService;
@@ -29,6 +31,9 @@ public class AppointmentController {
 
     @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    private EmailService emailService;
 
     @ResponseBody
     @RequestMapping(value = "/**/getAppointments", method = RequestMethod.GET)
@@ -52,16 +57,6 @@ public class AppointmentController {
         return "start";
     }
 
-    @RequestMapping(value = "/doctor/{d_id}/manage", method = RequestMethod.GET)
-    public String getManage(
-            @PathVariable("d_id") Long doctorId,
-            ModelMap model) {
-        UserDetail userDetail = userDetailService.getById(doctorId);
-        model.addAttribute("id", userDetail.getDoctorsDetails().getId());
-        model.addAttribute("doctor", userDetailService.getById(doctorId));
-        return "manage";
-    }
-
     @RequestMapping(value = "/**/supplyAppointment", method = RequestMethod.POST)
     public String eventProcessor(HttpServletRequest request,
                                  @RequestParam("id") Long id, @RequestParam("principal") String principal) {
@@ -72,18 +67,32 @@ public class AppointmentController {
     @ResponseBody
     @RequestMapping(value = "/**/getAppointmentsByPatient", method = RequestMethod.GET)
     public List<Appointment> patientsAppointments(@RequestParam("patient") String patient) {
-        return appointmentService.getGetAllByPatient(patient);
+        return appointmentService.getAllByPatientEmail(patient);
     }
 
     @ResponseBody
     @RequestMapping(value = "/getAppointmentsByDoctor", method = RequestMethod.GET)
     public List<Appointment> doctorsAppointments(@RequestParam("doctor") String doctor) {
-        return appointmentService.getAllByDoctor(doctor);
+        return appointmentService.getAllByDoctorEmail(doctor);
     }
 
     @RequestMapping(value = "/appointments", method = RequestMethod.GET)
-    String getAppointments() {
+    public String getAppointments() {
         return "appointments";
+    }
+
+
+    @RequestMapping(value = "/appointmentId", method = RequestMethod.GET)
+    public String getCardByapointmentId(@RequestParam("appointmentId") Long appointmentId) {
+        return "redirect:/card/items?userId="+appointmentDAO.getById(appointmentId).getUserDetail().getId();
+    }
+
+    @RequestMapping(value = "/**/sendMassage", method = RequestMethod.POST)
+    public String sendMassageToEmail(@RequestBody Map<String, String> massageData){
+        System.out.println(massageData.entrySet().toString());
+        emailService.sendMassageFromUserToUser(massageData);
+        return "redirect:/";
+
     }
 
 

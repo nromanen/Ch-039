@@ -18,7 +18,7 @@ public class Appointment {
 	private Long id;
 
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="userdetail_id")
 	private UserDetail userDetail;
 
@@ -32,10 +32,20 @@ public class Appointment {
 	
 	@JsonSerialize(using = CustomLocalDateTimeSerializer.class)
 	private LocalDateTime end_date;
-	
+
 	private String text;
 
 	private String color;
+
+	private String appointmentReason;
+
+	public String getAppointmentReason() {
+		return appointmentReason;
+	}
+
+	public void setAppointmentReason(String appointmentReason) {
+		this.appointmentReason = appointmentReason;
+	}
 
 	public String getColor() {
 		return color;

@@ -59,7 +59,7 @@ $(document).ready(function () {
         }break;
         case '6':{
             scheduler.ignore_week = function (date) {
-                if (date.getDay() == 6)
+                if (date.getDay() == 0)
                     return true;
             };
         }break;
@@ -82,17 +82,20 @@ var html = function (id) {
 };
 var ev;
 scheduler.showLightbox = function (id) {
+    var tex_local_from = getMessage('workscheduler.modal.appointment.time.from');
+    var tex_local_to = getMessage('workscheduler.modal.appointment.time.to');
     $('#myModal').modal('show');
     ev = scheduler.getEvent(id);
     scheduler.startLightbox(id, html("myModal"));
-    $('#date').text(new Date(ev.start_date).toLocaleDateString() + ' from '
-        + new Date(ev.start_date).toLocaleTimeString().replace(':00', '') + ' to ' +
+    $('#date').text(new Date(ev.start_date).toLocaleDateString() + ' ' + tex_local_from + ' '+
+        new Date(ev.start_date).toLocaleTimeString().replace(':00', '') + ' ' + tex_local_to + ' ' +
         new Date(ev.end_date).toLocaleTimeString().replace(':00', ''));
     html("description").value = ev.text;
     var nameAndDescription = ev.text.split("-");
     $('#patientName').text(nameAndDescription[0]);
     $('#theReasonForVisit').text(nameAndDescription[1]);
     $('#cancelAppointmentHeader').text('Cancel appointment of ' + ' ' + nameAndDescription[0]);
+    $('#cardButton').val(ev.id)
 };
 
 function onCancelAppointment() {
@@ -132,6 +135,7 @@ function changeModalContentFirstStep() {
     $('#modal-header').slideToggle(500);
     $('#modal-footer').slideToggle(500);
     $('#modalBodySuccess').slideToggle(500);
+    
 }
 
 function changeModalContentSecondStep() {
@@ -174,11 +178,18 @@ function dismissMyModal(event) {
 }
 
 function onCancelAppointment() {
+    var principal = $('#principal').text();
+    var succesMassegeStart = getMessage('workscheduler.modal.appointment.cancel.success.begin');
+    var succesMassegeEnd = getMessage('workscheduler.modal.appointment.cancel.success.end');
     cancelAppointment();
     startModal();
     var reason = $('#cancelReason').val();
-    delete_event();
-    console.log(reason);
-    $('#cancelMassageText').text('Appointment with ' + ev.text.split('-')[0] + ' was canceled successfully!');
+    sendMassage(reason, ev.id, principal);
+    setTimeout(delete_event, 3000);
+    $('#cancelMassageText').text(succesMassegeStart +' ' + ev.text.split('-')[0] + ' ' + succesMassegeEnd);
+}
+
+function getCard(appointmnetId) {
+    window.location.href = "appointmentId?appointmentId=" + appointmnetId;
 }
 
