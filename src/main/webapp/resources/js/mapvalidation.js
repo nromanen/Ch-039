@@ -50,12 +50,6 @@ function getHospital(lat, lng) {
 	bounds.southWestLat = lat - 0.002;
 	bounds.southWestLon = lng - 0.002;
 
-	$.ajaxSetup({
-		headers: {
-			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		}
-	});
-	
 	$.ajax({
 		type: "POST",
 		url: "getmarkers",
@@ -73,75 +67,59 @@ function getHospital(lat, lng) {
 function buildTable() {
 	var tooltipLocate = getMessage('admin.hospital.poi.table.tooltip.locate');
 	var tooltipAdd = getMessage('admin.hospital.poi.table.tooltip.add');
-	var table = "";
+	var csrfName = $('meta[name="csrf-name"]').attr('content');
+	var csrfToken = $('meta[name="csrf-token"]').attr('content');
+	var table = document.getElementById('table-out');
 	for (var i = 0; i < hospitals.length; i++) {
 		var hospital1 = hospitals[i];
 		var address = addresses[i];
 		getHospital(hospital1.latitude, hospital1.longitude);
 		var hospital2 = hospital;
-		table += '<tr><td>' + hospital1.name + '<br>' + address + '</td>';
-
+		var rowCount = table.rows.length;
+		var row = table.insertRow(rowCount);
+		row.insertCell(0).innerHTML=hospital1.name + '<br>' + address;		
 		if (hospital2 == null) {
-			table += '<td class="text-center"><form method="post"><input type="hidden" name="';
-			table += $('meta[name="csrf-name"]').attr('content') + '" value="';
-			table += $('meta[name="csrf-token"]').attr('content') + '" />';
-			table += '<input type="hidden" id="hospjs" name="hospjs" value=\'';
-			table += JSON.stringify(hospital1);
-			table += '\'><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus" title="';
-			table += tooltipAdd + '"></span>';
-			table += '</button></form></td><td>none</td>';					
-		} else {			
-			table += '<td class="text-center"><button type="button" class="btn btn-default" onclick="javascript:placeMarker(\'';
-			table += hospital2.latitude + '\', \'' + hospital2.longitude + '\');"  title="';
-			table += tooltipLocate + '">'
-			table += '<span class="glyphicon glyphicon-map-marker"></span></button></td><td>';
-			table += hospital2.name + ' <br>';
-			table += hospital2.address.street + ', ';	
-			table += hospital2.address.building + ', ';	
-			table += hospital2.address.city + ', ';
-			table += hospital2.address.country + '</td>';
+			var cell = row.insertCell(1);
+			cell.setAttribute('class', 'text-center');
+			var form = document.createElement('form');
+			form.setAttribute('method', 'post');
+			var inputToken = document.createElement('input');
+			inputToken.setAttribute('type', 'hidden');
+			inputToken.setAttribute('name', csrfName);
+			inputToken.setAttribute('value', csrfToken);
+			var inputData = document.createElement('input');
+			inputData.setAttribute('type', 'hidden');
+			inputData.setAttribute('id', 'hospjs');
+			inputData.setAttribute('name', 'hospjs');
+			inputData.setAttribute('value', JSON.stringify(hospital1));
+			var button = document.createElement('button');
+			button.setAttribute('type', 'submit');
+			button.setAttribute('class', 'btn btn-default');
+			var span = document.createElement('span');
+			span.setAttribute('title', tooltipAdd);
+			span.setAttribute('class', 'glyphicon glyphicon-plus');
+			form.appendChild(inputToken);
+			form.appendChild(inputData);
+			button.appendChild(span);
+			form.appendChild(button);				
+			cell.appendChild(form);
+			row.insertCell(2).innerHTML='none'
+		} else {
+			var cell = row.insertCell(1);
+			cell.setAttribute('class', 'text-center');
+			var button = document.createElement('button');
+			button.setAttribute('type', 'button');
+			button.setAttribute('class', 'btn btn-default');
+			button.setAttribute('onclick', 'placeMarker(' + hospital2.latitude + ', ' + hospital2.longitude + ')');
+			var span = document.createElement('span');
+			span.setAttribute('title', tooltipLocate);
+			span.setAttribute('class', 'glyphicon glyphicon-map-marker');
+			button.appendChild(span);
+			cell.appendChild(button);
+			row.insertCell(2).innerHTML= hospital2.name + ' <br>' + hospital2.address.street + ', '+ hospital2.address.building + 
+			', ' + hospital2.address.city + ', ' + hospital2.address.country;
 		}
-		table += '</tr>';
-
 	}
-	document.getElementById("table-out").innerHTML = table;
-}
-
-function buildTable2() {
-	var tooltipLocate = getMessage('admin.hospital.poi.table.tooltip.locate');
-	var tooltipAdd = getMessage('admin.hospital.poi.table.tooltip.add');
-	var table = "";
-	for (var i = 0; i < hospitals.length; i++) {
-		var hospital1 = hospitals[i];
-		var address = addresses[i];
-		getHospital(hospital1.latitude, hospital1.longitude);
-		var hospital2 = hospital;
-		table += '<tr><td>' + hospital1.name + '<br>' + address + '</td>';
-
-		if (hospital2 == null) {
-			table += '<td class="text-center"><form method="post"><input type="hidden" name="';
-			table += $('meta[name="csrf-name"]').attr('content') + '" value="';
-			table += $('meta[name="csrf-token"]').attr('content') + '" />';
-			table += '<input type="hidden" id="hospjs" name="hospjs" value=\'';
-			table += JSON.stringify(hospital1);
-			table += '\'><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-plus" title="';
-			table += tooltipAdd + '"></span>';
-			table += '</button></form></td><td>none</td>';					
-		} else {			
-			table += '<td class="text-center"><button type="button" class="btn btn-default" onclick="javascript:placeMarker(\'';
-			table += hospital2.latitude + '\', \'' + hospital2.longitude + '\');"  title="';
-			table += tooltipLocate + '">'
-			table += '<span class="glyphicon glyphicon-map-marker"></span></button></td><td>';
-			table += hospital2.name + ' <br>';
-			table += hospital2.address.street + ', ';	
-			table += hospital2.address.building + ', ';	
-			table += hospital2.address.city + ', ';
-			table += hospital2.address.country + '</td>';
-		}
-		table += '</tr>';
-
-	}
-	document.getElementById("table-out").innerHTML = table;
 }
 
 function placeMarker(lat, lng) {

@@ -4,21 +4,6 @@
 
 var parameters;
 
-var pathname = window.location.pathname;
-var patharr = pathname.split('/');
-var addition = patharr[1];
-if (addition != 'HospitalSeeker') {
-	addition = '';
-} else {
-	addition = '/' + addition;
-}
-
-$.ajaxSetup({
-	headers: {
-		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	}
-});
-
 $.ajax({
 	type: "POST",
 	url: "getparams/uploadparams",
@@ -92,7 +77,7 @@ function upload(type) {
 		success: function(data) {
 			showModal(getMessage('global.modal.info'), getMessage('upload.image.uploaded'));
 			document.getElementById('imagePath').value = data;
-			$('#image-uploaded').attr('src', addition + '/images/' + type + '/' + data);
+			$('#image-uploaded').attr('src', jsContextPath + 'images/' + type + '/' + data);
 		},
 		error: function(qXHR, status, err) {
 			showModal(getMessage('global.modal.info'), qXHR.responseText, 'alert-warning');
@@ -104,7 +89,7 @@ $(window).load(function() {
 	var divModal = document.createElement('div');
 	divModal.setAttribute('id', 'div-modal');
 	document.body.appendChild(divModal);
-	$('#div-modal').load(addition + '/modalupload.html');
+	$('#div-modal').load(jsContextPath + 'modalupload.html');
 });
 
 function showModal(headerText, bodyText, type) {
