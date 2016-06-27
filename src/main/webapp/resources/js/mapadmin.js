@@ -28,6 +28,9 @@ function initialize() {
 			'address.city': {
 				required: true
 			},
+			'address.building': {
+				maxlength: 5
+			},
 			latitude: {
 				required: true
 			},
