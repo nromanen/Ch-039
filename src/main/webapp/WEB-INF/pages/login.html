@@ -23,7 +23,7 @@
                     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
                         <form role="form" th:action="@{/login}" method="post" id="loginForm">
                             <fieldset>
-                                <h2>Please Log In</h2>
+                                <h2 th:text="#{login.page.login.form.header}"></h2>
 
                                 <div class="alert alert-danger" th:if="${error == 'invalidAuthentication'}">
                                     <p>Invalid username or password.</p>
@@ -41,31 +41,31 @@
 
                                 <div class="form-group">
                                     <input type="email" name="email" id="email" th:value="${email}"
-                                           class="form-control input-lg" placeholder="Email Address"/>
+                                           class="form-control input-lg" th:placeholder="#{login.page.login.form.placeholder.email}"/>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="password" id="password" class="form-control input-lg"
-                                           placeholder="Password" autocomplete="off"/>
+                                           th:placeholder="#{login.page.login.form.placeholder.password}" autocomplete="off"/>
                                 </div>
 
                                 <span class="button-checkbox">
-                                    <button type="button" class="btn" data-color="info">Remember Me</button>
+                                    <button type="button" class="btn" data-color="info" th:text="#{login.page.login.form.placeholder.remember.me}"></button>
                                     <input type="checkbox" name="remember-me" id="remember-me"
                                            class="hidden"/>
                                     <a href="#" class="btn btn-link pull-right" data-toggle="modal"
-                                       data-target="#forgotPassword" id="forgotButton">Forgot Password?</a>
+                                       data-target="#forgotPassword" id="forgotButton" th:text="#{login.page.login.form.placeholder.forgot.password}"></a>
                                 </span>
 
                                 <hr class="colorgraph"/>
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <input type="submit" class="btn btn-lg btn-info btn-block" value="Log In"
+                                        <input type="submit" class="btn btn-lg btn-info btn-block" th:value="#{login.page.login.form.button.login}"
                                                id="loginSubmit"/>
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <a th:href="@{/registration}" class="btn btn-lg btn-primary btn-block"
-                                           id="registerRedirect">Register</a>
+                                           id="registerRedirect" th:text="#{login.page.login.form.button.register}"></a>
                                     </div>
                                 </div>
                             </fieldset>
@@ -75,30 +75,29 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="forgotPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" style="z-index: 9000">
             <div class="modal-content">
                 <div class="modal-header table-title">
-                    <button type="button" class="close" data-dismiss="modal">X</button>
-                    <h3>Password Recover</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 th:text="#{password.recover.modal.header}"></h3>
                 </div>
                 <div class="modal-body">
                     <p class="alert alert-info debug-url" id="successMessage" hidden="hidden"></p>
                     <form class="recoverContent" id="resetModal">
                         <div class="form-group">
-                            <label class="control-label" for="recoverEmail">Enter your email</label>
+                            <label class="control-label" for="recoverEmail" th:text="#{password.recover.modal.massage}"></label>
                             <div class="input-group">
-                                <input type="email" class="form-control" name="recoverEmail" id="recoverEmail" placeholder="Email Address" aria-describedby="inputGroupSuccess3Status"/>
+                                <input type="email" class="form-control" name="recoverEmail" id="recoverEmail" th:placeholder="#{password.recover.modal.placeholder}" aria-describedby="inputGroupSuccess3Status"/>
                                 <em id="errorReset" class="text-danger" hidden="hidden"></em>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
-                    <a id="recoverButton" class="btn btn-primary" type="submit">Recover</a>
+                    <a href="#" class="btn btn-default" data-dismiss="modal" th:text="#{password.recover.modal.button.close}"></a>
+                    <a id="recoverButton" class="btn btn-primary" type="submit" th:text="#{password.recover.modal.button.recover}"></a>
                 </div>
             </div>
         </div>
@@ -114,7 +113,6 @@
         <div class="f_circleG" id="frotateG_07"></div>
         <div class="f_circleG" id="frotateG_08"></div>
     </div>
-
 </section>
 </body>
 </html>

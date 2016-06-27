@@ -26,13 +26,13 @@
                         <form role="form" th:action="@{/registration}" method="post" th:object="${userDto}"
                               autocomplete="off" id="registerNewUser">
                             <fieldset>
-                                <h2>Please Register</h2>
+                                <h2 th:text="#{register.page.register.form.header}"></h2>
 
                                 <hr class="colorgraph"/>
 
                                 <div class="form-group">
                                     <input type="email" name="email" id="email" class="form-control input-lg"
-                                           placeholder="Email" tabindex="1"
+                                           th:placeholder="#{register.page.register.form.placeholder.email}" tabindex="1"
                                            th:value="(${userDto != null}) and (${userDto.email !=null}) ? ${userDto.email}:''"/>
 
                                     <span th:if="${(userDto ne null) and (#fields.hasErrors('email'))}"
@@ -41,7 +41,7 @@
 
                                 <div class="form-group">
                                     <input type="password" name="password" id="password" class="form-control input-lg"
-                                           placeholder="Password" tabindex="2"
+                                           th:placeholder="#{register.page.register.form.placeholder.password}" tabindex="2"
                                            th:value="${(userDto != null) and (userDto.password !=null)} ? ${userDto.password}:''"/>
 
                                     <span th:if="${(userDto ne null) and (#fields.hasErrors('password'))}"
@@ -50,7 +50,7 @@
 
                                 <div class="form-group">
                                     <input type="password" name="confirmPassword" id="confirmPassword"
-                                           class="form-control input-lg" placeholder="Confirm Password" tabindex="3"
+                                           class="form-control input-lg" th:placeholder="#{register.page.register.form.placeholder.password.confirm}" tabindex="3"
                                            th:value="${(userDto != null) and (userDto.confirmPassword !=null)} ? ${userDto.confirmPassword}:''"/>
 
                                     <span th:if="${(userDto ne null) and (#fields.hasErrors('confirmPassword'))}"
@@ -61,13 +61,13 @@
 
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-6">
-                                        <input type="submit" class="btn btn-lg btn-info btn-block" value="Register"
+                                        <input type="submit" class="btn btn-lg btn-info btn-block" th:value="#{register.page.register.form.button.register}"
                                                tabindex="4" id="registerSubmit"/>
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                         <a th:href="@{/login}" class="btn btn-lg btn-primary btn-block"
-                                           id="loginRedirect">Log In</a>
+                                           id="loginRedirect" th:text="#{register.page.register.form.button.login}"></a>
                                     </div>
                                 </div>
                             </fieldset>

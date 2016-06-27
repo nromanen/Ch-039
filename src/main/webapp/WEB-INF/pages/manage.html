@@ -4,7 +4,7 @@
       xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorator="layout"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-    <title>Manage</title>
+    <title th:text="#{title.manage}"></title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <meta th:name="csrf-token" th:content="${_csrf.token}"/>
     <script th:src="@{/codebase/sources/ext/dhtmlxscheduler_key_nav.js}" type="text/javascript"

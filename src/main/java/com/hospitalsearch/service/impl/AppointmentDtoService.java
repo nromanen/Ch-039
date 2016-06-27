@@ -47,6 +47,7 @@ public class AppointmentDtoService {
                 .setStart_date(convertedMap.get("start_date"))
                 .setEnd_date(convertedMap.get("end_date"))
                 .setText(convertedMap.get("text"))
+                .setAppointmentReason(convertedMap.get("text"))
                 .build();
 
         if (status.equals("deleted")||status.equals("updated")){
