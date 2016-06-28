@@ -41,12 +41,6 @@ public class AppointmentBuilder {
         return this;
     }
 
-    public AppointmentBuilder setAppointmentReason(String appointmentReason){
-        appointmentInstance.setAppointmentReason(appointmentReason);
-        return this;
-    }
-
-
     public Appointment build(){
         return appointmentInstance;
     }

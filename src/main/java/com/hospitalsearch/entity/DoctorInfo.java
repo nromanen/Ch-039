@@ -31,22 +31,10 @@ public class DoctorInfo{
     @OneToOne
     @JoinColumn(name="userdetails_id")
     private UserDetail userDetails;
-    
+
     @ManyToMany(mappedBy = "doctors")
     @ContainedIn
     private List<Department> departments;
-
-    @JsonIgnore
-    @OneToOne
-    private WorkScheduler workScheduler;
-
-    public WorkScheduler getWorkScheduler() {
-        return workScheduler;
-    }
-
-    public void setWorkScheduler(WorkScheduler workScheduler) {
-        this.workScheduler = workScheduler;
-    }
 
     public Long getId() {
         return id;

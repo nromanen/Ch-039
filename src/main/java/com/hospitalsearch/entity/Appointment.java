@@ -37,16 +37,6 @@ public class Appointment {
 
 	private String color;
 
-	private String appointmentReason;
-
-	public String getAppointmentReason() {
-		return appointmentReason;
-	}
-
-	public void setAppointmentReason(String appointmentReason) {
-		this.appointmentReason = appointmentReason;
-	}
-
 	public String getColor() {
 		return color;
 	}

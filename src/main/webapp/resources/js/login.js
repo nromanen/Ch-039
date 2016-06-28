@@ -180,8 +180,8 @@ $(document).ready(function () {
         $('.text-danger').attr("hidden", true);
     });
 
-    $('#floatingCirclesG').modal({
-        static: true,
-        keyboard: false
-    });
+    // $('#floatingCirclesG').modal({
+    //     static: true,
+    //     keyboard: false
+    // });
 });
