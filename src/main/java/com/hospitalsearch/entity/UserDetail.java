@@ -37,132 +37,121 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Indexed
 @Cache(region="entityCache",usage=CacheConcurrencyStrategy.READ_WRITE)
 public class UserDetail{
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userdetail_gen")
-	@SequenceGenerator(name = "userdetail_gen", sequenceName = "userdetail_id_seq", initialValue = 1, allocationSize = 1)
-	@JsonIgnore
-	private Long id;
 
-	@Column(name="firstname")
-    @Pattern(regexp = "^[A-Z][a-z]+$",message = "Not valid. Ex: Alina")
-	@Field
-	private String firstName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userdetail_gen")
+    @SequenceGenerator(name = "userdetail_gen", sequenceName = "userdetail_id_seq", initialValue = 1, allocationSize = 1)
+    @JsonIgnore
+    private Long id;
 
-	@Column(name="lastname")
-    @Pattern(regexp = "^[A-Z][a-z]+$",message = "Not valid. Ex: Veter")
-	@Field
-	private String lastName;
-	@Pattern(regexp = "^\\+38 \\(\\d{3}\\) \\d{3}-\\d{4}", message = "Not valid. Ex: +38 (095) 435-7132")
-	private String phone;
-	
-	@Column(name="birthdate")
-   /* @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @Date(message = "Not valid format")*/
-	//todo comment by andrew
-	private LocalDate birthDate;
-	
-	@JsonIgnore	
-	@Column(name="imagepath")
-	private String imagePath;
+    @Column(name="firstname")
+    @Pattern(regexp = "^[A-Z][a-z]+$",message = "Not valid. Ex: Solomon")
+    @Field
+    private String firstName;
 
-	@Enumerated(EnumType.STRING)
+    @Column(name="lastname")
+    @Pattern(regexp = "^[A-Z][a-z]+$",message = "Not valid. Ex: Kane")
+    @Field
+    private String lastName;
+    @Pattern(regexp = "^\\+38 \\(\\d{3}\\) \\d{3}-\\d{4}", message = "Not valid. Ex: +38 (095) 435-7132")
+    private String phone;
+
+    @Column(name="birthdate")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Date(message = "Not valid format")
+    private LocalDate birthDate;
+
+    @JsonIgnore
+    @Column(name="imagepath")
+    private String imagePath;
+
+    @Enumerated(EnumType.STRING)
     @com.hospitalsearch.service.annotation.Gender(message = "Not valid format")
-	private Gender gender;
-	
-	private String address;
+    private Gender gender;
 
-	@OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
-	@Fetch(FetchMode.SELECT)
-	@ContainedIn
-	@JsonIgnore
-	private DoctorInfo doctorsDetails;
+    private String address;
 
-	@OneToOne
+    @OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="userDetails")
+    @Fetch(FetchMode.SELECT)
+    @ContainedIn
+    @JsonIgnore
+    private DoctorInfo doctorsDetails;
+
+    @OneToOne
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name="patientcard_id")
-	@JsonIgnore
-	private PatientCard patientCard;
+    @JsonIgnore
+    private PatientCard patientCard;
 
-	public UserDetail() {}
+    public UserDetail() {}
 
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public LocalDate getBirthDate() {
-		return birthDate;
-	}
-	public void setBirthDate(LocalDate birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	public Gender getGender() {
-		return gender;
-	}
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public DoctorInfo getDoctorsDetails() {
-		return doctorsDetails;
-	}
-	public void setDoctorsDetails(DoctorInfo doctorsDetails) {
-		this.doctorsDetails = doctorsDetails;
-	}
-
-	public String getImagePath() {
-		return imagePath;
-	}
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
-
-	public PatientCard getPatientCard() {
-		return patientCard;
-	}
-
-	public void setPatientCard(PatientCard patientCard) {
-		this.patientCard = patientCard;
-	}
-
-    @Override
-    public String toString() {
-        return "UserDetail{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phone='" + phone + '\'' +
-                ", birthDate=" + birthDate +
-                '}';
+    public Long getId() {
+        return id;
     }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public DoctorInfo getDoctorsDetails() {
+        return doctorsDetails;
+    }
+    public void setDoctorsDetails(DoctorInfo doctorsDetails) {
+        this.doctorsDetails = doctorsDetails;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public PatientCard getPatientCard() {
+        return patientCard;
+    }
+
+    public void setPatientCard(PatientCard patientCard) {
+        this.patientCard = patientCard;
+    }
+
 }

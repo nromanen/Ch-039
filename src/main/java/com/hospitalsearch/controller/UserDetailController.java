@@ -25,23 +25,26 @@ public class UserDetailController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = { "/user/detail" }, method = RequestMethod.GET)
-    public String userDetail(@RequestParam(value = "edit", defaultValue = "false") Boolean edit, ModelMap model){
+    @PreAuthorize("hasAnyRole('PATIENT','DOCTOR')")
+    @RequestMapping(value = {"/user/detail"}, method = RequestMethod.GET, consumes = "application/json")
+    public String userDetail(@RequestParam(value = "edit", defaultValue = "false") Boolean edit, ModelMap model) {
         User user = userService.getByEmail(PrincipalConverter.getPrincipal());
         UserDetail userDetail = user.getUserDetails();
         model.addAttribute("edit", edit);
         model.addAttribute("userDetail", userDetail);
         model.addAttribute("gender", Gender.values());
-        model.addAttribute("email",user.getEmail());
+        model.addAttribute("email", user.getEmail());
         return "user/detail";
     }
-    @RequestMapping(value = { "/save/detail" }, method = RequestMethod.POST)
-    public String saveUserDetail(@Valid UserDetail userDetail,   BindingResult bindingResult, ModelMap model){
+
+    @PreAuthorize("hasAnyRole('PATIENT','DOCTOR')")
+    @RequestMapping(value = {"/save/detail"}, method = RequestMethod.POST)
+    public String saveUserDetail(@Valid UserDetail userDetail, BindingResult bindingResult, ModelMap model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("edit", true);
             model.addAttribute("userDetail", userDetail);
             model.addAttribute("gender", Gender.values());
-            model.addAttribute("email",PrincipalConverter.getPrincipal());
+            model.addAttribute("email", PrincipalConverter.getPrincipal());
             return "user/detail";
         }
         userDetail.setPatientCard(userDetailService.getById(userDetail.getId()).getPatientCard());
@@ -49,20 +52,20 @@ public class UserDetailController {
         model.addAttribute("edit", false);
         model.addAttribute("userDetail", userDetail);
         model.addAttribute("gender", Gender.values());
-        model.addAttribute("email",PrincipalConverter.getPrincipal());
+        model.addAttribute("email", PrincipalConverter.getPrincipal());
         return "user/detail";
     }
 
     @PreAuthorize("hasRole('DOCTOR')")
-    @RequestMapping(value = { "/user/profile" }, method = RequestMethod.GET)
-    public String userProfile(@RequestParam ("userId") Long userId,ModelMap model){
+    @RequestMapping(value = {"/user/profile"}, method = RequestMethod.GET)
+    public String userProfile(@RequestParam("userId") Long userId, ModelMap model) {
         User user = userService.getById(userId);
         UserDetail userDetail = user.getUserDetails();
         model.addAttribute("edit", false);
         model.addAttribute("userDetail", userDetail);
         model.addAttribute("gender", Gender.values());
-        model.addAttribute("email",user.getEmail());
-        model.addAttribute("read",true);
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("read", true);
         return "user/detail";
     }
 
