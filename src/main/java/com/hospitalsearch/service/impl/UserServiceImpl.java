@@ -48,8 +48,6 @@ public class UserServiceImpl implements UserService {
             PatientCard patientCard = patientCardService.add(new PatientCard());
             UserDetail userDetail = new UserDetail();
             userDetail.setPatientCard(patientCard);
-            userDetail.setGender(Gender.MAN);
-            userDetail.setAddress("");
             newUser.setUserDetails(userDetail);
             dao.save(newUser);
         } catch (Exception e) {
