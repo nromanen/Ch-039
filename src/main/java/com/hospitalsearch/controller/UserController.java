@@ -8,6 +8,9 @@ import com.hospitalsearch.entity.VerificationToken;
 import com.hospitalsearch.exception.ResetPasswordException;
 import com.hospitalsearch.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +24,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.net.ConnectException;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -51,6 +56,9 @@ public class UserController {
 
     @Autowired
     PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
+
+    @Autowired
+    private MessageSource messageSource;
 
     private static String emailTemplate = "emailTemplate.vm";
 
@@ -89,20 +97,20 @@ public class UserController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registerUser(@Valid @ModelAttribute("userDto") UserRegisterDTO userDto,
-                               BindingResult result, ModelMap model) {
+                               BindingResult result, ModelMap model, Locale locale) {
         if (result.hasErrors()) {
             return "registration";
         }
         User user = userService.register(userDto);
         String token = getRandomToken();
         verificationTokenService.createToken(token, user);
-        String confirmationMessage = mailService.createRegisterMessage(user, token);
         try {
-            mailService.sendMessage(user, "Registration confirmation", confirmationMessage, emailTemplate);
-        } catch (MailSendException e) {
-            verificationTokenService.deleteTokenByUser(user);
-            user.setEnabled(true);
+            String confirmationMessage = mailService.createRegisterMessage(user, token, locale);
+            mailService.sendMessage(user, messageSource.getMessage("mail.message.registration.confirm", null, locale), confirmationMessage, emailTemplate);
+        } catch (MailException | ConnectException e) {
             model.addAttribute("emailError", userDto.getEmail());
+            verificationTokenService.deleteTokenByUser(user);
+            userService.changeStatus(user.getId());
             return "/user/endRegistration";
         }
         model.addAttribute("emailSuccess", userDto.getEmail());
@@ -156,8 +164,9 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "resetPassword", method = RequestMethod.GET)
-    public String resetPassword(@RequestParam("email") String email) {
+    public String resetPassword(@RequestParam("email") String email) throws ConnectException {
         User user = userService.getByEmail(email);
+        Locale locale = LocaleContextHolder.getLocale();
         if (user == null) {
             return "invalidEmail";
         }
@@ -172,8 +181,8 @@ public class UserController {
         }
         String token = getRandomToken();
         passwordResetTokenService.createToken(token, user);
-        String resetPasswordMessage = mailService.createResetPasswordMessage(user, token);
-        mailService.sendMessage(user, "Forgotten password", resetPasswordMessage, emailTemplate);
+        String resetPasswordMessage = mailService.createResetPasswordMessage(user, token, locale);
+        mailService.sendMessage(user, messageSource.getMessage("mail.message.forgot.password", null, locale), resetPasswordMessage, emailTemplate);
         return "success";
     }
 

@@ -45,15 +45,11 @@ public class UserServiceImpl implements UserService {
     public void save(User newUser) {
         try {
             logger.info("save user: " + newUser);
-            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
             PatientCard patientCard = patientCardService.add(new PatientCard());
             UserDetail userDetail = new UserDetail();
             userDetail.setPatientCard(patientCard);
-            userDetail.setFirstName("Anonymous");
-            userDetail.setLastName("Anonymous");
             userDetail.setGender(Gender.MAN);
             userDetail.setAddress("");
-            //todo refactor
             newUser.setUserDetails(userDetail);
             dao.save(newUser);
         } catch (Exception e) {
@@ -67,8 +63,14 @@ public class UserServiceImpl implements UserService {
         try {
             logger.info("register user: " + userRegisterDTO);
             user.setEmail(userRegisterDTO.getEmail().toLowerCase());
-            user.setPassword(userRegisterDTO.getPassword());
-            user.setUserRoles(new HashSet<>(Collections.singletonList(roleService.getByType("PATIENT"))));
+            user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
+            user.setUserRoles(userRegisterDTO.getUserRoles());
+            user.setEnabled(userRegisterDTO.getEnabled());
+            if (!userRegisterDTO.getUserRoles().isEmpty()) {
+                user.setUserRoles(userRegisterDTO.getUserRoles());
+            } else {
+                user.setUserRoles(new HashSet<>(Collections.singletonList(roleService.getByType("PATIENT"))));
+            }
             save(user);
         } catch (Exception e) {
             logger.error("Error register user: " + userRegisterDTO, e);
@@ -80,10 +82,8 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         User user = dao.getById(id);
         try {
+            if (isAdmin(id)) return;
             logger.info("Delete user " + user);
-            for (Role role : user.getUserRoles()) {
-                if (role.getType().equals("ADMIN")) return;
-            }
             dao.delete(user);
         } catch (Exception e) {
             logger.error("Error delete user: " + user, e);
@@ -136,9 +136,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+
     @Override
     public void changeStatus(Long id) {
         try {
+            if (isAdmin(id)) return;
             logger.info("Change status to user with id " + id);
             dao.changeStatus(id);
         } catch (Exception e) {
@@ -180,19 +182,6 @@ public class UserServiceImpl implements UserService {
             logger.error("Error searching users", e);
         }
         return users;
-    }
-
-    @Override
-    public void registerUpdate(UserDto dto, String email) {
-    }
-
-    @Override
-    public UserDto getDtoByEmail(String email) {
-        return null;
-    }
-
-    @Override
-    public void registerUpdate(UserDetailRegisterDto dto, String email) {
     }
 
     //Illia
@@ -240,4 +229,15 @@ public class UserServiceImpl implements UserService {
         return (int) Math.ceil((double) countOfItems / itemsPerPage);
     }
     //Illia
+
+    //utilities methods
+    private boolean isAdmin(Long id) {
+        User user = dao.getById(id);
+        for (Role role : user.getUserRoles()) {
+            if (role.getType().equals("ADMIN")) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

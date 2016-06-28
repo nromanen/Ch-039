@@ -1,17 +1,22 @@
 package com.hospitalsearch.dto;
 
+import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.service.annotation.PasswordMatch;
 import com.hospitalsearch.service.annotation.UniqueEmail;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Andrew Jasinskiy on 17.06.16
  */
-@PasswordMatch(first    = "password", second = "confirmPassword", message = "The password fields must match")
+@PasswordMatch(first  = "password", second = "confirmPassword", message = "The password fields must match")
 public class UserRegisterDTO {
 
     private static final String EMAIL_PATTERN =
@@ -34,6 +39,10 @@ public class UserRegisterDTO {
 
     @NotEmpty(message = "Please enter your password again.")
     private String confirmPassword;
+
+    private Set<Role> userRoles = new HashSet<>();
+
+    private Boolean enabled = false;
 
     public String getEmail() {
         return email;
@@ -59,10 +68,37 @@ public class UserRegisterDTO {
         this.confirmPassword = confirmPassword;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<Role> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<Role> userRoles) {
+        this.userRoles = userRoles;
+    }
+
     public UserRegisterDTO() {
     }
 
     public UserRegisterDTO(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRegisterDTO{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                ", userRoles=" + userRoles +
+                ", enabled=" + enabled +
+                '}';
     }
 }

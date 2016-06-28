@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.IOException;
+import java.net.*;
 import java.time.LocalDate;
 
 /**
@@ -95,4 +97,5 @@ public class UserDto {
     public void setAddress(String address) {
         this.address = address;
     }
+
 }

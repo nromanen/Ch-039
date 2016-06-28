@@ -2,12 +2,15 @@ package com.hospitalsearch.controller;
 
 import com.hospitalsearch.dto.AdminTokenConfigDTO;
 import com.hospitalsearch.dto.UserFilterDTO;
+import com.hospitalsearch.dto.UserRegisterDTO;
 import com.hospitalsearch.entity.Role;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.MailService;
 import com.hospitalsearch.service.RoleService;
 import com.hospitalsearch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.net.ConnectException;
 import java.util.List;
+import java.util.Locale;
 
 import static com.hospitalsearch.config.security.SecurityConfiguration.REMEMBER_ME_TOKEN_EXPIRATION;
 import static com.hospitalsearch.entity.PasswordResetToken.RESET_PASSWORD_TOKEN_EXPIRATION;
@@ -38,6 +43,9 @@ public class AdminController {
     @Autowired
     MailService mailService;
 
+    @Autowired
+    private MessageSource messageSource;
+
     private Integer usersPerPage = 10;
 
     private static String emailTemplate = "emailTemplate.vm";
@@ -47,12 +55,13 @@ public class AdminController {
         return roleService.getAll();
     }
 
-    @ResponseBody
+
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/**/changeStatus/{userId}", method = RequestMethod.GET)
-    public void changeUserStatus(@PathVariable long userId) {
+    public void changeUserStatus(@PathVariable long userId) throws ConnectException {
+        Locale locale = LocaleContextHolder.getLocale();
         userService.changeStatus(userId);
-        sendBannedMessageToUserById(userId);
+        sendBannedMessageToUserById(userId, locale);
     }
 
     @ResponseBody
@@ -64,15 +73,15 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "admin/users/delete/{userId}", method = RequestMethod.GET)
-    public String deleteUser(@PathVariable long userId,
-                             @RequestParam(value = "status", required = false) String status) {
+    public String deleteUser(@PathVariable long userId, Locale locale,
+                             @RequestParam(value = "status", required = false) String status) throws ConnectException {
         userService.changeStatus(userId);
-        sendBannedMessageToUserById(userId);
+        sendBannedMessageToUserById(userId, locale);
         return "redirect:/admin/users?status=" + status;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "admin/users/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/**/admin/users/edit", method = RequestMethod.GET)
     public ModelAndView editUser(@RequestParam("id") Long userId,
                                  @RequestParam("status") String status) {
         ModelAndView modelAndView = new ModelAndView("admin/editUser");
@@ -82,26 +91,26 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping(value = "admin/users/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/**/admin/users/edit", method = RequestMethod.POST)
     public String editUser(@ModelAttribute("editUser") User editUser, BindingResult result, ModelMap model,
-                           @RequestParam("email") String email,
-                           @RequestParam("status") String status,
+                           @RequestParam("status") String status, Locale locale,
                            RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("messageError", "Error updating, please try again!");
+            redirectAttributes.addFlashAttribute("messageError", "messageError");
             return "redirect:/admin/users?status=" + status;
         }
         try {
-            User user = userService.getByEmail(email);
+            User user = userService.getByEmail(editUser.getEmail());
             user.setUserRoles(editUser.getUserRoles());
             user.setEnabled(editUser.getEnabled());
             userService.update(user);
         } catch (Exception e) {
             e.printStackTrace();
-            redirectAttributes.addFlashAttribute("messageError", "Error updating, please try again!");
+            redirectAttributes.addFlashAttribute("messageError", messageSource.getMessage("admin.dashboard.message.error.edit", null, locale));
             return "redirect:/admin/users?status=" + status;
         }
-        redirectAttributes.addFlashAttribute("messageSuccess", "User " + editUser.getEmail() + " successfully updated!");
+        redirectAttributes.addFlashAttribute("messageSuccess", editUser.getEmail() + " " +
+                messageSource.getMessage("admin.dashboard.message.success.edit", null, locale));
         return "redirect:/admin/users?status=" + status;
     }
 
@@ -112,6 +121,7 @@ public class AdminController {
                            @RequestParam(value = "page", defaultValue = "1") Integer page,
                            @RequestParam(value = "sort", defaultValue = "email") String sort,
                            @RequestParam(value = "asc", defaultValue = "true") Boolean asc) {
+
         dto.setCurrentPage(page);
         dto.setAsc(asc);
         dto.setSort(sort);
@@ -131,6 +141,7 @@ public class AdminController {
                              @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @ModelAttribute("userFilterDTO") UserFilterDTO dto,
                              ModelMap model) throws Exception {
+        dto.setPageSize(usersPerPage);
         List users = userService.searchUser(dto);
         if (dto.getTotalPage() > 1) model.addAttribute("pagination", "pagination");
         model.addAttribute("search", "search");
@@ -164,31 +175,44 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "admin/newUser", method = RequestMethod.GET)
-    public String newRegistration(ModelMap model) {
-        model.addAttribute("user", new User());
+    public String newRegistration(@ModelAttribute("userDto") UserRegisterDTO userDto, ModelMap model) {
+        model.addAttribute("userRegisterDto", userDto);
         return "admin/newUser";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "admin/newUser", method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute("user") User user, BindingResult result, ModelMap model,
-                           RedirectAttributes redirectAttributes) {
+    public String saveUser(@Valid @ModelAttribute("userDto") UserRegisterDTO userDto, BindingResult result,
+                           ModelMap model, RedirectAttributes redirectAttributes, Locale locale) {
+        if (result.hasErrors()) {
+            return "admin/newUser";
+        }
         try {
-            userService.save(user);
+            userService.register(userDto);
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("messageError", "Error creating new user, please try again!");
+            redirectAttributes.addFlashAttribute("messageError", messageSource.getMessage("admin.dashboard.message.error.new.user", null, locale));
             return "redirect:/admin/users?status=true";
         }
-        redirectAttributes.addFlashAttribute("messageSuccess", "User with email " + user.getEmail() + " successfully has been registered.");
+        redirectAttributes.addFlashAttribute("messageSuccess", userDto.getEmail() + " " +
+                messageSource.getMessage("admin.dashboard.message.success.new.user", null, locale));
+
         return "redirect:/admin/users?status=true";
     }
 
+    @ResponseBody
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value = "admin/users/setItemsPerPage/{value}", method = RequestMethod.GET)
+    public String setItemsPerPage(@PathVariable int value) {
+        usersPerPage = value;
+        return "done";
+    }
+
     //utility methods
-    private void sendBannedMessageToUserById(Long id) {
+    private void sendBannedMessageToUserById(Long id, Locale locale) throws ConnectException {
         User user = userService.getById(id);
         if (!user.getEnabled()) {
-            String bannedMessage = mailService.createBannedMessage(user);
-            mailService.sendMessage(user, "Banned confirmation", bannedMessage, emailTemplate);
+            String bannedMessage = mailService.createBannedMessage(user, locale);
+            mailService.sendMessage(user, messageSource.getMessage("mail.message.banned.title", null, locale), bannedMessage, emailTemplate);
         }
     }
 }

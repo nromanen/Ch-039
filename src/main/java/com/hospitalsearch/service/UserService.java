@@ -40,13 +40,7 @@ public interface UserService {
 
     User register(UserRegisterDTO dto);
 
-    void registerUpdate(UserDto dto, String email);
-
-    UserDto getDtoByEmail(String email);
-
     void resetPassword(String email, String newPassword) throws ResetPasswordException;
-
-    void registerUpdate(UserDetailRegisterDto dto, String email);
 
     //Illia
     List<User> getByRole(String role, int pageNumber, int pageSize, String sortBy, Boolean order);

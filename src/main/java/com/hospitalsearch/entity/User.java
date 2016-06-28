@@ -55,7 +55,7 @@ public class User implements Comparable<User> {
 	private String password;
 
 	@Column(nullable = false)
-	private Boolean enabled= false;
+	private Boolean enabled;
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)

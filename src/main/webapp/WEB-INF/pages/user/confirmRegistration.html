@@ -16,22 +16,25 @@
 
         <div th:if="${invalidToken!=null}">
             <div class="animated fadein text-center ">
-                <h3 class="text-danger menu">Register time was expired. Please try again.</h3>
-                <input type="button" id="btnRedirect" value="Go to the main page" class="btn btn-default"/>
+                <h3 class="text-danger menu" th:text="#{registration.confirm.invalidToken}"></h3>
+                <input type="button" id="btnRedirect" th:value="#{redirect.button}" class="btn btn-default"/>
                 <br/>
-                <div id="dvCountDown" style="display: none" class="text-center">
-                    You will be redirected after <h4><span id="lblCount"></span>&nbsp;seconds.</h4>
+
+                <div id="dvCountDown" style="display: none">
+                    <span th:text="#{redirect.message}"></span>
+                    <h4><span id="lblCount"></span>&nbsp;<span th:text="#{redirect.seconds}"></span></h4>
                 </div>
             </div>
         </div>
 
         <div th:if="${confirmEmail!=null}">
             <div class="animated fadein">
-                <h3 th:text="'Dear ' + ${confirmEmail} + ' You confirm registration on our website successfully.'"
+                <h3 th:text="(${confirmEmail} +' '+ #{registration.confirm.success})"
                     class="text-info text-center menu"></h3>
-
-                <h3 class="text-info text-center menu"> Now you are can
-                    <a th:href="@{/login}" id="redirectOnLogin" class="text-muted">login.</a></h3>
+                <h3 class="text-info text-center menu">
+                    <span th:text="#{end.registration.success.text}"></span>
+                    <a th:href="@{/login}" id="redirectOnLogin" class="text-primary"><u th:text="#{email.login}"></u></a>
+                </h3>
             </div>
         </div>
     </div>

@@ -8,43 +8,110 @@
     <title>Edit User</title>
     <link rel="stylesheet" th:href="@{/css/stylish-portfolio.css}"/>
     <link rel="stylesheet" th:href="@{/css/animate.css}"/>
+    <link rel="stylesheet" th:href="@{/css/detail.css}"/>
     <script th:src="@{/js/admin.js}"></script>
+    <script th:src="@{/js/checkbox.js}"></script>
+    <script th:src="@{/js/modalKeys.js}"></script>
 </head>
 <body>
-<section layout:fragment="content" class="dashboard center">
+<section layout:fragment="content">
     <div class="content">
         <div class="container">
             <div class="row">
-                <h3 class="all text-center">Edit user <span th:text="${editUser.email}"></span></h3>
-                <div class="col-md-6 col-md-offset-3">
-                    <form method="POST" th:object="${editUser}" class="form-horizontal"
-                          th:action="@{/admin/users/edit(status=${status})}">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="enabled">Enabled</label>
-                            <div class="checkbox">
-                                <div class="col-sm-4">
-                                    <input type="checkbox" th:field="*{enabled}" th:value="*{enabled}" id="enabled"/>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+                    <form th:action="@{/admin/users/edit(status=${status})}" th:object="${editUser}" role="form"
+                          name="detailForm" id="detailForm" method="post">
+
+                        <div class="panel panel-info">
+                            <div class="panel-heading" style="height: 40px">
+                                <h3 class="panel-title">
+                                    <span th:text="${editUser.userDetails.firstName+' '+editUser.userDetails.lastName}"></span>
+                                    <span class="pull-right">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                onclick="location.reload();"
+                                                aria-hidden="true">&times;</button>
+                                    </span>
+                                </h3>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div align="center">
+                                        <img alt="User Pic" style="height: 200px;"
+                                             src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
+                                             class="img-circle img-responsive"/>
+                                    </div>
+
+                                    <div class=" col-md-12">
+                                        <table class="table table-user-information">
+                                            <tbody>
+                                            <tr>
+                                                <td th:text="#{user.detail.birthDate}"></td>
+                                                <td th:text="${editUser.userDetails.birthDate}"></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td th:text="#{user.detail.gender}"></td>
+                                                <td th:text="${editUser.userDetails.gender}"></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td th:text="#{user.detail.address}"></td>
+                                                <td th:text="${editUser.userDetails.address}"></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td th:text="#{user.detail.email}"></td>
+                                                <td><a th:href="@{mailto:${editUser.email}}"
+                                                       th:text="${editUser.email}"></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td th:text="#{user.detail.phone}"></td>
+                                                <td th:text="${editUser.userDetails.phone}"></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td th:text="#{user.detail.role}"></td>
+                                                <td>
+                                                    <select th:field="${editUser.userRoles}" multiple="multiple"
+                                                            size="4" class="form-control">
+                                                        <option
+                                                                th:each="role : ${roles}"
+                                                                th:value="${role.type}"
+                                                                th:text="${role.type}">Role
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td th:text="#{user.detail.enabled}"></td>
+                                                <td>
+
+                                                    <span class="button-checkbox" id="enabledUserCheckbox">
+                                                        <button type="button" class="btn" data-color="info"
+                                                                th:text="#{user.detail.enabled.button}"></button>
+                                                        <input type="checkbox" name="enabled" id="enabled" class="hidden"
+                                                               th:field="${editUser.enabled}" th:value="${editUser.enabled}"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Role</label>
-                            <div class="col-sm-5">
-                                <select th:field="*{userRoles}" multiple="multiple" size="4" class="form-control">
-                                    <option
-                                            th:each="role : ${roles}"
-                                            th:value="${role.type}"
-                                            th:text="${role.type}">Role
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <input hidden="hidden" th:value="*{email}" name="email"/>
-                        <div class="row">
-                            <div class="form-actions floatRight col-md-offset-1">
-                                <input type="submit" value="EDIT USER" class="btn btn-primary btn-sm"/> or <a
-                                    class="btn btn-default" th:href="@{/admin/users(status=${status})}">Cancel</a>
+                            <div class="panel-footer">
+                                <a style="background-color: transparent; color: transparent; border: transparent;"
+                                   data-original-title="Submit changes"
+                                   data-toggle="tooltip" type="button"
+                                   class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                                 <span class="pull-right">
+                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                     <input type="hidden" th:value="${editUser.email}" th:field="${editUser.email}"/>
+                                     <input type="submit" th:value="#{user.detail.edit.button}" class="btn btn-primary "/>
+                                 </span>
                             </div>
                         </div>
                     </form>
@@ -55,10 +122,3 @@
 </section>
 </body>
 </html>
-
-
-
-
-
-
-
