@@ -8,3 +8,4 @@ HospitalSeeker.iml
 .settings/
 test-output/
 /bin/
+/log
