@@ -51,8 +51,8 @@ public class FeedbackServiceImpl implements FeedbackService{
 		return dao.getByProducer(user);
 	}
 	@Override
-	public List<Feedback> getFeedbacksByUserEmail(String email) {
-		return dao.getFeedbacksByUserEmail(email);
+	public List<Feedback> getFeedbacksByUserEmailAndDoctorId(String email,int id) {
+		return dao.getFeedbacksByUserEmailAndDoctorId(email, id);
 	}
 	@Override
 	public List<Feedback> filterByEmail(String email, String sender) {

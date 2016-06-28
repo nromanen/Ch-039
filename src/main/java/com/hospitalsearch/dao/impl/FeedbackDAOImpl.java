@@ -45,8 +45,11 @@ public class FeedbackDAOImpl extends GenericDAOImpl<Feedback, Long> implements F
 
 
 	@Override
-	public List<Feedback> getFeedbacksByUserEmail(String email) {
-		return  getSessionFactory().getCurrentSession().createCriteria(Feedback.class).createAlias("producer", "p").add(Restrictions.eq("p.email", email)).list();
+	public List<Feedback> getFeedbacksByUserEmailAndDoctorId(String email,int id) {
+		return  getSessionFactory().getCurrentSession().createCriteria(Feedback.class)
+				.createAlias("producer", "p")
+				.createAlias("consumer", "d")
+				.add(Restrictions.and(Restrictions.eq("p.email", email),Restrictions.eq("d.id", id) )).list();
 	}
 
 	@Override
@@ -57,6 +60,7 @@ public class FeedbackDAOImpl extends GenericDAOImpl<Feedback, Long> implements F
 	@Override
 	public List<Feedback> filterByMessage(String partOfMessage) throws InterruptedException {
 		FullTextSession session = Search.getFullTextSession(getSessionFactory().getCurrentSession());
+		session.createIndexer(Feedback.class).startAndWait();
 		session = Search.getFullTextSession(getSessionFactory().getCurrentSession());
 		
     	QueryBuilder builder = session.getSearchFactory().buildQueryBuilder().forEntity(Feedback.class).get();

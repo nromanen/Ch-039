@@ -18,7 +18,6 @@ import com.hospitalsearch.service.FeedbackService;
 import com.hospitalsearch.service.UserService;
 import com.hospitalsearch.util.FeedbackDTO;
 import com.hospitalsearch.util.Page;
-import com.hospitalsearch.util.PageConfigDTO;
 
 @Controller
 public class FeedbackController {
@@ -47,8 +46,8 @@ public class FeedbackController {
     @RequestMapping(value="/doctor/feedback/check",method = RequestMethod.GET)
     @PreAuthorize("hasAnyRole('PATIENT')")
     @ResponseBody
-    public String checkForRepeat(@RequestParam String email){
-        if(!feedbackService.getFeedbacksByUserEmail(email).isEmpty()){
+    public String checkForRepeat(@RequestParam String email,@RequestParam Integer doctorId){
+        if(!feedbackService.getFeedbacksByUserEmailAndDoctorId(email, doctorId).isEmpty()){
         	return "false";
         }
     	return "true";
@@ -100,5 +99,4 @@ public class FeedbackController {
         model.put("currentPage", page);
         model.put("feedbacks",pageableContent.getPageItems());
     }
-    
 }

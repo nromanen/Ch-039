@@ -33,7 +33,8 @@ function sendFeedback(event){
 	} else {
 		
 		$.get(path + "/doctor/feedback/check",{
-			email:userEmail
+			email:userEmail,
+			doctorId:doctorId
 		},function(data){
 			if(data === "false"){
 				$("#unique_message").css('display','block')

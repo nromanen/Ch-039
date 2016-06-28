@@ -14,7 +14,7 @@ public interface FeedbackDAO extends GenericDAO<Feedback, Long>{
 	public List<Feedback> getByDoctorId(Long id);
 	public User getByUserEmail(String email);
 	public Feedback getByProducer(User user);
-	public List<Feedback> getFeedbacksByUserEmail(String email);
+	public List<Feedback> getFeedbacksByUserEmailAndDoctorId(String email,int id);
 	public List<Feedback> filterByEmail(String email,String sender);
 	public List<Feedback> filterByMessage(String partOfMessage) throws InterruptedException;
 }
