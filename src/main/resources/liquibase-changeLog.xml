@@ -377,4 +377,34 @@
     <changeSet author="admin (generated)" id="1466762404233-8">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="password_reset_tokens" constraintName="FK_la2ts67g4oh2sreayswhox1i6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users"/>
     </changeSet>
+    <changeSet author="admin (generated)" id="1467114622866-1">
+        <addColumn tableName="workscheduler">
+            <column name="doctorinfo_id" type="int8"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1467114622866-2">
+        <addColumn tableName="workscheduler">
+            <column name="id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1467114622866-3">
+        <addPrimaryKey columnNames="id" constraintName="workschedulerPK" tableName="workscheduler"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1467114622866-4">
+        <addForeignKeyConstraint baseColumnNames="doctorinfo_id" baseTableName="workscheduler" constraintName="FK_a5ufm3i0ew6t3nfua44q1mqvw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="doctorinfo"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1467114622866-5">
+        <dropColumn columnName="doctor_id" tableName="workscheduler"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1467114622866-6">
+        <dropNotNullConstraint columnDataType="clob" columnName="COMPLAINT" tableName="carditem"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1467114622866-7">
+        <dropNotNullConstraint columnDataType="clob" columnName="PRESCRIPTION" tableName="carditem"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1467114622866-8">
+        <dropNotNullConstraint columnDataType="clob" columnName="RESULT" tableName="carditem"/>
+    </changeSet>
 </databaseChangeLog>

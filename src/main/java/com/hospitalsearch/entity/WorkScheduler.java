@@ -21,6 +21,7 @@ public class WorkScheduler {
 
     @JsonIgnore
     @OneToOne
+    @JoinColumn(name="doctorinfo_id")
     private DoctorInfo doctorInfo;
 
     public Long getId() {
