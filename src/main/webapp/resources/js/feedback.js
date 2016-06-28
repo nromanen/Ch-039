@@ -2,7 +2,7 @@ $(document).ready(function (){
 	$("#feedback").popover({
 		"show":500,hide:"100"
 	});
-	
+
 });
 
 
@@ -23,25 +23,45 @@ function sendFeedback(event){
 	});
 	var sendData = {"message":message,
 			'userEmail':userEmail,
-			'doctorId':doctorId}; 
+			'doctorId':doctorId};
+
 	if(message===""){
 		$("#feedback").popover('show');
 		setTimeout(function(){
 			$("#feedback").popover('hide');
 		},1000);
-	} else $.ajax({
-		type:'POST',
-		url: path + "/doctor/feedback",
-		data: JSON.stringify(sendData),
-		datatype:"json",
-		contentType:"application/json",
-		mimeType:"application/json",
-		async:true,
-		success:function(result){
-			window.location.reload();
-		},
-		error:function(err){
-			alert("Error");
-		}
-	});
+	} else {
+		
+		$.get(path + "/doctor/feedback/check",{
+			email:userEmail
+		},function(data){
+			if(data === "false"){
+				$("#unique_message").css('display','block')
+				setTimeout(function(){
+					$("#unique_message").css('display','none')
+				},1000);
+			} else {
+				$.ajax({
+					type:'POST',
+					url: path + "/doctor/feedback",
+					data: JSON.stringify(sendData),
+					datatype:"json",
+					contentType:"application/json",
+					mimeType:"application/json",
+					async:true,
+					success:function(result){
+						window.location.reload();
+					},
+					error:function(err){
+						alert("Error");
+					}
+				});
+				
+			} 
+		});
+		
+		
+		
+		
+	}
 }

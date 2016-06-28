@@ -30,6 +30,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
@@ -83,6 +84,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         Set<IDialect> additionalDialects = new HashSet<>();
         additionalDialects.add(new LayoutDialect());
         additionalDialects.add(new SpringSecurityDialect());
+        additionalDialects.add(new Java8TimeDialect());
         engine.setAdditionalDialects(additionalDialects);
         return engine;
     }
@@ -125,6 +127,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public CacheManager cacheManager() {
         return new EhCacheCacheManager(ehCacheManagerFactoryBean().getObject());
     }
+    
+
 }
 
 

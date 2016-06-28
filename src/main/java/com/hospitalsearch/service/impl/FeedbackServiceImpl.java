@@ -9,6 +9,7 @@ import com.hospitalsearch.dao.FeedbackDAO;
 import com.hospitalsearch.entity.Feedback;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.FeedbackService;
+import com.hospitalsearch.util.Page;
 
 @Service
 public class FeedbackServiceImpl implements FeedbackService{
@@ -49,5 +50,22 @@ public class FeedbackServiceImpl implements FeedbackService{
 	public Feedback getByProducer(User user) {
 		return dao.getByProducer(user);
 	}
+	@Override
+	public List<Feedback> getFeedbacksByUserEmail(String email) {
+		return dao.getFeedbacksByUserEmail(email);
+	}
+	@Override
+	public List<Feedback> filterByEmail(String email, String sender) {
+		return dao.filterByEmail(email, sender);
+	}
+	@Override
+	public List<Feedback> filterByMessage(String partOfMessage) throws InterruptedException {
+		return dao.filterByMessage(partOfMessage);
+	}
+	@Override
+	public Page<Feedback> getFeedbacksByPage(int page) {
+		return dao.getFeedbacksByPage(page);
+	}
+	
 
 }
