@@ -35,27 +35,6 @@
 			<div class="row">
 				<div class="col-lg-3 col-md-7 col-xs-7">
 					<div class="row">
-						<img id="profile-photo" th:class="'img-responsive img-circle'"
-							 th:src="@{|/img/doctors/${doctor.imagePath}|}" />
-						<h3 id="profDoctorsName" th:class="'text-center'"
-							th:text="${doctor.firstName + ' ' +doctor.lastName}"></h3>
-						<div class="btn-group">
-							<button type="button" class="btn btn-info dropdown-toggle"
-									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false">
-								Action <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li><a href="#">Profile</a></li>
-								<li><a onclick="focusToFeedback(event)" href="#">Give
-									feedback</a></li>
-								<li><a href="#">My medical card</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="#">Subscribe</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="row">
 						<div th:replace="templates/chat::feedback-panel(${feedbacks})" />
 					</div>
 				</div>
