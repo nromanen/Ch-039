@@ -30,6 +30,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
@@ -69,13 +70,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
             setSuffix(".html");
         }};
     }
-
     //crypto
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(roleConverter);
     }
-
     //thymeleaf
     @Bean
     public SpringTemplateEngine templateEngine() {
@@ -85,6 +84,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         Set<IDialect> additionalDialects = new HashSet<>();
         additionalDialects.add(new LayoutDialect());
         additionalDialects.add(new SpringSecurityDialect());
+        additionalDialects.add(new Java8TimeDialect());
         engine.setAdditionalDialects(additionalDialects);
         return engine;
     }
@@ -104,35 +104,30 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         resolver.setCookieMaxAge(100000);
         return resolver;
     }
-
     @Bean
     public MessageSource messageSource() {
         return new ReloadableResourceBundleMessageSource() {{
             setBasename("classpath:i18n/messages");
         }};
     }
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("lang");
         registry.addInterceptor(interceptor);
     }
-
     @Bean
     public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
-        return new EhCacheManagerFactoryBean() {
-            {
-                setConfigLocation(new ClassPathResource("ehcache.xml"));
-                setShared(true);
-            }
-        };
+    	EhCacheManagerFactoryBean manager = new EhCacheManagerFactoryBean();
+    	manager.setConfigLocation(new ClassPathResource("ehcache.xml"));
+        manager.setShared(true);
+    	return manager;
     }
-
     @Bean
     public CacheManager cacheManager() {
         return new EhCacheCacheManager(ehCacheManagerFactoryBean().getObject());
     }
+    
 
 }
 

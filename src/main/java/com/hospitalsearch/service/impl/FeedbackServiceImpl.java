@@ -1,6 +1,5 @@
 package com.hospitalsearch.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import com.hospitalsearch.dao.FeedbackDAO;
 import com.hospitalsearch.entity.Feedback;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.FeedbackService;
+import com.hospitalsearch.util.Page;
 
 @Service
 public class FeedbackServiceImpl implements FeedbackService{
@@ -40,18 +40,32 @@ public class FeedbackServiceImpl implements FeedbackService{
 	}
 	@Override
 	public List<Feedback> getByDoctorId(Long id) {
-		// TODO Auto-generated method stub
 		return dao.getByDoctorId(id);
 	}
 	@Override
 	public User getByUserEmail(String email) {
-		// TODO Auto-generated method stub
 		return dao.getByUserEmail(email);
 	}
 	@Override
 	public Feedback getByProducer(User user) {
-		// TODO Auto-generated method stub
 		return dao.getByProducer(user);
 	}
+	@Override
+	public List<Feedback> getFeedbacksByUserEmail(String email) {
+		return dao.getFeedbacksByUserEmail(email);
+	}
+	@Override
+	public List<Feedback> filterByEmail(String email, String sender) {
+		return dao.filterByEmail(email, sender);
+	}
+	@Override
+	public List<Feedback> filterByMessage(String partOfMessage) throws InterruptedException {
+		return dao.filterByMessage(partOfMessage);
+	}
+	@Override
+	public Page<Feedback> getFeedbacksByPage(int page) {
+		return dao.getFeedbacksByPage(page);
+	}
+	
 
 }

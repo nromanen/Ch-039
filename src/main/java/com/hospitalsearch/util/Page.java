@@ -5,20 +5,8 @@
  */
 package com.hospitalsearch.util;
 
+import java.util.Comparator;
 import java.util.List;
-
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.SortField.Type;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.search.FullTextQuery;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
-
-import com.hospitalsearch.entity.Hospital;
 
 
 /**
@@ -27,26 +15,36 @@ import com.hospitalsearch.entity.Hospital;
  * @param <T> entity, which can be used for making pagination
  */
 public final class Page<T>{
-
-    private final String query;
-    private final SessionFactory sessionFactory;
-    private int resultListCount;
-    private int pageSize = 3;
+	
+	private int resultListCount;
+    private int pageSize;
     private int pageCount;
     private boolean paginated;
-    private String[] projection;
-    private String sortType ="Asc";
+    private boolean sortType;
+    private List<T> items;
     private Class<T> clazz;
+    private Comparator<T> comp;
 
     
-    public Page(SessionFactory sessionFactory,String query,String[] projection) {
-        this.sessionFactory = sessionFactory;
-        this.query =query;
-        this.projection = projection;
-        this.clazz = (Class<T>) getClass().getTypeParameters()[0].getGenericDeclaration();
+    public Page(List<T> items,boolean paginated,int pageCount,int pageSize,int resultListCount,boolean sortType,Comparator<T> comp) {
+    	this.items = items;
+    	this.paginated = paginated;
+    	this.pageCount = pageCount;
+    	this.pageSize = pageSize;
+    	this.resultListCount = resultListCount;
+    	this.sortType = sortType;
+    	this.comp = comp;
+        this.clazz = (Class<T>) Page.class.getTypeParameters()[0].getClass();
+        
     }
 
-    public void setSortType(String sortType) {
+    public void makeSort(){
+    	if(sortType) 
+    		this.items.sort(this.comp) ;
+    	else 
+    		this.items.sort(this.comp.reversed());
+    }
+    public void setSortType(boolean sortType) {
 		this.sortType = sortType;
 	}
     
@@ -67,31 +65,9 @@ public final class Page<T>{
         return pageCount;
     }
 
-    public List<T> getPageList(Integer page) {
-    	FullTextSession session = Search.getFullTextSession(this.sessionFactory.openSession());
-    	Order order = this.sortType.startsWith("Ascen")?Order.asc("name"):Order.desc("name");
-        
-    	QueryBuilder builder = session.getSearchFactory().buildQueryBuilder().forEntity(Hospital.class).get();
-        Query query = builder.keyword().fuzzy().onFields(projection).matching(this.query).createQuery();
-           
-        FullTextQuery fullTextQuery = session.createFullTextQuery(query, Hospital.class).setCriteriaQuery(session.createCriteria(Hospital.class).addOrder(order));
-        
-        this.resultListCount = fullTextQuery.getResultSize();
-        
-        if (this.pageSize < this.resultListCount) {
-            this.pageCount = this.resultListCount / this.pageSize;
-            
-            this.paginated = true;
-        } else {
-            this.pageCount = 1;
-            this.paginated = false;
-        }
-        fullTextQuery.setFirstResult((pageSize*(page-1))).setMaxResults(pageSize);
-        fullTextQuery.setSort(new Sort(new SortField("name", Type.STRING_VAL)));
-        List<T> result = (List<T>) fullTextQuery.list();
-        
-        session.close();
-        return result;
+    public List<T> getPageItems() {
+    	
+    	return items;
     }
 
     public boolean isPaginated() {
@@ -99,7 +75,7 @@ public final class Page<T>{
     }
         
 
-    public String getSortType() {
+    public boolean getSortType() {
 		return sortType;
 	}
 }

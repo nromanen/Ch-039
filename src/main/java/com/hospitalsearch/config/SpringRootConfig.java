@@ -1,9 +1,16 @@
 package com.hospitalsearch.config;
 
-import com.hospitalsearch.validator.ImageValidator;
-import liquibase.integration.spring.SpringLiquibase;
+import java.util.Properties;
+
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
@@ -11,9 +18,7 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-import java.util.Properties;
+import com.hospitalsearch.validator.ImageValidator;
 
 /**
  * Created by speedfire on 4/28/16.
@@ -36,9 +41,9 @@ public class SpringRootConfig {
     private static final String PROP_DATABASE_USERNAME = "db.username";
     private static final String PROP_HIBERNATE_DIALECT = "hibernate.dialect";
     private static final String PROP_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
-    //private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
+    private static final String PROP_HIBERNATE_HBM2DDL_AUTO = "hibernate.hbm2ddl.auto";
     private static final String PROP_HIBERNATE_ENTITY_PACKAGE = "hibernate.entity.package";
-    //private static final String PROP_HIBERNATE_IMPORT_FILE = "hibernate.hbm2ddl.import_files";
+    private static final String PROP_HIBERNATE_IMPORT_FILE = "hibernate.hbm2ddl.import_files";
     //private static final String PROP_HIBERNATE_EHCACHE = "hibernate.cache.provider_class";
     private static final String PROP_HIBERNATE_EHCACHE_LEVEL = "hibernate.cache.use_second_level_cache";
     private static final String PROP_HIBERNATE_EHCACHE_REGION_FACTORY = "hibernate.cache.region.factory_class";
@@ -84,8 +89,8 @@ public class SpringRootConfig {
         props.put(PROP_HIBERNATE_EHCACHE_REGION_FACTORY, properties.getRequiredProperty(PROP_HIBERNATE_EHCACHE_REGION_FACTORY));
         props.put(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER));
         props.put(PROP_HIBERNATE_SEARCH_INDEX_BASE, properties.getRequiredProperty(PROP_HIBERNATE_SEARCH_INDEX_BASE));
-        //props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
-        //props.put(PROP_HIBERNATE_IMPORT_FILE, properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
+        props.put(PROP_HIBERNATE_HBM2DDL_AUTO, properties.getRequiredProperty(PROP_HIBERNATE_HBM2DDL_AUTO));
+        props.put(PROP_HIBERNATE_IMPORT_FILE, properties.getRequiredProperty(PROP_HIBERNATE_IMPORT_FILE));
         return props;
     }
 
@@ -97,17 +102,19 @@ public class SpringRootConfig {
         return new CommonsMultipartResolver();
     }
 
-    @Bean
+    //todo andrew
+/*    @Bean
     public SpringLiquibase liquibase() {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
         liquibase.setDataSource(dataSource());
         liquibase.setIgnoreClasspathPrefix(true);
         return liquibase;
-    }
+    }*/
 
     @Bean
     public ImageValidator imageValidator() {
         return new ImageValidator();
     }
+
 }

@@ -43,12 +43,14 @@
     <script th:src="@{/js/admin.js}"></script>
     <script th:src="@{/js/modernizr.js}"></script>
     <script th:src="@{/js/header.js}"></script>
+    <script th:src="@{/js/jquery-validation-tooltip.min.js}"></script>
     <script th:src="@{/js/jquery.cookie.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.form.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
 
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <script th:src="@{/js/advanced_search.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script
     <script th:src="@{/js/ajaxsetup.js}"></script>
 	<script th:src="@{/js/localization.js}"></script>
 	<script type="text/javascript" th:inline="javascript">var jsContextPath = [[@{/}]]</script>
@@ -79,7 +81,7 @@
 <body>
 
 <div th:replace="templates/header::page-header"/>
-
+<input id="path" hidden="hidden" th:value="${#httpServletRequest.getContextPath()}" />
 <div layout:fragment="content">
     <div class="content">
         <div class="container">
@@ -150,7 +152,7 @@
         </div>
     </div>
 </div>
-
+<div id="searchMessage" th:text="#{header.search.error.message(5)}" hidden="hidden"/>
 <div id="myModal" class="modal fade" role="dialog">
 </div>
 
@@ -159,7 +161,6 @@
 <script th:src="@{/js/custom.js}"></script>
 <script th:src="@{/js/smoothscroll.js}"></script>
 <script type="text/javascript" th:src="@{/js/detail.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.form.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.validate.js}"></script>
+
 </body>
 </html>

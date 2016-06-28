@@ -26,6 +26,7 @@ public class HospitalControllerAdvice {
 	@ExceptionHandler(value={FilterHospitalListEmptyException.class})
 	public ModelAndView renderHospitalListException(Exception ex){
 		ModelAndView view = new ModelAndView("error/hospitalList");
+		view.addObject("query", ex.getMessage());
 		return view;
 	}
 	
@@ -39,13 +40,14 @@ public class HospitalControllerAdvice {
 	@ModelAttribute(value="filter")
 	public HospitalFilterDTO hospitalFilterDTO(){return new HospitalFilterDTO();}
 	
-        @ModelAttribute
+    @ModelAttribute
 	public void hospitalFilterDTO(ModelMap model){
             model.addAttribute("globalSearch",new PageConfigDTO());
         }
 	
 
 	public static class FilterHospitalListEmptyException extends Exception{
+		
 		public FilterHospitalListEmptyException(String message) {
 			super(message);
 		}

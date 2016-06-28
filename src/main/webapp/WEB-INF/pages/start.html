@@ -8,12 +8,20 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<meta th:name="csrf-token" th:content="${_csrf.token}" />
 	<meta th:name="csrf-name" th:content="${_csrf.parameterName}" />
+<<<<<<< HEAD
 	<script th:src="@{/js/Workintervals.js}"></script>
 	<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_limit.js}" type="text/javascript" charset="utf-8"></script>
 	<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_serialize.js}" type="text/javascript" charset="utf-8"></script>
 	<script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'" type="text/javascript" charset="utf-8"></script>
 	<script th:src="@{/js/schedulerDatePicker.js}" type="text/javascript" charset="utf-8"></script>
 	<script th:src="@{/js/localization.js}" type="text/javascript" charset="utf-8"></script>
+=======
+	<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_limit.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/codebase/sources/ext/dhtmlxscheduler_serialize.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/codebase/locale/locale_ua.js}" th:remove="(__${#locale}__ == 'en')?'all':'none'" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/localization.js}" type="text/javascript" charset="utf-8"></script>
+	<script th:src="@{/js/feedback.js}" type="text/javascript" charset="utf-8"></script>
+>>>>>>> deplague
 	<link rel="stylesheet" th:href="@{/css/appointmentModal.css}"/>
 	<link rel="stylesheet" th:href="@{/css/workscheduler.css}"/>
 </head>
@@ -35,27 +43,6 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-lg-3 col-md-7 col-xs-7">
-					<div class="row">
-						<img id="profile-photo" th:class="'img-responsive img-circle'"
-							 th:src="@{|/img/doctors/${doctor.imagePath}|}" />
-						<h3 id="profDoctorsName" th:class="'text-center'"
-							th:text="${doctor.firstName + ' ' +doctor.lastName}"></h3>
-						<div class="btn-group">
-							<button type="button" class="btn btn-info dropdown-toggle"
-									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false">
-								Action <span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li><a href="#">Profile</a></li>
-								<li><a onclick="focusToFeedback(event)" href="#">Give
-									feedback</a></li>
-								<li><a href="#">My medical card</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="#">Subscribe</a></li>
-							</ul>
-						</div>
-					</div>
 					<div class="row">
 						<div th:replace="templates/chat::feedback-panel(${feedbacks})" />
 					</div>

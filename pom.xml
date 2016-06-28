@@ -47,215 +47,215 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.core}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.core}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${spring.core}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.core}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.core}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.core}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.core}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring.core}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>${groovy.lang}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.core}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.core}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.core}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.core}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>${groovy.lang}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.core}</version>
-        </dependency>
-
-
-        <!--Hibernate -->
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.core}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.core}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validation}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
-            <version>${hibernate-encache}</version>
-        </dependency>
-        <!-- EhCached -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.core}</version>
+		</dependency>
 
 
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache-core</artifactId>
-            <version>2.6.9</version>
-        </dependency>
+		<!--Hibernate -->
 
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.21</version>
-        </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.core}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.core}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>2.2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-queryparser</artifactId>
-            <version>4.10.4</version>
-        </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.validation}</version>
+		</dependency>
 
-
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>4.10.4</version>
-        </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>${hibernate-encache}</version>
+		</dependency>
+		<!-- EhCached -->
 
 
-        <dependency>
-            <groupId>com.googlecode.ehcache-spring-annotations</groupId>
-            <artifactId>ehcache-spring-annotations</artifactId>
-            <version>1.2.0</version>
-        </dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.6.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-queryparser</artifactId>
+			<version>4.10.4</version>
+		</dependency>
 
 
-        <!-- Hibernate search -->
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>4.10.4</version>
+		</dependency>
 
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-orm</artifactId>
-            <version>${hibernate.search.orm}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
+			<artifactId>ehcache-spring-annotations</artifactId>
+			<version>1.2.0</version>
+		</dependency>
 
 
+		<!-- Hibernate search -->
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-commons-annotations</artifactId>
-            <version>3.2.0.Final</version>
-        </dependency>
 
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.1-901-1.jdbc4</version>
-        </dependency>
-
-        <!--Spring Security -->
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <version>${spring.security}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${spring.security}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${spring.security}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-taglibs</artifactId>
-            <version>${spring.security}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${spring.security}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-orm</artifactId>
+			<version>${hibernate.search.orm}</version>
+		</dependency>
 
 
 
-        <!-- Servlet API -->
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
-        </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>3.2.0.Final</version>
+		</dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.5.0</version>
-        </dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901-1.jdbc4</version>
+		</dependency>
 
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${servlet.api}</version>
-        </dependency>
+		<!--Spring Security -->
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<version>${spring.security}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring.security}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security}</version>
+		</dependency>
 
 
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf</artifactId>
-            <version>${thymeleaf.core}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring4</artifactId>
-            <version>${thymeleaf.core}</version>
-        </dependency>
+		<!-- Servlet API -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
 
-        <dependency>
-            <groupId>nz.net.ultraq.thymeleaf</groupId>
-            <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>${thymeleaf.layout}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.5.0</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-            <version>${thymeleafspringsecurity4.version}</version>
-            <scope>compile</scope>
-        </dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet.api}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>${thymeleaf.core}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring4</artifactId>
+			<version>${thymeleaf.core}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+			<version>${thymeleaf.layout}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+			<version>${thymeleafspringsecurity4.version}</version>
+			<scope>compile</scope>
+		</dependency>
 
         <!-- email api -->
         <dependency>
@@ -298,26 +298,26 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.191</version>
-        </dependency>
-        <!-- Liquibase -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.191</version>
+		</dependency>
+		<!-- Liquibase -->
 
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.core}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.core}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.6.10</version>
-        </dependency>
-        
-        <!-- Apache Commons Upload -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.10</version>
+		</dependency>
+
+		<!-- Apache Commons Upload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
@@ -348,8 +348,11 @@
             <artifactId>velocity</artifactId>
             <version>${apache.velocity}</version>
         </dependency>
-
-
+		<dependency>
+    		<groupId>org.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-java8time</artifactId>
+    		<version>2.1.0.RELEASE</version>
+		</dependency>
     </dependencies>
 
     <build>

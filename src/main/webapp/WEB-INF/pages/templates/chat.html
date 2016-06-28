@@ -42,7 +42,7 @@
 				</th:block>
 			</ul>
 		</div>
-		<div class="panel-footer" sec:authorize="hasAnyRole('MANAGER','PATIENT','DOCTOR','ADMIN')">
+		<div class="panel-footer" sec:authorize="hasAnyRole('PATIENT')">
 			<div class="input-group">
 				<input id="feedback" required="required" 
 					pattern="[\w\W\d_]" title="Attention..."
@@ -53,7 +53,9 @@
 						class="btn btn-warning btn-sm" id="btn-chat">Send</button>
 				</span>
 			</div>
-
+			<div id="unique_message" class="alert alert-warning" style="display:none" th:inline="text">
+  				[[#{feedback.unique.message}]]
+			</div>
 		</div>
 		<!-- /.panel-footer -->
 	</div>

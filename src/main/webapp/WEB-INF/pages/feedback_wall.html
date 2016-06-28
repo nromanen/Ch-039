@@ -1,0 +1,495 @@
+<html lang="en">
+	<head>
+    <title>
+      Wall
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--  Le styles -->
+    <link th:href="@{/css/bootstrap-feedbacks.css}" rel="stylesheet" />
+    <link th:href="@{/css/font-awesome-feedbacks.css}" rel="stylesheet" />
+    <link th:href="@{/css/feedbacks.css}" rel="stylesheet" />
+    <!--  Font Awesome Icons -->
+    
+  </head>
+  <body class="dark">
+    <div class="bg-image"></div>
+    <!--  Navbar -->
+    <!--  ====================================================================== -->
+    <!--  Menu Items float left, on smaller devices turns into a dropdown button -->
+    <div class="navbar-wrapper">
+      <!--  Wrap the .navbar in .container to center it within the absolutely
+        positioned parent. -->
+      <div class="container">
+        <div class="row">
+          <div class="span2"></div>
+          <div class="span8">
+            <div class="navbar navbar-inverse">
+              <div class="navbar-inner">
+                <!--  Responsive Navbar Part 1: Button for triggering responsive
+                  navbar (not covered in tutorial). Include responsive CSS to
+                  utilize. -->
+                <button type="button" class="btn btn-navbar"> <i
+                class="fa fa-bars"></i> </button> <a class="brand"
+                href="http://www.webdesigncrowd.com/demo/wall/dark.html#home">WALL</a>
+                 <!--  Responsive Navbar Part 2: Place all navbar contents you
+                  want collapsed withing .navbar-collapse.collapse. -->
+                <div class="nav-collapse collapse">
+                  <ul class="nav pull-right">
+                    <li>
+                      <a
+                      href="http://www.webdesigncrowd.com/demo/wall/dark.html#work">WORK</a>
+                    </li>
+                    <li>
+                      <a
+                      href="http://www.webdesigncrowd.com/demo/wall/dark.html#contact">CONTACT</a>
+                    </li>
+                    <!--  Read about Bootstrap dropdowns at
+                      http://twitter.github.com/bootstrap/javascript.html#dropdowns -->
+                    <li class="dropdown">
+                      <a
+                      href="http://www.webdesigncrowd.com/demo/wall/dark.html#"
+                      class="dropdown-toggle">SOCIAL MEDIA <i
+                      class="icon-caret-down"></i></a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="https://twitter.com/webdesigncrowd">Twitter</a>
+                        </li>
+                        <li>
+                          <a
+                          href="http://www.webdesigncrowd.com/demo/wall/dark.html#">Facebook</a>
+                        </li>
+                        <li>
+                          <a
+                          href="http://www.webdesigncrowd.com/demo/wall/dark.html#">Github</a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <!--  /.nav-collapse -->
+              </div>
+              <!--  /.navbar-inner -->
+            </div>
+            <!--  /.navbar -->
+          </div>
+          <div class="span2"></div>
+        </div>
+      </div>
+      <!--  /.container -->
+    </div>
+    <!--  /.navbar-wrapper -->
+    <!--  Portfolio -->
+    <!--  ====================================================================== -->
+    <!--  Turns to single column on smaller -->
+    <div class="container">
+      <div class="row">
+        <div class="span2"></div>
+        <!--  Column 1 -->
+        <div class="span4">
+          <div class="row">
+            <div class="span4">
+              <div class="item red">
+                <h2>
+                  Purchase Now
+                </h2>
+                <br />
+                <p>
+                  Wall is a 2 column grid portfolio. It's completely responsive.
+                  On smaller devices like tablets and mobile phones, it will
+                  shrink to a 1 column view.
+                </p>
+                <p class="text-center">
+                  <a class="btn"
+                  href="http://www.webdesigncrowd.com/demo/wall/dark.html#"><i
+                  class="icon-dollar"></i>Buy Now</a>
+                </p>
+              </div>
+            </div>
+            <div class="span4">
+              <div class="item green">
+                <h2>
+                  Contact Page
+                </h2>
+                <br />
+                <p>
+                  Custom styled contact section. Feel free to actually contact
+                  us if you have any suggestions or questions at <a
+                  href="mailto:webdesigncrowd@gmail.com">WebDesignCrowd@gmail.com</a>
+                </p>
+                <p class="text-center">
+                  <a class="btn"
+                  href="http://www.webdesigncrowd.com/demo/wall/dark.html#contact"><i
+                  class="icon-inbox"></i>Contact Us</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <!--  row end -->
+        </div>
+        <!--  span4 end -->
+        <!--  Column 2 -->
+        <div class="span4">
+          <div class="row">
+            <div class="span4">
+              <div class="item blue">
+                <h2>
+                  Portfolio Features
+                </h2>
+                <br />
+                <p>
+                  When viewing a portfolio item, modal preview slides in. Images
+                  also have a nice hover effect
+                </p>
+                <p class="text-center">
+                  <a
+                  href="http://www.webdesigncrowd.com/demo/wall/dark.html#ishtar_alley"
+                  class="btn"><i class="icon-search"></i>View Example</a>
+                </p>
+                <!--  Modal -->
+                <div id="ishtar_alley" class="modal hide fade">
+                  <div class="modal-header">
+                    <button type="button" class="close">×</button>
+                    <h3 id="ishtar_alley_label">
+                      Ishtar Alley
+                    </h3>
+                  </div>
+                  <div class="modal-body">
+                    <img src="img/ishtar-alley.png" alt="" />
+                    <p>
+                      Created by <a href="http://www.blender.org/">Blender</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="span4">
+              <div class="item yellow">
+                <h2>
+                  Font Awesome
+                </h2>
+                <br />
+                <p>
+                  This theme uses the latest version of <br /><a
+                  href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a>
+                  3.2.1 which includes 361 beautiful icons for your use
+                </p>
+                <p class="text-center">
+                  <a class="btn"
+                  href="http://fortawesome.github.io/Font-Awesome/icons/"><i
+                  class="icon-gear"></i>View Icons</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <!--  row end -->
+        </div>
+        <!--  span4 end -->
+        <div class="span2"></div>
+      </div>
+      <!--  row end -->
+    </div>
+    <!--  Divider -->
+    <!--  ====================================================================== -->
+    <!--  Header for Work -->
+    <div class="container">
+      <a name="work" id="work"></a>
+      <div class="row">
+        <div class="span2"></div>
+        <div class="span8">
+          <div class="divider">
+            <!--  Label -->
+            <h2>
+              WORK
+            </h2>
+          </div>
+        </div>
+        <!--  span4 end -->
+        <div class="span2"></div>
+      </div>
+      <!--  row end -->
+    </div>
+    <!--  Work -->
+    <!--  ================================================================= -->
+    <!--  Image items, 1 column on smaller screens -->
+    <div class="container">
+      <div class="row">
+        <div class="span2"></div>
+        <!--  Column 1 -->
+        <div class="span4">
+          <div class="row">
+            <div class="span4">
+              <div class="item image">
+                <a class="img"
+                href="http://www.webdesigncrowd.com/demo/wall/dark.html#ishtar_alley"><span
+                class="icon"><i class="icon-search"></i></span><img
+                src="img/ishtar-alley.png" alt="" /></a>
+                <div class="title">
+                  <h2>
+                    Ishtar Alley
+                  </h2>
+                </div>
+                <div class="caption">
+                  <p>
+                    <a href="http://sintel.org/">“Sintel”</a> is an
+                    independently produced short film, initiated by the Blender
+                    Foundation as a means to further improve and validate the
+                    free/open source 3D creation suite Blender.
+                  </p>
+                  <!--  Button to trigger modal -->
+                  <a
+                  href="http://www.webdesigncrowd.com/demo/wall/dark.html#ishtar_alley"
+                  class="btn"><i class="icon-search"></i>View Work</a>
+                   <!--  Modal -->
+                  <div id="ishtar_alley_" class="modal hide fade">
+                    <div class="modal-header">
+                      <button type="button" class="close">×</button>
+                      <h3 id="ishtar_alley_label_">
+                        Ishtar Alley
+                      </h3>
+                    </div>
+                    <div class="modal-body">
+                      <img src="img/ishtar-alley.png" alt="" />
+                      <p>
+                        Created by <a href="http://www.blender.org/">Blender</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="span4">
+              <div class="item image">
+                <a class="img"
+                href="http://www.webdesigncrowd.com/demo/wall/dark.html#photography"><span
+                class="icon"><i class="icon-search"></i></span><img
+                src="img/portrait.jpg" alt="" /></a>
+                <div class="title">
+                  <h2>
+                    Photography
+                  </h2>
+                </div>
+                <div class="caption">
+                  <p>
+                    Here is photography work.
+                  </p>
+                  <!--  Button to trigger modal -->
+                  <a
+                  href="http://www.webdesigncrowd.com/demo/wall/dark.html#photography"
+                  class="btn"><i class="icon-search"></i>View Work</a>
+                   <!--  Modal -->
+                  <div id="photography" class="modal hide fade">
+                    <div class="modal-header">
+                      <button type="button" class="close">×</button>
+                      <h3 id="photography_label">
+                        Portrait
+                      </h3>
+                    </div>
+                    <div class="modal-body">
+                      <img src="img/portrait.jpg" alt="" />
+                      <p>
+                        Taken from <a
+                        href="http://freerangestock.com/details.php?gid=&amp;sgid=&amp;pid=22462">FreeRangeStock</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--  row end -->
+        </div>
+        <!--  span4 end -->
+        <!--  Column 2 -->
+        <div class="span4">
+          <div class="row">
+            <div class="span4">
+              <div class="item image">
+                <a class="img"
+                href="http://www.webdesigncrowd.com/demo/wall/dark.html#sintel_bamboo"><span
+                class="icon"><i class="icon-search"></i></span><img
+                src="img/sintel-bamboo.jpg" alt="" /></a>
+                <div class="title">
+                  <h2>
+                    Sintel Action
+                  </h2>
+                </div>
+                <div class="caption">
+                  <p>
+                    This 15 minute film has been realized in the studio of the
+                    Amsterdam Blender Institute, by an international team of
+                    artists and developers.
+                  </p>
+                  <!--  Button to trigger modal -->
+                  <a
+                  href="http://www.webdesigncrowd.com/demo/wall/dark.html#sintel_bamboo"
+                  class="btn"><i class="icon-search"></i>View Work</a>
+                   <!--  Modal -->
+                  <div id="sintel_bamboo" class="modal hide fade">
+                    <div class="modal-header">
+                      <button type="button" class="close">×</button>
+                      <h3 id="sintel_bamboo_label">
+                        Sintel Bamboo
+                      </h3>
+                    </div>
+                    <div class="modal-body">
+                      <img src="img/sintel-bamboo.jpg" alt="" />
+                      <p>
+                        Created by <a href="http://www.blender.org/">Blender</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="span4">
+              <div class="item image">
+                <a class="img"
+                href="http://www.webdesigncrowd.com/demo/wall/dark.html#sintel_town"><span
+                class="icon"><i class="icon-search"></i></span><img
+                src="img/sintel-wallpaper-ishtar.jpg" alt="" /></a>
+                <div class="title">
+                  <h2>
+                    Sintel Bedroom
+                  </h2>
+                </div>
+                <div class="caption">
+                  <p>
+                    This 15 minute film has been realized in the studio of the
+                    Amsterdam Blender Institute, by an international team of
+                    artists and developers.
+                  </p>
+                  <!--  Button to trigger modal -->
+                  <a
+                  href="http://www.webdesigncrowd.com/demo/wall/dark.html#sintel_town"
+                  class="btn"><i class="icon-search"></i>View Work</a>
+                   <!--  Modal -->
+                  <div id="sintel_town" class="modal hide fade">
+                    <div class="modal-header">
+                      <button type="button" class="close">×</button>
+                      <h3 id="sintel_town_label">
+                        Sintel Wallpaper
+                      </h3>
+                    </div>
+                    <div class="modal-body">
+                      <img src="img/sintel-wallpaper-ishtar.jpg" alt="" />
+                      <p>
+                        Created by <a href="http://www.blender.org/">Blender</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="span2"></div>
+      </div>
+      <!--  row end -->
+    </div>
+    <!--  Divider -->
+    <!--  ====================================================================== -->
+    <!--  Header for contact -->
+    <div class="container">
+      <a name="contact" id="contact"></a>
+      <div class="row">
+        <div class="span2"></div>
+        <div class="span8">
+          <div class="divider">
+            <h2>
+              CONTACT
+            </h2>
+          </div>
+        </div>
+        <!--  span4 end -->
+        <div class="span2"></div>
+      </div>
+      <!--  row end -->
+    </div>
+    <!--  Contact -->
+    <!--  ====================================================================== -->
+    <!--  Animated border on focus -->
+    <div class="container">
+      <div class="row">
+        <div class="span2"></div>
+        <div class="span8">
+          <div class="item blue">
+            <p>
+              Hi, I'm John Doe. <br /><br />I love to make responsive
+              websites that can adapt to any device. I also love flat design and
+              minimalism. I make simple and intuitive user interfaces that seem
+              natural to the viewer. Feel free to contact me below at <a
+              href="mailto:webdesigncrowd@gmail.com">WebDesignCrowd@gmail.com</a>
+            </p>
+            <br />
+            <h3 class="text-center">
+              SOCIAL MEDIA
+            </h3>
+            <p class="text-center">
+              <a href="http://www.webdesigncrowd.com/demo/wall/dark.html#"><i
+              class="icon-twitter"></i></a> <a
+              href="http://www.webdesigncrowd.com/demo/wall/dark.html#"><i
+              class="icon-facebook"></i></a> <a
+              href="http://www.webdesigncrowd.com/demo/wall/dark.html#"><i
+              class="icon-dribbble"></i></a> <a
+              href="http://www.webdesigncrowd.com/demo/wall/dark.html#"><i
+              class="icon-pinterest"></i></a> <a
+              href="http://www.webdesigncrowd.com/demo/wall/dark.html#"><i
+              class="icon-github"></i></a>
+            </p>
+          </div>
+        </div>
+        <div class="span2"></div>
+      </div>
+      <div class="row">
+        <div class="span2"></div>
+        <form action="">
+          <!--  Contact Form -->
+          <!--  Column 1 -->
+          <div class="span8">
+            <div class="row">
+              <div class="span4 pull-right">
+                <textarea rows="3" cols=""></textarea>
+              </div>
+              <div class="span4 pull-left">
+                <input type="text" id="inputEmail" />
+              </div>
+              <div class="span4 pull-left">
+                <input type="text" id="inputName" />
+              </div>
+              <div class="span4 pull-left">
+                <button type="submit" class="btn">Send Message</button>
+              </div>
+            </div>
+            <!--  row end -->
+          </div>
+          <!--  span8 end -->
+        </form>
+        <!--  end contact form -->
+        <div class="span2"></div>
+      </div>
+      <!--  row end -->
+      <div class="row">
+        <div class="span2"></div>
+        <!--  Full column -->
+        <div class="span8">
+          <div class="pull-left">
+            © 2013 Cascade. Made by <a href="http://webdesigncrowd.com/">WebDesignCrowd</a>
+          </div>
+          <div class="pull-right">
+            <a class="back-to-top"
+            href="http://www.webdesigncrowd.com/demo/wall/dark.html#">Back to
+            top</a>
+          </div>
+        </div>
+        <!--  span4 end -->
+        <div class="span2"></div>
+      </div>
+      <!--  row end -->
+    </div>
+    <!--  Le javascript ================================================== -->
+    <!--  Placed at the end of the document so the pages load faster --><script
+    type="text/javascript" xml:space="preserve">//<![CDATA[/*  */(function(d,s,a,i,j,r,l,m,t){try{l=d.getElementsByTagName('a');t=d.createElement('textarea');for(i=0;l.length-i;i++){try{a=l[i].href;s=a.indexOf('/cdn-cgi/l/email-protection');m=a.length;if(a&&s>-1&&m>28){j=28+s;s='';if(j<m){r='0x'+a.substr(j,2)|0;for(j+=2;j<m&&a.charAt(j)!='X';j+=2)s+='%'+('0'+('0x'+a.substr(j,2)^r).toString(16)).slice(-2);j++;s=decodeURIComponent(s)+a.substr(j,m-j)}t.innerHTML=s.replace(/</g,'&lt;').replace(/>/g,'&gt;');l[i].href='mailto:'+t.value}}catch(e){}}}catch(e){}})(document);/*  *///]]></script>
+  </body>
+</html>
