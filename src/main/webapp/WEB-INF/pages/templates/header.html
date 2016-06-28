@@ -98,6 +98,11 @@
                                       th:text="' '+#{admin.hospital.list.header}"></span></a>
                         </li>
                         <li>
+                            <a th:href="@{/admin/feedbacks}" class="menu">
+                                <span class="glyphicons glyphicons-chat"
+                                      th:inline="text" >[[#{admin.hospital.feedback.list}]]</span></a>
+                        </li>
+                        <li>
 
                             <a th:href="@{/admin/map/new}" class="menu">
                                 <span class="glyphicon glyphicon-plus"

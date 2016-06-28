@@ -32,9 +32,18 @@ import com.hospitalsearch.util.comparators.ComparatorUtil;
  *
  * @author Pavlo Kuz edited by Oleksandr Mukonin,Pavlo Kuz and others
  */
+
+/**
+* Implementation of HospitaDAO interface which is using for getting access 
+* to <i>hospital</i> table for manipulating data
+*
+* @author  deplague, mukonin
+* @version 1.0
+* @since   2016-05-05
+*/
 @Repository
 public class HospitalDAOImpl extends GenericDAOImpl<Hospital, Long> implements HospitalDAO {
-
+    public static final String[] HOSPITAL_SEARCH_PROJECTION = new String[]{"name", "address.city", "address.street", "address.building", "departments.name"};
     @Autowired
     public HospitalDAOImpl(SessionFactory sessionFactory) {
         this.setSessionFactory(sessionFactory);
@@ -62,8 +71,18 @@ public class HospitalDAOImpl extends GenericDAOImpl<Hospital, Long> implements H
         return criteria.add(Restrictions.and(nameCriterion, countryCriterion, cityCriterion)).list();
     }
 
-    public static final String[] HOSPITAL_SEARCH_PROJECTION = new String[]{"name", "address.city", "address.street", "address.building", "departments.name"};
-
+    /**
+     *  For searching hospitals with using Hibernate Search engine. 
+     *  Make fuzzy query with using Levenshein algorithm for pre-processing of input query and stop-words for reject most common tokens 
+     *    
+     *  @param args  Query string which is matches to every field of lucene document . Before matching query will be truncated, grouped and then matched to fields 
+     *  @param pageSize How many elements it must be rendered on page 
+     *  @param page Is offset, which use <code>pageSize</code> for splitting items and render onto page
+     *  @param sortAsc Sort flag, if true then sort page items by ascendance, if false then byt descendance
+     *  @return Page which contents meta information about items, which will be rendered on page   
+     *  @author pkuz
+     *  @version  
+     * */
     @Override
     public Page<Hospital> advancedHospitalSearch(String args,int pageSize,int page,boolean sortAsc) throws ParseException, InterruptedException {
         //make index of all data stored by administrator

@@ -3,7 +3,7 @@
     <test name="">
     </test>
     <packages>
-        <package name="com.hospitalseeker.security"/>
+        <package name="com.hospitalseeker.service"/>
     </packages>
     <groups>
         <run>

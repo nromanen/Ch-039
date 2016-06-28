@@ -57,7 +57,8 @@ function cityFromLatLng(lat, lng) {
             });
         },
         error: function(data){
-        	window.location.href = path+"/hospitals?q=Chernivtsi";
+        	window.location.href = path+"/hospitals?q=Чернівці";
+        	
         }
         
     }); 
