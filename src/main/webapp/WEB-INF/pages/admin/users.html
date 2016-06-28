@@ -24,7 +24,7 @@
         <div th:if="${messageError!=null}" id="messageError" class="helper col-md-12 col-lg-12 col-sm-12">
             <div class="alert alert-danger alert-dismissible col-md-6 col-sm-6 col-lg-6
              col-md-offset-3 col-sm-offset-3 col-lg-offset-3 messageAfterEdit" role="alert">
-                <h4 class="error text-center" th:text="#{admin.dashboard.message.error.edit}"></h4>
+                <h4 class="error text-center" th:text="${messageError}"></h4>
             </div>
         </div>
 
@@ -32,13 +32,12 @@
             <div class="alert alert-info alert-dismissible col-md-6 col-sm-6 col-lg-6
              col-md-offset-3 col-sm-offset-3 col-lg-offset-3 messageAfterEdit" role="alert">
                 <h4 class="success text-center"
-                    th:text="${messageSuccess} + ' ' + #{admin.dashboard.message.success.edit}"></h4>
+                    th:text="${messageSuccess}"></h4>
             </div>
         </div>
 
         <!-- <span th:if="${messageError!=null}" th:text="${messageError}" id = "messageError" hidden="hidden"> </span>
          <span th:if="${messageSuccess!=null}" th:text="${messageSuccess}" id = "messageSuccess" hidden="hidden"> </span>-->
-
 
         <br/>
 
@@ -177,7 +176,7 @@
                         <span th:if="${user.getEnabled()!=false}" data-placement="top" data-toggle="tooltip"
                               th:title="#{admin.dashboard.users.show.title.tooltip.delete}">
                             <a class="btn button_user" href="#" data-toggle="modal" data-target="#deleteModal"
-                               th:attr="data-values=|users/delete/,${user.id},${user.email},?status=${userFilterDTO.status}|"
+                               th:attr="data-values=|/admin/users/delete/,${user.id},${user.email},?status=${userFilterDTO.status}|"
                                id="deleteUser">
                                 <i class="glyphicon glyphicon-trash icon-white"></i>
                             </a>

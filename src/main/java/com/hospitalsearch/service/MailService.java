@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.net.ConnectException;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -16,9 +17,9 @@ public interface MailService {
 
     void sendMessage(User user, String subject, String text, String templateName) throws ConnectException;
 
-    String createRegisterMessage(User user, String token);
+    String createRegisterMessage(User user, String token, Locale locale);
 
-    String createResetPasswordMessage(User user, String token);
+    String createResetPasswordMessage(User user, String token, Locale locale);
 
-    String createBannedMessage(User user);
+    String createBannedMessage(User user, Locale locale);
 }
