@@ -194,8 +194,7 @@
                            aria-label="First" th:text="#{admin.dashboard.users.show.firstpage}">
                         </a>
                         <button class="page-link" th:if="${search!=null}" th:form="searchForm" type="submit"
-                                id="firstPage" aria-label="First" th:title="#{admin.dashboard.users.show.firstpage}">
-                            First
+                                id="firstPage" aria-label="First" th:text="#{admin.dashboard.users.show.firstpage}">
                         </button>
                     </li>
 
@@ -256,7 +255,7 @@
                            aria-label="Last" th:text="#{admin.dashboard.users.show.lastpage}">
                         </a>
                         <button class="page-link" th:if="${search!=null}" th:form="searchForm" type="submit"
-                                id="lastPage" aria-label="Last" th:title="#{admin.dashboard.users.show.lastpage}">Last
+                                id="lastPage" aria-label="Last" th:text="#{admin.dashboard.users.show.lastpage}">
                         </button>
                     </li>
                 </ul>

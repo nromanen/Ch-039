@@ -58,10 +58,11 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/**/changeStatus/{userId}", method = RequestMethod.GET)
-    public void changeUserStatus(@PathVariable long userId) throws ConnectException {
+    public String  changeUserStatus(@PathVariable long userId) throws ConnectException {
         Locale locale = LocaleContextHolder.getLocale();
         userService.changeStatus(userId);
         sendBannedMessageToUserById(userId, locale);
+        return "redirect:/";
     }
 
     @ResponseBody

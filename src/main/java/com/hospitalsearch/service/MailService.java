@@ -22,4 +22,6 @@ public interface MailService {
     String createResetPasswordMessage(User user, String token, Locale locale);
 
     String createBannedMessage(User user, Locale locale);
+
+    void sendMassageFromUserToUser(Map<String,String> massageData, Locale locale) throws ConnectException;
 }

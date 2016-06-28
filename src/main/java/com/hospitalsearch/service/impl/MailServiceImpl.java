@@ -1,5 +1,7 @@
 package com.hospitalsearch.service.impl;
 
+import com.hospitalsearch.dao.AppointmentDAO;
+import com.hospitalsearch.dao.UserDAO;
 import com.hospitalsearch.entity.User;
 import com.hospitalsearch.service.MailService;
 import org.apache.log4j.LogManager;
@@ -52,6 +54,12 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    private UserDAO userDAO;
+
+    @Autowired
+    private AppointmentDAO appointmentDAO;
+
     @Override
     public void sendMessage(User user, String subject, String text, String templateName) throws ConnectException {
         if (!pingURL("https://www.google.com.ua/", 300)) {
@@ -101,6 +109,21 @@ public class MailServiceImpl implements MailService {
         return messageSource.getMessage("mail.message.registration.prefix", null, locale) + " " + user.getEmail() +
                 messageSource.getMessage("mail.message.forgot.password.text", null, locale) + buildConfirmationURL(token, "/confirmResetPassword?token=") +
                 messageSource.getMessage("mail.message.forgot.password.suffix", null, locale);
+    }
+
+    @Override
+    public void sendMassageFromUserToUser(Map<String, String> massageData, Locale locale) throws ConnectException {
+        String doctorEmail = userDAO.getById(appointmentDAO.getById(Long.parseLong(massageData.get("eventId"))).getDoctorInfo().getUserDetails().getId()).getEmail();
+        String patientEmail = userDAO.getById(appointmentDAO.getById(Long.parseLong(massageData.get("eventId"))).getUserDetail().getId()).getEmail();
+        String principalEmail = massageData.get("principal");
+        User user = null;
+        if (doctorEmail.equals(principalEmail)){
+            user = userDAO.getByEmail(patientEmail);
+            sendMessage(user, messageSource.getMessage("mail.massage.cancel.appointment", null, locale), massageData.get("principalMassage"), "emailTemplate.vm");
+        }else {
+            user = userDAO.getByEmail(doctorEmail);
+            sendMessage(user, messageSource.getMessage("mail.massage.cancel.appointment", null, locale), massageData.get("principalMassage"), "emailTemplate.vm");
+        }
     }
 
     //ping some url

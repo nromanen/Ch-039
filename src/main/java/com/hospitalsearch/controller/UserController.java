@@ -188,6 +188,6 @@ public class UserController {
 
     //utility methods
     private String getRandomToken() {
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 }

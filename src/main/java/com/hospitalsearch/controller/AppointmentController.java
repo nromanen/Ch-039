@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import java.net.ConnectException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Controller
@@ -33,7 +35,7 @@ public class AppointmentController {
     private DepartmentService departmentService;
 
     @Autowired
-    private EmailService emailService;
+    private MailService emailService;
 
     @ResponseBody
     @RequestMapping(value = "/**/getAppointments", method = RequestMethod.GET)
@@ -88,9 +90,8 @@ public class AppointmentController {
     }
 
     @RequestMapping(value = "/**/sendMassage", method = RequestMethod.POST)
-    public String sendMassageToEmail(@RequestBody Map<String, String> massageData){
-        System.out.println(massageData.entrySet().toString());
-        emailService.sendMassageFromUserToUser(massageData);
+    public String sendMassageToEmail(@RequestBody Map<String, String> massageData, Locale locale) throws ConnectException {
+        emailService.sendMassageFromUserToUser(massageData, locale);
         return "redirect:/";
 
     }

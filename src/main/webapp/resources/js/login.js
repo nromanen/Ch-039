@@ -5,7 +5,7 @@ $(document).ready(function () {
     var inactivated = getMessage('login.message.error.inactivated');
     var banned = getMessage('login.message.error.banned');
     var tokenCreated = getMessage('login.message.error.tokenCreated');
-    var successMessage = getMessage('login.message.successMessage');
+    var successMessage = getMessage('login.message.error.successMessage');
     var errorMessage = getMessage('login.message.error.errorMessage');
 
     //valid login form
@@ -178,10 +178,5 @@ $(document).ready(function () {
 
     $('#recoverEmail').focus(function () {
         $('.text-danger').attr("hidden", true);
-    });
-
-    $('#floatingCirclesG').modal({
-        static: true,
-        keyboard: false
     });
 });
