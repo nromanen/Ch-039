@@ -14,8 +14,12 @@ public class GenderValidation implements ConstraintValidator<Gender,com.hospital
 
     @Override
     public boolean isValid(com.hospitalsearch.util.Gender gender, ConstraintValidatorContext constraintValidatorContext) {
+        if (gender==null){
+            return true;
+        }
         Pattern p = Pattern.compile("MAN|WOMAN");
         Matcher m = p.matcher(gender.toString());
         return m.matches();
     }
-}
+    }
+

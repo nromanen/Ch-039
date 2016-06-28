@@ -22,8 +22,9 @@
                     <div class="form-group">
                         <label th:text="#{card.patients.patient}" for="usr">Patient:</label>
                         <input style="display: inline-block; width: 20%;" type="text" th:name="'request'"
-                               th:placeholder="#{card.patients.search}" class="form-control" id="usr"/>
-                        <button th:text="#{card.record.submit}" type="submit" class="btn btn-default">Search</button>
+                               th:placeholder="#{card.patients.search}" class="form-control" id="usr" th:value="${request}"/>
+                        <button  type="submit" class="btn btn-default" id="searchButton"><i class="glyphicon glyphicon-search"></i></button>
+                        <a th:if="${request!=null}"  th:href="@{/patients}" class="btn btn-default" id="clearButton"><i class="glyphicon glyphicon-refresh"></i></a>
                     </div>
                 </form>
 
@@ -33,38 +34,45 @@
                         <th>
                             #
                         </th>
-                        <th >
+                        <th>
                             <div th:text="#{card.patients.patient}" class="col-sm-10"></div>
                             <div th:if="${search}" class="col-sm-2"><a class="sorting" th:href="${order}?
                             @{/search/user(page=1,sortBy='email',order=false,request=${request})}:@{/search/user(page=1,sortBy='email',order=true,request=${request})}">
-                                <i th:class="${sortBy=='email' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}" aria-hidden="true"></i></a></div>
+                                <i th:class="${sortBy=='email' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}"
+                                   aria-hidden="true"></i></a></div>
                             <div th:if="${!search}" class="col-sm-2"><a class="sorting" th:href="${order}?
                             @{/patients(page=1,sortBy='email',order=false)}:@{/patients(page=1,sortBy='email',order=true)}">
-                                <i th:class="${sortBy=='email' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}" aria-hidden="true"></i></a></div>
+                                <i th:class="${sortBy=='email' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}"
+                                   aria-hidden="true"></i></a></div>
                         </th>
-                        <th >
+                        <th>
                             <div th:text="#{card.patients.firstName}" class="col-sm-10"></div>
                             <div th:if="${search}" class="col-sm-2"><a class="sorting" th:href="${order}?
                             @{/search/user(page=1,sortBy='firstName',order=false,request=${request})}:@{/search/user(page=1,sortBy='firstName',order=true,request=${request})}">
-                                <i th:class="${sortBy=='firstName' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}" aria-hidden="true"></i></a></div>
+                                <i th:class="${sortBy=='firstName' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}"
+                                   aria-hidden="true"></i></a></div>
                             <div th:if="${!search}" class="col-sm-2"><a class="sorting" th:href="${order}?
                             @{/patients(page=1,sortBy='firstName',order=false)}:@{/patients(page=1,sortBy='firstName',order=true)}">
-                                <i th:class="${sortBy=='firstName' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}" aria-hidden="true"></i></a></div>
+                                <i th:class="${sortBy=='firstName' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}"
+                                   aria-hidden="true"></i></a></div>
                         </th>
-                        <th >
+                        <th>
                             <div th:text="#{card.patients.lastName}" class="col-sm-10"></div>
                             <div th:if="${search}" class="col-sm-2"><a class="sorting" th:href="${order}?
                             @{/search/user(page=1,sortBy='lastName',order=false,request=${request})}:@{/search/user(page=1,sortBy='lastName',order=true,request=${request})}">
-                                <i th:class="${sortBy=='lastName' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}" aria-hidden="true"></i></a></div>
+                                <i th:class="${sortBy=='lastName' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}"
+                                   aria-hidden="true"></i></a></div>
                             <div th:if="${!search}" class="col-sm-2"><a class="sorting" th:href="${order}?
                             @{/patients(page=1,sortBy='lastName',order=false)}:@{/patients(page=1,sortBy='lastName',order=true)}">
-                                <i th:class="${sortBy=='lastName' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}" aria-hidden="true"></i></a></div>
+                                <i th:class="${sortBy=='lastName' and order}? ${'fa fa-sort-amount-asc'}:${'fa fa-sort-amount-desc'}"
+                                   aria-hidden="true"></i></a></div>
                         </th>
                     </tr>
                     </thead>
                     <tr th:each="patient, i:${patients}">
                         <td th:text="${(page-1)*pageSize+i.count}"></td>
-                        <td><a th:href="@{/card/items(userId=${patient.id},page=1)}" th:text="${patient.email}"></a></td>
+                        <td><a th:href="@{/card/items(userId=${patient.id},page=1)}" th:text="${patient.email}"></a>
+                        </td>
                         <td th:text="${patient.userDetails.firstName}"></td>
                         <td th:text="${patient.userDetails.lastName}"></td>
                     </tr>
@@ -72,29 +80,42 @@
                 <div class="col-sm-12 text-center">
                     <div class="pagination pagination-centered">
                         <ul th:if="${pagination}" class="pagination">
-                           <li>
-                               <a th:if="${search}" th:href="@{/search/user(page=1,request=${request},order=${order},sortBy=${sortBy})}"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
-                               <a th:if="${!search}" th:href="@{/patients(page=1,order=${order},sortBy=${sortBy})}"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
-                           </li>
+                            <li>
+                                <a th:if="${search}"
+                                   th:href="@{/search/user(page=1,request=${request},order=${order},sortBy=${sortBy})}"><i
+                                        class="fa fa-angle-double-left" aria-hidden="true"></i></a>
+                                <a th:if="${!search}" th:href="@{/patients(page=1,order=${order},sortBy=${sortBy})}"><i
+                                        class="fa fa-angle-double-left" aria-hidden="true"></i></a>
+                            </li>
 
-                                <li th:if="${page>1}">
-                                    <a th:text="${page-1}" th:if="${search}" th:href="@{/search/user(page=${page-1},request=${request},order=${order},sortBy=${sortBy})}"></a>
-                                    <a th:text="${page-1}" th:if="${!search}" th:href="@{/patients(page=${page-1},order=${order},sortBy=${sortBy})}"></a>
-                                </li>
+                            <li th:if="${page>1}">
+                                <a th:text="${page-1}" th:if="${search}"
+                                   th:href="@{/search/user(page=${page-1},request=${request},order=${order},sortBy=${sortBy})}"></a>
+                                <a th:text="${page-1}" th:if="${!search}"
+                                   th:href="@{/patients(page=${page-1},order=${order},sortBy=${sortBy})}"></a>
+                            </li>
 
-                                <li class="active">
-                                    <a th:text="${page}" th:if="${search}" th:href="@{/search/user(page=${page},request=${request},order=${order},sortBy=${sortBy})}"></a>
-                                    <a th:text="${page}" th:if="${!search}" th:href="@{/patients(page=${page},order=${order},sortBy=${sortBy})}"></a>
-                                </li>
+                            <li class="active">
+                                <a th:text="${page}" th:if="${search}"
+                                   th:href="@{/search/user(page=${page},request=${request},order=${order},sortBy=${sortBy})}"></a>
+                                <a th:text="${page}" th:if="${!search}"
+                                   th:href="@{/patients(page=${page},order=${order},sortBy=${sortBy})}"></a>
+                            </li>
 
-                                <li th:if="${page!=pageCount}">
-                                    <a th:text="${page+1}" th:if="${search}" th:href="@{/search/user(page=${page+1},request=${request},order=${order},sortBy=${sortBy})}"></a>
-                                    <a th:text="${page+1}" th:if="${!search}" th:href="@{/patients(page=${page+1},order=${order},sortBy=${sortBy})}"></a>
-                                </li>
+                            <li th:if="${page!=pageCount}">
+                                <a th:text="${page+1}" th:if="${search}"
+                                   th:href="@{/search/user(page=${page+1},request=${request},order=${order},sortBy=${sortBy})}"></a>
+                                <a th:text="${page+1}" th:if="${!search}"
+                                   th:href="@{/patients(page=${page+1},order=${order},sortBy=${sortBy})}"></a>
+                            </li>
 
                             <li>
-                                <a th:if="${search}" th:href="@{/search/user(page=${pageCount},request=${request},order=${order},sortBy=${sortBy})}"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-                                <a th:if="${!search}" th:href="@{/patients(page=${pageCount},order=${order},sortBy=${sortBy})}"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                                <a th:if="${search}"
+                                   th:href="@{/search/user(page=${pageCount},request=${request},order=${order},sortBy=${sortBy})}"><i
+                                        class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                                <a th:if="${!search}"
+                                   th:href="@{/patients(page=${pageCount},order=${order},sortBy=${sortBy})}"><i
+                                        class="fa fa-angle-double-right" aria-hidden="true"></i></a>
                             </li>
 
                         </ul>

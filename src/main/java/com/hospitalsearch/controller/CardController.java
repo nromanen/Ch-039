@@ -25,7 +25,7 @@ import java.util.List;
 @Controller
 public class CardController {
 
-    private static final Integer itemsPerPage = 5;
+    private static final Integer itemsPerPage = 10;
     @Autowired
     CardItemService cardItemService;
 
@@ -44,11 +44,11 @@ public class CardController {
         Long cardItemsCount = cardItemService.countOfItems(patientCard);
         Integer pageCount = userService.pageCount(cardItemsCount, itemsPerPage);
         Boolean pagination = false;
-        if ( pageCount > 1){
+        if (pageCount > 1) {
             pagination = true;
         }
-        model.addAttribute("page",page);
-        model.addAttribute("pageCount",pageCount);
+        model.addAttribute("page", page);
+        model.addAttribute("pageCount", pageCount);
         model.addAttribute("pagination", pagination);
         model.addAttribute("cardItems", cardItems);
         model.addAttribute("name", user.getUserDetails().getFirstName() + " " + user.getUserDetails().getLastName());
@@ -64,10 +64,10 @@ public class CardController {
         Long cardItemsCount = cardItemService.countOfItems(user.getUserDetails().getPatientCard());
         Boolean pagination = false;
         Integer pageCount = userService.pageCount(cardItemsCount, itemsPerPage);
-        if ( pageCount > 1){
+        if (pageCount > 1) {
             pagination = true;
         }
-        model.addAttribute("pageCount",pageCount);
+        model.addAttribute("pageCount", pageCount);
         model.addAttribute("page", page);
         model.addAttribute("patients", "breadcrumbs");
         model.addAttribute("doctor", PrincipalConverter.getPrincipal());
@@ -101,7 +101,7 @@ public class CardController {
             model.addAttribute("userId", userId);
             return "card/record";
         }
-        model.addAttribute("page",1);
+        model.addAttribute("page", 1);
         model.addAttribute("userId", userId);
         return "redirect:card/items";
     }
@@ -124,19 +124,19 @@ public class CardController {
 
         Long patientsCount = userService.countOfUsersByRole("PATIENT");
         Boolean pagination = false;
-        Integer pageCount = userService.pageCount(patientsCount,itemsPerPage);
-        if ( pageCount > 1){
+        Integer pageCount = userService.pageCount(patientsCount, itemsPerPage);
+        if (pageCount > 1) {
             pagination = true;
         }
         model.addAttribute("order", order);
-        model.addAttribute("sortBy",sortBy);
-        model.addAttribute("page",page);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("page", page);
         model.addAttribute("pageSize", itemsPerPage);
-        model.addAttribute("pageCount",pageCount);
+        model.addAttribute("pageCount", pageCount);
         model.addAttribute("search", false);
         model.addAttribute("pagination", pagination);
         model.addAttribute("patients", patients);
-        model.addAttribute("page",page);
+        model.addAttribute("page", page);
         return "card/patients";
     }
 
@@ -145,25 +145,24 @@ public class CardController {
     public String searchUser(@RequestParam("request") String request, @RequestParam(value = "page", defaultValue = "1") Integer page,
                              @RequestParam(value = "sortBy", defaultValue = "firstName") String sortBy,
                              @RequestParam(value = "order", defaultValue = "false") Boolean order, ModelMap model) {
-        List<User> patients = userService.searchByRole("PATIENT", request,page,itemsPerPage, sortBy, order);
+        List<User> patients = userService.searchByRole("PATIENT", request, page, itemsPerPage, sortBy, order);
         Long patientsCount = userService.countOfUsersByRole("PATIENT", request);
         Boolean pagination = false;
-        Integer pageCount = userService.pageCount(patientsCount,itemsPerPage);
-        if (pageCount > 1){
+        Integer pageCount = userService.pageCount(patientsCount, itemsPerPage);
+        if (pageCount > 1) {
             pagination = true;
         }
-        model.addAttribute("pageSize",itemsPerPage);
+        model.addAttribute("pageSize", itemsPerPage);
         model.addAttribute("order", order);
-        model.addAttribute("sortBy",sortBy);
-        model.addAttribute("pageCount",pageCount);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("pageCount", pageCount);
         model.addAttribute("search", true);
         model.addAttribute("request", request);
         model.addAttribute("pagination", pagination);
         model.addAttribute("patients", patients);
-        model.addAttribute("page",page);
+        model.addAttribute("page", page);
         return "card/patients";
     }
-
 
 
 }
