@@ -19,11 +19,9 @@ $(document).ready(function () {
                 var workDay = data[i].start_date.substring(0, 10);
                 var hourOne = data[i].start_date.substring(11, 13);
                 var hourLast = data[i].end_date.substring(11, 13);
-                if(new Date().getDate()<=new Date(workDay).getDate()) {
                     scheduler.blockTime(new Date(workDay), [0, hourOne * 60, hourLast * 60,
                     24 * 60]);
                 console.log(i + ": " + item.start_date + " " + item.end_date)
-            }
             });
         }
     });

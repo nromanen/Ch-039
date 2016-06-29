@@ -25,11 +25,9 @@ $(document).ready(function () {
                 var workDay = data[i].start_date.substring(0, 10);
                 var hourOne = data[i].start_date.substring(11, 13);
                 var hourLast = data[i].end_date.substring(11, 13);
-                if (new Date().getDate() <= new Date(workDay).getDate()) {
                     scheduler.blockTime(new Date(workDay), [0, hourOne * 60, hourLast * 60,
                         24 * 60]);
                     console.log(i + ": " + item.start_date + " " + item.end_date)
-                }
             });
             blockYear = new Date(data[data.length - 1].start_date.substring(0, 10)).getFullYear();
             blockMonth = new Date(data[data.length - 1].start_date.substring(0, 10)).getMonth();
@@ -99,9 +97,7 @@ $(document).ready(function () {
                 var minutes2 = (end_date_hour * 60 + end_date_minutes) / step;
                 begin = minutes;
                 end = minutes2;
-                if (new Date().getDate() <= new Date(dayOfAppointment).getDate()) {
                     scheduler.blockTime(new Date(dayOfAppointment), [begin * step, end * step]);
-                }
             });
         }
     });
