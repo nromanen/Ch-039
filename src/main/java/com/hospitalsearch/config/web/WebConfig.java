@@ -1,11 +1,12 @@
 package com.hospitalsearch.config.web;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
 import javax.annotation.Resource;
+
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -38,8 +39,6 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
 import com.hospitalsearch.config.SpringRootConfig;
 import com.hospitalsearch.util.RoleConverter;
-
-import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
 @EnableWebMvc
