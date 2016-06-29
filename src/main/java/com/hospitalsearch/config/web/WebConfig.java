@@ -57,8 +57,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-        registry.addResourceHandler("/images/**").addResourceLocations("file:///" + System.getProperty(properties.getProperty("global.root.path")) + 
-        		"/" + properties.getProperty("global.resource.path") + "/" + properties.getProperty("global.image.path") + "/");
+        registry.addResourceHandler("/images/**").addResourceLocations( 
+        		String.format("file://%s/%s/%s/", 
+        				System.getProperty(properties.getProperty("global.root.path")) ,
+        											   properties.getProperty("global.resource.path") ,
+        											   properties.getProperty("global.image.path")));  
+        		
     }
 
     @Bean
