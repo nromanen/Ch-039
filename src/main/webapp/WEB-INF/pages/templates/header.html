@@ -87,9 +87,8 @@
                         </li>
 
                         <li>
-                            <a th:href="@{/newUser}" class="menu">
-                                <span class="glyphicon glyphicon-plus-sign"
-                                      th:text="' '+#{admin.menu.add.new.user}"></span></a>
+                           <a th:href="@{/admin/newUser}" class="menu">
+                                <span class="glyphicon glyphicon-plus-sign" th:text="' '+#{admin.menu.add.new.user}"></span></a>
                         </li>
 
                         <li>
@@ -99,8 +98,8 @@
                         </li>
                         <li>
                             <a th:href="@{/admin/feedbacks}" class="menu">
-                                <span class="glyphicons glyphicons-chat"
-                                      th:inline="text" >[[#{admin.hospital.feedback.list}]]</span></a>
+                                <span class="glyphicon glyphicon-hand-right"
+                                      th:inline="text" > [[#{admin.hospital.feedback.list}]]</span></a>
                         </li>
                         <li>
 

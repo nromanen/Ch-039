@@ -25,7 +25,7 @@ public class UserDetailController {
     @Autowired
     UserService userService;
 
-    @PreAuthorize("hasAnyRole('PATIENT','DOCTOR')")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = {"/user/detail"}, method = RequestMethod.GET, consumes = "application/json")
     public String userDetail(@RequestParam(value = "edit", defaultValue = "false") Boolean edit, ModelMap model) {
         User user = userService.getByEmail(PrincipalConverter.getPrincipal());

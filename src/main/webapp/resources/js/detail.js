@@ -81,7 +81,7 @@ if($('#detailForm').valid()){
 
         type:"post",
         data:str,
-        url:"/save/detail",
+        url:jsContextPath +"save/detail",
         async: false,
         success: function(response){
             $('#myModal').html(response);
@@ -104,18 +104,18 @@ function real(){
 };
 
 function showPage(){
-    $.ajax({ type: 'GET', url: '/user/detail', contentType: 'application/json' , success: function(response) {
+    $.ajax({ type: 'GET', url: jsContextPath +'user/detail', contentType: 'application/json' , success: function(response) {
         $('#myModal').html(response);
 
     }})};
 
 function showProfile(userId){
-    $.ajax({ type: 'GET', url: '/user/profile?userId='+userId, success: function(response) {
+    $.ajax({ type: 'GET', url: jsContextPath +'user/profile?userId='+userId, success: function(response) {
         $('#profileModal').html(response);
     }})};
 
 function editProfile(){
-    $.ajax({ type: 'GET', url: '/user/detail?edit=true',contentType: 'application/json', success: function(response){
+    $.ajax({ type: 'GET', url: jsContextPath +'user/detail?edit=true',contentType: 'application/json', success: function(response){
         $('#myModal').html(response);
 
         $('#birthDate').datepicker({

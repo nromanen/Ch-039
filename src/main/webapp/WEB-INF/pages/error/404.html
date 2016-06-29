@@ -22,8 +22,9 @@
                 <br/>
                 <input type="button" id="btnRedirect" th:value="#{redirect.button}" class="btn btn-default"/>
                 <br/>
-                <div id="dvCountDown" style="display: none" th:text="#{redirect.message}">
-                   <h4><span id="lblCount"></span>&nbsp; <span th:text="#{redirect.seconds}"></span></h4>
+                <div id="dvCountDown" style="display: none">
+                    <span th:text="#{redirect.message}"></span>
+                    <h4><span id="lblCount"></span>&nbsp;<span th:text="#{redirect.seconds}"></span></h4>
                 </div>
             </center>
 
