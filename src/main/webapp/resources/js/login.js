@@ -179,9 +179,4 @@ $(document).ready(function () {
     $('#recoverEmail').focus(function () {
         $('.text-danger').attr("hidden", true);
     });
-
-    // $('#floatingCirclesG').modal({
-    //     static: true,
-    //     keyboard: false
-    // });
 });

@@ -30,9 +30,11 @@
                 <h3 th:text="(#{end.registration.success.preffix} +' '+ ${emailError} +' '+ #{end.registration.success.suffix})"
                     class="text-success text-center menu"></h3>
 
-                <h3 class="text-success text-center menu" th:text="#{end.registration.success.text}">
-                    <a th:href="@{/login}" id="redirectOnLogin" class="text-primary"><u
-                            th:text="#{email.login}"></u></a></h3>
+                <h3 class="text-success text-center menu" >
+                    <span th:text="#{end.registration.success.text}"></span>
+                    <a th:href="@{/login}" id="redirectOnLogin" class="text-primary">
+                        <u th:text="#{email.login}"></u></a>
+                </h3>
                 <img th:src="@{/img/registration_success.jpg}" style="max-width:40%"
                      class="img-responsive center-block"/>
             </div>

@@ -125,5 +125,10 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#deleteButton").click(function (e) {
+        $('#floatingCirclesG').modal('show');
+    });
+
 });
 

@@ -36,10 +36,18 @@
 
                             <div class="panel-body">
                                 <div class="row">
-                                    <div align="center">
-                                        <img alt="User Pic" style="height: 200px;"
-                                             src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
-                                             class="img-circle img-responsive"/>
+                                    <div align="center" id="image-div">
+                                        <figure class='snip1494 img-responsive img-circle'>
+
+                                            <img th:if="${editUser.userDetails.imagePath!=''}" alt="User Pic"
+                                                 style="height: 200px;" id="image-uploaded"
+                                                 th:src="${editUser.userDetails.imagePath==null}?@{/images/avatar/ava.png}:@{|/images/avatar/${editUser.userDetails.imagePath}|}"
+                                                 class="img-responsive img-circle"/>
+                                            <img th:if="${editUser.userDetails.imagePath==''}" alt="User Pic"
+                                                 style="height: 200px;" id="image-uploaded"
+                                                 th:src="@{/images/avatar/ava.png}"
+                                                 class="img-responsive img-circle"/>
+                                        </figure>
                                     </div>
 
                                     <div class=" col-md-12">
