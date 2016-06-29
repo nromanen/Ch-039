@@ -142,7 +142,7 @@
                     <ul class="dropdown-menu" id="dropdawn">
                         <li><a class="menu glyphicon glyphicon-user" data-toggle="modal" data-target="#myModal"
                                data-backdrop="false"
-                               th:onclick="${userName.userDetails.lastName==null}?'editProfile()':'showPage()'"
+                               onclick="editProfile()"
                                th:text="' '+#{header.principal.menu.profile}">
                             <span class="glyphicon glyphicon-user"></span>
                         </a></li>
