@@ -75,7 +75,7 @@ public class MailServiceImpl implements MailService {
             messageHelper.setTo(user.getEmail());
             messageHelper.setSubject(subject);
             String emailBody = VelocityEngineUtils.mergeTemplateIntoString(configurer.getVelocityEngine(), templateName, encoding, hTemplateVariables);
-            message.setContent(emailBody, "text/html");
+            message.setContent(emailBody, "text/html; charset=UTF-8");
             synchronized (message) {
                 mailSender.send(message);
             }
